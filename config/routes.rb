@@ -1,4 +1,10 @@
 Orient::Application.routes.draw do
+  resources :shop_categories
+
+
+  resources :cities
+
+
   resources :shops
 
 

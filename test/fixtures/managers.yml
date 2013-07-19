@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  cell_number: 1
+  dob: 2013-07-19
+  shop_id: 1
+
+two:
+  name: MyString
+  cell_number: 1
+  dob: 2013-07-19
+  shop_id: 1
