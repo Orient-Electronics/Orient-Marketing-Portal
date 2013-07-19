@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  dealer_name: MyString
+  phone: 1
+  website: MyString
+  email: MyString
+  address: MyString
+  dealer: false
+  shop_category_id: 1
+  location_id: 1
+
+two:
+  dealer_name: MyString
+  phone: 1
+  website: MyString
+  email: MyString
+  address: MyString
+  dealer: false
+  shop_category_id: 1
+  location_id: 1
