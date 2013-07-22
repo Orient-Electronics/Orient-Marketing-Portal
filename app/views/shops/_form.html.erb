@@ -11,6 +11,30 @@
     </div>
   <% end %>
 
+  <%= f.fields_for :location do |location| %>
+
+    <div class="field">
+      <%= location.label :city %>
+      <%= location.collection_select :city_id, City.all,:id,:name, include_blank: true %>
+    </div>
+
+    <div class="field">
+      <%= location.label :area %><br />
+      <%= location.text_field :area %>
+    </div>
+
+    <div class="field">
+      <%= location.label :longitude %><br />
+      <%= location.text_field :longitude %>
+    </div>
+
+    <div class="field">
+      <%= location.label :latitude %><br />
+      <%= location.text_field :latitude %>
+    </div>
+
+  <% end -%>
+
   <div class="field">
     <%= f.label :dealer_name %><br />
     <%= f.text_field :dealer_name %>
@@ -37,12 +61,49 @@
   </div>
   <div class="field">
     <%= f.label :shop_category_id %><br />
-    <%= f.number_field :shop_category_id %>
+    <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, include_blank: true %>
   </div>
-  <div class="field">
-    <%= f.label :location_id %><br />
-    <%= f.number_field :location_id %>
-  </div>
+
+  <h2>Owner Info</h2>
+
+  <%= f.fields_for :owner do |owner_fields| %>
+    <div class="field">
+      <%= owner_fields.label :name %><br />
+      <%= owner_fields.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= owner_fields.label :cell_number %><br />
+      <%= owner_fields.text_field :cell_number %>
+    </div>
+
+    <div class="field">
+      <%= owner_fields.label :dob %><br />
+      <%= owner_fields.text_field :dob %>
+    </div>
+
+  <% end -%>
+
+  <h2>Manager Info</h2>
+
+  <%= f.fields_for :manager do |manager_fields| %>
+    <div class="field">
+      <%= manager_fields.label :name %><br />
+      <%= manager_fields.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= manager_fields.label :cell_number %><br />
+      <%= manager_fields.text_field :cell_number %>
+    </div>
+
+    <div class="field">
+      <%= manager_fields.label :dob %><br />
+      <%= manager_fields.text_field :dob %>
+    </div>
+
+  <% end -%>
+
   <div class="actions">
     <%= f.submit %>
   </div>
