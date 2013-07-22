@@ -1,37 +1,50 @@
-<h1>Listing shops</h1>
-
-<table>
-  <tr>
-    <th>Dealer name</th>
-    <th>Phone</th>
-    <th>Website</th>
-    <th>Email</th>
-    <th>Address</th>
-    <th>Dealer</th>
-    <th>Shop category</th>
-    <th>Location</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @shops.each do |shop| %>
-  <tr>
-    <td><%= shop.dealer_name %></td>
-    <td><%= shop.phone %></td>
-    <td><%= shop.website %></td>
-    <td><%= shop.email %></td>
-    <td><%= shop.address %></td>
-    <td><%= shop.dealer %></td>
-    <td><%= shop.shop_category_id %></td>
-    <td><%= shop.location_id %></td>
-    <td><%= link_to 'Show', shop %></td>
-    <td><%= link_to 'Edit', edit_shop_path(shop) %></td>
-    <td><%= link_to 'Destroy', shop, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<%- model_class = Shop -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:dealer_name) %></th>
+      <th><%= model_class.human_attribute_name(:phone) %></th>
+      <th><%= model_class.human_attribute_name(:website) %></th>
+      <th><%= model_class.human_attribute_name(:email) %></th>
+      <th><%= model_class.human_attribute_name(:address) %></th>
+      <th><%= model_class.human_attribute_name(:dealer) %></th>
+      <th><%= model_class.human_attribute_name(:shop_category_id) %></th>
+      <th><%= model_class.human_attribute_name(:location_id) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @shops.each do |shop| %>
+      <tr>
+        <td><%= link_to shop.id, shop_path(shop) %></td>
+        <td><%= shop.dealer_name %></td>
+        <td><%= shop.phone %></td>
+        <td><%= shop.website %></td>
+        <td><%= shop.email %></td>
+        <td><%= shop.address %></td>
+        <td><%= shop.dealer %></td>
+        <td><%= shop.shop_category_id %></td>
+        <td><%= shop.location_id %></td>
+        <td><%=l shop.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_shop_path(shop), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      shop_path(shop),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Shop', new_shop_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_shop_path,
+            :class => 'btn btn-primary' %>

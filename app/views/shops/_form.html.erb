@@ -1,110 +1,132 @@
-<%= form_for(@shop) do |f| %>
-  <% if @shop.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@shop.errors.count, "error") %> prohibited this shop from being saved:</h2>
+<%= form_for @shop, :html => { :class => 'form-horizontal' } do |f| %>
 
-      <ul>
-      <% @shop.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <%= f.fields_for :location do |location| %>
-
-    <div class="field">
-      <%= location.label :city %>
-      <%= location.collection_select :city_id, City.all,:id,:name, include_blank: true %>
+  <%= f.fields_for :location do |f| %>
+    <div class="control-group">
+      <%= f.label :city_id, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.collection_select :city_id, City.all,:id,:name, include_blank: true %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= location.label :area %><br />
-      <%= location.text_field :area %>
+    <div class="control-group">
+      <%= f.label :area, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :area, :class => 'text_field' %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= location.label :longitude %><br />
-      <%= location.text_field :longitude %>
+    <div class="control-group">
+      <%= f.label :longitude, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :longitude, :class => 'text_field' %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= location.label :latitude %><br />
-      <%= location.text_field :latitude %>
+    <div class="control-group">
+      <%= f.label :latitude, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :latitude, :class => 'text_field' %>
+      </div>
     </div>
-
   <% end -%>
 
-  <div class="field">
-    <%= f.label :dealer_name %><br />
-    <%= f.text_field :dealer_name %>
+  <div class="control-group">
+    <%= f.label :dealer_name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :dealer_name, :class => 'text_field' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :phone %><br />
-    <%= f.number_field :phone %>
+  <div class="control-group">
+    <%= f.label :phone, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :phone, :class => 'number_field' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :website %><br />
-    <%= f.text_field :website %>
+  <div class="control-group">
+    <%= f.label :website, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :website, :class => 'text_field' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
+  <div class="control-group">
+    <%= f.label :email, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :email, :class => 'text_field' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :address %><br />
-    <%= f.text_field :address %>
-  </div>
-  <div class="field">
-    <%= f.label :dealer %><br />
-    <%= f.check_box :dealer %>
-  </div>
-  <div class="field">
-    <%= f.label :shop_category_id %><br />
-    <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, include_blank: true %>
+  <div class="control-group">
+    <%= f.label :address, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :address, :class => 'text_field' %>
+    </div>
   </div>
 
-  <h2>Owner Info</h2>
+  <h3>Owner Information</h3>
 
-  <%= f.fields_for :owner do |owner_fields| %>
-    <div class="field">
-      <%= owner_fields.label :name %><br />
-      <%= owner_fields.text_field :name %>
+  <%= f.fields_for :owner do |f| %>
+    <div class="control-group">
+      <%= f.label :name, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'text_field' %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= owner_fields.label :cell_number %><br />
-      <%= owner_fields.text_field :cell_number %>
+    <div class="control-group">
+      <%= f.label :cell_number, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :cell_number, :class => 'text_field' %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= owner_fields.label :dob %><br />
-      <%= owner_fields.text_field :dob %>
+    <div class="control-group">
+      <%= f.label :dob, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :dob, :class => 'text_field' %>
+      </div>
     </div>
-
   <% end -%>
 
-  <h2>Manager Info</h2>
+  <h3>Manager Information</h3>
 
-  <%= f.fields_for :manager do |manager_fields| %>
-    <div class="field">
-      <%= manager_fields.label :name %><br />
-      <%= manager_fields.text_field :name %>
+  <%= f.fields_for :manager do |f| %>
+    <div class="control-group">
+      <%= f.label :name, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'text_field' %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= manager_fields.label :cell_number %><br />
-      <%= manager_fields.text_field :cell_number %>
+    <div class="control-group">
+      <%= f.label :cell_number, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :cell_number, :class => 'text_field' %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= manager_fields.label :dob %><br />
-      <%= manager_fields.text_field :dob %>
+    <div class="control-group">
+      <%= f.label :dob, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :dob, :class => 'text_field' %>
+      </div>
     </div>
-
   <% end -%>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="control-group">
+    <%= f.label :dealer, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :dealer, :class => 'check_box' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :shop_category_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, include_blank: true %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                shops_path, :class => 'btn' %>
   </div>
 <% end %>
