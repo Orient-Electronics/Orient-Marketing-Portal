@@ -4,5 +4,5 @@ class Representative < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  attr_accessible :email, :password, :remember_me, :password_confirmation
+  attr_accessible :email, :password, :remember_me, :password_confirmation, :first_name, :last_name, :phone_number
 end
