@@ -2,56 +2,59 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
 </div>
-
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:dealer_name) %>:</strong></dt>
-  <dd><%= @shop.dealer_name %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
-  <dd><%= @shop.phone %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:website) %>:</strong></dt>
-  <dd><%= @shop.website %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
-  <dd><%= @shop.email %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
-  <dd><%= @shop.address %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:dealer) %>:</strong></dt>
-  <dd><%= @shop.dealer %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:shop_category_id) %>:</strong></dt>
-  <dd><%= @shop.shop_category.try(:name) %></dd>
-  <br>
-  <dt><strong><%= model_class.human_attribute_name(:location_id) %></strong></dt>
-  <dd>&nbsp;</dd>
-  <% child_class = Location %>
-  <dt><strong><%= child_class.human_attribute_name(:city_id) %>:</strong></dt>
-  <dd><%= @shop.location.try(:city).try(:name) %></dd>
-  <dt><strong><%= child_class.human_attribute_name(:latitude) %>:</strong></dt>
-  <dd><%= @shop.location.try(:latitude) %></dd>
-  <dt><strong><%= child_class.human_attribute_name(:longitude) %>:</strong></dt>
-  <dd><%= @shop.location.try(:longitude) %></dd>
-  <dt><strong><%= child_class.human_attribute_name(:area) %>:</strong></dt>
-  <dd><%= @shop.location.try(:area) %></dd>
-  <br>
-  <dt><strong><%= model_class.human_attribute_name(:owner) %></strong></dt>
-  <dd>&nbsp;</dd>
-  <% child_class = Owner %>
-  <dt><strong><%= child_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @shop.owner.try(:name) %></dd>
-  <dt><strong><%= child_class.human_attribute_name(:cell_number) %>:</strong></dt>
-  <dd><%= @shop.owner.try(:cell_number) %></dd>
-  <dt><strong><%= child_class.human_attribute_name(:dob) %>:</strong></dt>
-  <dd><%= @shop.owner.try(:dob) %></dd>
-  <br><br>
-  <dt><strong><%= model_class.human_attribute_name(:manager) %></strong></dt>
-  <dd>&nbsp;</dd>
-  <% child_class = Manager %>
-  <dt><strong><%= child_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @shop.manager.try(:name) %></dd>
-  <dt><strong><%= child_class.human_attribute_name(:cell_number) %>:</strong></dt>
-  <dd><%= @shop.manager.try(:cell_number) %></dd>
-  <dt><strong><%= child_class.human_attribute_name(:dob) %>:</strong></dt>
-  <dd><%= @shop.manager.try(:dob) %></dd>
-
-</dl>
+<div class="row-fluid">
+  <dl class="span3 dl-horizontal">
+    <dt><strong><%= model_class.human_attribute_name(:dealer_name) %>:</strong></dt>
+    <dd><%= @shop.dealer_name %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
+    <dd><%= @shop.phone %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:website) %>:</strong></dt>
+    <dd><%= @shop.website %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
+    <dd><%= @shop.email %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
+    <dd><%= @shop.address %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:dealer) %>:</strong></dt>
+    <dd><%= @shop.dealer %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:shop_category_id) %>:</strong></dt>
+    <dd><%= @shop.shop_category.try(:name) %></dd>
+    <br>
+    <dt><strong><%= model_class.human_attribute_name(:location_id) %></strong></dt>
+    <dd>&nbsp;</dd>
+    <% child_class = Location %>
+    <dt><strong><%= child_class.human_attribute_name(:city_id) %>:</strong></dt>
+    <dd><%= @shop.location.try(:city).try(:name) %></dd>
+    <dt><strong><%= child_class.human_attribute_name(:latitude) %>:</strong></dt>
+    <dd><%= @shop.location.try(:latitude) %></dd>
+    <dt><strong><%= child_class.human_attribute_name(:longitude) %>:</strong></dt>
+    <dd><%= @shop.location.try(:longitude) %></dd>
+    <dt><strong><%= child_class.human_attribute_name(:area) %>:</strong></dt>
+    <dd><%= @shop.location.try(:area) %></dd>
+    <br>
+    <dt><strong><%= model_class.human_attribute_name(:owner) %></strong></dt>
+    <dd>&nbsp;</dd>
+    <% child_class = Owner %>
+    <dt><strong><%= child_class.human_attribute_name(:name) %>:</strong></dt>
+    <dd><%= @shop.owner.try(:name) %></dd>
+    <dt><strong><%= child_class.human_attribute_name(:cell_number) %>:</strong></dt>
+    <dd><%= @shop.owner.try(:cell_number) %></dd>
+    <dt><strong><%= child_class.human_attribute_name(:dob) %>:</strong></dt>
+    <dd><%= @shop.owner.try(:dob) %></dd>
+    <br><br>
+    <dt><strong><%= model_class.human_attribute_name(:manager) %></strong></dt>
+    <dd>&nbsp;</dd>
+    <% child_class = Manager %>
+    <dt><strong><%= child_class.human_attribute_name(:name) %>:</strong></dt>
+    <dd><%= @shop.manager.try(:name) %></dd>
+    <dt><strong><%= child_class.human_attribute_name(:cell_number) %>:</strong></dt>
+    <dd><%= @shop.manager.try(:cell_number) %></dd>
+    <dt><strong><%= child_class.human_attribute_name(:dob) %>:</strong></dt>
+    <dd><%= @shop.manager.try(:dob) %></dd>
+  </dl>
+  <div class="span9">
+    <%= render :partial => "/shared/uploads" %>
+  </div>
+</div>
 
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),

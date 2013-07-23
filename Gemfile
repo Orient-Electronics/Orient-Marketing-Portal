@@ -11,7 +11,7 @@ gem 'nested_scaffold'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-
+gem "paperclip"
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -23,6 +23,7 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+  gem 'jquery-fileupload-rails'
 end
 
 gem 'jquery-rails'
