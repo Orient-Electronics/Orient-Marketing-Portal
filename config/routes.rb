@@ -5,13 +5,13 @@ Orient::Application.routes.draw do
   resources :cities
 
 
-  resources :shops
+  resources :shops do
+    resources :uploads
+  end
 
 
   devise_for :representatives
 
-
-  resources :uploads
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -6,6 +6,8 @@ class Shop < ActiveRecord::Base
   has_one :owner
   has_one :manager
 
+  has_many :uploads, :as => :uploadable, :dependent => :destroy
+
   attr_accessible :address, :dealer, :dealer_name, :email, :location_id, :phone, :shop_category_id, :website, :location_attributes, :owner_attributes, :manager_attributes
 
   accepts_nested_attributes_for :owner

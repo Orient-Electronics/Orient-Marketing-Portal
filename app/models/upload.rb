@@ -1,5 +1,8 @@
 class Upload < ActiveRecord::Base
-  attr_accessible :upload
+
+  belongs_to :uploadable, :polymorphic => true
+
+  attr_accessible :upload, :uploadable_id, :uploadable_type
   has_attached_file :upload
 
   include Rails.application.routes.url_helpers

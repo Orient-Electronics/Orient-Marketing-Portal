@@ -52,7 +52,7 @@
     <dd><%= @shop.manager.try(:dob) %></dd>
   </dl>
   <div class="span9">
-    <%= render :partial => "/shared/uploads" %>
+    <%= render :partial => "/shared/uploads", :locals => {:@uploadable => @shop} %>
   </div>
 </div>
 

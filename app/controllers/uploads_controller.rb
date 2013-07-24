@@ -2,7 +2,9 @@ class UploadsController < ApplicationController
   # GET /uploads
   # GET /uploads.json
   def index
-    @uploads = Upload.all
+    @uploadable = find_uploadable
+    @uploads = @uploadable.uploads
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -40,7 +42,8 @@ class UploadsController < ApplicationController
   # POST /uploads
   # POST /uploads.json
   def create
-    @upload = Upload.new(params[:upload])
+    @uploadable = find_uploadable
+    @upload = @uploadable.uploads.build(params[:upload])
 
     respond_to do |format|
       if @upload.save
@@ -84,4 +87,16 @@ class UploadsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def find_uploadable
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        return $1.classify.constantize.find(value)
+      end
+    end
+    nil
+  end
+
 end
