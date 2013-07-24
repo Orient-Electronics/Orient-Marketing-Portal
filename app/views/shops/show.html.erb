@@ -3,7 +3,7 @@
   <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
 </div>
 <div class="row-fluid">
-  <dl class="span3 dl-horizontal">
+  <dl class="span3">
     <dt><strong><%= model_class.human_attribute_name(:dealer_name) %>:</strong></dt>
     <dd><%= @shop.dealer_name %></dd>
     <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
@@ -18,9 +18,9 @@
     <dd><%= @shop.dealer %></dd>
     <dt><strong><%= model_class.human_attribute_name(:shop_category_id) %>:</strong></dt>
     <dd><%= @shop.shop_category.try(:name) %></dd>
-    <br>
+    <br><br>
     <dt><strong><%= model_class.human_attribute_name(:location_id) %></strong></dt>
-    <dd>&nbsp;</dd>
+    <dd></dd>
     <% child_class = Location %>
     <dt><strong><%= child_class.human_attribute_name(:city_id) %>:</strong></dt>
     <dd><%= @shop.location.try(:city).try(:name) %></dd>
@@ -30,7 +30,7 @@
     <dd><%= @shop.location.try(:longitude) %></dd>
     <dt><strong><%= child_class.human_attribute_name(:area) %>:</strong></dt>
     <dd><%= @shop.location.try(:area) %></dd>
-    <br>
+    <br><br>
     <dt><strong><%= model_class.human_attribute_name(:owner) %></strong></dt>
     <dd>&nbsp;</dd>
     <% child_class = Owner %>
