@@ -8,7 +8,7 @@ Orient::Application.routes.draw do
   resources :shops do
     resources :uploads
   end
-
+  resources :uploads
 
   devise_for :representatives
 
