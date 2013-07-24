@@ -3,12 +3,20 @@
   <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
 </div>
 
-<dl class="dl-horizontal">
+<dl class="dl-horizontal well">
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @product.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:info) %>:</strong></dt>
   <dd><%= @product.info %></dd>
 </dl>
+<div class="well">
+  <h3>Brands</h3>
+  <ul>
+    <% @product.brands.each do |brand| %>
+      <li><%= brand.name %></li>
+    <% end -%>
+  </ul>
+</div>
 
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
