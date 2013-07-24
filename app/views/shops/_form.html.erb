@@ -79,9 +79,11 @@
     </div>
 
     <div class="control-group">
-      <%= f.label :dob, :class => 'control-label' %>
+      <%= f.label :dob,"Date of Birth", :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :dob, :class => 'text_field' %>
+        <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
+          <%= f.text_field :dob, :readonly => true %><span class="add-on"><i class="icon-th"></i></span>
+        </div>
       </div>
     </div>
   <% end -%>
@@ -104,9 +106,11 @@
     </div>
 
     <div class="control-group">
-      <%= f.label :dob, :class => 'control-label' %>
+      <%= f.label :dob,"Date of Birth", :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :dob, :class => 'text_field' %>
+        <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
+          <%= f.text_field :dob, :readonly => true %><span class="add-on"><i class="icon-th"></i></span>
+        </div>
       </div>
     </div>
   <% end -%>

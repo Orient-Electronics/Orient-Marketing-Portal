@@ -13,6 +13,7 @@ Orient::Application.routes.draw do
 
   resources :shops do
     resources :uploads
+    resources :reports
   end
   resources :uploads
 

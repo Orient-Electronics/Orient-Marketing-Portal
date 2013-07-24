@@ -8,3 +8,6 @@ dd{
   display: inline-block;
   margin: 0;
 }
+.left-margin{
+  margin-left: 10px;
+}

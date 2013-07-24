@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  shop_id: 1
+  representative_id: 1
+  report_type: MyString
+  start_at: 
+  end_at: 2013-07-24 15:09:51
+  data: MyText
+
+two:
+  shop_id: 1
+  representative_id: 1
+  report_type: MyString
+  start_at: 
+  end_at: 2013-07-24 15:09:51
+  data: MyText
