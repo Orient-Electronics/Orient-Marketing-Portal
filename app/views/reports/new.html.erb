@@ -4,47 +4,51 @@
 
   <%= f.hidden_field :report_type, :value => params[:type] %>
 
-  <% Product.all.each do |product| %>
-
-    <div class="well">
-      <blockquote>
-        <p><%= product.name %></p>
-        <small><%= product.info %></small>
-      </blockquote>
+  <% if params[:type]=='sales' %>
+    <div class="control-group">
+      <%= f.label :start_at,"Report From", :class => 'control-label' %>
+      <div class="controls">
+        <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
+          <%= f.text_field :start_at, :readonly => true %><span class="add-on"><i class="icon-th"></i></span>
+        </div>
+      </div>
     </div>
 
-    <% if params[:type]=='sales' %>
-      <div class="control-group">
-        <%= f.label :start_at,"Report From", :class => 'control-label' %>
-        <div class="controls">
-          <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-            <%= f.text_field :start_at, :readonly => true %><span class="add-on"><i class="icon-th"></i></span>
-          </div>
+    <div class="control-group">
+      <%= f.label :end_at,"Report Till", :class => 'control-label' %>
+      <div class="controls">
+        <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
+          <%= f.text_field :end_at, :readonly => true %><span class="add-on"><i class="icon-th"></i></span>
         </div>
       </div>
-
-      <div class="control-group">
-        <%= f.label :end_at,"Report Till", :class => 'control-label' %>
-        <div class="controls">
-          <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-            <%= f.text_field :end_at, :readonly => true %><span class="add-on"><i class="icon-th"></i></span>
-          </div>
-        </div>
-      </div>
-      <hr>
-    <% end -%>
-
-    <% product.brands.each do |brand| %>
-      <div class="control-group">
-        <%= label_tag dom_id(brand),"#{[brand.name, params[:type].capitalize].join(' ')}", :class => 'control-label' %>
-        <div class="controls">
-          <%= text_field_tag "report[data][#{product.name}][#{brand.name}]",'', :class => 'text_field' %>
-        </div>
-      </div>
-    <% end -%>
-
-
+    </div>
+    <hr>
   <% end -%>
+
+  <% count = 0 %>
+  <%= f.fields_for :report_lines do |line| %>
+
+    <% unless @products[count].nil? %>
+      <div class="well">
+        <blockquote>
+          <p><%= @products[count].name %></p>
+          <small><%= @products[count].info %></small>
+        </blockquote>
+      </div>
+    <% end -%>
+
+    <%= line.hidden_field :brand_id %>
+    <%= line.hidden_field :product_id %>
+    <div class="control-group">
+      <%= line.label :data,"#{@brands[count].name} #{params[:type]}", :class => 'control-label' %>
+      <div class="controls">
+        <%= line.text_field :data, :class => 'text_field' %>
+      </div>
+    </div>
+    <% count = count +1 %>
+  <% end -%>
+
+
 
   <div class="form-actions">
     <%= f.submit 'Submit', :class => 'btn btn-primary' %>
