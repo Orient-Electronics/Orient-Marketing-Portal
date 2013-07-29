@@ -14,7 +14,7 @@
     <div class="control-group">
       <label class="control-label">Representative</th>
       <div class="controls">
-        <%= report.representative.name %>
+        <%= report.representative.try(:name) %>
       </div>
     </div>
     <div class="control-group">
@@ -60,7 +60,7 @@
     <div class="control-group">
       <label class="control-label">Representative</th>
       <div class="controls">
-        <%= report.representative.name %>
+        <%= report.representative.try(:name) %>
       </div>
     </div>
   </div>

@@ -11,3 +11,17 @@ Brand.create([ { name: 'Samsung' },  { name: 'Sony' },   { name: 'LG' },  { name
 
 City.delete_all
 City.create([ { name: 'Abbottabad' },  { name: 'Ahmed Pur' },   { name: 'Battagram' },  { name: 'Bhawalpur' },  { name: 'Biriya Road' },  { name: 'Daharki' },  { name: 'Dina' },  { name: 'Dor' },  { name: 'Faisalabad' },  { name: 'Firoza' },  { name: 'Gambat' },  { name: 'Muridke' },  { name: 'Ghakhar Mandi' },  { name: 'Ghotki' },  { name: 'Gujjar Khan' },  { name: 'Gujranwala' },  { name: 'Gujrat' },  { name: 'Hafizabad' },  { name: 'Haripur' },  { name: 'Hasilpur' },  { name: 'Hyderabad' },  { name: 'Islamabad' },  { name: 'Jauharabad' },  { name: 'Jehlum' },  { name: 'Kamoki' },  { name: 'Kandiaro' },  { name: 'Karachi' },  { name: 'Kasur' },  { name: 'Khairpur' },  { name: 'Khairpur Tamewali' },  { name: 'Khan Pur' },  { name: 'Lahore' },  { name: 'Lalamusa' },  { name: 'Larkana' },  { name: 'Liaqatpur' },  { name: 'Lodhran' },  { name: 'Multan' },  { name: 'Mansehra' },  { name: 'Mehrabpur' },  { name: 'Mir Pur Mathelo' },  { name: 'Mirpur Khas' },  { name: 'Moro' },  { name: 'Muzaffarabad' },  { name: 'Nawabshah' },  { name: 'Obaro' },  { name: 'Panun Aaql' },  { name: 'Peshawar' },  { name: 'Rahim Yar Khan' },  { name: 'Sheikhupura' },  { name: 'Ranipur' },  { name: 'Rawalpindi' },  { name: 'Sadiqabad' },  { name: 'Sahiwal' },  { name: 'Sanghar' },  { name: 'Sargodha' },  { name: 'Shahdadpur' },  { name: 'Sialkot' },  { name: 'Sukkur' },  { name: 'Swat' },  { name: 'Tando Adam' },  { name: 'Yazman' }])
+
+ShopCategory.delete_all
+ShopCategory.create([ { name: 'Dawlance Exclusive' },  { name: 'Dawlance USL' },   { name: 'Haier Exclusive'},  { name: 'LG Concept Shop' },  { name: 'Multi Brand Shop' },  { name: 'Orient Center' },  { name: 'Orient Exclusive' },  { name: 'PEL Exclusive' },  { name: 'Ruba Digital' },  { name: 'Samsung Brand Shop' },  { name: 'Samsung Concept Shop' },  { name: 'Seasonal Electronics Shop' },  { name: 'Singer Plus' },  { name: 'Sony Center' },  { name: 'Sony World' }])
+
+f = {}
+Brand.all.collect{|b| f[b.name] = b.id.to_s}
+
+Product.delete_all
+Product.create([{name: 'Refrigerator', brand_ids: ["", f["Dawlance"], f["PEL"], f["Orient"], f["Haier"], f["Waves"], f["Other"]]},
+{name: 'AC', brand_ids: ["", f["Dawlance"], f["PEL"], f["Orient"], f["Haier"], f["Other"],f["Electrolux"], f["Galanz"], f["Gree"], f["Kenwood"], f["LG"], f["Mitsubishi"], f["Panasonic"], f["Changhong"], f["Samsung"]]},
+{name: 'LCD', brand_ids: ["", f["Samsung"], f["Sony"], f["Orient"], f["Haier"], f["Changhong"], f["Other"],f["Ecostar"], f["Panasonic"],f["LG"]]},
+{name: 'LED', brand_ids: ["", f["Samsung"], f["Sony"], f["Orient"], f["Haier"], f["Changhong"], f["Other"],f["Ecostar"], f["Panasonic"],f["LG"]]},
+{name: 'PDP', brand_ids: ["", f["Samsung"], f["Sony"], f["LG"], f["Haier"], f["Panasonic"]]}
+  ])
