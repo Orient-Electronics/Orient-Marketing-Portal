@@ -54,6 +54,41 @@
 
 <hr>
 
+<h2>Display Corner Report</h2>
+<% @reports.select {|f| f["report_type"] == "display_corner" }.each do |report| %>
+  <div class="well">
+    <div class="control-group">
+      <label class="control-label">Representative</th>
+      <div class="controls">
+        <%= report.representative.try(:name) %>
+      </div>
+    </div>
+  </div>
+  <% Product.all.each do |product| %>
+    <blockquote>
+      <p><%= product.name %></p>
+      <small><%= product.info %></small>
+    </blockquote>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <% product.brands.each do |brand| %>
+          <th><%= brand.name %></th>
+        <% end -%>
+      </tr>
+        <tr>
+          <% product.brands.each do |brand| %>
+            <% report.report_lines.where(:product_id=>product.id,:brand_id=>brand.id).each do |line| %>
+              <td><%= line.data.to_i==1 ? "Yes" : "No" %></td>
+            <% end -%>
+          <% end -%>
+        </tr>
+    </table>
+  <% end -%>
+<% end -%>
+
+
+<hr>
+
 <h2>Display Report</h2>
 <% @reports.select {|f| f["report_type"] == "display" }.each do |report| %>
   <div class="well">
