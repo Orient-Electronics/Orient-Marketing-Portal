@@ -1,10 +1,11 @@
 <%- model_class = Shop -%>
 <div class="page-header">
   <div class="row-fluid">
-    <h1 class="span6"><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-    <h1 class="span6">
+    <h1 class="span3"><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+    <h1 class="span9">
       <%= link_to "Add Sales Report", new_shop_report_path(@shop,:type=>'sales'), :class => "btn pull-right btn-inverse left-margin" %>
-      <%= link_to "Add Display Report", new_shop_report_path(@shop,:type=>'display'), :class => "btn btn-inverse pull-right" %>
+      <%= link_to "Add Display Report", new_shop_report_path(@shop,:type=>'display'), :class => "btn btn-inverse pull-right left-margin" %>
+      <%= link_to "All Reports ", shop_reports_path(@shop), :class => "btn btn-success pull-right" %>
     </h1>
   </div>
 </div>
