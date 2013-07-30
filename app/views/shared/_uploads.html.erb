@@ -116,7 +116,11 @@
 <script type="text/javascript" charset="utf-8">
   $(function () {
       // Initialize the jQuery File Upload widget:
-      $('#fileupload').fileupload();
+      $('#fileupload').fileupload({
+        done: function (e, data) {
+                location.reload();
+        }
+      });
       // 
       // Load existing files:
       $.getJSON($('#fileupload').prop('action'), function (files) {
