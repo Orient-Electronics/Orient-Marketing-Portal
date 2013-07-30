@@ -1,0 +1,3 @@
+class Dealer < ActiveRecord::Base
+  attr_accessible :name
+end
