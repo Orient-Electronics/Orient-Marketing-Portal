@@ -11,3 +11,6 @@ dd{
 .left-margin{
   margin-left: 10px;
 }
+#map_location{
+  margin: 15px 0;
+}
