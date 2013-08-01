@@ -46,11 +46,19 @@
   <% end -%>
 
   <div class="control-group">
-    <%= f.label :dealer_name, :class => 'control-label' %>
+    <%= f.label :dealer_name,"Shop Name", :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :dealer_name, :class => 'text_field' %>
     </div>
   </div>
+
+  <div class="control-group">
+    <%= f.label :branch_of,"Dealer Name", :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :branch_of, :class => 'text_field typeahead' %>
+    </div>
+  </div>
+
   <div class="control-group">
     <%= f.label :phone, :class => 'control-label' %>
     <div class="controls">
@@ -77,9 +85,9 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :dealer, :class => 'control-label' %>
+    <%= f.label :orient_dealer, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box :dealer, :class => 'check_box' %>
+      <%= f.check_box :orient_dealer, :class => 'check_box' %>
     </div>
   </div>
   <div class="control-group">
@@ -283,6 +291,14 @@
         }
       }
     });
+
+    //auto complete for dealer name
+    $('.typeahead').typeahead({                                
+      name: 'dealers',
+      local: '<%= Dealer.all.collect{|c| c.name}.join("*") %>'.split("*"),
+      limit: 10                                                                   
+    });
+
   });
 </script>
 <% end -%>
