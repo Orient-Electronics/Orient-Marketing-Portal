@@ -1,4 +1,12 @@
 <%= form_for @product, :html => { :class => 'form-horizontal' } do |f| %>
+
+  <div class="control-group">
+    <%= f.label :product_category_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :product_category_id, ProductCategory.all,:id,:name, include_blank: true %>
+    </div>
+  </div>
+
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">

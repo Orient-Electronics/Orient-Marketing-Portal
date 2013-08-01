@@ -5,7 +5,9 @@ class Product < ActiveRecord::Base
   has_many :report_lines
   has_many :reports, :through => :report_lines
 
-  attr_accessible :info, :name, :brand_ids
+  belongs_to :product_category
+
+  attr_accessible :info, :name, :brand_ids, :product_category_id
 
   accepts_nested_attributes_for :brands
 
