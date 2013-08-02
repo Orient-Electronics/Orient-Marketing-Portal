@@ -25,6 +25,7 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-fileupload-rails'
+  gem 'jquery-ui-rails'
 end
 
 gem 'jquery-rails'

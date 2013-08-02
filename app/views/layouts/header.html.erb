@@ -1,0 +1,152 @@
+<div id="navigation">
+  <div class="container-fluid">
+    <a href="#" id="brand">Orient</a>
+    <ul class='main-nav'>
+      <li class='active'>
+        <a href="/">
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
+          <span>Shops</span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="/shops">View All</a>
+          </li>
+          <li>
+            <a href="/shops/new">Add New</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
+          <span>Shop Categories</span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="/shop_categories">View All</a>
+          </li>
+          <li>
+            <a href="/shop_categories">Add New</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
+          <span>Cities</span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="/cities">View All</a>
+          </li>
+          <li>
+            <a href="/cities/new">Add New</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
+          <span>Product Categories</span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="/product_categories">View All</a>
+          </li>
+          <li>
+            <a href="/product_categories/new">Add New</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
+          <span>Products</span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="/products">View All</a>
+          </li>
+          <li>
+            <a href="/products/new">Add New</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
+          <span>Brands</span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="/brands">View All</a>
+          </li>
+          <li>
+            <a href="/brands/new">Add New</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="user">
+      <ul class="icon-nav">
+        <li class='dropdown'>
+          <ul class="dropdown-menu pull-right message-ul">
+            <li>
+              <a href="#">
+                <img src="/assets/demo/user-1.jpg" alt="">
+                <div class="details">
+                  <div class="name">Jane Doe</div>
+                  <div class="message">
+                    Lorem ipsum Commodo quis nisi ...
+                  </div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <img src="/assets/demo/user-2.jpg" alt="">
+                <div class="details">
+                  <div class="name">John Doedoe</div>
+                  <div class="message">
+                    Ut ad laboris est anim ut ...
+                  </div>
+                </div>
+                <div class="count">
+                  <i class="icon-comment"></i>
+                  <span>3</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <img src="/assets/demo/user-3.jpg" alt="">
+                <div class="details">
+                  <div class="name">Bob Doe</div>
+                  <div class="message">
+                    Excepteur Duis magna dolor!
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="dropdown">
+        <a href="#" class='dropdown-toggle' data-toggle="dropdown">John Doe <img src="/assets/demo/user-avatar.jpg" alt=""></a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <%= link_to "Edit Profile", edit_representative_registration_path %>
+          </li>
+          <li>
+            <%= link_to "Sign Out", destroy_representative_session_path, :method => :delete %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

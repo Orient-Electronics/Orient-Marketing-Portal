@@ -19,32 +19,7 @@
   </head>
   <body>
 
-    <div class="navbar navbar-fluid-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Orient</a>
-          <div class="container-fluid nav-collapse">
-            <ul class="nav">
-              <li><%= link_to "Shops", shops_path  %></li>
-              <li><%= link_to "Shop Categories", shop_categories_path  %></li>
-              <li><%= link_to "Cities", cities_path  %></li>
-              <li><%= link_to "Product Categories", product_categories_path  %></li>
-              <li><%= link_to "Products", products_path  %></li>
-              <li><%= link_to "Brands", brands_path  %></li>
-            </ul>
-            <div class="pull-right"><%= link_to "Sign Out", destroy_representative_session_path, :method => :delete, :class=> "btn btn-info" %></div>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+    <%= render :partial => "header" %>
 
     <div class="container-fluid">
       <div class="row-fluid">
