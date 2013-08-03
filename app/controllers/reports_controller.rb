@@ -24,7 +24,7 @@ class ReportsController < ApplicationController
   def create
     @shop = Shop.find params[:shop_id]
     @report = Report.new params[:report]
-    @report.representative = current_representative
+    @report.user = current_user
     @report.shop_id = params[:shop_id]
     respond_to do |format|
       if @report.save

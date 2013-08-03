@@ -23,7 +23,7 @@ Orient::Application.routes.draw do
   end
   resources :uploads
 
-  devise_for :representatives
+  devise_for :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

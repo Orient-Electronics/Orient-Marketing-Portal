@@ -1,4 +1,4 @@
-class Representative < ActiveRecord::Base
+class User < ActiveRecord::Base
 
   has_many :reports, :dependent => :destroy
 

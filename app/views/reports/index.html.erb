@@ -1,7 +1,7 @@
 <div class="well">
   <%= form_for :search, :html => { :method => 'get', :id => 'search_product' } do |form| %>
-    <%= form.label :representative_id, 'Report of' %>
-    <%= form.select :representative_id, Representative.all.collect { |b| [b.name, b.id] }, :include_blank => "All" %>
+    <%= form.label :user_id, 'Report of' %>
+    <%= form.select :user_id, User.all.collect { |b| [b.name, b.id] }, :include_blank => "All" %>
     <div class="form-actions">
       <%= form.submit "Go", :class => "btn btn-success" %>
     </div>
@@ -12,9 +12,9 @@
 <% @reports.select {|f| f["report_type"] == "sales" }.each do |report| %>
   <div class="well">
     <div class="control-group">
-      <label class="control-label">Representative</th>
+      <label class="control-label">User</th>
       <div class="controls">
-        <%= report.representative.try(:name) %>
+        <%= report.user.try(:name) %>
       </div>
     </div>
     <div class="control-group">
@@ -58,9 +58,9 @@
 <% @reports.select {|f| f["report_type"] == "display_corner" }.each do |report| %>
   <div class="well">
     <div class="control-group">
-      <label class="control-label">Representative</th>
+      <label class="control-label">User</th>
       <div class="controls">
-        <%= report.representative.try(:name) %>
+        <%= report.user.try(:name) %>
       </div>
     </div>
   </div>
@@ -93,9 +93,9 @@
 <% @reports.select {|f| f["report_type"] == "display" }.each do |report| %>
   <div class="well">
     <div class="control-group">
-      <label class="control-label">Representative</th>
+      <label class="control-label">User</th>
       <div class="controls">
-        <%= report.representative.try(:name) %>
+        <%= report.user.try(:name) %>
       </div>
     </div>
   </div>
