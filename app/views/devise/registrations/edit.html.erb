@@ -1,38 +1,95 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div><%= f.label :first_name %><br />
-  <%= f.text_field :first_name, :autofocus => true %></div>
-
-  <div><%= f.label :last_name %><br />
-  <%= f.text_field :last_name, :autofocus => true %></div>
-
-  <div><%= f.label :phone_number %><br />
-  <%= f.number_field :phone_number, :autofocus => true %></div>
-
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
-
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
-
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
-
-  <div><%= f.submit "Update" %></div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
-
-<%= link_to "Back", :back %>
+<% resource.build_avatar if resource.avatar.nil? %>
+<div class="row-fluid">
+  <div class="span12">
+    <div class="box box-color box-bordered">
+      <div class="box-title">
+        <h3>
+          <i class="icon-user"></i>
+          Edit user profile
+        </h3>
+      </div>
+      <div class="box-content nopadding">
+        <div class="tab-content padding tab-content-inline tab-content-bottom">
+          <div class="tab-pane active" id="profile">
+            <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "form-horizontal" }) do |f| %>
+              <div class="row-fluid">
+                <div class="span2">
+                  <%= f.fields_for :avatar do |form| %>
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                      <div class="fileupload-new thumbnail" style="max-width: 150; max-height: 150px;">
+                        <%= image_tag resource.avatar.avatar.url(:small)  %>
+                      </div>
+                      <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 150; max-height: 150px; line-height: 20px;"></div>
+                      <div>
+                        <span class="btn btn-file">
+                          <span class="fileupload-new">Select image</span>
+                          <span class="fileupload-exists">Change</span>
+                          <%= form.file_field :avatar %>
+                        </span>
+                        <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="span10">
+                  <div class="control-group">
+                    <%= f.label :first_name, :class => "control-label right" %>
+                    <div class="controls">
+                      <%= f.text_field :first_name, :autofocus => true, :class => 'input-xlarge' %>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <%= f.label :last_name, :class => "control-label right" %>
+                    <div class="controls">
+                      <%= f.text_field :last_name, :autofocus => true, :class => 'input-xlarge' %>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <%= f.label :email, :class => "control-label right" %>
+                    <div class="controls">
+                      <%= f.email_field :email, :autofocus => true, :class => 'input-xlarge' %>
+                    </div>
+                  </div>
+                  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+                  <% end %>
+                  <div class="control-group">
+                    <%= f.label :phone_number, :class => "control-label right" %>
+                    <div class="controls">
+                      <%= f.text_field :phone_number, :autofocus => true, :class => 'input-xlarge' %>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <%= f.label :password, :class => "control-label right" %></i>
+                    <div class="controls">
+                      <%= f.password_field :password, :autocomplete => "off", :class => 'input-xlarge' %>
+                      <br><i>(leave blank if you don't want to change it)
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <%= f.label :password_confirmation, :class => "control-label right" %>
+                    <div class="controls">
+                      <%= f.password_field :password_confirmation, :class => 'input-xlarge' %>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <%= f.label :current_password, :class => "control-label right" %>
+                    <div class="controls">
+                      <%= f.password_field :current_password, :class => 'input-xlarge' %>
+                      <br><i>(we need your current password to confirm your changes)</i>
+                    </div>
+                  </div>
+                  
+                  <div class="form-actions">
+                    <input type="submit" class='btn btn-primary' value="Save">
+                    <input type="reset" class='btn' value="Discard changes">
+                  </div>
+                </div>
+              </div>
+            <% end -%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

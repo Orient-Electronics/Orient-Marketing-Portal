@@ -6,6 +6,7 @@ class Shop < ActiveRecord::Base
 
   has_one :owner, :dependent => :destroy
   has_one :manager, :dependent => :destroy
+  has_one :avatar, :as => :avatarable, :dependent => :destroy
 
   has_many :reports, :dependent => :destroy
   has_many :uploads, :as => :uploadable, :dependent => :destroy
