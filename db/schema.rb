@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130804080923) do
+ActiveRecord::Schema.define(:version => 20130804214918) do
 
   create_table "avatars", :force => true do |t|
     t.string   "avatar_file_name"
@@ -27,6 +27,11 @@ ActiveRecord::Schema.define(:version => 20130804080923) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "brands_product_categories", :id => false, :force => true do |t|
+    t.integer "product_category_id"
+    t.integer "brand_id"
   end
 
   create_table "brands_products", :id => false, :force => true do |t|

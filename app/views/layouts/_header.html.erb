@@ -137,7 +137,7 @@
         </li>
       </ul>
       <div class="dropdown">
-        <a href="#" class='dropdown-toggle' data-toggle="dropdown"><%= current_user.name %> <%= image_tag current_user.avatar.avatar.url(:small_thumb) %></a>
+        <a href="#" class='dropdown-toggle' data-toggle="dropdown"><%= current_user.name %> <%= image_tag current_user.get_avatar.avatar.url(:small_thumb), :size => "27x27" %></a>
         <ul class="dropdown-menu pull-right">
           <li>
             <%= link_to "Edit Profile", edit_user_registration_path %>

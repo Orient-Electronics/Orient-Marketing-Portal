@@ -6,6 +6,16 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= hidden_field_tag "product_category[brand_ids][]", nil %>
+    <div class="controls">
+      <% Brand.all.each do |brand| %>
+        <%= check_box_tag "product_category[brand_ids][]", brand.id, @product_category.brand_ids.include?(brand.id), id: dom_id(brand), :class => 'pull-left' %>
+        <%= label_tag dom_id(brand), brand.name %>
+      <% end %>
+    </div>
+  </div>
+
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

@@ -1,4 +1,4 @@
-<div id="left" class=' no-resize'>
+<div id="left" class='full no-resize'>
   <div class="subnav">
     <ul class="tiles span12">
       <li class="image span12">
@@ -63,6 +63,24 @@
       </ul>
     </div>
   </div>
+  <ul class="nav nav-list">
+    <li class="divider"></li>
+    <% ProductCategory.all.each do |pc| %>
+      <li><label class="tree-toggle nav-header"><%= pc.name %></label>
+          <ul class="nav nav-list tree hide">
+            <li><%= link_to "Add Report", '#' %></li>
+            <% pc.products.each do |product| %>
+              <li><label class="tree-toggle nav-header"><%= product.name %></label>
+                  <ul class="nav nav-list tree hide">
+                    <li><%= link_to "Add Report", '#' %></li>
+                  </ul>
+              </li>
+            <% end -%>
+            <li class="divider"></li>
+          </ul>
+      </li>
+    <% end -%>
+  </ul>
 </div>
 <div id="main">
   <div class="container-fluid">

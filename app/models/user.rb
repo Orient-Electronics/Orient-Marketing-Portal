@@ -17,4 +17,9 @@ class User < ActiveRecord::Base
     [first_name,last_name].join(" ")
   end
 
+  def get_avatar
+    return self.avatar if self.avatar.present?
+    return self.build_avatar
+  end
+
 end
