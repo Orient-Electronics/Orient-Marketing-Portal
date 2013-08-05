@@ -1,0 +1,133 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="box box-color box-bordered">
+        <div class="box-title">
+          <h3>
+            <i class="icon-map-marker"></i>
+            Locations Information
+          </h3>
+          <div class="actions">
+            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
+            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+          </div>
+        </div>
+        <div class="box-content">
+          <div class="span12" id="map_location" style="height: 300px;">
+          </div>
+          <textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>
+          <textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= content_for :footer_js do %>
+<script type="text/javascript" charset="utf-8">
+  var map;
+  var markersArray = [];
+
+  function initialize(lat,lng){
+    pos = (lat + ",") + lng;
+    var mapOptions = {
+      'center': (new google.maps.LatLng(lat,lng)),
+      zoom: 4,
+      'disableDefaultUI':true
+    };
+    map = new google.maps.Map($("#map_location")[0], mapOptions);
+  }
+
+  function setgeolocation(address){
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK)
+      {
+          lat = results[0].geometry.location.lat();
+          lng = results[0].geometry.location.lng();
+          initialize(lat,lng)
+      }
+    });
+  }
+
+  function addMarker(location) {
+    marker = new google.maps.Marker({
+      position: location,
+      map: map
+    });
+    marker.addListener("dragend", function(marker, ev) {
+      point = marker.latLng;
+    });
+    markersArray.push(marker);
+  }
+
+  function deleteOverlays() {
+    if (markersArray) {
+      for (i in markersArray) {
+        markersArray[i].setMap(null);
+      }
+      markersArray.length = 0;
+    }
+  }
+
+  function isNumber(o) {
+    return !isNaN(o - 0);
+  }
+
+  function convert(c) {
+      if (isNumber(c))
+          return Number(c);
+
+      var match = false;
+      var points = {
+          sign: 1,
+          degree: 0,
+          min: 0,
+          sec: 0
+      };
+
+      var MinDec = /^([NWES+-])*(\d+)°(\d+).(\d+)'/i; // 067°08.601', -067°08.601', E067°08.601'
+      var DMS = /^([NWES+-])*(\d+)°(\d+)'(\d+)\.?(\d+)*"/i; // 33°36'47", -33°36'47", N33°36'47"
+
+      if (c.match(MinDec)) {
+          var arr = MinDec.exec(c);
+
+          match = true;
+          points.sign = (arr[1] == 'W' || arr[1] == 'S' || arr[1] == '-') ? -1 : 1;
+          points.degree = Number(arr[2]);
+          points.min = Number(arr[3] + '.' + arr[4]);
+      }
+      else if (c.match(DMS)) {
+          var arr = DMS.exec(c);
+
+          match = true;
+          points.sign = (arr[1] == 'W' || arr[1] == 'S' || arr[1] == '-') ? -1 : 1;
+          points.degree = Number(arr[2]);
+          points.min = Number(arr[3]);
+          points.sec = Number(arr[4] + '.' + arr[5]);
+      }
+
+      if (match) {
+          return (points.degree + ((points.min * 60 + points.sec) / 3600)) * points.sign;
+      }
+
+      return false;
+  }
+
+  $('document').ready(function () {
+    lat_arr = $("#lat").val().split("|");
+    lng_arr = $("#lng").val().split("|");
+    if(lat_arr.length > 0)
+      initialize(lat_arr[0],lng_arr[0]);
+    else
+      setgeolocation("Pakistan");
+    for (var i=0;i<lat_arr.length;i++)
+    { 
+      var lat = convert(lat_arr[i]);
+      var lng = convert(lng_arr[i]);
+      if(lat &&  lng)
+        addMarker(new google.maps.LatLng(lat,lng));
+    }
+  });
+</script>
+<% end -%>

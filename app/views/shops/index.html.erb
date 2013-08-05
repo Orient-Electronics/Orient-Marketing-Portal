@@ -2,45 +2,114 @@
 <div class="page-header">
   <h1><%= "#{@parent.name} - " if @parent.present? %><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:dealer_name) %></th>
-      <th><%= model_class.human_attribute_name(:phone) %></th>
-      <th><%= model_class.human_attribute_name(:website) %></th>
-      <th><%= model_class.human_attribute_name(:email) %></th>
-      <th><%= model_class.human_attribute_name(:address) %></th>
-      <th><%= model_class.human_attribute_name(:dealer) %></th>
-      <th><%= model_class.human_attribute_name(:shop_category_id) %></th>
-      <th><%= model_class.human_attribute_name(:location_id) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @shops.each do |shop| %>
-      <tr>
-        <td><%= link_to shop.dealer_name, shop_path(shop) %></td>
-        <td><%= shop.phone %></td>
-        <td><%= shop.website %></td>
-        <td><%= shop.email %></td>
-        <td><%= shop.address %></td>
-        <td><%= link_to shop.dealer.try(:name), dealer_shops_path(shop.dealer) if shop.dealer.present? %></td>
-        <td><%= link_to shop.shop_category.try(:name), shop_category_shops_path(shop.shop_category) %></td>
-        <td><%= shop.location.try(:complete_location) %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_shop_path(shop), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      shop_path(shop),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render :partial => "/shared/map" %>
+<div class="row-fluid">
+  <div class="span12">
+    <div class="box box-color box-bordered">
+      <div class="box-title">
+        <h3>
+          Shops
+        </h3>
+      </div>
+      <div class="box-content nopadding">
+        <table class="table table-hover table-nomargin" id="shop-data">
+          <thead>
+            <tr class='thefilter row-fluid'>
+              <th class="span2"><input type="text" name="search_shop" placeholder="Shop" class="search_init span12" /></th>
+              <th class="span1"><input type="text" name="search_phone" placeholder="Phone" class="search_init span12" /></th>
+              <th class="span1"><input type="text" name="search_address" placeholder="Address" class="search_init span12" /></th>
+              <th class="span1"><input type="text" name="search_dealer" placeholder="Dealer" class="search_init span12" /></th>
+              <th class="span2"><input type="text" name="search_category" placeholder="Category" class="search_init span12" /></th>
+              <th class="span2"><input type="text" name="search_location" placeholder="Location" class="search_init span12" /></th>
+              <th class="span1"><input type="text" name="search_orient_dealer" placeholder="Orient Dealer" class="search_init span12" /></th>
+              <th class="span2"><span class="span12">&nbsp;</span></th>
+            </tr>
+            <tr class="row-fluid">
+              <th class="span2"><%= model_class.human_attribute_name(:dealer_name) %></th>
+              <th class="span1"><%= model_class.human_attribute_name(:phone) %></th>
+              <th class="span1"><%= model_class.human_attribute_name(:address) %></th>
+              <th class="span1"><%= model_class.human_attribute_name(:dealer) %></th>
+              <th class="span2"><%= model_class.human_attribute_name(:shop_category_id) %></th>
+              <th class="span2"><%= model_class.human_attribute_name(:location_id) %></th>
+              <th class="span1"><%= model_class.human_attribute_name(:orient_dealer) %></th>
+              <th class="span2"><%=t '.actions', :default => t("helpers.actions") %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @shops.each do |shop| %>
+              <tr class="row-fluid">
+                <td class"span2"><%= link_to shop.dealer_name, shop_path(shop) %></td>
+                <td class"span1"><%= shop.phone %></td>
+                <td class"span1"><%= shop.address %></td>
+                <td class"span1"><%= link_to shop.dealer.try(:name), dealer_shops_path(shop.dealer) if shop.dealer.present? %></td>
+                <td class"span2"><%= link_to shop.shop_category.try(:name), shop_category_shops_path(shop.shop_category) %></td>
+                <td class"span2"><%= shop.location.try(:complete_location) %></td>
+                <td class"span1"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Yes</span>".html_safe : "<span class='label label-lightred'>No</span>".html_safe %></td>
+                <td class"span2">
+                  <%= link_to "<i class='icon-search'></i>".html_safe,
+                              shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>
+                  <%= link_to "<i class='icon-edit'></i>".html_safe,
+                              edit_shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"Edit" %>
+                  <%= link_to "<i class='icon-remove'></i>".html_safe,
+                              shop_path(shop),
+                              :method => :delete,
+                              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                              :class => 'btn', :rel=>"tooltip", :title=>"Delete" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_shop_path,
             :class => 'btn btn-primary' %>
+
+<%= content_for :footer_js do %>
+<script type="text/javascript" charset="utf-8">
+  var asInitVals = new Array();
+  
+  $(document).ready(function() {
+    var oTable = $('#shop-data').dataTable( {
+      "oLanguage": {
+        "sSearch": "Search all columns:"
+      }
+    } );
+    
+    $(".thefilter input").keyup( function () {
+      /* Filter on the column (the index) of this element */
+      oTable.fnFilter( this.value, $(".thefilter input").index(this) );
+    } );
+    
+    
+    
+    /*
+     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+     * the footer
+     */
+    $(".thefilter input").each( function (i) {
+      asInitVals[i] = this.value;
+    } );
+    
+    $(".thefilter input").focus( function () {
+      if ( this.className == "search_init" )
+      {
+        this.className = "";
+        this.value = "";
+      }
+    } );
+    
+    $(".thefilter input").blur( function (i) {
+      if ( this.value == "" )
+      {
+        this.className = "search_init";
+        this.value = asInitVals[$(".thefilter input").index(this)];
+      }
+    } );
+  } );
+</script>
+<% end -%>
