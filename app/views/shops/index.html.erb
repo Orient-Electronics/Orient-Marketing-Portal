@@ -1,11 +1,10 @@
 <%- model_class = Shop -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1><%= "#{@parent.name} - " if @parent.present? %><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:dealer_name) %></th>
       <th><%= model_class.human_attribute_name(:phone) %></th>
       <th><%= model_class.human_attribute_name(:website) %></th>
@@ -14,23 +13,20 @@
       <th><%= model_class.human_attribute_name(:dealer) %></th>
       <th><%= model_class.human_attribute_name(:shop_category_id) %></th>
       <th><%= model_class.human_attribute_name(:location_id) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @shops.each do |shop| %>
       <tr>
-        <td><%= link_to shop.id, shop_path(shop) %></td>
-        <td><%= shop.dealer_name %></td>
+        <td><%= link_to shop.dealer_name, shop_path(shop) %></td>
         <td><%= shop.phone %></td>
         <td><%= shop.website %></td>
         <td><%= shop.email %></td>
         <td><%= shop.address %></td>
-        <td><%= shop.dealer %></td>
-        <td><%= shop.shop_category_id %></td>
-        <td><%= shop.location_id %></td>
-        <td><%=l shop.created_at %></td>
+        <td><%= link_to shop.dealer.try(:name), dealer_shops_path(shop.dealer) if shop.dealer.present? %></td>
+        <td><%= link_to shop.shop_category.try(:name), shop_category_shops_path(shop.shop_category) %></td>
+        <td><%= shop.location.try(:complete_location) %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_shop_path(shop), :class => 'btn btn-mini' %>

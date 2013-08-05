@@ -4,20 +4,16 @@
 </div>
 <table class="table table-striped">
   <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    <tr class="row-fluid">
+      <th class="span9"><%= model_class.human_attribute_name(:name) %></th>
+      <th class="span3"><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @shop_categories.each do |shop_category| %>
-      <tr>
-        <td><%= link_to shop_category.id, shop_category_path(shop_category) %></td>
-        <td><%= shop_category.name %></td>
-        <td><%=l shop_category.created_at %></td>
-        <td>
+      <tr class="row-fluid">
+        <td class="span9"><%= link_to shop_category.name, shop_category_shops_path(shop_category) %></td>
+        <td class="span3">
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_shop_category_path(shop_category), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

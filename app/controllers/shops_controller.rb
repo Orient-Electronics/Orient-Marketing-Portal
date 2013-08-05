@@ -2,7 +2,22 @@ class ShopsController < ApplicationController
   # GET /shops
   # GET /shops.json
   def index
-    @shops = Shop.all
+    if params[:dealer_id].present?
+      @parent = Dealer.find params[:dealer_id]
+      @shops = @parent.shops
+    else
+      if params[:shop_category_id].present?
+        @parent = ShopCategory.find params[:shop_category_id]
+        @shops = @parent.shops
+      else
+        if params[:city_id].present?
+          @parent = City.find params[:city_id]
+          @shops = @parent.locations.collect(&:shop).flatten.reject {|r| r.nil? }
+        else
+          @shops = Shop.all
+        end
+      end
+    end
 
     respond_to do |format|
       format.html # index.html.erb

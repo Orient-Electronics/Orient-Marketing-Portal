@@ -2,7 +2,9 @@ Orient::Application.routes.draw do
   resources :product_categories
 
 
-  resources :dealers
+  resources :dealers do
+    resources :shops
+  end
 
 
   resources :brands
@@ -11,11 +13,17 @@ Orient::Application.routes.draw do
   resources :products
 
 
-  resources :shop_categories
+  resources :shop_categories do
+    resources :shops
+  end
 
+  resources :cities do
+    resources :shops
+  end
 
-  resources :cities
-
+  resources :locations do
+    resources :shops
+  end
 
   resources :shops do
     resources :uploads
