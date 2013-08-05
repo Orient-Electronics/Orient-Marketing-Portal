@@ -68,11 +68,11 @@
     <% ProductCategory.all.each do |pc| %>
       <li><label class="tree-toggle nav-header"><%= pc.name %></label>
           <ul class="nav nav-list tree hide">
-            <li><%= link_to "Add Report", '#' %></li>
+            <li><%= link_to "Add Report", new_shop_report_path(@shop, :product_category_id => pc.id) %></li>
             <% pc.products.each do |product| %>
               <li><label class="tree-toggle nav-header"><%= product.name %></label>
                   <ul class="nav nav-list tree hide">
-                    <li><%= link_to "Add Report", '#' %></li>
+                    <li><%= link_to "Add Report", new_shop_report_path(@shop, :product_id => product.id) %></li>
                   </ul>
               </li>
             <% end -%>
