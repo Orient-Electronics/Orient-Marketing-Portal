@@ -6,4 +6,5 @@ class Brand < ActiveRecord::Base
   has_many :report_lines
 
   attr_accessible :name
+
 end

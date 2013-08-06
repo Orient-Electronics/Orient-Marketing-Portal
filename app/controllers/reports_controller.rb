@@ -1,8 +1,25 @@
 class ReportsController < ApplicationController
 
   def index
-    @shop = Shop.find params[:shop_id]
-    @reports = @shop.reports
+    if params[:shop_id].present?
+      @parent = Shop.find params[:shop_id]
+      @reports = @shop.reports
+    else
+      if params[:product_id].present?
+        @parent = Product.find params[:product_id]
+        @brands = Brand.all
+        @reports = ReportLine.where(:product_id=> params[:product_id]).collect(&:report).uniq
+      else
+        if params[:product_category_id].present?
+          @parent = ProductCategory.find params[:product_category_id]
+          @brands = Brand.all
+          @reports = ReportLine.where(:product_category_id=> params[:product_category_id]).collect(&:report).uniq
+        else
+          @reports = Report.all
+          @brands = Brand.all
+        end
+      end
+    end
   end
 
   def new

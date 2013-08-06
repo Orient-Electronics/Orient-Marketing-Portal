@@ -1,5 +1,7 @@
 Orient::Application.routes.draw do
-  resources :product_categories
+  resources :product_categories do
+    resources :reports
+  end
 
 
   resources :dealers do
@@ -7,10 +9,14 @@ Orient::Application.routes.draw do
   end
 
 
-  resources :brands
+  resources :brands do
+    resources :reports
+  end
 
 
-  resources :products
+  resources :products do
+    resources :reports
+  end
 
 
   resources :shop_categories do
@@ -30,6 +36,7 @@ Orient::Application.routes.draw do
     resources :reports
   end
   resources :uploads
+  resources :reports
 
   devise_for :users
 

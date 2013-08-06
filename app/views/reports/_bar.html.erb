@@ -1,0 +1,102 @@
+<ul class="tabs tabs-inline tabs-top">
+  <li class='active'>
+    <a href="#diplay" data-toggle='tab'><i class="icon-inbox"></i> Display Report</a>
+  </li>
+  <li>
+    <a href="#sales" data-toggle='tab'><i class="icon-share-alt"></i> Sales Report</a>
+  </li>
+  <li>
+    <a href="#corner" data-toggle='tab'><i class="icon-tag"></i> Display Corner</a>
+  </li>
+</ul>
+<div class="tab-content padding tab-content-inline tab-content-bottom">
+  <div class="tab-pane active" id="display">
+    <textarea class="hide display_data">
+      <% brands.each do |brand| %>
+        <%= [brand.name,Report.brand_display(reports,brand.id)].join("|") %>
+        <%= "~" unless brand == brands.last %>
+      <% end -%>
+    </textarea>
+    <div id="d_report_bar" class='flot'></div>
+  </div>
+  <div class="tab-pane" id="sales">
+    <textarea class="hide sales_data">
+      <% brands.each do |brand| %>
+        <%= [brand.name,Report.brand_sales(reports,brand.id)].join("|") %>
+        <%= "~" unless brand == brands.last %>
+      <% end -%>
+    </textarea>
+    <div id="s_report_bar" class='flot'></div>
+  </div>
+  <div class="tab-pane" id="corner">
+    <textarea class="hide corner_data">
+      <% brands.each do |brand| %>
+        <%= [brand.name,Report.brand_corner(reports,brand.id)].join("|") %>
+        <%= "~" unless brand == brands.last %>
+      <% end -%>
+    </textarea>
+    <div id="c_report_bar" class='flot'></div>
+  </div>
+</div>
+
+
+<%= content_for :footer_js do %>
+<script type="text/javascript">
+  $(function() {
+    var data1 = $(".display_data").val().split("~");
+    var d_data = []
+    for(i=0;i<data1.length;i++){
+      d_data[i]=data1[i].trim().split("|");
+    }
+    $.plot("#d_report_bar", [ d_data ], {
+      series: {
+        bars: {
+          show: true,
+          barWidth: 0.6,
+          align: "center"
+        }
+      },
+      xaxis: {
+        mode: "categories",
+        tickLength: 0
+      }
+    });
+    data2 = $(".sales_data").val().split("~");
+    var s_data = []
+    for(i=0;i<data2.length;i++){
+      s_data[i]=data2[i].trim().split("|");
+    }
+    $.plot("#s_report_bar", [ s_data ], {
+      series: {
+        bars: {
+          show: true,
+          barWidth: 0.6,
+          align: "center"
+        }
+      },
+      xaxis: {
+        mode: "categories",
+        tickLength: 0
+      }
+    });
+    data3 = $(".corner_data").val().split("~");
+    var c_data = []
+    for(i=0;i<data3.length;i++){
+      c_data[i]=data3[i].trim().split("|");
+    }
+    $.plot("#c_report_bar", [ c_data ], {
+      series: {
+        bars: {
+          show: true,
+          barWidth: 0.6,
+          align: "center"
+        }
+      },
+      xaxis: {
+        mode: "categories",
+        tickLength: 0
+      }
+    });
+  });
+</script>
+<% end -%>
