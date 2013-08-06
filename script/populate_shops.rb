@@ -3,6 +3,8 @@ require 'roo'
 
 f = {}
 Brand.all.collect{|b| f[b.name] = b.id}
+pc={}
+ProductCategory.all.collect{|b| f[b.name] = b.id}
 p = {}
 Product.all.collect{|b| f[b.name] = b.id}
 oo = Roo::Spreadsheet.open("script/mapping_sample.xlsx")
@@ -28,7 +30,7 @@ oo.default_sheet = oo.sheets.first
   manager.name    = oo.cell(line,'O')
   manager.cell_number    = oo.cell(line,'P')
   manager.dob    = oo.cell(line,'Q')
-  shop.dealer    = oo.cell(line,'R').strip.capitalize == 'Yes' ? true : false
+  shop.orient_dealer    = oo.cell(line,'R').strip.capitalize == 'Yes' ? true : false
   shop.shop_category    = ShopCategory.find_by_name(oo.cell(line,'S').strip)
 
   letter = 'S'
@@ -49,7 +51,7 @@ oo.default_sheet = oo.sheets.first
     ref1 = []
     ref2 = []
     ref3 = []
-    product = Product.find_by_name("Refrigerator")
+    product = ProductCategory.find_by_name("Refrigerator")
     ref=["Dawlance","PEL","Orient", "Haier", "Waves", "Other"]
     ref.each do |brand|
       ref1.push(product.report_lines.build :brand_id => f[brand],:report_id => sales_report.id)
@@ -61,7 +63,7 @@ oo.default_sheet = oo.sheets.first
     ac1 = []
     ac2 = []
     ac3 = []
-    product = Product.find_by_name("AC")
+    product = ProductCategory.find_by_name("Air Conditioner")
     ac = ["Orient","Haier","Dawlance","Electrolux","Galanz","PEL","Gree","Kenwood","LG","Mitsubishi","Panasonic","Changhong","Samsung","Other"]
     ac.each do |brand|
       ac1.push(product.report_lines.build :brand_id => f[brand],:report_id => sales_report.id)

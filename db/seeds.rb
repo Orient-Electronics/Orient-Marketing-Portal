@@ -18,10 +18,15 @@ ShopCategory.create([ { name: 'Dawlance Exclusive' },  { name: 'Dawlance USL' },
 f = {}
 Brand.all.collect{|b| f[b.name] = b.id.to_s}
 
+ProductCategory.delete_all
+ProductCategory.create([ { name: 'Air Conditioner', brand_ids: ["", f["Dawlance"], f["PEL"], f["Orient"], f["Haier"], f["Other"],f["Electrolux"], f["Galanz"], f["Gree"], f["Kenwood"], f["LG"], f["Mitsubishi"], f["Panasonic"], f["Changhong"], f["Samsung"]] },
+ { name: 'Microwave Oven' }, {name: 'Refrigerator', brand_ids: ["", f["Dawlance"], f["PEL"], f["Orient"], f["Haier"], f["Waves"], f["Other"]]},
+  {name: 'Vacuum Cleaner'}, {name: 'Washing Machine'}, {name: 'Water Dispenser'}])
+p={}
+ProductCategory.all.collect{|b| p[b.name] = b.id.to_s}
+
 Product.delete_all
-Product.create([{name: 'Refrigerator', brand_ids: ["", f["Dawlance"], f["PEL"], f["Orient"], f["Haier"], f["Waves"], f["Other"]]},
-{name: 'AC', brand_ids: ["", f["Dawlance"], f["PEL"], f["Orient"], f["Haier"], f["Other"],f["Electrolux"], f["Galanz"], f["Gree"], f["Kenwood"], f["LG"], f["Mitsubishi"], f["Panasonic"], f["Changhong"], f["Samsung"]]},
-{name: 'LCD', brand_ids: ["", f["Samsung"], f["Sony"], f["Orient"], f["Haier"], f["Changhong"], f["Other"],f["Ecostar"], f["Panasonic"],f["LG"]]},
+Product.create([{name: 'LCD',brand_ids: ["", f["Samsung"], f["Sony"], f["Orient"], f["Haier"], f["Changhong"], f["Other"],f["Ecostar"], f["Panasonic"],f["LG"]]},
 {name: 'LED', brand_ids: ["", f["Samsung"], f["Sony"], f["Orient"], f["Haier"], f["Changhong"], f["Other"],f["Ecostar"], f["Panasonic"],f["LG"]]},
 {name: 'PDP', brand_ids: ["", f["Samsung"], f["Sony"], f["LG"], f["Haier"], f["Panasonic"]]}
   ])
