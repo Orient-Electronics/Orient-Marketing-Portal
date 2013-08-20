@@ -6,6 +6,9 @@ Orient::Application.routes.draw do
 
   resources :dealers do
     resources :shops
+    member do
+      get 'gallery'
+    end
   end
 
 

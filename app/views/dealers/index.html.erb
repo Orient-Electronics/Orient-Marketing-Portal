@@ -12,7 +12,7 @@
   <tbody>
     <% @dealers.each do |dealer| %>
       <tr class="row-fluid">
-        <td class="span9"><%= link_to dealer.name, dealer_shops_path(dealer) %></td>
+        <td class="span9"><%= link_to dealer.name, dealer_path(dealer) %></td>
         <td class="span3">
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_dealer_path(dealer), :class => 'btn btn-mini' %>

@@ -80,9 +80,6 @@ dd{
   color: #b94a48;
 }
 .tiles>li.image:hover:before{height:190px;width:185px;}
-.tiles>li.image{
-  margin-top: 40px !important;
-}
 #left{
   width:195px !important;
 }

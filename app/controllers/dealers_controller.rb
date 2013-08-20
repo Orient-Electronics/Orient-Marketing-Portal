@@ -13,7 +13,8 @@ class DealersController < ApplicationController
   # GET /dealers/1
   # GET /dealers/1.json
   def show
-    @dealer = Dealer.find(params[:id])
+    @parent = Dealer.find params[:id]
+    @shops = @parent.shops
 
     respond_to do |format|
       format.html # show.html.erb
@@ -80,4 +81,10 @@ class DealersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def gallery
+    @dealer = Dealer.find(params[:id])
+    @uploads = @dealer.shops.collect(&:uploads).flatten
+  end
+
 end
