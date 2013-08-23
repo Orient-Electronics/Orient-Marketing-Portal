@@ -1,4 +1,7 @@
 Orient::Application.routes.draw do
+  resources :roles
+
+
   resources :product_categories do
     resources :reports
   end
