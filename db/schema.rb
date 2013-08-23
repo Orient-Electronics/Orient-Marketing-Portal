@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130823194253) do
+ActiveRecord::Schema.define(:version => 20130823205743) do
 
   create_table "avatars", :force => true do |t|
     t.string   "avatar_file_name"
@@ -163,6 +163,12 @@ ActiveRecord::Schema.define(:version => 20130823194253) do
     t.string   "uploadable_type"
   end
 
+  create_table "user_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -179,6 +185,7 @@ ActiveRecord::Schema.define(:version => 20130823194253) do
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "phone_number"
+    t.integer  "user_type_id"
   end
 
   add_index "users", ["email"], :name => "index_representatives_on_email", :unique => true

@@ -1,4 +1,7 @@
 Orient::Application.routes.draw do
+  resources :user_types
+
+
   resources :roles
 
 
