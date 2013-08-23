@@ -1,30 +1,29 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Role -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <b>Name:</b>
-  <%= @role.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @role.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:symbol) %>:</strong></dt>
+  <dd><%= @role.symbol %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:notes) %>:</strong></dt>
+  <dd><%= @role.notes %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:action) %>:</strong></dt>
+  <dd><%= @role.action %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:entity) %>:</strong></dt>
+  <dd><%= @role.entity %></dd>
+</dl>
 
-<p>
-  <b>Symbol:</b>
-  <%= @role.symbol %>
-</p>
-
-<p>
-  <b>Notes:</b>
-  <%= @role.notes %>
-</p>
-
-<p>
-  <b>Action:</b>
-  <%= @role.action %>
-</p>
-
-<p>
-  <b>Entity:</b>
-  <%= @role.entity %>
-</p>
-
-
-<%= link_to 'Edit', edit_role_path(@role) %> |
-<%= link_to 'Back', roles_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              roles_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_role_path(@role), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              role_path(@role),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
