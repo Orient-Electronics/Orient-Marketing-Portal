@@ -1,0 +1,59 @@
+<%- model_class = Task -%>
+<div class="page-header">
+  <h1><%= "#{@parent.name} - " if @parent.present? %><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<div class='taskview1'>
+  <table border="7" cellpadding="10">
+    <caption>Assigned Tasked</caption>
+    <tr>
+      <th>Assigned by</th>
+      <th>Comment</th>
+      <th>Shop</th>
+      <th>Status</th>
+    </tr>
+  <% @task.each do |t| %>
+    <tr>
+      <td><%= User.find(t.assigned_by).name %></td>
+      <td><%= t.comment %></td>
+      <% if t.shop_id.blank? %>
+         <td><%= nil %> </td>
+      <%else%>    
+         <td><%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
+      <%end %>
+      <% if t.status == 'pending'%>
+        <td> <%= link_to 'done' , change_task_path(t)%></td>
+      <%else%>
+        <td><%= t.status %> </td>
+      <%end%>
+    </tr>
+  <%end%>
+</table> 
+</div>
+
+<div class='taskview2'>
+  <table border="7" cellpadding="10">
+    <caption>Created Tasks</caption>
+    <tr>
+      <th>Assigned To</th>
+      <th>Comment</th>
+      <th>Shop</th>
+      <th>Status</th>
+    </tr>
+    <% @task.each do |t| %>
+      <tr>
+        <td><%= User.find(t.assigned_to).name %></td>
+        <td><%= t.comment %></td>
+        <% if t.shop_id.blank? %>
+          <td><%= nil %> </td>
+        <%else%>
+          <td><%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
+        <%end %>
+        <% if t.status == 'pending'%>
+          <td> <%= link_to 'done', change_task_path(t)%> </td>
+        <%else%>
+          <td><%= t.status %> </td>
+        <%end%>
+      </tr>
+    <%end%>
+</table> 
+</div>

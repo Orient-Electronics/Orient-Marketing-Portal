@@ -92,3 +92,12 @@ dd{
   font-size: 14px;
   line-height: 1.2em;
 }
+
+.taskview1 {
+  float: left;
+  padding: 50px;
+}
+
+.taskview2 {
+  padding: 50px;
+}

@@ -10,6 +10,7 @@ class Shop < ActiveRecord::Base
 
   has_many :reports, :dependent => :destroy
   has_many :uploads, :as => :uploadable, :dependent => :destroy
+  has_many :tasks, :dependent => :destroy
 
   attr_accessible :address, :orient_dealer, :dealer_name, :email, :location_id, :phone, :shop_category_id, :website, :location_attributes, :owner_attributes, :manager_attributes, :branch_of, :dealer_id, :branch_of
 
