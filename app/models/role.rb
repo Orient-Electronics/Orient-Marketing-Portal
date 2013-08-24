@@ -27,6 +27,10 @@ class Role < ActiveRecord::Base
     Role.load_config :actions
   end
 
+  def action_enum
+    Role.actions.collect { |k,v| [v,k] }
+  end
+
   private
 
   def self.load_config (what)
