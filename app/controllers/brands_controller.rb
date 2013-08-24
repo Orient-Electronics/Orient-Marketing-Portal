@@ -2,6 +2,7 @@ class BrandsController < ApplicationController
   # GET /brands
   # GET /brands.json
   def index
+    authorize! :read, Brand
     @brands = Brand.all
 
     respond_to do |format|
@@ -13,6 +14,7 @@ class BrandsController < ApplicationController
   # GET /brands/1
   # GET /brands/1.json
   def show
+    authorize! :read, Brand
     @brand = Brand.find(params[:id])
 
     respond_to do |format|
@@ -24,6 +26,7 @@ class BrandsController < ApplicationController
   # GET /brands/new
   # GET /brands/new.json
   def new
+    authorize! :create, Brand
     @brand = Brand.new
 
     respond_to do |format|
@@ -34,6 +37,7 @@ class BrandsController < ApplicationController
 
   # GET /brands/1/edit
   def edit
+    authorize! :update, Brand
     @brand = Brand.find(params[:id])
   end
 
@@ -72,6 +76,7 @@ class BrandsController < ApplicationController
   # DELETE /brands/1
   # DELETE /brands/1.json
   def destroy
+    authorize! :destroy, Brand
     @brand = Brand.find(params[:id])
     @brand.destroy
 

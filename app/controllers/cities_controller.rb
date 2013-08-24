@@ -2,6 +2,7 @@ class CitiesController < ApplicationController
   # GET /cities
   # GET /cities.json
   def index
+    authorize! :read, City
     @cities = City.all
 
     respond_to do |format|
@@ -13,6 +14,7 @@ class CitiesController < ApplicationController
   # GET /cities/1
   # GET /cities/1.json
   def show
+    authorize! :read, City
     @city = City.find(params[:id])
 
     respond_to do |format|
@@ -24,6 +26,7 @@ class CitiesController < ApplicationController
   # GET /cities/new
   # GET /cities/new.json
   def new
+    authorize! :create, City
     @city = City.new
 
     respond_to do |format|
@@ -34,6 +37,7 @@ class CitiesController < ApplicationController
 
   # GET /cities/1/edit
   def edit
+    authorize! :update, City
     @city = City.find(params[:id])
   end
 
@@ -72,6 +76,7 @@ class CitiesController < ApplicationController
   # DELETE /cities/1
   # DELETE /cities/1.json
   def destroy
+    authorize! :destroy, City
     @city = City.find(params[:id])
     @city.destroy
 

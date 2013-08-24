@@ -2,6 +2,7 @@ class UserTypesController < ApplicationController
   # GET /user_types
   # GET /user_types.json
   def index
+    authorize! :read, UserType
     @user_types = UserType.all
 
     respond_to do |format|
@@ -13,6 +14,7 @@ class UserTypesController < ApplicationController
   # GET /user_types/1
   # GET /user_types/1.json
   def show
+    authorize! :read, UserType
     @user_type = UserType.find(params[:id])
 
     respond_to do |format|
@@ -24,6 +26,7 @@ class UserTypesController < ApplicationController
   # GET /user_types/new
   # GET /user_types/new.json
   def new
+    authorize! :create, UserType
     @user_type = UserType.new
 
     respond_to do |format|
@@ -34,6 +37,7 @@ class UserTypesController < ApplicationController
 
   # GET /user_types/1/edit
   def edit
+    authorize! :update, UserType
     @user_type = UserType.find(params[:id])
   end
 
@@ -72,6 +76,7 @@ class UserTypesController < ApplicationController
   # DELETE /user_types/1
   # DELETE /user_types/1.json
   def destroy
+    authorize! :destroy, UserType
     @user_type = UserType.find(params[:id])
     @user_type.destroy
 

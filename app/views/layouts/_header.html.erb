@@ -13,33 +13,46 @@
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li>
-            <a href="/dealers">Dealers</a>
-          </li>
-          <li>
-            <a href="/shops">Shops</a>
-          </li>
-          <li>
-            <a href="/shop_categories">Shop Category</a>
-          </li>
-          <li>
-            <a href="/citites">City</a>
-          </li>
-          <li>
-            <a href="/product_categories">Porduct Category</a>
-          </li>
-          <li>
-            <a href="/products">Product</a>
-          </li>
-          <li>
-            <a href="/brands">Brand</a>
-          </li>
-          <li>
-            <a href="/roles">Role</a>
-          </li>
-          <li>
-            <a href="/dealers">User</a>
-          </li>
+          <% if can? :read, Dealer %>
+            <li>
+              <a href="/dealers">Dealers</a>
+            </li>
+          <% end -%>
+          <% if can? :read, Shop %>
+            <li>
+              <a href="/shops">Shops</a>
+            </li>
+          <% end -%>
+          <% if can? :read, ShopCategory %>
+            <li>
+              <a href="/shop_categories">Shop Category</a>
+            </li>
+          <% end -%>
+          <% if can? :read, City %>
+            <li>
+              <a href="/citites">City</a>
+            </li>
+          <% end -%>
+          <% if can? :read, ProductCategory %>
+            <li>
+              <a href="/product_categories">Porduct Category</a>
+            </li>
+          <% end -%>
+          <% if can? :read, Product %>
+            <li>
+              <a href="/products">Product</a>
+            </li>
+          <% end -%>
+          <% if can? :read, Brand %>
+            <li>
+              <a href="/brands">Brand</a>
+            </li>
+          <% end -%>
+          <% if can? :read, Role %>
+            <li>
+              <a href="/roles">Role</a>
+            </li>
+          <% end -%>
         </ul>
       </li>
       <li>
@@ -48,33 +61,46 @@
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li>
-            <a href="/dealers/new">Dealers</a>
-          </li>
-          <li>
-            <a href="/shops/new">Shops</a>
-          </li>
-          <li>
-            <a href="/shop_categories/new">Shop Category</a>
-          </li>
-          <li>
-            <a href="/citites/new">City</a>
-          </li>
-          <li>
-            <a href="/product_categories/new">Porduct Category</a>
-          </li>
-          <li>
-            <a href="/products/new">Product</a>
-          </li>
-          <li>
-            <a href="/brands/new">Brand</a>
-          </li>
-          <li>
-            <a href="/roles/new">Role</a>
-          </li>
-          <li>
-            <a href="/dealers/new">User</a>
-          </li>
+          <% if can? :create, Dealer %>
+            <li>
+              <a href="/dealers/new">Dealers</a>
+            </li>
+          <% end -%>
+          <% if can? :create, Shop %>
+            <li>
+              <a href="/shops/new">Shops</a>
+            </li>
+          <% end -%>
+          <% if can? :create, ShopCategory %>
+            <li>
+              <a href="/shop_categories/new">Shop Category</a>
+            </li>
+          <% end -%>
+          <% if can? :create, City %>
+            <li>
+              <a href="/citites/new">City</a>
+            </li>
+          <% end -%>
+          <% if can? :create, ProductCategory %>
+            <li>
+              <a href="/product_categories/new">Porduct Category</a>
+            </li>
+          <% end -%>
+          <% if can? :create, Product %>
+            <li>
+              <a href="/products/new">Product</a>
+            </li>
+          <% end -%>
+          <% if can? :create, Brand %>
+            <li>
+              <a href="/brands/new">Brand</a>
+            </li>
+          <% end -%>
+          <% if can? :create, Role %>
+            <li>
+              <a href="/roles/new">Role</a>
+            </li>
+          <% end -%>
         </ul>
       </li>
     </ul>

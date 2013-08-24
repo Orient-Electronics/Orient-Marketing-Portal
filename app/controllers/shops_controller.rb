@@ -2,6 +2,7 @@ class ShopsController < ApplicationController
   # GET /shops
   # GET /shops.json
   def index
+    authorize! :read, Shop
     if params[:dealer_id].present?
       @parent = Dealer.find params[:dealer_id]
       @shops = @parent.shops
@@ -28,6 +29,7 @@ class ShopsController < ApplicationController
   # GET /shops/1
   # GET /shops/1.json
   def show
+    authorize! :read, Shop
     @shop = Shop.find(params[:id])
 
     respond_to do |format|
@@ -39,6 +41,7 @@ class ShopsController < ApplicationController
   # GET /shops/new
   # GET /shops/new.json
   def new
+    authorize! :create, Shop
     @shop = Shop.new
     @shop.build_owner
     @shop.build_manager
@@ -52,6 +55,7 @@ class ShopsController < ApplicationController
 
   # GET /shops/1/edit
   def edit
+    authorize! :update, Shop
     @shop = Shop.find(params[:id])
   end
 
@@ -90,6 +94,7 @@ class ShopsController < ApplicationController
   # DELETE /shops/1
   # DELETE /shops/1.json
   def destroy
+    authorize! :destroy, Shop
     @shop = Shop.find(params[:id])
     @shop.destroy
 

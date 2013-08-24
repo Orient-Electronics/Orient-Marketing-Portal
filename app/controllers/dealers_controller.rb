@@ -2,6 +2,7 @@ class DealersController < ApplicationController
   # GET /dealers
   # GET /dealers.json
   def index
+    authorize! :read, Dealer
     @dealers = Dealer.all
 
     respond_to do |format|
@@ -13,6 +14,7 @@ class DealersController < ApplicationController
   # GET /dealers/1
   # GET /dealers/1.json
   def show
+    authorize! :read, Dealer
     @parent = Dealer.find params[:id]
     @shops = @parent.shops
 
@@ -25,6 +27,7 @@ class DealersController < ApplicationController
   # GET /dealers/new
   # GET /dealers/new.json
   def new
+    authorize! :create, Dealer
     @dealer = Dealer.new
 
     respond_to do |format|
@@ -35,6 +38,7 @@ class DealersController < ApplicationController
 
   # GET /dealers/1/edit
   def edit
+    authorize! :update, Dealer
     @dealer = Dealer.find(params[:id])
   end
 
@@ -73,6 +77,7 @@ class DealersController < ApplicationController
   # DELETE /dealers/1
   # DELETE /dealers/1.json
   def destroy
+    authorize! :destroy, Dealer
     @dealer = Dealer.find(params[:id])
     @dealer.destroy
 

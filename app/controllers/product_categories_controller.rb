@@ -2,6 +2,7 @@ class ProductCategoriesController < ApplicationController
   # GET /product_categories
   # GET /product_categories.json
   def index
+    authorize! :read, ProductCategory
     @product_categories = ProductCategory.all
 
     respond_to do |format|
@@ -13,6 +14,7 @@ class ProductCategoriesController < ApplicationController
   # GET /product_categories/1
   # GET /product_categories/1.json
   def show
+    authorize! :read, ProductCategory
     @product_category = ProductCategory.find(params[:id])
 
     respond_to do |format|
@@ -24,6 +26,7 @@ class ProductCategoriesController < ApplicationController
   # GET /product_categories/new
   # GET /product_categories/new.json
   def new
+    authorize! :create, ProductCategory
     @product_category = ProductCategory.new
 
     respond_to do |format|
@@ -34,6 +37,7 @@ class ProductCategoriesController < ApplicationController
 
   # GET /product_categories/1/edit
   def edit
+    authorize! :update, ProductCategory
     @product_category = ProductCategory.find(params[:id])
   end
 
@@ -72,6 +76,7 @@ class ProductCategoriesController < ApplicationController
   # DELETE /product_categories/1
   # DELETE /product_categories/1.json
   def destroy
+    authorize! :destroy, ProductCategory
     @product_category = ProductCategory.find(params[:id])
     @product_category.destroy
 

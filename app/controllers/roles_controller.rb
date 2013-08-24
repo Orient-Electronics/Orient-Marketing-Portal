@@ -2,6 +2,7 @@ class RolesController < ApplicationController
   # GET /roles
   # GET /roles.json
   def index
+    authorize! :read, Role
     @roles = Role.all
 
     respond_to do |format|
@@ -13,6 +14,7 @@ class RolesController < ApplicationController
   # GET /roles/1
   # GET /roles/1.json
   def show
+    authorize! :read, Role
     @role = Role.find(params[:id])
 
     respond_to do |format|
@@ -24,6 +26,7 @@ class RolesController < ApplicationController
   # GET /roles/new
   # GET /roles/new.json
   def new
+    authorize! :create, Role
     @role = Role.new
 
     respond_to do |format|
@@ -34,6 +37,7 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
+    authorize! :update, Role
     @role = Role.find(params[:id])
   end
 
@@ -72,6 +76,7 @@ class RolesController < ApplicationController
   # DELETE /roles/1
   # DELETE /roles/1.json
   def destroy
+    authorize! :destroy, Role
     @role = Role.find(params[:id])
     @role.destroy
 

@@ -8,6 +8,7 @@ gem "twitter-bootstrap-rails"
 gem 'nested_scaffold'
 gem 'roo'
 gem 'rails_admin'
+gem 'cancan'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

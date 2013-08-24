@@ -3,7 +3,4 @@ actions:
   create: Create
   update: Update
   manage: Manage (all)
-  schedule: Schedule
-  report: Report
-  assign: Assign
-  handle: Handle
+  destroy: Delete

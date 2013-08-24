@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
 
   def index
+    authorize! :read, Report
     if params[:shop_id].present?
       @parent = Shop.find params[:shop_id]
       @reports = @shop.reports
@@ -23,6 +24,7 @@ class ReportsController < ApplicationController
   end
 
   def new
+    authorize! :create, Report
     @shop = Shop.find params[:shop_id]
     @report = Report.new
     unless params[:product_id].blank?
