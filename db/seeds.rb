@@ -30,3 +30,10 @@ Product.create([{name: 'LCD',brand_ids: ["", f["Samsung"], f["Sony"], f["Orient"
 {name: 'LED', brand_ids: ["", f["Samsung"], f["Sony"], f["Orient"], f["Haier"], f["Changhong"], f["Other"],f["Ecostar"], f["Panasonic"],f["LG"]]},
 {name: 'PDP', brand_ids: ["", f["Samsung"], f["Sony"], f["LG"], f["Haier"], f["Panasonic"]]}
   ])
+
+Role.delete_all
+Role.entities.collect do |key_e,entity|
+  Role.actions.collect do |action_key,action|
+    Role.create :action => action_key.to_s, :entity => entity.to_s, :name => [action,entity].join(' ')
+  end
+end
