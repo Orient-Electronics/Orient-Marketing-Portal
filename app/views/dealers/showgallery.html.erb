@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="page-header">
+      <div class="pull-left">
+        <h1>Gallery</h1>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="box box-color">
+        <div class="box-title">
+          <h3>
+            <i class="icon-picture"></i>
+            Images
+          </h3>
+        </div>
+        <div class="box-content nopadding">
+          <ul class="gallery">
+            <% @uploads.each do |image| %>
+              <li>
+                <a href="#">
+                  <%= image_tag image.upload.url(:small) %>
+                </a>
+                <div class="extras">
+                  <div class="extras-inner">
+                    <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
+                    <a href="<%= image.to_jq_upload['delete_url'] %>" class='del-gallery-pic' data-method="delete"><i class="icon-trash"></i></a>
+                  </div>
+                </div>
+              </li>
+            <% end -%>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

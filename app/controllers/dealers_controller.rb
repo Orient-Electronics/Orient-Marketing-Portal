@@ -4,6 +4,10 @@ class DealersController < ApplicationController
   def index
     authorize! :read, Dealer
     @dealers = Dealer.all
+    @shops = Shop.all
+    
+
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -90,6 +94,14 @@ class DealersController < ApplicationController
   def gallery
     @dealer = Dealer.find(params[:id])
     @uploads = @dealer.shops.collect(&:uploads).flatten
+    
+  end
+
+
+  def showgallery
+    @dealers = Dealer.all
+    @shop = @dealers.collect(&:shops)
+    @uploads = @shop.flatten.collect(&:uploads).flatten
   end
 
 end

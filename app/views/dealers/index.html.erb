@@ -2,7 +2,73 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<%= render :partial => "/shared/map", :locals => {:@shops => @dealers.collect(&:shops).flatten} %>
+<div class="row-fluid">
+  <div class="span6">
+    <div class="box box-color box-bordered">
+      <div class="box-title">
+        <h3>
+          <i class="icon-map-marker"></i>
+          People
+        </h3>
+        <div class="actions">
+          <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
+          <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+        </div>
+      </div>
+      <div classs="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;">    
+        <div class="box-content nopadding scrollable" style="overflow: hidden; width: auto; height: 300px;" >
+        <ul class="userlist">
+          <% @shops.each do |shop| %>
+            <li class="alert alert-error" style="margin:0;"><%= shop.dealer_name %></li>
+            <% unless shop.owner.blank? %>
+              <li>
+                <a href="#" >
+                  <img src="/assets/demo/user-1.jpg" alt="">
+                </a>
+                <a href="#" rel="popover" title="" data-placement="top" data-content="<strong>Cell Number : <%= shop.owner.cell_number %></strong><br><strong>DOB : <%= shop.owner.dob %></strong>" data-original-title="<%= shop.owner.name %>" data-html="true" style="float:none;">
+                  <div class="user">
+                    <span class="name">
+                      <%= shop.owner.name %>
+                    </span>
+                    <span class="position">
+                      Owner
+                    </span>
+                  </div>
+                  <div class="status active">
+                    <i class="icon-circle"></i>
+                  </div>
+                </a>
+              </li>
+            <% end -%>
+            <% unless shop.manager.blank? %>
+              <li>
+                <a href="#" >
+                  <img src="/assets/demo/user-2.jpg" alt="">
+                </a>
+                <a href="#" rel="popover" title="" data-placement="top" data-content="<strong>Cell Number : <%= shop.manager.cell_number %></strong><br><strong>DOB : <%= shop.manager.dob %></strong>" data-original-title="<%= shop.manager.name %>" data-html="true" style="float:none;">
+                  <div class="user">
+                    <span class="name">
+                      <%= shop.manager.name %>
+                    </span>
+                    <span class="position">
+                      Manager
+                    </span>
+                  </div>
+                  <div class="status afk">
+                    <i class="icon-circle"></i>
+                  </div>
+                </a>
+              </li>
+            <% end -%>
+          <% end -%>
+        </ul>
+        </div>
+    </div>
+    </div>
+  </div>
+  <div class="span6">
+    <%= render :partial => "/shared/map" %>
+  </div>
 <div class="row-fluid">
   <div class="span12">
     <div class="box box-color box-bordered">
@@ -45,11 +111,47 @@
       </div>
     </div>
   </div>
-</div>
-
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_shop_path,
             :class => 'btn btn-primary' %>
+
+
+<div class="row-fluid">
+  <div class="span6">
+    <div class="box box-color box-bordered">
+      <div class="box-title">
+        <h3>
+          <i class="icon-picture"></i>
+          Images
+        </h3>
+        <div class="actions">
+          <%= link_to "View All", showgallery_dealers_path(), :class=> "btn btn-primary" %>
+          <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
+          <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+        </div>
+      </div>
+      <div class="box-content nopadding">
+        <ul class="gallery">
+          <% @shops.collect(&:uploads).flatten.first(6).each do |image| %>
+            <li>
+              <a href="#">
+                <%= image_tag image.upload.url(:small) %>
+              </a>
+              <div class="extras">
+                <div class="extras-inner">
+                  <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
+                  <a href="<%= image.to_jq_upload['delete_url'] %>" class='del-gallery-pic' data-method="delete"><i class="icon-trash"></i></a>
+                </div>
+              </div>
+            </li>
+          <% end -%>
+        </ul>
+      </div>
+    </div>
+  </div>              
+</div>
+
+
 
 <%= content_for :footer_js do %>
 <script type="text/javascript" charset="utf-8">

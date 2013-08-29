@@ -17,7 +17,13 @@ Orient::Application.routes.draw do
     member do
       get 'gallery'
     end
+
+    collection do
+      get 'showgallery'
+    end    
   end
+
+
 
 
   resources :brands do
