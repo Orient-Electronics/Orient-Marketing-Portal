@@ -4,3 +4,21 @@ actions:
   update: Update
   manage: Manage (all)
   destroy: Delete
+
+entities:
+  avatar: Avatar
+  brand: Brand
+  city: City
+  dealer: Dealer
+  location: Location
+  manager: Manager
+  owner: Owner
+  product: Product
+  product_category: ProductCategory
+  report: Report
+  role: Role
+  shop: Shop
+  shop_category: ShopCategory
+  upload: Upload
+  user: User
+  user_type: UserYype
