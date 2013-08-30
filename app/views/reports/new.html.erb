@@ -14,45 +14,36 @@
           </h3>
         </div>
         <div class="box-content">
-          <%= form_for [@shop,@report], :html => { :class => 'form-horizontal form-wizard' } do |f| %>
+          <%= form_for [@shop,@report], :html => { :class => 'form-horizontal' } do |f| %>
+
+                <div class="control-group">
+                <%= label_tag "start_at","Report From", :class => 'control-label' %>
+                <div class="controls">
+                  <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
+                    <%= text_field_tag "start_at","", :readonly => true, "data-rule-required"=>"true" %><span class="add-on"><i class="icon-th"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="control-group">
+                <%= label_tag "end_at","Report To", :class => 'control-label' %>
+                <div class="controls">
+                  <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
+                    <%= text_field_tag "end_at","", :readonly => true, "data-rule-required"=>"true" %><span class="add-on"><i class="icon-th"></i></span>
+                  </div>
+                </div>
+              </div>
+
             <div class="step" id="firstStep">
-              <ul class="wizard-steps steps-3">
-                <li class='active'>
-                  <div class="single-step">
-                    <span class="title">
-                      1</span>
-                    <span class="circle">
-                      <span class="active"></span>
-                    </span>
-                    <span class="description">
-                      Display Information
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div class="single-step">
-                    <span class="title">
-                      2</span>
-                    <span class="circle">
-                    </span>
-                    <span class="description">
-                      Sales Information
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div class="single-step">
-                    <span class="title">
-                      3</span>
-                    <span class="circle">
-                    </span>
-                    <span class="description">
-                      Display Corner Information
-                    </span>
-                  </div>
-                </li>
-              </ul>
-              <div class="step-forms">
+                <div class="single-step">
+                  <span class="circle">
+                  <span class="active"></span>
+                  </span>
+                  <span class="description">
+                     <h3> Display Information </h3> <hr />
+                  </span>
+                </div>
+              <div class="step-forms ">
+
                 <%= hidden_field_tag "report[d_report][report_type]",'', :value => "display" %>
                 <% @product.brands.each_with_index do |brand,index| %>
                   <%= hidden_field_tag "report[d_report][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
@@ -64,63 +55,18 @@
                     </div>
                   </div>
                 <% end -%>
-              </div>
-            </div>
-            <div class="step" id="secondStep">
-              <ul class="wizard-steps steps-3">
-                <li>
-                  <div class="single-step">
-                    <span class="title">
-                      1</span>
-                    <span class="circle">
-                    </span>
-                    <span class="description">
-                      Display Information
-                    </span>
-                  </div>
-                </li>
-                <li class='active'>
-                  <div class="single-step">
-                    <span class="title">
-                      2</span>
-                    <span class="circle">
-                      <span class="active"></span>
-                    </span>
-                    <span class="description">
-                      Sales Information
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div class="single-step">
-                    <span class="title">
-                      3</span>
-                    <span class="circle">
-                    </span>
-                    <span class="description">
-                      Display Corner Information
-                    </span>
-                  </div>
-                </li>
-              </ul>
-              <div class="step-forms">
+
+                <div class="single-step">
+                  <span class="circle">
+                  <span class="active"></span>
+                  </span>
+                  <span class="description">
+                     <h3> Sales Information </h3> <hr />
+                  </span>
+                  </span>
+                </div>
                 <%= hidden_field_tag "report[s_report][report_type]",'', :value => "sales" %>
-                <div class="control-group">
-                  <%= label_tag "report[s_report][start_at]","Report From", :class => 'control-label' %>
-                  <div class="controls">
-                    <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-                      <%= text_field_tag "report[s_report][start_at]","", :readonly => true, "data-rule-required"=>"true" %><span class="add-on"><i class="icon-th"></i></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <%= label_tag "report[s_report][end_at]","Report From", :class => 'control-label' %>
-                  <div class="controls">
-                    <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-                      <%= text_field_tag "report[s_report][end_at]","", :readonly => true, "data-rule-required"=>"true" %><span class="add-on"><i class="icon-th"></i></span>
-                    </div>
-                  </div>
-                </div>
+
                 <% @product.brands.each_with_index do |brand,index| %>
                   <%= hidden_field_tag "report[s_report][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
                   <%= hidden_field_tag "report[s_report][report_lines_attributes][#{index}][#{(@product.class.to_s.underscore + '_id')}]","", :value => @product.id %>
@@ -131,46 +77,15 @@
                     </div>
                   </div>
                 <% end -%>
-              </div>
-            </div>
-            <div class="step" id="thirdStep">
-              <ul class="wizard-steps steps-3">
-                <li class='active'>
-                  <div class="single-step">
-                    <span class="title">
-                      1</span>
-                    <span class="circle">
-                    </span>
-                    <span class="description">
-                      Display Information
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <div class="single-step">
-                    <span class="title">
-                      2</span>
-                    <span class="circle">
-                    </span>
-                    <span class="description">
-                      Sales Information
-                    </span>
-                  </div>
-                </li>
-                <li class="active">
-                  <div class="single-step">
-                    <span class="title">
-                      3</span>
-                    <span class="circle">
-                      <span class="active"></span>
-                    </span>
-                    <span class="description">
-                      Display Corner Information
-                    </span>
-                  </div>
-                </li>
-              </ul>
-              <div class="step-forms">
+                <div class="single-step">
+                  <span class="circle">
+                  <span class="active"></span> 
+                  </span>
+                  <span class="description">
+                    <h3>  Display Corner Information </h3> <hr />
+                  </span>
+                  </span>
+                </div>
                 <%= hidden_field_tag "report[c_report][report_type]",'', :value => "display_corner" %>
                 <% @product.brands.each_with_index do |brand,index| %>
                   <%= hidden_field_tag "report[c_report][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
@@ -184,7 +99,6 @@
                   </div>
                 <% end -%>
               </div>
-            </div>
             <div class="form-actions">
               <input type="reset" class="btn" value="Back" id="back">
               <input type="submit" class="btn btn-primary" value="Submit" id="next">

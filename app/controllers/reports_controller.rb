@@ -40,9 +40,13 @@ class ReportsController < ApplicationController
       @report = Report.new report.last
       @report.user = current_user
       @report.shop_id = params[:shop_id]
+      @report.end_at = params[:end_at]
+      @report.start_at= params[:start_at]
       @report.save
+
     end
     respond_to do |format|
+        format.html {redirect_to root_url}
         format.json { render json: @shop, status: :created, location: @shop }
     end
   end
