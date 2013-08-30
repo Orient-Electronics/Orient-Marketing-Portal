@@ -89,3 +89,7 @@ dd{
 .no-padding{
   padding: 0 !important;
 }
+
+.check-me{
+  float: left !important;
+}
