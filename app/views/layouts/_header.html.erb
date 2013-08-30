@@ -9,96 +9,112 @@
       </li>
       <li>
         <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
-          <span>View All</span>
+          <span>Dealers Network</span>
           <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu">
+        <ul class='dropdown-menu'>
           <% if can? :read, Dealer %>
-            <li>
-              <a href="/dealers">Dealers</a>
+            <li class='dropdown-submenu'>
+              <a href="#" data-toggle="dropdown" class='dropdown-toggle'>Dealers</a>
+              <ul class="dropdown-menu">
+                <li >
+                  <a href="/dealers">View All</a>
+                </li>
+                <li>
+                  <a href="/dealers/new">Add New</a>
+                </li>
+              </ul>
             </li>
           <% end -%>
           <% if can? :read, Shop %>
-            <li>
-              <a href="/shops">Shops</a>
+            <li class='dropdown-submenu'>
+              <a href="#">Shops</a>
+              <ul class="dropdown-menu" >
+                <li>
+                  <a href="/shops">View All</a>
+                </li>
+                <li>
+                  <a href="/shops/new">Add New</a>
+                </li>
+              </ul>
             </li>
           <% end -%>
           <% if can? :read, ShopCategory %>
-            <li>
-              <a href="/shop_categories">Shop Category</a>
+            <li class='dropdown-submenu'>
+              <a href="#">Shop Category</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/shop_categories">View All</a>
+                </li>
+                <li>
+                  <a href="/shop_categories/new">Add New</a>
+                </li>
+              </ul>
             </li>
           <% end -%>
           <% if can? :read, City %>
-            <li>
-              <a href="/citites">City</a>
+            <li class="dropdown-submenu">
+              <a href="#">City</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/cities">View All</a>
+                </li>
+                <li>
+                  <a href="/cities/new">Add New</a>
+                </li>
+              </ul>
             </li>
           <% end -%>
           <% if can? :read, ProductCategory %>
-            <li>
-              <a href="/product_categories">Porduct Category</a>
+            <li class="dropdown-submenu">
+              <a href="#">Porduct Category</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/product_categories">View All</a>
+                </li>
+                <li>
+                  <a href="/product_categories/new">Add New</a>
+                </li>
+              </ul>
             </li>
           <% end -%>
           <% if can? :read, Product %>
-            <li>
-              <a href="/products">Product</a>
+            <li class="dropdown-submenu">
+              <a href="#">Product</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/products">View All</a>
+                </li>
+                <li>
+                  <a href="/products/new">Add New</a>
+                </li>
+              </ul>
             </li>
           <% end -%>
           <% if can? :read, Brand %>
-            <li>
-              <a href="/brands">Brand</a>
+            <li class="dropdown-submenu">
+              <a href="#">Brand</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/brands">View All</a>
+                </li>
+                <li>
+                  <a href="/brands/new">Add New</a>
+                </li>
+              </ul>
             </li>
           <% end -%>
           <% if can? :read, Role %>
-            <li>
-              <a href="/roles">Role</a>
-            </li>
-          <% end -%>
-        </ul>
-      </li>
-      <li>
-        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
-          <span>Add</span>
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          <% if can? :create, Dealer %>
-            <li>
-              <a href="/dealers/new">Dealers</a>
-            </li>
-          <% end -%>
-          <% if can? :create, Shop %>
-            <li>
-              <a href="/shops/new">Shops</a>
-            </li>
-          <% end -%>
-          <% if can? :create, ShopCategory %>
-            <li>
-              <a href="/shop_categories/new">Shop Category</a>
-            </li>
-          <% end -%>
-          <% if can? :create, City %>
-            <li>
-              <a href="/citites/new">City</a>
-            </li>
-          <% end -%>
-          <% if can? :create, ProductCategory %>
-            <li>
-              <a href="/product_categories/new">Porduct Category</a>
-            </li>
-          <% end -%>
-          <% if can? :create, Product %>
-            <li>
-              <a href="/products/new">Product</a>
-            </li>
-          <% end -%>
-          <% if can? :create, Brand %>
-            <li>
-              <a href="/brands/new">Brand</a>
-            </li>
-          <% end -%>
-          <% if can? :create, Role %>
-            <li>
-              <a href="/roles/new">Role</a>
+            <li class="dropdown-submenu">
+              <a href="#">Role</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/roles">View All</a>
+                </li>
+                <li>
+                  <a href="/roles/new">Add New</a>
+                </li>
+              </ul>
             </li>
           <% end -%>
         </ul>
