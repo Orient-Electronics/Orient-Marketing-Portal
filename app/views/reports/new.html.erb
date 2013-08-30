@@ -16,22 +16,11 @@
         <div class="box-content">
           <%= form_for [@shop,@report], :html => { :class => 'form-horizontal' } do |f| %>
 
-                <div class="control-group">
-                <%= label_tag "start_at","Report From", :class => 'control-label' %>
-                <div class="controls">
-                  <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-                    <%= text_field_tag "start_at","", :readonly => true, "data-rule-required"=>"true" %><span class="add-on"><i class="icon-th"></i></span>
-                  </div>
-                </div>
-              </div>
-              <div class="control-group">
-                <%= label_tag "end_at","Report To", :class => 'control-label' %>
-                <div class="controls">
-                  <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-                    <%= text_field_tag "end_at","", :readonly => true, "data-rule-required"=>"true" %><span class="add-on"><i class="icon-th"></i></span>
-                  </div>
-                </div>
-              </div>
+              <div >              
+              <%= label_tag "week","Week", :class => 'control-label' %>
+              <% select_tag "week", "<option>1</option>" %>
+              <%=f.select :week, options_for_select(1..100) %>
+               </div> 
 
             <div class="step" id="firstStep">
                 <div class="single-step">

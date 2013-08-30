@@ -36,12 +36,10 @@ class ReportsController < ApplicationController
 
   def create
     @shop = Shop.find params[:shop_id]
-    params[:report].each do |report|
-      @report = Report.new report.last
+    params[:report].collect do |key,report|
+      @report = Report.new report
       @report.user = current_user
       @report.shop_id = params[:shop_id]
-      @report.end_at = params[:end_at]
-      @report.start_at= params[:start_at]
       @report.save
 
     end
