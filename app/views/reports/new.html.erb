@@ -17,9 +17,8 @@
           <%= form_for [@shop,@report], :html => { :class => 'form-horizontal' } do |f| %>
 
               <div >              
-              <%= label_tag "week","Week", :class => 'control-label' %>
-              <% select_tag "week", "<option>1</option>" %>
-              <%=f.select :week, options_for_select(1..100) %>
+              <%= label_tag "week","Week number", :class => 'control-label' %>
+              <%= select_tag "week" , options_for_select(year_weeks) %>
                </div> 
 
             <div class="step" id="firstStep">

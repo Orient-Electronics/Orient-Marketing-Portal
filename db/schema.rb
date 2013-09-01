@@ -171,16 +171,6 @@ ActiveRecord::Schema.define(:version => 20130830141050) do
     t.boolean  "orient_dealer",    :default => false
   end
 
-  create_table "tasks", :force => true do |t|
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-    t.integer  "assigned_by"
-    t.integer  "assigned_to"
-    t.text     "comment"
-    t.integer  "shop_id"
-    t.string   "status",      :default => "pending"
-  end
-
   create_table "uploads", :force => true do |t|
     t.string   "upload_file_name"
     t.string   "upload_content_type"
