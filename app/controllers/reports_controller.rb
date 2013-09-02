@@ -50,4 +50,17 @@ class ReportsController < ApplicationController
     end
   end
 
+  def search
+    unless params[:search][:product].blank?
+      @parent = Product.find_by_name params[:search][:product]
+      @parent = ProductCategory.find_by_name params[:search][:product] if @parent.blank?
+      @reports = ReportLine.where(:product_id=> @parent.id).collect(&:report).uniq unless @parent.blank?
+      @reports = ReportLine.where(:product_category_id=> @parent.id).collect(&:report).uniq if @parent.blank?
+    else
+      @reports = Report.all
+    end
+    @brands = Brand.all
+    render(:partial => "/reports/bar", :locals => {:brands => @brands, :reports => @reports, :type => params[:search][:type]})
+  end
+
 end

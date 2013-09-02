@@ -53,7 +53,11 @@ Orient::Application.routes.draw do
     resources :reports
   end
   resources :uploads
-  resources :reports
+  resources :reports do
+    collection do
+      get 'search'
+    end
+  end
 
   devise_for :users
 
