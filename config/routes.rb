@@ -6,10 +6,13 @@ Orient::Application.routes.draw do
 
   resources :roles
 
+  resources :searches
 
   resources :product_categories do
     resources :reports
   end
+
+
 
 
   resources :dealers do
@@ -17,7 +20,6 @@ Orient::Application.routes.draw do
     member do
       get 'gallery'
     end
-
     collection do
       get 'showgallery'
     end    
@@ -50,12 +52,15 @@ Orient::Application.routes.draw do
 
   resources :shops do
     resources :uploads
-    resources :reports
+    resources :reports   
   end
+  
   resources :uploads
   resources :reports
 
   devise_for :users
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

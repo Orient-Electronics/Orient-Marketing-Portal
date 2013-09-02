@@ -93,3 +93,8 @@ dd{
 .check-me{
   float: left !important;
 }
+
+#search{
+  float: right;
+  
+}

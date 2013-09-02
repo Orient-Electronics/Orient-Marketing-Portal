@@ -17,6 +17,11 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :manager
   accepts_nested_attributes_for :location
 
+  searchable do
+    text :dealer_name 
+  end
+
+
   def branch_of
     self.dealer.try(:name) || ""
   end
@@ -26,6 +31,10 @@ class Shop < ActiveRecord::Base
     if self.dealer.blank?
       self.dealer = Dealer.create :name => name
     end
+  end
+
+  def self.paginate(page)
+    paginate :per_page => 10, :page => page
   end
 
 end
