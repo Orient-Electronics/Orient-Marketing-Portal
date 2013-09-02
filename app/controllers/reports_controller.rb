@@ -59,6 +59,10 @@ class ReportsController < ApplicationController
     else
       @reports = Report.all
     end
+    if !params[:search][:week].blank? and params[:search][:week].size > 1
+      week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
+      @reports = @reports.select{|r| week.include?(r[:week])}
+    end
     @brands = Brand.all
     render(:partial => "/reports/bar", :locals => {:brands => @brands, :reports => @reports, :type => params[:search][:type]})
   end

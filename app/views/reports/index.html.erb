@@ -115,7 +115,6 @@
   });
 
   function showResponse(responseText, statusText, xhr, $form)  {
-    console.log(($form.data('unit')+""));
     if(($form.data('unit')+"")=="display_data"){
       $('.display_data_chart').html('');
       $('.display_data_chart').html(responseText);
