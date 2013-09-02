@@ -1,102 +1,87 @@
-<ul class="tabs tabs-inline tabs-top">
-  <li class='active'>
-    <a href="#diplay" data-toggle='tab'><i class="icon-inbox"></i> Display Report</a>
-  </li>
-  <li>
-    <a href="#sales" data-toggle='tab'><i class="icon-share-alt"></i> Sales Report</a>
-  </li>
-  <li>
-    <a href="#corner" data-toggle='tab'><i class="icon-tag"></i> Display Corner</a>
-  </li>
-</ul>
-<div class="tab-content padding tab-content-inline tab-content-bottom">
-  <div class="tab-pane active" id="display">
+  <h1><i class="icon-inbox"></i> Display Report</h1>
     <textarea class="hide display_data">
       <% brands.each do |brand| %>
         <%= [brand.name,Report.brand_display(reports,brand.id)].join("|") %>
         <%= "~" unless brand == brands.last %>
       <% end -%>
     </textarea>
-    <div id="d_report_bar" class='flot'></div>
-  </div>
-  <div class="tab-pane" id="sales">
+    <div class="row">
+      <div class="span12 jchartfx" style="height: 400px; display: inline-block;" data-unit="display_data">
+      </div>
+    </div>
+  <h1><i class="icon-share-alt"></i> Sales Report</h1>
     <textarea class="hide sales_data">
       <% brands.each do |brand| %>
         <%= [brand.name,Report.brand_sales(reports,brand.id)].join("|") %>
         <%= "~" unless brand == brands.last %>
       <% end -%>
     </textarea>
-    <div id="s_report_bar" class='flot'></div>
-  </div>
-  <div class="tab-pane" id="corner">
+    <div class="row">
+      <div class="span12 jchartfx" style="height: 400px; display: inline-block;" data-unit="sales_data">
+      </div>
+    </div>
+  <h1><i class="icon-tag"></i> Display Corner</h1>
     <textarea class="hide corner_data">
       <% brands.each do |brand| %>
         <%= [brand.name,Report.brand_corner(reports,brand.id)].join("|") %>
         <%= "~" unless brand == brands.last %>
       <% end -%>
     </textarea>
-    <div id="c_report_bar" class='flot'></div>
-  </div>
-</div>
+    <div class="row">
+      <div class="span12 jchartfx" style="height: 400px; display: inline-block;" data-unit="corner_data">
+      </div>
+    </div>
 
 
 <%= content_for :footer_js do %>
 <script type="text/javascript">
-  $(function() {
-    var data1 = $(".display_data").val().split("~");
-    var d_data = []
-    for(i=0;i<data1.length;i++){
-      d_data[i]=data1[i].trim().split("|");
-    }
-    $.plot("#d_report_bar", [ d_data ], {
-      series: {
-        bars: {
-          show: true,
-          barWidth: 0.6,
-          align: "center"
-        }
-      },
-      xaxis: {
-        mode: "categories",
-        tickLength: 0
-      }
+  window.onload = function () {
+    $('.jchartfx').each(function(){
+      onLoadDoc($(this));  
     });
-    data2 = $(".sales_data").val().split("~");
-    var s_data = []
-    for(i=0;i<data2.length;i++){
-      s_data[i]=data2[i].trim().split("|");
-    }
-    $.plot("#s_report_bar", [ s_data ], {
-      series: {
-        bars: {
-          show: true,
-          barWidth: 0.6,
-          align: "center"
-        }
-      },
-      xaxis: {
-        mode: "categories",
-        tickLength: 0
+  }
+
+  function onLoadDoc(div) {
+    chart1 = new cfx.Chart();chart1.getAnimations().getLoad().setEnabled(true);
+    chart1.setGallery(cfx.Gallery.Bar);
+    
+    chart1.getDataGrid().setVisible(true);
+    chart1.getLegendBox().setVisible(false);
+        
+        
+    doTitle(chart1, "Display Report");
+    doDataPopulation(div.data('unit'));
+    
+    var allSeries = chart1.getAllSeries();
+    allSeries.setMarkerShape(cfx.MarkerShape.Rect);
+        var chartDiv = div[0];
+        chart1.create(chartDiv);
+
+  }
+
+  //Chart title settings
+  function doTitle(chart, text) {
+      var td;
+      td = new cfx.TitleDockable();
+      td.setText(text);
+      td.setDock(cfx.DockArea.Top);
+      chart.getTitles().add(td);
+  }
+
+  //Main Chart Data Information
+  function doDataPopulation(unit) {
+      var data1 = $('.' + unit).val().split("~");
+      var items = [];
+      for(i=0;i<data1.length;i++){
+        temp = data1[i].trim().split("|");
+        temp1 = {
+        "Brand": temp[0],
+            "Quantity": parseInt(temp[1])
+        };
+        items.push(temp1);
       }
-    });
-    data3 = $(".corner_data").val().split("~");
-    var c_data = []
-    for(i=0;i<data3.length;i++){
-      c_data[i]=data3[i].trim().split("|");
-    }
-    $.plot("#c_report_bar", [ c_data ], {
-      series: {
-        bars: {
-          show: true,
-          barWidth: 0.6,
-          align: "center"
-        }
-      },
-      xaxis: {
-        mode: "categories",
-        tickLength: 0
-      }
-    });
-  });
+      chart1.setDataSource(items);
+  }
+
 </script>
 <% end -%>

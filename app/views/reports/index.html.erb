@@ -1,47 +1,47 @@
-<div id="left" class='full no-resize'>
-  <div class="subnav" style="margin-top:70px">
-    <div class="subnav-title">
-      <a href="#" class="toggle-subnav"><i class="icon-angle-down"></i><span>Products</span></a>
-    </div>
-    <div class="subnav-content" style="display: block;">
-      <ul class="nav nav-list">
-        <li class="divider"></li>
-        <% ProductCategory.all.each do |pc| %>
-          <li><label class="tree-toggle nav-header"><%= pc.name %></label>
-              <ul class="nav nav-list tree hide">
-                <li><%= link_to "All Reports", product_category_reports_path(pc) %></li>
-                <% pc.products.each do |product| %>
-                  <li><label class="tree-toggle nav-header"><%= product.name %></label>
-                      <ul class="nav nav-list tree hide">
-                        <li><%= link_to "All Report", product_reports_path(product) %></li>
-                      </ul>
-                  </li>
-                <% end -%>
-                <li class="divider"></li>
-              </ul>
-          </li>
-        <% end -%>
-      </ul>
+<div class='row-fluid'>
+  <div class="span12">
+    <div class="subnav" style="margin-top:70px">
+      <div class="subnav-title">
+        <a href="#" class="toggle-subnav"><i class="icon-angle-down"></i><span>Products</span></a>
+      </div>
+      <div class="subnav-content" style="display: block;">
+        <ul class="nav nav-list">
+          <li class="divider"></li>
+          <% ProductCategory.all.each do |pc| %>
+            <li><label class="tree-toggle nav-header"><%= pc.name %></label>
+                <ul class="nav nav-list tree hide">
+                  <li><%= link_to "All Reports", product_category_reports_path(pc) %></li>
+                  <% pc.products.each do |product| %>
+                    <li><label class="tree-toggle nav-header"><%= product.name %></label>
+                        <ul class="nav nav-list tree hide">
+                          <li><%= link_to "All Report", product_reports_path(product) %></li>
+                        </ul>
+                    </li>
+                  <% end -%>
+                  <li class="divider"></li>
+                </ul>
+            </li>
+          <% end -%>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
-<div id="main">
-  <div class="page-header">
-    <h1><%= "#{@parent.name} - " if @parent.present? %><%= "Reports" %></h1>
-  </div>
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="box">
-          <div class="box-title">
-            <h3>
-              <i class="icon-bar-chart"></i>
-              Brands Display Chart
-            </h3>
-          </div>
-          <div class="box-content">
-            <%= render :partial => "/reports/bar", :locals => {:brands => @brands, :reports => @reports} %>
-          </div>
+<div class="page-header">
+  <h1><%= "#{@parent.name} - " if @parent.present? %><%= "Reports" %></h1>
+</div>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="box">
+        <div class="box-title">
+          <h3>
+            <i class="icon-bar-chart"></i>
+            Brands Display Chart
+          </h3>
+        </div>
+        <div class="box-content">
+          <%= render :partial => "/reports/bar", :locals => {:brands => @brands, :reports => @reports} %>
         </div>
       </div>
     </div>
