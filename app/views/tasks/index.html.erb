@@ -4,7 +4,7 @@
 </div>
 <div class="row-fluid">
   <div class="span12">
-    <div class="box-title">
+    <div class="box box-color box-bordered">
       <h3>
         Assigned Task
       </h3>
@@ -105,9 +105,9 @@
         "sSearch": "Search all columns:"
       }
     } );  
-    $(".thefilter input").keyup( function () {
+    $("#assign-by-data .thefilter input").keyup( function () {
       /* Filter on the column (the index) of this element */
-      oTable.fnFilter( this.value, $(".thefilter input").index(this) );
+      oTable.fnFilter( this.value, $("#assign-by-data .thefilter input").index(this) );
     } );
     
     
@@ -116,11 +116,11 @@
      * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
      * the footer
      */
-    $(".thefilter input").each( function (i) {
+    $("#assign-by-data .thefilter input").each( function (i) {
       asInitVals[i] = this.value;
     } );
     
-    $(".thefilter input").focus( function () {
+    $("#assign-by-data .thefilter input").focus( function () {
       if ( this.className == "search_init" )
       {
         this.className = "";
@@ -128,7 +128,7 @@
       }
     } );
     
-    $(".thefilter input").blur( function (i) {
+    $("#assign-by-data .thefilter input").blur( function (i) {
       if ( this.value == "" )
       {
         this.className = "search_init";
@@ -149,9 +149,9 @@
         "sSearch": "Search all columns:"
       }
     } );  
-    $(".thefilter input").keyup( function () {
+    $("#assign-to-data .thefilter input").keyup( function () {
       /* Filter on the column (the index) of this element */
-      oTable.fnFilter( this.value, $(".thefilter input").index(this) );
+      oTable.fnFilter( this.value, $("#assign-to-data .thefilter input").index(this) );
     } );
     
     
@@ -160,11 +160,11 @@
      * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
      * the footer
      */
-    $(".thefilter input").each( function (i) {
+    $("#assign-to-data .thefilter input").each( function (i) {
       asInitVals[i] = this.value;
     } );
     
-    $(".thefilter input").focus( function () {
+    $("#assign-to-data .thefilter input").focus( function () {
       if ( this.className == "search_init" )
       {
         this.className = "";
@@ -172,11 +172,11 @@
       }
     } );
     
-    $(".thefilter input").blur( function (i) {
+    $("#assign-to-data.thefilter input").blur( function (i) {
       if ( this.value == "" )
       {
         this.className = "search_init";
-        this.value = asInitVals[$(".thefilter input").index(this)];
+        this.value = asInitVals[$("#assign-to-data .thefilter input").index(this)];
       }
     } );
   } );

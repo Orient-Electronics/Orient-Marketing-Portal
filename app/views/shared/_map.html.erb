@@ -27,6 +27,8 @@
 <script type="text/javascript" charset="utf-8">
   var map;
   var markersArray = [];
+  var lat_arr;
+  var lng_arr;
 
   function initialize(lat,lng){
     pos = (lat + ",") + lng;
@@ -36,6 +38,13 @@
       'disableDefaultUI':true
     };
     map = new google.maps.Map($("#map_location")[0], mapOptions);
+    for (var i=0;i<lat_arr.length;i++)
+    { 
+      var lat = convert(lat_arr[i]);
+      var lng = convert(lng_arr[i]);
+      if(lat &&  lng)
+        addMarker((new google.maps.LatLng(lat,lng)), map);
+    }
   }
 
   function setgeolocation(address){
@@ -50,14 +59,15 @@
     });
   }
 
-  function addMarker(location) {
+  function addMarker(location,mapp) {
     marker = new google.maps.Marker({
       position: location,
-      map: map
+      map: mapp
     });
     marker.addListener("dragend", function(marker, ev) {
       point = marker.latLng;
     });
+    console.log(map);
     markersArray.push(marker);
   }
 
@@ -117,17 +127,7 @@
   $('document').ready(function () {
     lat_arr = $("#lat").val().split("|");
     lng_arr = $("#lng").val().split("|");
-    if(lat_arr.length > 0)
-      initialize(lat_arr[0],lng_arr[0]);
-    else
-      setgeolocation("Pakistan");
-    for (var i=0;i<lat_arr.length;i++)
-    { 
-      var lat = convert(lat_arr[i]);
-      var lng = convert(lng_arr[i]);
-      if(lat &&  lng)
-        addMarker(new google.maps.LatLng(lat,lng));
-    }
+    setgeolocation("Pakistan");
   });
 </script>
 <% end -%>
