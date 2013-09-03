@@ -114,12 +114,10 @@ dd{
 {
   margin: 10px;
   width: auto;
-
-.taskview1 {
-  float: left;
-  padding: 50px;
 }
 
-.taskview2 {
-  padding: 50px;
+.text_area
+{
+  width: 331px;
+  height: 38px;
 }

@@ -2,184 +2,114 @@
 <div class="page-header">
   <h1><%= "#{@parent.name} - " if @parent.present? %><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
+
+<div id="new-task" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Add new task</h3>
+  </div>
+   <%= form_for @task,:html => { :class => 'form-horizontal form-bordered' } do |f| %>
+    <div class="modal-body nopadding">
+      <div class="control-group">
+        <%= f.hidden_field :assigned_by, :value=> current_user.id  %>
+      </div>
+      <div class="control-group">
+        <%= f.label :assigned_to,"Assigned to", :class => 'control-label' %>
+        <div class="controls">
+          <%= f.collection_select :assigned_to, User.all,:id,:name, include_blank: false %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :comment,"Comment", :class => 'control-label' %>
+        <div class="controls">
+          <%= f.text_area :comment, :class => 'text_area' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :shop_id,"Shop", :class => 'control-label' %>
+        <div class="controls">
+          <%= f.collection_select :shop_id, Shop.all,:id,:dealer_name, include_blank: false %>
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="tasktitel" class="control-label"></label>
+        <div class="controls">
+          <label class="checkbox">
+            <%= f.check_box :important, :value=> "yep", :name => "task-bookmarked" %> Mark as important
+          </label>
+        </div>
+      </div>
+      <div class="form-actions new-task-submit">
+        <%= f.submit "create task", :class => 'btn btn-primary' %>
+      </div>
+    </div>
+  <%end%>
+</div>  
+
 <div class="row-fluid">
   <div class="span12">
-    <div class="box-title">
-      <h3>
-        Assigned Task
-      </h3>
-    </div>
-    <div class="box-content nopadding">
-      <table class="table table-hover table-nomargin" id="assign-by-data">
-        <thead>
-          <tr class='thefilter row-fluid'>
-              <th class="span2"><input type="text" name="Assigned by" placeholder="Assigned by" class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Comment" placeholder="Comment" class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Shop" placeholder= "Shop"  class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Status" placeholder="Status" class="search_init span12" /></th>
-
-           </tr>
-          <tr class="row-fluid"> 
-            <th class="span2">Assigned by</th>
-            <th class="span2">Comment</th>
-            <th class="span2">Shop</th>
-            <th class="span2">Status</th>
-          </tr>
-        </thead>
-        
-        <tbody>    
-          <% @task.each do |t| %>
-            <tr class="row-fluid">
-              <td class"span2"><%= User.find(t.assigned_by).name %></td>
-              <td class"span2"><%= t.comment %></td>
-              <% if t.shop_id.blank? %>
-                <td class"span2"><%= nil %></td>
-              <%else%>
-                <td class"span2"><%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td> 
-              <%end%>
-              <% if t.status == 'pending'%>
-                <td class"span2"><%= link_to 'done' , change_task_path(t)%></td> 
-              <%else%>
-                <td class"span2"><%= t.status %></td>
-              <%end%>
-            </tr>
+    <div class="box box-color box-bordered lightgrey">
+      <div class="box-title">
+        <h3><i class="icon-ok"></i> Tasks Assigned</h3>
+        <div class="actions">
+          <a href="#new-task" data-toggle="modal" class='btn'><i class="icon-plus-sign"></i> Add Task</a>
+        </div>
+      </div>
+      <div class="box-content nopadding">
+        <ul class="tasklist">
+          <% @tasks.each do |t| %>
+            <li class='bookmarked'>
+              <div class="check">
+                <input type="checkbox" class='icheck-me' data-skin="square" data-color="blue">
+              </div>
+              <span class="task"><i class="icon-bar-chart"></i><span><%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> </span> <i class="user_name"> <%= "Assigned by :" + User.find(t.assigned_by).name %> </i></span>  
+              <span class="task-actions">
+                <a href="#" class='<%= "task-bookmark" if t.important %>' rel="tooltip" title="Mark as important"><i class="icon-bookmark-empty"></i></a>
+              </span>
+            </li>
           <%end%>
-        </tbody>
-      </table> 
+        </ul>
+      </div>
     </div>
-  </div>
-</div>  
+  </div> 
+</div>
+
 <div class="row-fluid">
   <div class="span12">
-    <div class="box-title">
-      <h3>
-        Created Tasks
-      </h3>
-    </div>
-    <div class="box-content nopadding">
-      <table class="table table-hover table-nomargin" id="assign-to-data">
-        <thead>
-          <tr class='thefilter row-fluid'>
-              <th class="span2"><input type="text" name="Assigned To" placeholder="Assigned To" class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Comment" placeholder="Comment" class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Shop" placeholder= "Shop"  class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Status" placeholder="Status" class="search_init span12" /></th>
-
-           </tr>
-          <tr class="row-fluid"> 
-            <th class="span2">Assigned To</th>
-            <th class="span2">Comment</th>
-            <th class="span2">Shop</th>
-            <th class="span2">Status</th>
-          </tr>
-        </thead>
-        
-        <tbody>    
-          <% @task.each do |t| %>
-            <tr class="row-fluid">
-              <td class"span2"><%= User.find(t.assigned_to).name %></td>
-              <td class"span2"><%= t.comment %></td>
-              <% if t.shop_id.blank? %>
-                <td class"span2"><%= nil %></td>
-              <%else%>
-                <td class"span2"><%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td> 
-              <%end%>
-              <% if t.status == 'pending'%>
-                <td class"span2"><%= link_to 'done' , change_task_path(t)%></td> 
-              <%else%>
-                <td class"span2"><%= t.status %></td>
-              <%end%>
-            </tr>
+    <div class="box box-color box-bordered lightgrey">
+      <div class="box-title">
+        <h3><i class="icon-ok"></i> Created Task</h3>
+        <div class="actions">
+          <a href="#new-task" data-toggle="modal" class='btn'><i class="icon-plus-sign"></i> Add Task</a>
+        </div>
+      </div>
+      <div class="box-content nopadding">
+        <ul class="tasklist">
+          <% @tasks.each do |t| %>
+            <li class='bookmarked'>
+              <div class="check">
+                <input type="checkbox" class='icheck-me' data-skin="square" data-color="blue">
+              </div>
+              <span class="task"><i class="icon-bar-chart"></i><span><%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> </span> <i class="user_name"> <%= "Assigned_to: " + User.find(t.assigned_to).name %> </i></span>  
+              <span class="task-actions">
+                <a href="#" class="<%= "task-bookmark" if t.important %>" rel="tooltip" title="Mark as important"><i class="icon-bookmark-empty"></i></a>
+              </span>
+            </li>
           <%end%>
-        </tbody>
-      </table> 
+        </ul>
+      </div>
     </div>
-  </div>
-</div>  
-<script type="text/javascript" charset="utf-8">
-  var asInitVals = new Array();
+  </div> 
+</div>
+
+<script type="text/javascript">
   
-  $(document).ready(function() {
-    var oTable = $('#assign-by-data').dataTable( {
-      "oLanguage": {
-        "sSearch": "Search all columns:"
-      }
-    } );  
-    $(".thefilter input").keyup( function () {
-      /* Filter on the column (the index) of this element */
-      oTable.fnFilter( this.value, $(".thefilter input").index(this) );
-    } );
-    
-    
-    
-    /*
-     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
-     * the footer
-     */
-    $(".thefilter input").each( function (i) {
-      asInitVals[i] = this.value;
-    } );
-    
-    $(".thefilter input").focus( function () {
-      if ( this.className == "search_init" )
-      {
-        this.className = "";
-        this.value = "";
-      }
-    } );
-    
-    $(".thefilter input").blur( function (i) {
-      if ( this.value == "" )
-      {
-        this.className = "search_init";
-        this.value = asInitVals[$(".thefilter input").index(this)];
-      }
-    } );
-  } );
-
-   
-</script>
-
-<script type="text/javascript" charset="utf-8">
-  var asInitVals = new Array();
+  $( document ).ready(function() {
+    $('.new-task-submit').click(function()
+      { 
+        console.log($('#new_task'));
+        $('#new_task').submit();
+      });
+  });  
   
-  $(document).ready(function() {
-    var oTable = $('#assign-to-data').dataTable( {
-      "oLanguage": {
-        "sSearch": "Search all columns:"
-      }
-    } );  
-    $(".thefilter input").keyup( function () {
-      /* Filter on the column (the index) of this element */
-      oTable.fnFilter( this.value, $(".thefilter input").index(this) );
-    } );
-    
-    
-    
-    /*
-     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
-     * the footer
-     */
-    $(".thefilter input").each( function (i) {
-      asInitVals[i] = this.value;
-    } );
-    
-    $(".thefilter input").focus( function () {
-      if ( this.className == "search_init" )
-      {
-        this.className = "";
-        this.value = "";
-      }
-    } );
-    
-    $(".thefilter input").blur( function (i) {
-      if ( this.value == "" )
-      {
-        this.className = "search_init";
-        this.value = asInitVals[$(".thefilter input").index(this)];
-      }
-    } );
-  } );
-
-   
 </script>

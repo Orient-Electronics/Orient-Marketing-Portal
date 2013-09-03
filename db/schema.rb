@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130830141050) do
+ActiveRecord::Schema.define(:version => 20130903112923) do
 
   create_table "avatars", :force => true do |t|
     t.string   "avatar_file_name"
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(:version => 20130830141050) do
     t.text     "comment"
     t.integer  "shop_id"
     t.string   "status",      :default => "pending"
+    t.boolean  "important"
   end
 
   create_table "uploads", :force => true do |t|

@@ -1,8 +1,9 @@
 class TasksController < ApplicationController
 
   def index
-      @task = Task.all
-      @shop = Shop.all
+      @tasks = Task.all
+      @shops = Shop.all
+      @task = Task.new
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @tasks }
