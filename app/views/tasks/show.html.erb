@@ -1,0 +1,15 @@
+<div class="box-content">
+  <dl class="span12">
+    <%- model_class = Task -%>
+    <dt><strong><%= model_class.human_attribute_name(:assigned_by) %>:</strong></dt>
+      <dd><%= @task.assigned_by %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:assigned_to) %>:</strong></dt>
+      <dd><%= @task.assigned_to %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:comment) %>:</strong></dt>
+      <dd><%= @task.comment %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:shop_id) %>:</strong></dt>
+      <dd><%= @task.shop_id %></dd> 
+    <dt><strong><%= model_class.human_attribute_name(:status) %>:</strong></dt>
+      <dd><%= @task.status %></dd>
+  </dl>
+</div>

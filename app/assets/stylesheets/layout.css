@@ -114,4 +114,12 @@ dd{
 {
   margin: 10px;
   width: auto;
+
+.taskview1 {
+  float: left;
+  padding: 50px;
+}
+
+.taskview2 {
+  padding: 50px;
 }

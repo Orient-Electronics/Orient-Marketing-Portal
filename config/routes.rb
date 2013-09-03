@@ -54,8 +54,10 @@ Orient::Application.routes.draw do
     resources :uploads
     resources :reports   
   end
-  
   resources :uploads
+
+  resources :tasks
+
   resources :reports do
     collection do
       post 'brand_search'
@@ -63,8 +65,14 @@ Orient::Application.routes.draw do
     end
   end
 
-  devise_for :users
 
+  resources :tasks do
+    member do
+      get 'change'
+    end
+  end
+
+  devise_for :users
 
 
   # The priority is based upon order of creation:
