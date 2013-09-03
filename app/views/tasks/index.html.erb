@@ -2,6 +2,24 @@
 <div class="page-header">
   <h1><%= "#{@parent.name} - " if @parent.present? %><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
+<<<<<<< HEAD
+=======
+<div class="row-fluid">
+  <div class="span12">
+    <div class="box box-color box-bordered">
+      <h3>
+        Assigned Task
+      </h3>
+    </div>
+    <div class="box-content nopadding">
+      <table class="table table-hover table-nomargin" id="assign-by-data">
+        <thead>
+          <tr class='thefilter row-fluid'>
+              <th class="span2"><input type="text" name="Assigned by" placeholder="Assigned by" class="search_init span12" /></th>
+              <th class="span2"><input type="text" name="Comment" placeholder="Comment" class="search_init span12" /></th>
+              <th class="span2"><input type="text" name="Shop" placeholder= "Shop"  class="search_init span12" /></th>
+              <th class="span2"><input type="text" name="Status" placeholder="Status" class="search_init span12" /></th>
+>>>>>>> 6d6169ac36c77d5f957032d0340ec06e290262ad
 
 <div id="new-task" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
@@ -99,8 +117,56 @@
         </ul>
       </div>
     </div>
+<<<<<<< HEAD
   </div> 
 </div>
+=======
+  </div>
+</div>  
+<script type="text/javascript" charset="utf-8">
+  var asInitVals = new Array();
+  
+  $(document).ready(function() {
+    var oTable = $('#assign-by-data').dataTable( {
+      "oLanguage": {
+        "sSearch": "Search all columns:"
+      }
+    } );  
+    $("#assign-by-data .thefilter input").keyup( function () {
+      /* Filter on the column (the index) of this element */
+      oTable.fnFilter( this.value, $("#assign-by-data .thefilter input").index(this) );
+    } );
+    
+    
+    
+    /*
+     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+     * the footer
+     */
+    $("#assign-by-data .thefilter input").each( function (i) {
+      asInitVals[i] = this.value;
+    } );
+    
+    $("#assign-by-data .thefilter input").focus( function () {
+      if ( this.className == "search_init" )
+      {
+        this.className = "";
+        this.value = "";
+      }
+    } );
+    
+    $("#assign-by-data .thefilter input").blur( function (i) {
+      if ( this.value == "" )
+      {
+        this.className = "search_init";
+        this.value = asInitVals[$(".thefilter input").index(this)];
+      }
+    } );
+  } );
+
+   
+</script>
+>>>>>>> 6d6169ac36c77d5f957032d0340ec06e290262ad
 
 <script type="text/javascript">
   
@@ -112,4 +178,46 @@
       });
   });  
   
+<<<<<<< HEAD
+=======
+  $(document).ready(function() {
+    var oTable = $('#assign-to-data').dataTable( {
+      "oLanguage": {
+        "sSearch": "Search all columns:"
+      }
+    } );  
+    $("#assign-to-data .thefilter input").keyup( function () {
+      /* Filter on the column (the index) of this element */
+      oTable.fnFilter( this.value, $("#assign-to-data .thefilter input").index(this) );
+    } );
+    
+    
+    
+    /*
+     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+     * the footer
+     */
+    $("#assign-to-data .thefilter input").each( function (i) {
+      asInitVals[i] = this.value;
+    } );
+    
+    $("#assign-to-data .thefilter input").focus( function () {
+      if ( this.className == "search_init" )
+      {
+        this.className = "";
+        this.value = "";
+      }
+    } );
+    
+    $("#assign-to-data.thefilter input").blur( function (i) {
+      if ( this.value == "" )
+      {
+        this.className = "search_init";
+        this.value = asInitVals[$("#assign-to-data .thefilter input").index(this)];
+      }
+    } );
+  } );
+
+   
+>>>>>>> 6d6169ac36c77d5f957032d0340ec06e290262ad
 </script>

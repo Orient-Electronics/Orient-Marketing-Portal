@@ -19,7 +19,7 @@ dd{
 }
 
 .tt-hint {
-  color: #999
+  color: #999;
 }
 
 .tt-dropdown-menu {
@@ -114,6 +114,11 @@ dd{
 {
   margin: 10px;
   width: auto;
+}
+
+.taskview1 {
+  float: left;
+  padding: 50px;
 }
 
 .text_area

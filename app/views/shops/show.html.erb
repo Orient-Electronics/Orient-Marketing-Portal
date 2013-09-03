@@ -147,7 +147,9 @@
             <% child_class = Location %>
             <%= hidden_field_tag "lat", @shop.location.try(:latitude), :id => "lat" %>
             <%= hidden_field_tag "lng", @shop.location.try(:longitude), :id => "lng" %>
-            <div class="span12" id="map_location" style="height:300px;"></div>
+            <div class="row-fluid">
+              <div class="span12" id="map_location" style="height:300px;"></div>
+            </div>
         </div>
       </div>
     </div>
