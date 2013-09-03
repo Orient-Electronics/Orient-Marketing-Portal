@@ -7,7 +7,7 @@ $('document').ready(function(){
   $('select').selectpicker();
 });
 
-  function onLoadDoc(div,unit) {
+  function onLoadDoc(div,unit,report_of) {
     chart1 = new cfx.Chart();chart1.getAnimations().getLoad().setEnabled(true);
     chart1.setGallery(cfx.Gallery.Bar);
     
@@ -16,7 +16,7 @@ $('document').ready(function(){
         
         
     doTitle(chart1, "Report");
-    doDataPopulation(unit);
+    doDataPopulation(unit,report_of);
     
     var allSeries = chart1.getAllSeries();
     allSeries.setMarkerShape(cfx.MarkerShape.Rect);
@@ -35,13 +35,16 @@ $('document').ready(function(){
   }
 
   //Main Chart Data Information
-  function doDataPopulation(unit) {
-      var data1 = $('.' + unit).val().split("~");
+  function doDataPopulation(unit,report_of) {
+      if(report_of=="Brand")
+        var data1 = $('#'+unit +' .' + unit).val().split("~");
+      else
+        var data1 = $('#category_'+unit +' .' + unit).val().split("~");
       var items = [];
       for(i=0;i<data1.length;i++){
         temp = data1[i].trim().split("|");
         temp1 = {
-        "Brand": temp[0],
+        report_of: temp[0],
             "Quantity": parseInt(temp[1])
         };
         items.push(temp1);

@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
 
   def index
     authorize! :read, Report
+    @categories = ProductCategory.all
     if params[:shop_id].present?
       @parent = Shop.find params[:shop_id]
       @reports = @shop.reports
@@ -50,7 +51,7 @@ class ReportsController < ApplicationController
     end
   end
 
-  def search
+  def brand_search
     unless params[:search][:product].blank?
       @parent = Product.find_by_name params[:search][:product]
       @parent = ProductCategory.find_by_name params[:search][:product] if @parent.blank?
@@ -65,6 +66,21 @@ class ReportsController < ApplicationController
     end
     @brands = Brand.all
     render(:partial => "/reports/bar", :locals => {:brands => @brands, :reports => @reports, :type => params[:search][:type]})
+  end
+
+  def category_search
+    unless params[:search][:brand].blank?
+      @parent = Brand.find params[:search][:brand]
+      @reports = ReportLine.where(:brand_id=> @parent.id).collect(&:report).uniq
+    else
+      @reports = Report.all
+    end
+    if !params[:search][:week].blank? and params[:search][:week].size > 1
+      week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
+      @reports = @reports.select{|r| week.include?(r[:week])}
+    end
+    @categories = ProductCategory.all
+    render(:partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type]})
   end
 
 end

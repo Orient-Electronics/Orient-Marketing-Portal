@@ -55,7 +55,8 @@ Orient::Application.routes.draw do
   resources :uploads
   resources :reports do
     collection do
-      get 'search'
+      post 'brand_search'
+      post 'category_search'
     end
   end
 

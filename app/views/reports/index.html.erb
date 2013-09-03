@@ -1,17 +1,3 @@
-<div class='row-fluid'>
-  <div class="span12">
-    <div class="subnav" style="margin-top:70px">
-      <div class="subnav-title">
-        <a href="#" class="toggle-subnav"><i class="icon-angle-down"></i><span>Products</span></a>
-      </div>
-      <div class="subnav-content" style="display: block;">
-        <ul class="nav nav-list">
-          <li class="divider"></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="page-header">
   <h1><%= "#{@parent.name} - " if @parent.present? %><%= "Reports" %></h1>
 </div>
@@ -27,7 +13,7 @@
         </div>
         <div class="box-content">
           <h1><i class="icon-inbox"></i> Display Report</h1>
-          <%= form_for :search,:url => search_reports_path, :html => {:class => "report-search", "data-unit"=> "display_data"}, :method => :get do |f| %>
+          <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
             <%= f.hidden_field :type, :value => "display_data" %>
             <select name=search[product]>
               <option value="">All</option>
@@ -52,7 +38,7 @@
           <hr>
           <div class="clearfix"></div>
           <h1><i class="icon-share-alt"></i> Sales Report</h1>
-          <%= form_for :search,:url => search_reports_path, :html => {:class => "report-search", "data-unit"=> "sales_data"}, :method => :get do |f| %>
+          <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
             <%= f.hidden_field :type, :value => "sales_data" %>
             <select name=search[product]>
               <option value="">All</option>
@@ -77,7 +63,7 @@
           <hr>
           <div class="clearfix"></div>
           <h1><i class="icon-tag"></i> Display Corner</h1>
-          <%= form_for :search,:url => search_reports_path, :html => {:class => "report-search", "data-unit"=> "corner_data"}, :method => :get do |f| %>
+          <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
             <%= f.hidden_field :type, :value => "corner_data" %>
             <select name=search[product]>
               <option value="">All</option>
@@ -103,6 +89,66 @@
       </div>
     </div>
   </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="box">
+        <div class="box-title">
+          <h3>
+            <i class="icon-bar-chart"></i>
+            Product Category Chart
+          </h3>
+        </div>
+        <div class="box-content">
+          <h1><i class="icon-inbox"></i> Display Report</h1>
+          <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
+            <%= f.hidden_field :type, :value => "display_data" %>
+            <select name=search[brand]>
+              <option value="">All</option>
+              <% Brand.all.each do |pc| %>
+                <option value="<%= pc.id %>"><%= pc.name %></option>
+              <% end -%>
+            </select>
+            <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+          <% end -%>
+          <div class="display_category_data_chart">
+            <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "display_data"} %>
+          </div>
+          <hr>
+          <div class="clearfix"></div>
+          <h1><i class="icon-share-alt"></i> Sales Report</h1>
+          <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
+            <%= f.hidden_field :type, :value => "sales_data" %>
+            <select name=search[brand]>
+              <option value="">All</option>
+              <% Brand.all.each do |pc| %>
+                <option value="<%= pc.id %>"><%= pc.name %></option>
+              <% end -%>
+            </select>
+            <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+          <% end -%>
+          <div class="sales_category_data_chart">
+            <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "sales_data"} %>
+          </div>
+          <hr>
+          <div class="clearfix"></div>
+          <h1><i class="icon-tag"></i> Display Corner</h1>
+          <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
+            <%= f.hidden_field :type, :value => "corner_data" %>
+            <select name=search[brand]>
+              <option value="">All</option>
+              <% Brand.all.each do |pc| %>
+                <option value="<%= pc.id %>"><%= pc.name %></option>
+              <% end -%>
+            </select>
+            <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+          <% end -%>
+          <div class="corner_category_data_chart">
+            <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "corner_data"} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
   $('document').ready(function(){
@@ -110,6 +156,12 @@
         success: showResponse
       });
     $('.report-search select').change(function(){
+      $(this).parent().submit();
+    });
+    $('.category-report-search').ajaxForm({
+        success: showCatResponse
+      });
+    $('.category-report-search select').change(function(){
       $(this).parent().submit();
     });
   });
@@ -126,6 +178,21 @@
     if(($form.data('unit')+"")=="corner_data"){
       $('.corner_data_chart').html('');
       $('.corner_data_chart').html(responseText);
+    }
+  } 
+
+  function showCatResponse(responseText, statusText, xhr, $form)  {
+    if(($form.data('unit')+"")=="display_data"){
+      $('.display_category_data_chart').html('');
+      $('.display_category_data_chart').html(responseText);
+    }
+    if(($form.data('unit')+"")=="sales_data"){
+      $('.sales_category_data_chart').html('');
+      $('.sales_category_data_chart').html(responseText);
+    }
+    if(($form.data('unit')+"")=="corner_data"){
+      $('.corner_category_data_chart').html('');
+      $('.corner_category_data_chart').html(responseText);
     }
   } 
 
