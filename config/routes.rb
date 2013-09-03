@@ -54,12 +54,17 @@ Orient::Application.routes.draw do
     resources :uploads
     resources :reports   
   end
-  
   resources :uploads
   resources :reports
+  resources :tasks
+
+  resources :tasks do
+    member do
+      get 'change'
+    end
+  end
 
   devise_for :users
-
 
 
   # The priority is based upon order of creation:
