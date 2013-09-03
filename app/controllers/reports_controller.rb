@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
 
   def index
     authorize! :read, Report
+    @categories = ProductCategory.all
     if params[:shop_id].present?
       @parent = Shop.find params[:shop_id]
       @reports = @shop.reports
@@ -48,6 +49,49 @@ class ReportsController < ApplicationController
         format.html {redirect_to root_url}
         format.json { render json: @shop, status: :created, location: @shop }
     end
+  end
+
+  def brand_search
+    unless params[:search][:product].blank?
+      @parent = Product.find_by_name params[:search][:product]
+      @parent = ProductCategory.find_by_name params[:search][:product] if @parent.blank?
+      @reports = ReportLine.where(:product_id=> @parent.id).collect(&:report).uniq unless @parent.blank?
+      @reports = ReportLine.where(:product_category_id=> @parent.id).collect(&:report).uniq if @parent.blank?
+    else
+      @reports = Report.all
+    end
+    if !params[:search][:week].blank? and params[:search][:week].size > 1
+      week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
+      @reports = @reports.select{|r| week.include?(r[:week])}
+    end
+    unless params[:shop_id].blank?
+      @reports = @reports.select{|r| r.shop_id==params[:shop_id].to_i}.flatten
+    end
+    @brands = Brand.all
+    render(:partial => "/reports/bar", :locals => {:brands => @brands, :reports => @reports, :type => params[:search][:type]})
+  end
+
+  def category_search
+    unless params[:search][:brand].blank?
+      @parent = Brand.find params[:search][:brand]
+      @reports = ReportLine.where(:brand_id=> @parent.id).collect(&:report).uniq
+    else
+      @reports = Report.all
+    end
+    if !params[:search][:week].blank? and params[:search][:week].size > 1
+      week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
+      @reports = @reports.select{|r| week.include?(r[:week])}
+    end
+    unless params[:shop_id].blank?
+      @reports = @reports.select{|r| r.shop_id==params[:shop_id].to_i}.flatten
+    end
+    unless params[:dealer_id].blank?
+      dealer = Dealer.find params[:dealer_id].to_i
+      shops = dealer.collect(&:shops).collect(&:id).flatten
+      @reports = @reports.select{|r| shops.include?(r.shop_id)}.flatten
+    end
+    @categories = ProductCategory.all
+    render(:partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type]})
   end
 
 end

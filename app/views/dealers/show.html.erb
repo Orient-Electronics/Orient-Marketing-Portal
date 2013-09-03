@@ -167,11 +167,198 @@
       <div class="box-title">
         <h3>
           <i class="icon-bar-chart"></i>
-          Brands Display Chart
+          Disaplay Report
         </h3>
+        <div class="actions">
+          <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+        </div>
+        <ul class="tabs">
+          <li class="active">
+            <a href="#brand-display-data" data-toggle="tab">Brand Data</a>
+          </li>
+          <li class="">
+            <a href="#category-display-data" data-toggle="tab">Category Data</a>
+          </li>
+        </ul>
       </div>
       <div class="box-content">
-        <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten} %>
+        <div class="tab-content">
+          <div class="tab-pane active" id="brand-display-data">
+            <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
+              <%= f.hidden_field :type, :value => "display_data" %>
+              <%= hidden_field_tag "dealer_id", @parent.id %>
+              <select name=search[product]>
+                <option value="">All</option>
+                <% ProductCategory.all.each do |pc| %>
+                  <% if pc.products.blank? %>
+                    <option value="<%= pc.name %>"><%= pc.name %></option>
+                  <% else %>
+                    <optgroup label="<%= pc.name %>">
+                      <% pc.products.each do |product| %>
+                        <option value="<%= product.name %>"><%= product.name %></option>
+                      <% end -%>
+                    </optgroup>
+                  <% end -%>
+                 
+                <% end -%>
+              </select>
+              <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+            <% end -%>
+            <div class="display_data_chart">
+              <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data"} %>
+            </div>
+          </div>
+          <div class="tab-pane active" id="category-display-data">
+            <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
+              <%= f.hidden_field :type, :value => "display_data" %>
+              <%= hidden_field_tag "dealer_id", @parent.id %>
+              <select name=search[brand]>
+                <option value="">All</option>
+                <% Brand.all.each do |pc| %>
+                  <option value="<%= pc.id %>"><%= pc.name %></option>
+                <% end -%>
+              </select>
+              <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+            <% end -%>
+            <div class="display_category_data_chart">
+              <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data"} %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span6">
+    <div class="box box-color box-bordered">
+      <div class="box-title">
+        <h3>
+          <i class="icon-bar-chart"></i>
+          Sales Report
+        </h3>
+        <div class="actions">
+          <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+        </div>
+        <ul class="tabs">
+          <li class="active">
+            <a href="#brand-sales-data" data-toggle="tab">Brand Data</a>
+          </li>
+          <li class="">
+            <a href="#category-sales-data" data-toggle="tab">Category Data</a>
+          </li>
+        </ul>
+      </div>
+      <div class="box-content">
+        <div class="tab-content">
+          <div class="tab-pane active" id="brand-sales-data">
+            <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
+              <%= f.hidden_field :type, :value => "sales_data" %>
+              <%= hidden_field_tag "dealer_id", @parent.id %>
+              <select name=search[product]>
+                <option value="">All</option>
+                <% ProductCategory.all.each do |pc| %>
+                  <% if pc.products.blank? %>
+                    <option value="<%= pc.name %>"><%= pc.name %></option>
+                  <% else %>
+                    <optgroup label="<%= pc.name %>">
+                      <% pc.products.each do |product| %>
+                        <option value="<%= product.name %>"><%= product.name %></option>
+                      <% end -%>
+                    </optgroup>
+                  <% end -%>
+                 
+                <% end -%>
+              </select>
+              <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+            <% end -%>
+            <div class="sales_data_chart">
+              <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data"} %>
+            </div>
+          </div>
+          <div class="tab-pane active" id="category-sales-data">
+            <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
+              <%= f.hidden_field :type, :value => "sales_data" %>
+              <%= hidden_field_tag "dealer_id", @parent.id %>
+              <select name=search[brand]>
+                <option value="">All</option>
+                <% Brand.all.each do |pc| %>
+                  <option value="<%= pc.id %>"><%= pc.name %></option>
+                <% end -%>
+              </select>
+              <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+            <% end -%>
+            <div class="sales_category_data_chart">
+              <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data"} %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="span6">
+    <div class="box box-color box-bordered">
+      <div class="box-title">
+        <h3>
+          <i class="icon-bar-chart"></i>
+          Disaplay Corner
+        </h3>
+        <div class="actions">
+          <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+        </div>
+        <ul class="tabs">
+          <li class="active">
+            <a href="#brand-corner-data" data-toggle="tab">Brand Data</a>
+          </li>
+          <li class="">
+            <a href="#category-corner-data" data-toggle="tab">Category Data</a>
+          </li>
+        </ul>
+      </div>
+      <div class="box-content">
+        <div class="tab-content">
+          <div class="tab-pane active" id="brand-corner-data">
+            <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
+              <%= f.hidden_field :type, :value => "corner_data" %>
+              <%= hidden_field_tag "dealer_id", @parent.id %>
+              <select name=search[product]>
+                <option value="">All</option>
+                <% ProductCategory.all.each do |pc| %>
+                  <% if pc.products.blank? %>
+                    <option value="<%= pc.name %>"><%= pc.name %></option>
+                  <% else %>
+                    <optgroup label="<%= pc.name %>">
+                      <% pc.products.each do |product| %>
+                        <option value="<%= product.name %>"><%= product.name %></option>
+                      <% end -%>
+                    </optgroup>
+                  <% end -%>
+                 
+                <% end -%>
+              </select>
+              <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+            <% end -%>
+            <div class="display_data_chart">
+              <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data"} %>
+            </div>
+          </div>
+          <div class="tab-pane active" id="category-corner-data">
+            <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
+              <%= f.hidden_field :type, :value => "corner_data" %>
+              <%= hidden_field_tag "dealer_id", @parent.id %>
+              <select name=search[brand]>
+                <option value="">All</option>
+                <% Brand.all.each do |pc| %>
+                  <option value="<%= pc.id %>"><%= pc.name %></option>
+                <% end -%>
+              </select>
+              <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+            <% end -%>
+            <div class="corner_category_data_chart">
+              <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data"} %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -219,6 +406,19 @@
         this.value = asInitVals[$(".thefilter input").index(this)];
       }
     } );
+    $('.report-search').ajaxForm({
+        success: showResponse
+      });
+    $('.report-search select').change(function(){
+      $(this).parent().submit();
+    });
+    $('.category-report-search').ajaxForm({
+        success: showCatResponse
+      });
+    $('.category-report-search select').change(function(){
+      $(this).parent().submit();
+    });
+    $('#category-display-data,#category-sales-data,#category-corner-data').removeClass('active');
   } );
 </script>
 <% end -%>

@@ -55,8 +55,16 @@ Orient::Application.routes.draw do
     resources :reports   
   end
   resources :uploads
-  resources :reports
+
   resources :tasks
+
+  resources :reports do
+    collection do
+      post 'brand_search'
+      post 'category_search'
+    end
+  end
+
 
   resources :tasks do
     member do

@@ -1,9 +1,9 @@
 <% if type=='display_data'  %>
-<div id="display_data">
+<div id="category_display_data">
   <textarea class="hide display_data">
-    <% brands.each do |brand| %>
-      <%= [brand.name,Report.brand_display(reports,brand.id)].join("|") %>
-      <%= "~" unless brand == brands.last %>
+    <% categories.each do |category| %>
+      <%= [category.name,Report.category_display(reports,category.id)].join("|") %>
+      <%= "~" unless category == categories.last %>
     <% end -%>
   </textarea>
   <div class="row-fluid">
@@ -13,11 +13,11 @@
 </div>
 <% end -%>
 <% if type=='sales_data'  %>
-<div id="sales_data">
+<div id="category_sales_data">
   <textarea class="hide sales_data">
-    <% brands.each do |brand| %>
-      <%= [brand.name,Report.brand_sales(reports,brand.id)].join("|") %>
-      <%= "~" unless brand == brands.last %>
+    <% categories.each do |category| %>
+      <%= [category.name,Report.category_sales(reports,category.id)].join("|") %>
+      <%= "~" unless category == categories.last %>
     <% end -%>
   </textarea>
   <div class="row-fluid">
@@ -27,11 +27,11 @@
 </div>
 <% end -%>
 <% if type=='corner_data'  %>
-<div id="corner_data">
+<div id="category_corner_data">
   <textarea class="hide corner_data">
-    <% brands.each do |brand| %>
-      <%= [brand.name,Report.brand_corner(reports,brand.id)].join("|") %>
-      <%= "~" unless brand == brands.last %>
+    <% categories.each do |category| %>
+      <%= [category.name,Report.category_corner(reports,category.id)].join("|") %>
+      <%= "~" unless category == categories.last %>
     <% end -%>
   </textarea>
   <div class="row-fluid">
@@ -42,6 +42,6 @@
 <% end -%>
 <script type="text/javascript">
   $('document').ready(function(){
-    onLoadDoc($("#<%= type %> .jchartfx"),"<%= type %>","Brand");  
+    onLoadDoc($("#category_<%= type %> .jchartfx"),"<%= type %>","Category");  
   });
 </script>
