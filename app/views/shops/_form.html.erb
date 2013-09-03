@@ -1,4 +1,14 @@
-<%= form_for @shop, :html => { :class => 'form-horizontal shop_form' } do |f| %>
+<%= form_for @shop, :html => { :class => 'form-horizontal shop_form', :multipart => true }  do |f| %>
+
+  <h3> Shop Logo </h3>
+  <%= f.fields_for :avatar do |f| %>
+    <div class= "control-group">
+      <%= f.label :avatar, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.file_field :avatar ,:class => 'avatar_field' %>
+      </div>
+    </div>
+  <%end%> 
 
   <%= f.fields_for :location do |f| %>
     <div class="control-group">
@@ -123,7 +133,7 @@
       </div>
     </div>
   <% end -%>
-
+  
   <h3>Manager Information</h3>
 
   <%= f.fields_for :manager do |f| %>

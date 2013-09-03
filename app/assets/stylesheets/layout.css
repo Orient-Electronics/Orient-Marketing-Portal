@@ -93,3 +93,30 @@ dd{
 .check-me{
   float: left !important;
 }
+
+#search{
+  float: right;
+  
+}
+
+.paginate
+{
+  float: right;
+}
+.searched_result
+{
+  clear: both;
+  height: 180px;
+}
+
+.shop_avatar
+{
+  float: left;
+  width: 300px;
+}
+
+.shop_detail
+{
+  margin: 10px;
+  width: auto;
+}

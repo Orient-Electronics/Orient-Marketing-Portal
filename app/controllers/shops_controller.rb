@@ -19,7 +19,7 @@ class ShopsController < ApplicationController
         end
       end
     end
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @shops }
@@ -46,6 +46,7 @@ class ShopsController < ApplicationController
     @shop.build_owner
     @shop.build_manager
     @shop.build_location
+    @shop.build_avatar
 
     respond_to do |format|
       format.html # new.html.erb
@@ -103,4 +104,5 @@ class ShopsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
 end
