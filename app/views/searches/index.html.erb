@@ -1,14 +1,28 @@
 <%- model_class = Shop -%>
 <div class="page-header">
-  <h1><%= "Searching Results - " %> <%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1><%= "Search Results..." %> </h1>
+   <div class="paginate"> <%= will_paginate @shops%> </div>
 </div>
-<div>
-  <ul>
-    <% @shops.each do |shop| %>
-    <li><%= shop.dealer_name%></li>
+
+<% @shops.each do |shop| %>
+  <div class="searched_result">
+    <div class= "shop_avatar">
+      <% if shop.avatar.present? %>
+          <%= image_tag shop.avatar.avatar.url(:small) %>
+      <% else %>
+          <%= image_tag "/assets/default.png" %>
+      <% end -%>
+    </div>
     
-    <% end %>
-    <%= will_paginate @shops%>
-  </ul>
-  
-</div>
+    <div class="shop_detail">
+      <h4><b><%= link_to shop.dealer_name, shop_path(shop) %> </b></h4>
+      <ul>
+        <li><b> Dealer : </b> <%= link_to shop.dealer.try(:name), dealer_shops_path(shop.dealer) if shop.dealer.present? %></li>
+        <li><b> Manage : </b> <%= shop.owner.name%></li>
+        <li><%= shop.address%> </li>
+      </ul> 
+    </div>
+  </div>
+  <hr/ >
+<% end %>
+<%= will_paginate @shops%>

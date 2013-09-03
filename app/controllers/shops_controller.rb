@@ -46,6 +46,7 @@ class ShopsController < ApplicationController
     @shop.build_owner
     @shop.build_manager
     @shop.build_location
+    @shop.build_avatar
 
     respond_to do |format|
       format.html # new.html.erb

@@ -4,7 +4,7 @@ class SearchesController < ApplicationController
   
     @search = Shop.search() do
       fulltext params[:search]
-       paginate :page => 1, :per_page => 10 
+       paginate :page => params[:page], :per_page => 10
     end
     @shops = @search.results 
     respond_to do |format|
