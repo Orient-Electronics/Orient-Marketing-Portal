@@ -51,3 +51,33 @@ $('document').ready(function(){
       }
       chart1.setDataSource(items);
   }
+
+  function showResponse(responseText, statusText, xhr, $form)  {
+    if(($form.data('unit')+"")=="display_data"){
+      $('.display_data_chart').html('');
+      $('.display_data_chart').html(responseText);
+    }
+    if(($form.data('unit')+"")=="sales_data"){
+      $('.sales_data_chart').html('');
+      $('.sales_data_chart').html(responseText);
+    }
+    if(($form.data('unit')+"")=="corner_data"){
+      $('.corner_data_chart').html('');
+      $('.corner_data_chart').html(responseText);
+    }
+  } 
+
+  function showCatResponse(responseText, statusText, xhr, $form)  {
+    if(($form.data('unit')+"")=="display_data"){
+      $('.display_category_data_chart').html('');
+      $('.display_category_data_chart').html(responseText);
+    }
+    if(($form.data('unit')+"")=="sales_data"){
+      $('.sales_category_data_chart').html('');
+      $('.sales_category_data_chart').html(responseText);
+    }
+    if(($form.data('unit')+"")=="corner_data"){
+      $('.corner_category_data_chart').html('');
+      $('.corner_category_data_chart').html(responseText);
+    }
+  } 

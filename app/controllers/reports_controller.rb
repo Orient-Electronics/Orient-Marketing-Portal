@@ -64,6 +64,9 @@ class ReportsController < ApplicationController
       week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
       @reports = @reports.select{|r| week.include?(r[:week])}
     end
+    unless params[:shop_id].blank?
+      @reports = @reports.select{|r| r.shop_id==params[:shop_id].to_i}.flatten
+    end
     @brands = Brand.all
     render(:partial => "/reports/bar", :locals => {:brands => @brands, :reports => @reports, :type => params[:search][:type]})
   end
@@ -78,6 +81,14 @@ class ReportsController < ApplicationController
     if !params[:search][:week].blank? and params[:search][:week].size > 1
       week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
       @reports = @reports.select{|r| week.include?(r[:week])}
+    end
+    unless params[:shop_id].blank?
+      @reports = @reports.select{|r| r.shop_id==params[:shop_id].to_i}.flatten
+    end
+    unless params[:dealer_id].blank?
+      dealer = Dealer.find params[:dealer_id].to_i
+      shops = dealer.collect(&:shops).collect(&:id).flatten
+      @reports = @reports.select{|r| shops.include?(r.shop_id)}.flatten
     end
     @categories = ProductCategory.all
     render(:partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type]})
