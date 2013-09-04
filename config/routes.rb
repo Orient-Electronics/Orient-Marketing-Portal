@@ -65,11 +65,14 @@ Orient::Application.routes.draw do
     end
   end
 
-
   resources :tasks do
     member do
       get 'change'
     end
+    member do
+      get 'toggle_important'  
+    end
+
   end
 
   devise_for :users

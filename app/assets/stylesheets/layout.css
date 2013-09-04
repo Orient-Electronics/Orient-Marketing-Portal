@@ -126,3 +126,15 @@ dd{
   width: 331px;
   height: 38px;
 }
+
+.task_comment
+{
+  width: auto;
+  margin-right: 8px;
+}
+.task-actions
+{
+  float: right;
+  margin-right: 15px;
+  clear :both;
+}

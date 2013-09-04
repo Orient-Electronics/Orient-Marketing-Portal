@@ -2,25 +2,7 @@
 <div class="page-header">
   <h1><%= "#{@parent.name} - " if @parent.present? %><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<<<<<<< HEAD
-=======
-<div class="row-fluid">
-  <div class="span12">
-    <div class="box box-color box-bordered">
-      <h3>
-        Assigned Task
-      </h3>
-    </div>
-    <div class="box-content nopadding">
-      <table class="table table-hover table-nomargin" id="assign-by-data">
-        <thead>
-          <tr class='thefilter row-fluid'>
-              <th class="span2"><input type="text" name="Assigned by" placeholder="Assigned by" class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Comment" placeholder="Comment" class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Shop" placeholder= "Shop"  class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="Status" placeholder="Status" class="search_init span12" /></th>
->>>>>>> 6d6169ac36c77d5f957032d0340ec06e290262ad
-
+  
 <div id="new-task" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -68,7 +50,7 @@
   <div class="span12">
     <div class="box box-color box-bordered lightgrey">
       <div class="box-title">
-        <h3><i class="icon-ok"></i> Tasks Assigned</h3>
+        <h3><i class="icon-ok"></i> Assigned Task</h3>
         <div class="actions">
           <a href="#new-task" data-toggle="modal" class='btn'><i class="icon-plus-sign"></i> Add Task</a>
         </div>
@@ -76,15 +58,23 @@
       <div class="box-content nopadding">
         <ul class="tasklist">
           <% @tasks.each do |t| %>
-            <li class='bookmarked'>
+            <li class="status_check  <%= 'done' if t.status == "completed" %>"  remote = true  data-id = <%= t.id %> >
               <div class="check">
-                <input type="checkbox" class='icheck-me' data-skin="square" data-color="blue">
+                <input type="checkbox" class='check-me' data-skin="square" data-color="blue" >
               </div>
-              <span class="task"><i class="icon-bar-chart"></i><span><%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> </span> <i class="user_name"> <%= "Assigned by :" + User.find(t.assigned_by).name %> </i></span>  
-              <span class="task-actions">
-                <a href="#" class='<%= "task-bookmark" if t.important %>' rel="tooltip" title="Mark as important"><i class="icon-bookmark-empty"></i></a>
-              </span>
+              <span class="task">
+                <i class="icon-bar-chart"></i>  
+                <span class= "task_comment">
+                  <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
+                  <i class="user_name"> <%= "Assigned_by: " + User.find(t.assigned_by).name %></i> 
+                </span> 
+              </span>   
             </li>
+            <span class="task-actions">
+              <a href="#" class="task-bookmark <%= "done" if t.important %>" rel="tooltip" title="Mark as   important"  data-id = <%= t.id %> remote =true>
+                 <i class="icon-bookmark-empty"></i>
+              </a>
+            </span> 
           <%end%>
         </ul>
       </div>
@@ -104,120 +94,69 @@
       <div class="box-content nopadding">
         <ul class="tasklist">
           <% @tasks.each do |t| %>
-            <li class='bookmarked'>
+            <li class="status_check  <%= 'done' if t.status == "completed" %>"  remote = true  data-id = <%= t.id %> >
               <div class="check">
-                <input type="checkbox" class='icheck-me' data-skin="square" data-color="blue">
+                <input type="checkbox" class='check-me' data-skin="square" data-color="blue" >
               </div>
-              <span class="task"><i class="icon-bar-chart"></i><span><%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> </span> <i class="user_name"> <%= "Assigned_to: " + User.find(t.assigned_to).name %> </i></span>  
+              <span class="task">
+                <i class="icon-bar-chart"></i>
+                <span class= "task_comment">
+                  <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
+                  <span> 
+                    <i class="user_name"> <%= "Assigned_to: " + User.find(t.assigned_to).name %></i> 
+                  </span> 
+                </span> 
+              </span>   
               <span class="task-actions">
-                <a href="#" class="<%= "task-bookmark" if t.important %>" rel="tooltip" title="Mark as important"><i class="icon-bookmark-empty"></i></a>
-              </span>
+                 <a href="#" class="task-bookmark <%= "done" if t.important %>" rel="tooltip" title="Mark as   important" data-id = <%= t.id %> remote =true >
+                  <i class="icon-bookmark-empty"></i>
+                </a>
+              </span> 
             </li>
           <%end%>
         </ul>
       </div>
     </div>
-<<<<<<< HEAD
   </div> 
 </div>
-=======
-  </div>
-</div>  
+
 <script type="text/javascript" charset="utf-8">
-  var asInitVals = new Array();
-  
-  $(document).ready(function() {
-    var oTable = $('#assign-by-data').dataTable( {
-      "oLanguage": {
-        "sSearch": "Search all columns:"
-      }
-    } );  
-    $("#assign-by-data .thefilter input").keyup( function () {
-      /* Filter on the column (the index) of this element */
-      oTable.fnFilter( this.value, $("#assign-by-data .thefilter input").index(this) );
-    } );
-    
-    
-    
-    /*
-     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
-     * the footer
-     */
-    $("#assign-by-data .thefilter input").each( function (i) {
-      asInitVals[i] = this.value;
-    } );
-    
-    $("#assign-by-data .thefilter input").focus( function () {
-      if ( this.className == "search_init" )
-      {
-        this.className = "";
-        this.value = "";
-      }
-    } );
-    
-    $("#assign-by-data .thefilter input").blur( function (i) {
-      if ( this.value == "" )
-      {
-        this.className = "search_init";
-        this.value = asInitVals[$(".thefilter input").index(this)];
-      }
-    } );
-  } );
-
-   
-</script>
->>>>>>> 6d6169ac36c77d5f957032d0340ec06e290262ad
-
-<script type="text/javascript">
   
   $( document ).ready(function() {
     $('.new-task-submit').click(function()
-      { 
-        console.log($('#new_task'));
-        $('#new_task').submit();
-      });
-  });  
-  
-<<<<<<< HEAD
-=======
-  $(document).ready(function() {
-    var oTable = $('#assign-to-data').dataTable( {
-      "oLanguage": {
-        "sSearch": "Search all columns:"
-      }
-    } );  
-    $("#assign-to-data .thefilter input").keyup( function () {
-      /* Filter on the column (the index) of this element */
-      oTable.fnFilter( this.value, $("#assign-to-data .thefilter input").index(this) );
-    } );
-    
-    
-    
-    /*
-     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
-     * the footer
-     */
-    $("#assign-to-data .thefilter input").each( function (i) {
-      asInitVals[i] = this.value;
-    } );
-    
-    $("#assign-to-data .thefilter input").focus( function () {
-      if ( this.className == "search_init" )
-      {
-        this.className = "";
-        this.value = "";
-      }
-    } );
-    
-    $("#assign-to-data.thefilter input").blur( function (i) {
-      if ( this.value == "" )
-      {
-        this.className = "search_init";
-        this.value = asInitVals[$("#assign-to-data .thefilter input").index(this)];
-      }
-    } );
-  } );
+    { 
+      console.log($('#new_task'));
+      $('#new_task').submit();
+    });
 
-   
->>>>>>> 6d6169ac36c77d5f957032d0340ec06e290262ad
-</script>
+    $('.status_check').click(function()
+    {
+      task_id = $(this).data("id");
+      console.log(task_id);
+     $.ajax({
+        url: '/tasks/' + task_id + '/change',
+        success: function(data){
+          if(data=="completed")
+            $(this).addClass('done');
+          else
+            $(this).removeClass('done');
+        }        
+      });
+    });
+
+    $('.task-bookmark').click(function()
+    {
+      task_id = $(this).data("id");
+      console.log(task_id);
+     $.ajax({
+        url: '/tasks/' + task_id + '/toggle_important',
+        success: function(data){
+          if(data)
+            $(this).addClass('done');
+          else
+            $(this).removeClass('done');
+        }            
+      });
+    });
+  });  
+</script>  
