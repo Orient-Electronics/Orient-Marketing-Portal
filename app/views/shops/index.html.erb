@@ -44,7 +44,7 @@
                 <td class"span1"><%= link_to shop.dealer.try(:name), dealer_shops_path(shop.dealer) if shop.dealer.present? %></td>
                 <td class"span2"><%= link_to shop.shop_category.try(:name), shop_category_shops_path(shop.shop_category) %></td>
                 <td class"span2"><%= shop.location.try(:complete_location) %></td>
-                <td class"span1"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Yes</span>".html_safe : "<span class='label label-lightred'>No</span>".html_safe %></td>
+                <td class"span1"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non Dealer</span>".html_safe %></td>
                 <td class"span2">
                   <%= link_to "<i class='icon-search'></i>".html_safe,
                               shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>
