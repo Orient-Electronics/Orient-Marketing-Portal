@@ -138,3 +138,6 @@ dd{
   margin-right: 15px;
   clear :both;
 }
+.box-content{
+  min-height: 500px !important;
+}
