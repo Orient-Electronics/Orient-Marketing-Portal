@@ -17,12 +17,7 @@
         <a href="#" data-toggle="dropdown" class="btn btn-large btn-inverse dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <% ProductCategory.all.each do |pc| %>
-            <% if pc.products.blank? %>
               <li><%= link_to "#{pc.name} Report", new_shop_report_path(@shop, :product_category_id => pc.id) %></li>
-            <% end -%>
-            <% pc.products.each do |product| %>
-              <li><%= link_to "#{product.name} Report", new_shop_report_path(@shop, :product_id => product.id) %></li>
-            <% end -%>
           <% end -%>
         </ul>
       </div>
