@@ -28,11 +28,7 @@ class ReportsController < ApplicationController
     authorize! :create, Report
     @shop = Shop.find params[:shop_id]
     @report = Report.new
-    unless params[:product_id].blank?
-      @product = Product.find params[:product_id]
-    else
-      @product = ProductCategory.find params[:product_category_id]
-    end
+    @category = ProductCategory.find params[:product_category_id]
   end
 
   def create
