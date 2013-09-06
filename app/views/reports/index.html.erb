@@ -40,7 +40,7 @@
                    
                   <% end -%>
                 </select>
-                 <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ) ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                 <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_data_chart">
@@ -66,7 +66,7 @@
                    
                   <% end -%>
                 </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ) ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ) ,{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_data_chart">
@@ -92,7 +92,7 @@
                    
                   <% end -%>
                 </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ) ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="corner_data_chart">
@@ -109,7 +109,7 @@
                     <option value="<%= pc.id %>"><%= pc.name %></option>
                   <% end -%>
                 </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ) ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_category_data_chart">
@@ -126,7 +126,7 @@
                     <option value="<%= pc.id %>"><%= pc.name %></option>
                   <% end -%>
                 </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ) ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ) ,{},{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_category_data_chart">
@@ -143,7 +143,7 @@
                     <option value="<%= pc.id %>"><%= pc.name %></option>
                   <% end -%>
                 </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ) ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="corner_category_data_chart">

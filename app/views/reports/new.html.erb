@@ -18,7 +18,7 @@
             <div class = "row-fluid">
               <div class= "span6" >              
                <%= label_tag "year","Year", :class => 'control-label' %>  
-                <%= select_tag "year" , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') )%>  
+                <%= select_tag "year" , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y')) %>
               </div>
               <div class ="span6">
                 <%= label_tag "week","Week number", :class => 'control-label' %>

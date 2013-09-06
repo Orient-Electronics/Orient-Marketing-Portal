@@ -65,6 +65,10 @@ class ReportsController < ApplicationController
       week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
       @reports = @reports.select{|r| week.include?(r[:week])}
     end
+    if !params[:search][:year].blank? and params[:search][:year].size > 1
+      year = params[:search][:year].reject{|y| y.blank?}.map{|y| y.to_i}
+      @reports = @reports.select{|r| year.include?(r[:year])}
+    end
     unless params[:shop_id].blank?
       @reports = @reports.select{|r| r.shop_id==params[:shop_id].to_i}.flatten
     end
@@ -83,12 +87,16 @@ class ReportsController < ApplicationController
       week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
       @reports = @reports.select{|r| week.include?(r[:week])}
     end
+    if !params[:search][:year].blank? and params[:search][:year].size > 1
+      year = params[:search][:year].reject{|y| y.blank?}.map{|y| y.to_i}
+      @reports = @reports.select{|r| year.include?(r[:year])}
+    end
     unless params[:shop_id].blank?
       @reports = @reports.select{|r| r.shop_id==params[:shop_id].to_i}.flatten
     end
     unless params[:dealer_id].blank?
       dealer = Dealer.find params[:dealer_id].to_i
-      shops = dealer.collect(&:shops).collect(&:id).flatten
+      shops = dealer.shops.collect(&:id).flatten
       @reports = @reports.select{|r| shops.include?(r.shop_id)}.flatten
     end
     @categories = ProductCategory.all
