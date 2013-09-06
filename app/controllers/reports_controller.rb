@@ -40,6 +40,7 @@ class ReportsController < ApplicationController
     params[:report].collect do |key,report|
       @report = Report.new report
       @report.week = params[:week]
+      @report.year =params[:year]
       @report.user = current_user
       @report.shop_id = params[:shop_id]
       @report.save

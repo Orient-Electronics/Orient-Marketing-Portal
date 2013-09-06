@@ -6,7 +6,7 @@ class Report < ActiveRecord::Base
   belongs_to :shop
   belongs_to :user
 
-  attr_accessible :data, :week, :report_type, :user_id, :shop_id, :report_lines_attributes
+  attr_accessible :data, :week, :year, :report_type, :user_id, :shop_id, :report_lines_attributes
 
   accepts_nested_attributes_for :report_lines
 
