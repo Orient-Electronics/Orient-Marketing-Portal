@@ -1,0 +1,34 @@
+<div class="step" id="firstStep">
+  <div class="single-step">
+    <span class="circle">
+    <span class="active"></span>
+    </span>
+    <span class="description">
+       <h3> <%= heading%> </h3> <hr />
+    </span>
+  </div>
+</div>  
+<div class="step-forms ">
+  <%= hidden_field_tag "report[#{report_type}][report_type]",'', :value => "#{value}" %>
+  <% product.brands.each_with_index do |brand,index| %>
+    <%= hidden_field_tag "report[#{report_type}][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
+    <%= hidden_field_tag "report[#{report_type} ][report_lines_attributes][#{index}][product_category_id]","", :value => @category.id %>
+    <%= hidden_field_tag "report[#{report_type} ][report_lines_attributes][#{index}][product_id]","", :value => product.id %>
+    <% if value == "sales" || value == "display"%>  
+      <div class="control-group">
+        <%= label_tag "report[#{report_type}  ][report_lines_attributes][#{index}][data]","#{brand.name} display", :class => 'control-label' %>
+        <div class="controls">
+        <%= text_field_tag "report[#{report_type} ][report_lines_attributes][#{index}][data]","", :class => 'input-xlarge', "data-rule-required"=>"true" %>
+        </div>
+      </div>
+    <%else%>  
+      <div class="control-group">
+        <%= label_tag "report[c_report][report_lines_attributes][#{index}][data]","#{brand.name} display corner", :class => 'control-label' %>
+        <div class="controls">
+          <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "1" %>Yes</label>
+          <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "0" %>No</label>
+        </div>
+      </div>
+    <% end -%>  
+  <% end -%>
+</div>
