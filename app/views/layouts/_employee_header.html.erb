@@ -1,0 +1,31 @@
+<div id="navigation">
+  <div class="container-fluid">
+    <a href="#" id="brand">ORIENT</a>
+    <ul class='main-nav'>
+      <li>
+        <a href="/tasks">
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="/shops">
+          <span>Shops</span>
+        </a>
+      </li>
+    </ul>
+    <div class="user">
+      <div class="dropdown">
+        <a href="#" class='dropdown-toggle' data-toggle="dropdown"><%= current_user.name %> <%= image_tag current_user.get_avatar.avatar.url(:small_thumb), :size => "27x27" %></a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <%= link_to "Edit Profile", edit_user_registration_path %>
+          </li>
+          <li>
+            <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <%= render :partial => 'searches/search' %>
+  </div>
+</div>        

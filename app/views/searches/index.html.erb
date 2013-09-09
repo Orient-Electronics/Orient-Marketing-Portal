@@ -1,7 +1,7 @@
 <%- model_class = Shop -%>
 <div class="page-header">
   <h1><%= "Search Results..." %> </h1>
-   <div class="paginate"> <%= will_paginate @shops%> </div>
+   <div class="paginate"> <%= paginate @shops%> </div>
 </div>
 
 <% @shops.each do |shop| %>
@@ -25,4 +25,4 @@
   </div>
   <hr/ >
 <% end %>
-<%= will_paginate @shops%>
+<%= paginate @shops%>

@@ -88,11 +88,13 @@
             </div>
         </div>
       </div>
-    </div>
+    </div> 
   </div>
+
   <div class="row-fluid">
-    <div class="span6">
-      <div class="box box-color box-bordered">
+    <% if can? :read, Report %>
+      <div class="span6">
+        <div class="box box-color box-bordered">
         <div class="box-title">
           <h3>
             <i class="icon-bar-chart"></i>
@@ -157,10 +159,12 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
-    <div class="span6">
-      <div class="box box-color box-bordered">
+    <% end -%>
+    <% if can? :read, Report%>
+      <div class="span6">
+        <div class="box box-color box-bordered">
         <div class="box-title">
           <h3>
             <i class="icon-bar-chart"></i>
@@ -225,12 +229,15 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>  
+    <% end -%>  
   </div>
+
   <div class="row-fluid">
-    <div class="span6">
-      <div class="box box-color box-bordered">
+    <% if can? :read, Report%>
+      <div class="span6">
+        <div class="box box-color box-bordered">
         <div class="box-title">
           <h3>
             <i class="icon-bar-chart"></i>
@@ -294,10 +301,11 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    <% end -%>
     <div class="span6">
-      <div class="box box-color box-bordered">
+        <div class="box box-color box-bordered">
         <div class="box-title">
           <h3>
             <i class="icon-picture"></i>
@@ -312,13 +320,16 @@
         <div class="box-content nopadding">
           <div class="highlight-toolbar">
             <div class="pull-right">
+              
               <div class="btn-toolbar">
-                <div class="btn-group">
+                <% if can? :create, Upload%>  
+                  <div class="btn-group">
                   <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload"  } do |f| %>
                     <%= f.file_field :upload %>
                     <button type="submit" class="btn btn-danger" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
                   <% end -%>
-                </div>
+                  </div>
+                <% end -%>  
               </div>
             </div>
           </div>
@@ -338,12 +349,13 @@
             <% end -%>
           </ul>
         </div>
-      </div>
+        </div>
     </div>
   </div>
   <div class="row-fluid">
-    <div class="span6">
-      <div class="box box-color box-bordered" style="height:200px;">
+    <%if can? :read, Owner, Manager%>
+      <div class="span6">
+        <div class="box box-color box-bordered" style="height:200px;">
         <div class="box-title">
           <h3>
             <i class="icon-map-marker"></i>
@@ -399,8 +411,9 @@
             <% end -%>
           </ul>
         </div>
-      </div>
-    </div>
+        </div>
+      </div>  
+    <%end%>  
   </div>  
 </div>
 

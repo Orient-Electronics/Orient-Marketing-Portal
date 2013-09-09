@@ -2,124 +2,130 @@
 <div class="page-header">
   <h1><%= "#{@parent.name} - " if @parent.present? %><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-  
-<div id="new-task" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Add new task</h3>
-  </div>
-   <%= form_for @task,:html => { :class => 'form-horizontal form-bordered' } do |f| %>
-    <div class="modal-body nopadding">
-      <div class="control-group">
-        <%= f.hidden_field :assigned_by, :value=> current_user.id  %>
-      </div>
-      <div class="control-group">
-        <%= f.label :assigned_to,"Assigned to", :class => 'control-label' %>
-        <div class="controls">
-          <%= f.collection_select :assigned_to, User.all,:id,:name, include_blank: false %>
+
+<% if can? :create, Task%>  
+  <div id="new-task" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Add new task</h3>
+    </div>
+     <%= form_for @task,:html => { :class => 'form-horizontal form-bordered' } do |f| %>
+      <div class="modal-body nopadding">
+        <div class="control-group">
+          <%= f.hidden_field :assigned_by, :value=> current_user.id  %>
         </div>
-      </div>
-      <div class="control-group">
-        <%= f.label :comment,"Comment", :class => 'control-label' %>
-        <div class="controls">
-          <%= f.text_area :comment, :class => 'text_area' %>
+        <div class="control-group">
+          <%= f.label :assigned_to,"Assigned to", :class => 'control-label' %>
+          <div class="controls">
+            <%= f.collection_select :assigned_to, User.all,:id,:name, include_blank: false %>
+          </div>
         </div>
-      </div>
-      <div class="control-group">
-        <%= f.label :shop_id,"Shop", :class => 'control-label' %>
-        <div class="controls">
-          <%= f.collection_select :shop_id, Shop.all,:id,:dealer_name, include_blank: false %>
+        <div class="control-group">
+          <%= f.label :comment,"Comment", :class => 'control-label' %>
+          <div class="controls">
+            <%= f.text_area :comment, :class => 'text_area' %>
+          </div>
         </div>
-      </div>
-      <div class="control-group">
-        <label for="tasktitel" class="control-label"></label>
-        <div class="controls">
-          <label class="checkbox">
-            <%= f.check_box :important, :value=> "yep", :name => "task-bookmarked" %> Mark as important
-          </label>
+        <div class="control-group">
+          <%= f.label :shop_id,"Shop", :class => 'control-label' %>
+          <div class="controls">
+            <%= f.collection_select :shop_id, Shop.all,:id,:dealer_name, include_blank: false %>
+          </div>
         </div>
-      </div>
-      <div class="form-actions new-task-submit">
-        <%= f.submit "create task", :class => 'btn btn-primary' %>
-      </div>
+        <div class="control-group">
+          <label for="tasktitel" class="control-label"></label>
+          <div class="controls">
+            <label class="checkbox">
+              <%= f.check_box :important, :value=> "yep", :name => "task-bookmarked" %> Mark as important
+            </label>
+          </div>
+        </div>
+        <div class="form-actions new-task-submit">
+          <%= f.submit "create task", :class => 'btn btn-primary' %>
+        </div>
     </div>
   <%end%>
-</div>  
+  </div>
+<% end -%>  
 
-<div class="row-fluid">
-  <div class="span12">
-    <div class="box box-color box-bordered lightgrey">
-      <div class="box-title">
-        <h3><i class="icon-ok"></i> Assigned Task</h3>
-        <div class="actions">
-          <a href="#new-task" data-toggle="modal" class='btn'><i class="icon-plus-sign"></i> Add Task</a>
-        </div>
-      </div>
-      <div class="box-content nopadding">
-        <ul class="tasklist">
-          <% @tasks.each do |t| %>
-            <li class="status_check  <%= 'done' if t.status == "completed" %>"  remote = true  data-id = <%= t.id %> >
-              <div class="check">
-                <input type="checkbox" class='check-me' data-skin="square" data-color="blue" >
+<%if can? :read, Task%>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="box box-color box-bordered lightgrey">
+        <div class="box-title">
+            <h3><i class="icon-ok"></i> Assigned Task</h3>
+            <% if can? :create, Task%>
+              <div class="actions">
+                <a href="#new-task" data-toggle="modal" class='btn'><i class="icon-plus-sign"></i> Add Task</a>
               </div>
-              <span class="task">
-                <i class="icon-bar-chart"></i>  
-                <span class= "task_comment">
-                  <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
-                  <i class="user_name"> <%= "Assigned_by: " + User.find(t.assigned_by).name %></i> 
-                </span> 
-              </span>   
-            </li>
-            <span class="task-actions">
-              <a href="#" class="task-bookmark <%= "done" if t.important %>" rel="tooltip" title="Mark as   important"  data-id = <%= t.id %> remote =true>
-                 <i class="icon-bookmark-empty"></i>
-              </a>
-            </span> 
-          <%end%>
-        </ul>
-      </div>
-    </div>
-  </div> 
-</div>
-
-<div class="row-fluid">
-  <div class="span12">
-    <div class="box box-color box-bordered lightgrey">
-      <div class="box-title">
-        <h3><i class="icon-ok"></i> Created Task</h3>
-        <div class="actions">
-          <a href="#new-task" data-toggle="modal" class='btn'><i class="icon-plus-sign"></i> Add Task</a>
+            <% end -%>  
         </div>
-      </div>
-      <div class="box-content nopadding">
-        <ul class="tasklist">
-          <% @tasks.each do |t| %>
-            <li class="status_check  <%= 'done' if t.status == "completed" %>"  remote = true  data-id = <%= t.id %> >
-              <div class="check">
-                <input type="checkbox" class='check-me' data-skin="square" data-color="blue" >
-              </div>
-              <span class="task">
-                <i class="icon-bar-chart"></i>
-                <span class= "task_comment">
-                  <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
-                  <span> 
-                    <i class="user_name"> <%= "Assigned_to: " + User.find(t.assigned_to).name %></i> 
+        <div class="box-content nopadding">
+          <ul class="tasklist">
+            <% @tasks.each do |t| %>
+              <li class="status_check  <%= 'done' if t.status == "completed" %>"  remote = true  data-id = <%= t.id %> >
+                <div class="check">
+                  <input type="checkbox" class='check-me' data-skin="square" data-color="blue" >
+                </div>
+                <span class="task">
+                  <i class="icon-bar-chart"></i>  
+                  <span class= "task_comment">
+                    <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
+                    <i class="user_name"> <%= "Assigned_by: " + User.find(t.assigned_by).name %></i> 
                   </span> 
-                </span> 
-              </span>   
+                </span>   
+              </li>
               <span class="task-actions">
-                 <a href="#" class="task-bookmark <%= "done" if t.important %>" rel="tooltip" title="Mark as   important" data-id = <%= t.id %> remote =true >
-                  <i class="icon-bookmark-empty"></i>
+                <a href="#" class="task-bookmark <%= "done" if t.important %>" rel="tooltip" title="Mark as   important"  data-id = <%= t.id %> remote =true>
+                   <i class="icon-bookmark-empty"></i>
                 </a>
               </span> 
-            </li>
-          <%end%>
-        </ul>
+            <%end%>
+          </ul>
+        </div>
       </div>
-    </div>
-  </div> 
-</div>
-
+    </div> 
+  </div>
+<%end%>
+<% if can? :create, Task%>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="box box-color box-bordered lightgrey">
+        <div class="box-title">
+          <h3><i class="icon-ok"></i> Created Task</h3>
+          <div class="actions">
+            <a href="#new-task" data-toggle="modal" class='btn'><i class="icon-plus-sign"></i> Add Task</a>
+          </div>
+        </div>
+        <div class="box-content nopadding">
+          <ul class="tasklist">
+            <% @tasks.each do |t| %>
+              <li class="status_check  <%= 'done' if t.status == "completed" %>"  remote = true  data-id = <%= t.id %> >
+                <div class="check">
+                  <input type="checkbox" class='check-me' data-skin="square" data-color="blue" >
+                </div>
+                <span class="task">
+                  <i class="icon-bar-chart"></i>
+                  <span class= "task_comment">
+                    <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
+                    <span> 
+                      <i class="user_name"> <%= "Assigned_to: " + User.find(t.assigned_to).name %></i> 
+                    </span> 
+                  </span> 
+                </span>   
+                <span class="task-actions">
+                   <a href="#" class="task-bookmark <%= "done" if t.important %>" rel="tooltip" title="Mark as   important" data-id = <%= t.id %> remote =true >
+                    <i class="icon-bookmark-empty"></i>
+                  </a>
+                </span> 
+              </li>
+            <%end%>
+          </ul>
+        </div>
+      </div>
+    </div> 
+  </div>
+<%end%>
 <script type="text/javascript" charset="utf-8">
   
   $( document ).ready(function() {

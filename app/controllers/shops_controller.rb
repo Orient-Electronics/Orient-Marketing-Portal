@@ -2,7 +2,6 @@ class ShopsController < ApplicationController
   # GET /shops
   # GET /shops.json
   def index
-    authorize! :read, Shop
     if params[:dealer_id].present?
       @parent = Dealer.find params[:dealer_id]
       @shops = @parent.shops
@@ -15,11 +14,14 @@ class ShopsController < ApplicationController
           @parent = City.find params[:city_id]
           @shops = @parent.locations.collect(&:shop).flatten.reject {|r| r.nil? }
         else
-          @shops = Shop.all
+          if current_user.user_type.name == "employee"  
+             @shops = current_user.get_assigned_shops
+          else
+             @shops = Shop.all 
+          end
         end
-      end
+      end  
     end
-    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @shops }
@@ -30,11 +32,23 @@ class ShopsController < ApplicationController
   # GET /shops/1.json
   def show
     authorize! :read, Shop
-    @shop = Shop.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @shop }
+    if current_user.user_type.name == "employee"
+      shops = current_user.get_assigned_shops.collect(&:id)
+      p shops
+      if shops.include?(params[:id].to_i) 
+        @shop = Shop.find(params[:id]) 
+      else
+        respond_to do |format|
+          format.html {redirect_to '/shops'} 
+        end
+      end   
+    else 
+      @shop = Shop.find(params[:id])     
+    
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @shop }
+      end  
     end
   end
 

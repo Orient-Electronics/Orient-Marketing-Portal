@@ -32,4 +32,9 @@ class User < ActiveRecord::Base
     return self.build_avatar
   end
 
-end
+  def get_assigned_shops
+    assigned_tasks = Task.find_all_by_assigned_to(self)
+    return assigned_tasks.collect(&:shop).flatten
+  end
+  
+end  

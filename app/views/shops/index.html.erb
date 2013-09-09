@@ -4,7 +4,8 @@
 </div>
 <%= render :partial => "/shared/map" %>
 <div class="row-fluid">
-  <div class="span12">
+  <% if can? :read, Shop%>
+    <div class="span12">
     <div class="box box-color box-bordered">
       <div class="box-title">
         <h3>
@@ -62,13 +63,14 @@
         </table>
       </div>
     </div>
-  </div>
+    </div>
+  <% end -%> 
 </div>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
+<% if can? :create, Shop %>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
             new_shop_path,
             :class => 'btn btn-primary' %>
-
+<% end-%>
 <%= content_for :footer_js do %>
 <script type="text/javascript" charset="utf-8">
   var asInitVals = new Array();

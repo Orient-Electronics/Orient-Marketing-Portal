@@ -41,7 +41,4 @@ class Shop < ActiveRecord::Base
     end
   end
 
-  def self.paginate(page)
-    paginate :per_page => 10, :page => page
-  end
 end

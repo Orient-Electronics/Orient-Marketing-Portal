@@ -5,10 +5,6 @@ class DealersController < ApplicationController
     authorize! :read, Dealer
     @dealers = Dealer.all
     @shops = Shop.all
-    
-
-
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @dealers }
