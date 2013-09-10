@@ -28,9 +28,7 @@
             </div>  
             <% unless @category.products.blank? 
               @category.products.each do |product| %>
-                <%= render partial: 'product_bar', locals: {product: product, heading: "Display Information", value: "display", report_type: "d_report"} %>
-                <%= render partial: 'product_bar', locals: {product: product, heading: "Sale Information", value: "sales", report_type: "s_report"} %>
-                <%= render partial: 'product_bar', locals: {product: product, heading: "Display Corner Information", value: "display_corner", report_type: "c_report"} %>
+                <%= render partial: 'product_bar', locals: {product: product} %>
               <%end   
             else %>
                 <div class="step">

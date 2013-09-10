@@ -1,3 +1,8 @@
+<div id="modal-user" class="modal hide">
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">Close</button>
+  </div>
+</div>
 <div class="container-fluid">
   <div class="row-fluid">
     <ul class="tiles span8">
@@ -355,64 +360,36 @@
   <div class="row-fluid">
     <%if can? :read, Owner, Manager%>
       <div class="span6">
-        <div class="box box-color box-bordered" style="height:200px;">
-        <div class="box-title">
-          <h3>
-            <i class="icon-map-marker"></i>
-            People
-          </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+        <div class="box box-color box-bordered">
+          <div class="box-title">
+            <h3>
+              <i class="icon-user">
+              People </i>
+            </h3>
+            <div class="actions">
+              <a href="#" class="btn btn-mini content-refresh"><i class="icon-refresh"></i></a>
+              <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
+              <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+            </div>
+          </div>
+          <div class="box-content nopadding scrollable" data-height="500" data-visible="true"   >
+            <table class="table table-user table-nohead">
+              <tbody  remote ="true">
+                <tr>
+                  <td class ="img"><img src="/assets/demo/user-1.jpg" alt=""></td>
+                  <td class="user"><%= @shop.owner.name %></td>
+                  <td class='icon search_btn' data-id = <%= @shop.id%> data-type = "owner" ><a href="#" class='btn'><i class="icon-search"></i></a></td>
+                </tr>    
+                <tr>
+                  <td class ="img"><img src="/assets/demo/user-2.jpg" alt=""></td>
+                  <td class="user"><%= @shop.manager.name %></td>
+                  <td class='icon search_btn' data-id =  <%= @shop.id%> data-type = "manager" ><a href="#" class='btn'><i class="icon-search"></i></a></td>
+                </tr>
+              </tbody>
+            </table>    
           </div>
         </div>
-        <div class="box-content nopadding scrollable" style="overflow: hidden; width: auto; height: 300px;">
-          <ul class="userlist">
-            <li class="alert alert-error" style="margin:0;"><%= @shop.dealer_name %></li>
-            <% unless @shop.owner.blank? %>
-              <li>
-                <a href="#" >
-                  <img src="/assets/demo/user-1.jpg" alt="">
-                </a>
-                <a href="#" rel="popover" title="" data-placement="top" data-content="<strong>Cell Number : <%= @shop.owner.cell_number %></strong><br><strong>DOB : <%= @shop.owner.dob %></strong>" data-original-title="<%= @shop.owner.name %>" data-html="true" style="float:none;">
-                  <div class="user">
-                    <span class="name">
-                      <%= @shop.owner.name %>
-                    </span>
-                    <span class="position">
-                      Owner
-                    </span>
-                  </div>
-                  <div class="status active">
-                    <i class="icon-circle"></i>
-                  </div>
-                </a>
-              </li>
-            <% end -%>
-            <% unless @shop.manager.blank? %>
-              <li>
-                <a href="#" >
-                  <img src="/assets/demo/user-2.jpg" alt="">
-                </a>
-                <a href="#" rel="popover" title="" data-placement="top" data-content="<strong>Cell Number : <%= @shop.manager.cell_number %></strong><br><strong>DOB : <%= @shop.manager.dob %></strong>" data-original-title="<%= @shop.manager.name %>" data-html="true" style="float:none;">
-                  <div class="user">
-                    <span class="name">
-                      <%= @shop.manager.name %>
-                    </span>
-                    <span class="position">
-                      Manager
-                    </span>
-                  </div>
-                  <div class="status afk">
-                    <i class="icon-circle"></i>
-                  </div>
-                </a>
-              </li>
-            <% end -%>
-          </ul>
-        </div>
-        </div>
-      </div>  
+      </div>
     <%end%>  
   </div>  
 </div>
@@ -516,6 +493,23 @@
         $(this).parent().submit();
       });
       $('#category-display-data,#category-sales-data,#category-corner-data').removeClass('active');
+      
+      $(".search_btn").click( function ()
+        {
+          id = $(this).data("id");
+          type = $(this).data("type")
+          console.log(id);
+          console.log(type);
+          $.ajax ({
+            url:  '/dealers/' + id + '/showmodal',
+            data: {type: type},
+            success: function(data)
+            {                              
+              $("#modal-user").html(data);
+              console.log(data);   
+            }
+          });
+        });
     });
 
   </script>

@@ -4,24 +4,66 @@
     <span class="active"></span>
     </span>
     <span class="description">
-       <h3> <%= heading%> </h3> <hr />
+       <h3> Display Information </h3> <hr />
     </span>
   </div>
-</div>  
+</div>
 <div class="step-forms ">
-  <%= hidden_field_tag "report[#{report_type}][report_type]",'', :value => "#{value}" %>
+  <%= hidden_field_tag "report[d_report][report_type]",'', :value => "display" %>
   <% product.brands.each_with_index do |brand,index| %>
-    <%= hidden_field_tag "report[#{report_type}][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
-    <%= hidden_field_tag "report[#{report_type} ][report_lines_attributes][#{index}][product_category_id]","", :value => @category.id %>
-    <%= hidden_field_tag "report[#{report_type} ][report_lines_attributes][#{index}][product_id]","", :value => product.id %>
-    <% if value == "sales" || value == "display"%>  
-      <div class="control-group">
-        <%= label_tag "report[#{report_type}  ][report_lines_attributes][#{index}][data]","#{brand.name} display", :class => 'control-label' %>
-        <div class="controls">
-        <%= text_field_tag "report[#{report_type} ][report_lines_attributes][#{index}][data]","", :class => 'input-xlarge', "data-rule-required"=>"true" %>
-        </div>
+    <%= hidden_field_tag "report[d_report][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
+    <%= hidden_field_tag "report[d_report][report_lines_attributes][#{index}][product_category_id]","", :value => @category.id %>
+    <%= hidden_field_tag "report[d_report][report_lines_attributes][#{index}][product_id]","", :value => product.id %>  
+    <div class="control-group">
+      <%= label_tag "report[d_report}][report_lines_attributes][#{index}][data]","#{brand.name} display", :class => 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag "report[d_report][report_lines_attributes][#{index}][data]","", :class => 'input-xlarge', "data-rule-required"=>"true" %>
       </div>
-    <%else%>  
+    </div>
+  <% end -%>
+</div>
+<div class="step">
+  <div class="single-step">
+    <span class="circle">
+    <span class="active"></span>
+    </span>
+    <span class="description">
+       <h3> Sales Information </h3> <hr />
+    </span>
+  </div>
+</div>
+<div class="step-forms" id="firstStep">
+
+  <%= hidden_field_tag "report[s_report][report_type]",'', :value => "sales" %>
+  <% product.brands.each_with_index do |brand,index| %>
+    <%= hidden_field_tag "report[s_report][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
+    <%= hidden_field_tag "report[s_report][report_lines_attributes][#{index}][product_category_id]","", :value => @category.id %>
+    <%= hidden_field_tag "report[s_report][report_lines_attributes][#{index}][product_id]","", :value => product.id %>  
+
+    <div class="control-group">
+      <%= label_tag "report[s_report][report_lines_attributes][#{index}][data]","#{brand.name} sales", :class => 'control-label' %>
+      <div class="controls">
+      <%= text_field_tag "report[s_report][report_lines_attributes][#{index}][data]","", :class => 'input-xlarge', "data-rule-required"=>"true" %>
+      </div>
+    </div>
+  <% end -%>   
+</div>
+<div class="step" id="firstStep">
+  <div class="single-step">
+    <span class="circle">
+    <span class="active"></span>
+    </span>
+    <span class="description">
+       <h3> Display Corner Information </h3> <hr />
+    </span>
+  </div>
+</div>
+<div class="step-forms ">
+  <%= hidden_field_tag "report[c_report][report_type]",'', :value => "display_corner" %>
+  <% product.brands.each_with_index do |brand,index| %> 
+      <%= hidden_field_tag "report[c_report][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
+      <%= hidden_field_tag "report[c_report][report_lines_attributes][#{index}][product_category_id]","", :value => @category.id %>
+      <%= hidden_field_tag "report[c_report][report_lines_attributes][#{index}][product_id]","", :value => product.id %>  
       <div class="control-group">
         <%= label_tag "report[c_report][report_lines_attributes][#{index}][data]","#{brand.name} display corner", :class => 'control-label' %>
         <div class="controls">
@@ -30,7 +72,6 @@
           <% ReportLine.new.build_avatar%>
           <label class="label"> <%= file_field_tag "report[c_report][report_lines_attributes][#{index}][avatar_attributes][avatar]"%> </label>
         </div>
-      </div>
-    <% end -%>  
+      </div>  
   <% end -%>
 </div>

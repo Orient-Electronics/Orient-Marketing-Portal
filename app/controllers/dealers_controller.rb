@@ -100,4 +100,10 @@ class DealersController < ApplicationController
     @uploads = @shop.flatten.collect(&:uploads).flatten
   end
 
+  def showmodal
+    
+    @shop = Shop.find(params[:id])
+    params[:type]=="owner" ? @parent=@shop.owner : @parent=@shop.manager
+    render :partial =>"/dealers/show_modal" , :locals => {:person => @parent, :shop => @shop}
+  end  
 end

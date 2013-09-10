@@ -19,10 +19,12 @@ Orient::Application.routes.draw do
     resources :shops
     member do
       get 'gallery'
+      get 'showmodal'
     end
     collection do
       get 'showgallery'
-    end    
+    end
+
   end
 
 

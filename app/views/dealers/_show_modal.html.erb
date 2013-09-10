@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="false">×</button>
+  <h3 id="user-infos"><%= person.name%></h3>
+</div>
+<div class="modal-body">
+  <div class="row-fluid">
+    <div class="span2">
+      <img src="/assets/demo/user-1.jpg" alt="">
+    </div>
+    <div class="span10">
+      <dl class="dl-horizontal" style="margin-top:0;">
+        <dt>Full name:</dt>
+        <dd><%= person.name%></dd>
+        <dt>D.O.B:</dt>
+        <dd><%= person.dob%></dd>
+        <dt>Address:</dt>
+        <dd>
+
+          <address> <strong><%= shop.address%></strong>
+            <br> <abbr title="Phone">P:
+            <%= person.cell_number%></abbr>
+          </address>
+        </dd>
+        <dt>Social:</dt>
+        <dd>
+          <a href="#" class='btn'><i class="icon-facebook"></i></a>
+          <a href="#" class='btn'><i class="icon-twitter"></i></a>
+          <a href="#" class='btn'><i class="icon-linkedin"></i></a>
+          <a href="#" class='btn'><i class="icon-envelope"></i></a>
+          <a href="#" class='btn'><i class="icon-rss"></i></a>
+          <a href="#" class='btn'><i class="icon-github"></i></a>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div>
