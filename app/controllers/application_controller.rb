@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
 
   before_filter :authenticate_user!
-  layout :change_layout
+  #layout :change_layout
   protect_from_forgery
 
   def change_layout

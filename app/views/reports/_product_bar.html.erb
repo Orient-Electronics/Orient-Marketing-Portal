@@ -27,6 +27,8 @@
         <div class="controls">
           <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "1" %>Yes</label>
           <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "0" %>No</label>
+          <% ReportLine.new.build_avatar%>
+          <label class="label"> <%= file_field_tag "report[c_report][report_lines_attributes][#{index}][avatar_attributes][avatar]"%> </label>
         </div>
       </div>
     <% end -%>  
