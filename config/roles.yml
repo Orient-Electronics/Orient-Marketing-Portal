@@ -21,4 +21,5 @@ entities:
   shop_category: ShopCategory
   upload: Upload
   user: User
-  user_type: UserYype
+  user_type: UserType
+  task: Task
