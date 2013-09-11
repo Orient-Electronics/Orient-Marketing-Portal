@@ -1,0 +1,56 @@
+<div class="box-content nopadding scrollable" data-height="500" data-visible="true">
+  <div class="tab-content">
+   <div class="tab-pane active" id="brand-data">
+      <table class="table table-user table-nohead">
+        <tbody>
+          <% @brand_report_lines.each do |brand_id,brand_report| %>
+            <tr class="alpha">
+              <td class="alpha-val" colspan="8">
+                <span><%= get_brand_name(brand_id) %></span>
+              </td>
+            </tr>
+            <% brand_report.each do |line| %>
+              <tr>
+                <% if line.avatar %> 
+                  <td class ="img"><%= image_tag line.avatar.try(:avatar).try(:url)%></td>
+                <% else %>
+                  <td class ="img"><%= image_tag "/assets/default.png"%></td>
+                <% end %>
+                <td class="user"><%= line.product_category.name %></td>
+                <td class="date"><%= line.created_at.strftime('%m,%b,%y')%></td>
+                <td class='icon search_btn' ><a href="#" class='btn'><i class="icon-search"></i></a>
+                </td>
+              </tr>
+            <%end %>
+          <% end-%>       
+        </tbody>
+      </table>    
+    </div>  
+    <div class="tab-pane" id="category-data">
+      <table class="table table-user table-nohead">
+        <tbody>
+          <% @category_report_lines.each do |category,cat_report| %>
+            <tr class="alpha">
+              <td class="alpha-val" colspan="8">
+                <span><%= get_productcategory_name(category) %></span>
+              </td>
+            </tr>
+            <% cat_report.each do |line| %>
+              <tr>
+                <% if line.avatar %> 
+                  <td class ="img"><%= image_tag line.avatar.try(:avatar).try(:url)%></td>
+                <% else %>
+                  <td class ="img"><%= image_tag "/assets/default.png"%></td>
+                <% end %>
+                <td class="user"><%= line.brand.name %></td>
+                <td class="date"><%= line.created_at.strftime('%m,%b,%y')%></td>
+                <td class='icon search_btn' ><a href="#" class='btn'><i class="icon-search"></i></a>
+                </td>
+              </tr>
+            <%end %>
+          <% end-%>       
+        </tbody>
+      </table>    
+    </div>
+  </div>
+</div> 

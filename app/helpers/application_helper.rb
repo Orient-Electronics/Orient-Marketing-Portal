@@ -20,4 +20,13 @@ module ApplicationHelper
     return a
   end
 
+  def get_brand_name(id)
+      brand = Brand.find(id)
+      name  = brand.name 
+  end
+  
+  def get_productcategory_name(id)
+    category = ProductCategory.find(id)
+    category.name
+  end  
 end

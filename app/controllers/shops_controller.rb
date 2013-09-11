@@ -32,6 +32,10 @@ class ShopsController < ApplicationController
   # GET /shops/1.json
   def show
     authorize! :read, Shop
+    @product_categories = ProductCategory.all
+    shop_report_lines = Shop.find(params[:id]).reports.find_all_by_report_type("display_corner").collect(&:report_lines).flatten
+    @brand_report_lines = shop_report_lines.group_by {|d| d[:brand_id] }
+    @category_report_lines = shop_report_lines.group_by {|d| d[:product_category_id] }
     if current_user.user_type.name == "employee"
       shops = current_user.get_assigned_shops.collect(&:id)
       p shops
@@ -44,7 +48,7 @@ class ShopsController < ApplicationController
       end   
     else 
       @shop = Shop.find(params[:id])     
-    
+        
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @shop }

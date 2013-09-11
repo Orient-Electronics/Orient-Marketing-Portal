@@ -241,73 +241,31 @@
 
   <div class="row-fluid">
     <% if can? :read, Report%>
-      <div class="span6">
-        <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-bar-chart"></i>
-            Disaplay Corner
-          </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
-          <ul class="tabs">
-            <li class="active">
-              <a href="#brand-corner-data" data-toggle="tab">Brand Data</a>
-            </li>
-            <li class="">
-              <a href="#category-corner-data" data-toggle="tab">Category Data</a>
-            </li>
-          </ul>
-        </div>
-        <div class="box-content">
-          <div class="tab-content">
-            <div class="tab-pane active" id="brand-corner-data">
-              <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
-                <%= f.hidden_field :type, :value => "corner_data" %>
-                <%= hidden_field_tag "shop_id", @shop.id %>
-                <select name=search[product]>
-                  <option value="">All</option>
-                  <% ProductCategory.all.each do |pc| %>
-                    <% if pc.products.blank? %>
-                      <option value="<%= pc.name %>"><%= pc.name %></option>
-                    <% else %>
-                      <optgroup label="<%= pc.name %>">
-                        <% pc.products.each do |product| %>
-                          <option value="<%= product.name %>"><%= product.name %></option>
-                        <% end -%>
-                      </optgroup>
-                    <% end -%>
-                  <% end -%>
-                </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-              <% end -%>
-              <div class="display_data_chart">
-                <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @shop.reports, :type => "corner_data"} %>
+      <% if @category_report_lines.blank? && @category_report_lines.blank? %>
+        <div class="span6">
+          <div class="box box-color box-bordered">
+            <div class="box-title">
+              <h3>
+                <i class="icon-bar-chart">
+                Display Corner Report </i>
+              </h3>
+              <div class="actions">
+                <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
               </div>
+              <ul class="tabs">
+                <li class="active">
+                  <a href="#brand-data" data-toggle="tab">Brand Data</a>
+
+                </li>
+                <li class="">
+                  <a href="#category-data" data-toggle="tab">Category Data</a>
+                </li>
+              </ul>
             </div>
-            <div class="tab-pane active" id="category-corner-data">
-              <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
-                <%= f.hidden_field :type, :value => "corner_data" %>
-                <%= hidden_field_tag "shop_id", @shop.id %>
-                <select name=search[brand]>
-                  <option value="">All</option>
-                  <% Brand.all.each do |pc| %>
-                    <option value="<%= pc.id %>"><%= pc.name %></option>
-                  <% end -%>
-                </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-              <% end -%>
-              <div class="corner_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @shop.reports, :type => "corner_data"} %>
-              </div>
-            </div>
+            <%= render :partial => "shops/display_corner_report"%>
           </div>
         </div>
-        </div>
-      </div>
+      <% end %>  
     <% end -%>
     <div class="span6">
         <div class="box box-color box-bordered">
@@ -390,7 +348,9 @@
           </div>
         </div>
       </div>
-    <%end%>  
+    <%end%>
+    
+
   </div>  
 </div>
 
