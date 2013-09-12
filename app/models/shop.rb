@@ -19,6 +19,20 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :location
   accepts_nested_attributes_for :avatar
 
+ 
+  validates_presence_of :website
+  validates_presence_of :avatar, :presence => true, :message => "^please upload shop logo" 
+  validates :address, :presence => true, :length => { :maximum => 250 }
+  validates_presence_of :dealer_name, :presence => true, :length => { :maximum => 25 }, :message => "^Shop Name Can't be Blank"
+  validates_numericality_of :phone, :presence => true
+  validates :email, :presence => true, 
+                    :length => {:minimum => 3, :maximum => 25},
+                    :uniqueness => true,
+                    :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
+  validates :orient_dealer, :presence => true
+
+  
+
   searchable do
     text :dealer_name, :address
     text :owner do

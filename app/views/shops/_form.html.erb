@@ -1,9 +1,13 @@
 <%= form_for @shop, :html => { :class => 'form-horizontal shop_form', :multipart => true }  do |f| %>
+  <div class= "error-box">
+    <p><%= errors_for(@shop, "Opps, unable to add new shop").html_safe %></p>
+  </div>
 
   <h3> Shop Logo </h3>
   <%= f.fields_for :avatar do |f| %>
+    
     <div class= "control-group">
-      <%= f.label "Icon" ,:id => :avatar, :class => 'control-label'%>
+      <%= f.label "Icon", :id => :avatar, :class => 'control-label'%>
       <div class="controls">
         <%= f.file_field :avatar ,:class => 'avatar_field' %>
       </div>

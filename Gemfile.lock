@@ -50,6 +50,7 @@ GEM
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.3)
+    dynamic_form (1.1.4)
     erubis (2.7.0)
     execjs (2.0.0)
     fattr (2.2.1)
@@ -201,6 +202,7 @@ DEPENDENCIES
   cancan
   coffee-rails (~> 3.2.1)
   devise
+  dynamic_form
   jquery-fileupload-rails
   jquery-rails
   jquery-ui-rails

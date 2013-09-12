@@ -1,5 +1,7 @@
 <%= form_for @product, :html => { :class => 'form-horizontal' } do |f| %>
-
+  <div class= "error-box">
+    <p><%= errors_for(@product, "unable to add new product").html_safe %></p>
+  </div>
   <div class="control-group">
     <%= f.label :product_category_id, :class => 'control-label' %>
     <div class="controls">

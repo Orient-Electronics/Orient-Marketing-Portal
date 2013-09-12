@@ -82,12 +82,13 @@ class ShopsController < ApplicationController
   # POST /shops.json
   def create
     @shop = Shop.new(params[:shop])
-
+    
     respond_to do |format|
       if @shop.save
         format.html { redirect_to @shop, notice: 'Shop was successfully created.' }
         format.json { render json: @shop, status: :created, location: @shop }
       else
+        flash.now[:error] = "Could not save Shop"
         format.html { render action: "new" }
         format.json { render json: @shop.errors, status: :unprocessable_entity }
       end

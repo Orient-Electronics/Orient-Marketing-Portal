@@ -1,4 +1,8 @@
 <%= form_for @task,:html => { :class => 'form-horizontal task_form' } do |f| %>
+  
+  <div class= "error-box">
+    <p><%= errors_for(@task, "unable to add new tasks").html_safe %></p>
+  </div>
   <div class="control-group">
     <div class="controls">
       <%= f.hidden_field :assigned_by, :value=> current_user.id  %>

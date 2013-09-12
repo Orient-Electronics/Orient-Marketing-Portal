@@ -39,6 +39,7 @@ class ReportsController < ApplicationController
       @report.year =params[:year]
       @report.user = current_user
       @report.shop_id = params[:shop_id]
+    
       @report.save
 
     end

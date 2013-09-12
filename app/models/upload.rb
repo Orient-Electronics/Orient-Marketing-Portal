@@ -10,6 +10,8 @@ class Upload < ActiveRecord::Base
                         :medium => "500x500>"
                     }
 
+  validates_presence_of :upload, :uploadable_id, :uploadable_type , :presence => true 
+
   include Rails.application.routes.url_helpers
 
   def to_jq_upload

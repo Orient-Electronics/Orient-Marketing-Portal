@@ -10,6 +10,11 @@ class Report < ActiveRecord::Base
 
   accepts_nested_attributes_for :report_lines
 
+  validates_presence_of :data, :presence => true 
+  validates_presence_of :week, :year, :report_type, :user_id, :presence => true
+  validates_associated :report_lines
+
+
   def self.reports_of(value)
     Report.where(:report_type => value)
   end

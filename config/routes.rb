@@ -27,9 +27,6 @@ Orient::Application.routes.draw do
 
   end
 
-
-
-
   resources :brands do
     resources :reports
   end

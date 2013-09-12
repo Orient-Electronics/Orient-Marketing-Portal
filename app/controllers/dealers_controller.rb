@@ -29,10 +29,11 @@ class DealersController < ApplicationController
   def new
     authorize! :create, Dealer
     @dealer = Dealer.new
+    @dealer.build_avatar
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @dealer }
+      format.json { render json: @dealer}
     end
   end
 
