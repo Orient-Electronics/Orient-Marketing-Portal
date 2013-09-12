@@ -10,17 +10,19 @@
               </td>
             </tr>
             <% brand_report.each do |line| %>
-              <tr>
-                <% if line.avatar %> 
-                  <td class ="img"><%= image_tag line.avatar.try(:avatar).try(:url)%></td>
-                <% else %>
-                  <td class ="img"><%= image_tag "/assets/default.png"%></td>
-                <% end %>
-                <td class="user"><%= line.product_category.name %></td>
-                <td class="date"><%= line.created_at.strftime('%m,%b,%y')%></td>
-                <td class='icon search_btn' ><a href="#" class='btn'><i class="icon-search"></i></a>
-                </td>
-              </tr>
+              <% line.avatars.each do |upload| %>
+                <tr>
+                  <% if upload.avatar %> 
+                    <td class ="img"><%= image_tag upload.avatar.url %></td>
+                  <% else %>
+                    <td class ="img"><%= image_tag "/assets/default.png"%></td>
+                  <% end %>
+                  <td class="user"><%= upload.avatarable.product_category.name %></td>
+                  <td class="date"><%= upload.avatarable.created_at.strftime('%m,%b,%y')%></td>
+                  <td class='icon search_btn' ><a href="#" class='btn'><i class="icon-search"></i></a>
+                  </td>
+                </tr>
+              <% end -%>
             <%end %>
           <% end-%>       
         </tbody>
@@ -36,17 +38,19 @@
               </td>
             </tr>
             <% cat_report.each do |line| %>
-              <tr>
-                <% if line.avatar %> 
-                  <td class ="img"><%= image_tag line.avatar.try(:avatar).try(:url)%></td>
-                <% else %>
-                  <td class ="img"><%= image_tag "/assets/default.png"%></td>
-                <% end %>
-                <td class="user"><%= line.brand.name %></td>
-                <td class="date"><%= line.created_at.strftime('%m,%b,%y')%></td>
-                <td class='icon search_btn' ><a href="#" class='btn'><i class="icon-search"></i></a>
-                </td>
-              </tr>
+              <% line.avatars.each do |upload| %>
+                <tr>
+                  <% if upload.avatar %> 
+                    <td class ="img"><%= image_tag upload.avatar.url %></td>
+                  <% else %>
+                    <td class ="img"><%= image_tag "/assets/default.png"%></td>
+                  <% end %>
+                  <td class="user"><%= upload.avatarable.brand.name %></td>
+                  <td class="date"><%= upload.avatarable.created_at.strftime('%m,%b,%y')%></td>
+                  <td class='icon search_btn' ><a href="#" class='btn'><i class="icon-search"></i></a>
+                  </td>
+                </tr>
+              <% end -%>
             <%end %>
           <% end-%>       
         </tbody>

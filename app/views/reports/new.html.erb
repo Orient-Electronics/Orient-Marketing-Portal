@@ -1,6 +1,5 @@
 <div class="container-fluid">
   <div class="page-header">
-    
     <div class="pull-left">
       <h1><%= @category.name %></h1>
     </div>
@@ -29,7 +28,7 @@
             <% unless @category.products.blank? 
               @category.products.each do |product| %>
                 <%= render partial: 'product_bar', locals: {product: product} %>
-              <%end   
+              <%end  
             else %>
                 <div class="step">
                     <div class="single-step">
@@ -85,7 +84,7 @@
                     <h3>  Display Corner Information </h3> <hr />
                   </span>
                 </div>
-                <div class="step-forms">    
+                <div class="step-forms">
                   <%= hidden_field_tag "report[c_report][report_type]",'', :value => "display_corner" %>
                   <% @category.brands.each_with_index do |brand,index| %>
                     <%= hidden_field_tag "report[c_report][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
@@ -95,13 +94,20 @@
                       <div class="controls">
                         <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "1" %>Yes</label>
                         <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "0" %>No</label>
-                          <% ReportLine.new.build_avatar%>
-                        <label class="label"> <%= file_field_tag "report[c_report][report_lines_attributes][#{index}][avatar_attributes][avatar]"%> </label>
+                          <% temp = 0 %>
+                          <div class= "parent-controls" remote ="true">
+                            <div class="child-controls">
+                              <label class="label"> <%= file_field_tag "report[c_report][report_lines_attributes][#{index}][avatars_attributes][#{temp}][avatar]" %> 
+                             </label>
+                            </div>
+                            <%= link_to "add", "#" , :class => "addAvatar" ,  data: { index: index}%>
+                          </div>
                       </div>
                     </div>
                   <%end-%>
                 </div>
-            <%end%>
+            <% end -%>
+
             <div class="form-actions">
               <input type="reset" class="btn" value="Back" id="back">
               <input type="submit" class="btn btn-primary" value="Submit" id="next">
@@ -112,3 +118,22 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+
+  $(".addAvatar").click(function(e){
+    e.preventDefault();
+    index = $(this).data("index");
+    length = $(this).parent().find('input').length;
+    child = $(this).parent().find('.child-controls');
+    $.ajax ({
+        url:  '/reports/file_field',
+        data: {index: index, length: length },
+        success: function(data)
+        {
+          child.append(data);
+        }
+    });
+  });
+
+</script>

@@ -28,5 +28,5 @@ module ApplicationHelper
   def get_productcategory_name(id)
     category = ProductCategory.find(id)
     category.name
-  end  
+  end
 end

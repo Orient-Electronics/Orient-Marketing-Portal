@@ -64,6 +64,7 @@ Orient::Application.routes.draw do
     collection do
       post 'brand_search'
       post 'category_search'
+      get  'file_field'
     end
   end
 
@@ -72,7 +73,7 @@ Orient::Application.routes.draw do
       get 'change'
     end
     member do
-      get 'toggle_important'  
+      get 'toggle_important'
     end
 
   end

@@ -241,7 +241,7 @@
 
   <div class="row-fluid">
     <% if can? :read, Report%>
-      <% if @category_report_lines.blank? && @category_report_lines.blank? %>
+      <% if !@category_report_lines.blank? && !@brand_report_lines.blank? %>
         <div class="span6">
           <div class="box box-color box-bordered">
             <div class="box-title">

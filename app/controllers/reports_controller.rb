@@ -99,4 +99,9 @@ class ReportsController < ApplicationController
     render(:partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type]})
   end
 
+  def file_field
+
+    render(:partial => "/reports/reportline_avatars", :locals => {:index => params[:index], :temp => params[:length]})
+  end
+
 end
