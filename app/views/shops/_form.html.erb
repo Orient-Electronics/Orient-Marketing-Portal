@@ -1,6 +1,6 @@
-<%= form_for @shop, :html => { :class => 'form-horizontal shop_form', :multipart => true }  do |f| %>
+<%= form_for @shop, :html => { :class => 'form-horizontal shop_form form-validate' , :multipart => true }  do |f| %>
   <div class= "error-box">
-    <p><%= errors_for(@shop, "Opps, unable to add new shop").html_safe %></p>
+    <p><%= errors_for(@shop, "").html_safe %></p>
   </div>
 
   <h3> Shop Logo </h3>
@@ -9,7 +9,7 @@
     <div class= "control-group">
       <%= f.label "Icon", :id => :avatar, :class => 'control-label'%>
       <div class="controls">
-        <%= f.file_field :avatar ,:class => 'avatar_field' %>
+        <%= f.file_field :avatar ,:class => 'avatar_field required' %>
       </div>
     </div>
   <%end%> 
@@ -18,28 +18,28 @@
     <div class="control-group">
       <%= f.label :city_id, :class => 'control-label' %>
       <div class="controls">
-        <%= f.collection_select :city_id, City.all,:id,:name, include_blank: true %>
+        <%= f.collection_select :city_id, City.all,:id,:name, include_blank: true, :class => 'required' %>
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label :area, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :area, :class => 'text_field' %>
+        <%= f.text_field :area, :class => 'text_field required' %>
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label :longitude, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :longitude, :class => 'text_field', :id => 'lng' %>
+        <%= f.text_field :longitude, :class => 'text_field required number', :id => 'lng' %>
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label :latitude, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :latitude, :class => 'text_field', :id => 'lat' %>
+        <%= f.text_field :latitude, :class => 'text_field required number', :id => 'lat' %>
       </div>
     </div>
 
@@ -52,7 +52,7 @@
         </div>
         <div class="clearfix"></div>
         <br>
-        <%= check_box_tag "", "", false, id: "confirm_pin", :class => 'pull-left' %>
+        <%= check_box_tag "", "", false, id: "confirm_pin", :class => 'pull-left required' %>
         <%= label_tag "confirm_pin", " Confirm this location" %>
       </div>
     </div>
@@ -62,52 +62,52 @@
   <div class="control-group">
     <%= f.label :dealer_name,"Shop Name", :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :dealer_name, :class => 'text_field' %>
+      <%= f.text_field :dealer_name, :class => 'text_field required' %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :branch_of,"Dealer Name", :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :branch_of, :class => 'text_field typeahead' %>
+      <%= f.text_field :branch_of, :class => 'text_field typeahead required' %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :phone, :class => 'control-label' %>
     <div class="controls">
-      <%= f.number_field :phone, :class => 'number_field' %>
+      <%= f.number_field :phone, :class => 'number_field required number' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :website, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :website, :class => 'text_field' %>
+      <%= f.text_field :website, :class => 'text_field required' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :email, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :email, :class => 'text_field' %>
+      <%= f.text_field :email, :class => 'text_field required email' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :address, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :address, :class => 'text_field' %>
+      <%= f.text_field :address, :class => 'text_field required' %>
     </div>
   </div>
 
   <div class="control-group">
     <%= f.label :orient_dealer, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box :orient_dealer, :class => 'check_box' %>
+      <%= f.check_box :orient_dealer, :class => 'check_box required' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :shop_category_id, :class => 'control-label' %>
     <div class="controls">
-      <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, include_blank: true %>
+      <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, include_blank: true, :class => 'required' %>
     </div>
   </div>
 
@@ -117,14 +117,15 @@
     <div class="control-group">
       <%= f.label :name, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :name, :class => 'text_field' %>
+        <%= f.text_field :name, :class => 'text_field required' %>
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label :cell_number, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :cell_number, :class => 'text_field' %>
+        <%= f.text_field :cell_number, :class => 'text_field required number
+' %>
       </div>
     </div>
 
@@ -132,7 +133,7 @@
       <%= f.label :dob,"Date of Birth", :class => 'control-label' %>
       <div class="controls">
         <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-          <%= f.text_field :dob, :readonly => true %><span class="add-on"><i class="icon-th"></i></span>
+          <%= f.text_field :dob, :readonly => true , :class =>'required date' %><span class="add-on"><i class="icon-th"></i></span>
         </div>
       </div>
     </div>
@@ -144,14 +145,14 @@
     <div class="control-group">
       <%= f.label :name, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :name, :class => 'text_field' %>
+        <%= f.text_field :name, :class => 'text_field required' %>
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label :cell_number, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :cell_number, :class => 'text_field' %>
+        <%= f.text_field :cell_number, :class => 'text_field required number' %>
       </div>
     </div>
 
@@ -159,7 +160,7 @@
       <%= f.label :dob,"Date of Birth", :class => 'control-label' %>
       <div class="controls">
         <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-          <%= f.text_field :dob, :readonly => true %><span class="add-on"><i class="icon-th"></i></span>
+          <%= f.text_field :dob, :readonly => true, :class =>'required' %><span class="add-on"><i class="icon-th"></i></span>
         </div>
       </div>
     </div>
@@ -274,6 +275,7 @@
   }
 
   $('document').ready(function () {
+    
     if(($("#lat").val()=="")||($("#lng").val()==""))
       setgeolocation("Pakistan");
     else{

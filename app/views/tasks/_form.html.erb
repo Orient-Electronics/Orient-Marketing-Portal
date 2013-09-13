@@ -1,7 +1,7 @@
-<%= form_for @task,:html => { :class => 'form-horizontal task_form' } do |f| %>
+<%= form_for @task,:html => { :class => 'form-horizontal task_form form-validate' } do |f| %>
   
   <div class= "error-box">
-    <p><%= errors_for(@task, "unable to add new tasks").html_safe %></p>
+    <p><%= errors_for(@task, "").html_safe %></p>
   </div>
   <div class="control-group">
     <div class="controls">
@@ -17,7 +17,7 @@
   <div class="control-group">
       <%= f.label :comment,"Comment", :class => 'control-label' %>
       <div class="controls">
-          <%= f.text_area :comment, :class => 'text_area' %>
+          <%= f.text_area :comment, :class => 'text_area required' %>
       </div>
   </div>
   <div class="control-group">

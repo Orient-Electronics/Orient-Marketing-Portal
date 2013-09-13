@@ -9,7 +9,9 @@ class Role < ActiveRecord::Base
 
   before_save :update_symbol
 
-  validates_presence_of :entity, :name, :notes, :presence => true
+  validates_presence_of :entity, :notes
+  validates :name, :presence => true, :length => {:minimum => 3, :maximum => 20} 
+
 
   def self.get (symbol)
     Role.find_by_symbol symbol.to_s

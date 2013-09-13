@@ -4,5 +4,5 @@ class ShopCategory < ActiveRecord::Base
 
   attr_accessible :name
 
-  validates_presence_of :name, :presence => true
+  validates :name, :length => {:minimum => 3, :maximum => 20}, :presence => true 
 end

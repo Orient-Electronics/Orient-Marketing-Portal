@@ -1,11 +1,11 @@
-<%= form_for @brand, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_for @brand, :html => { :class => 'form-horizontal form-validate' } do |f| %>
   <div class= "error-box">
-    <p><%= errors_for(@brand, "unable to add new brand").html_safe %></p>
+    <p><%= errors_for(@brand, "").html_safe %></p>
   </div>
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :name, :class => 'text_field' %>
+      <%= f.text_field :name, :class => 'text_field required' %>
     </div>
   </div>
 

@@ -5,6 +5,25 @@ $('document').ready(function(){
     $(this).parent().children('ul.tree').toggle(200);
   });
   $('select').selectpicker();
+  if($('.form-validate').length > 0)
+  {
+    $('.form-validate').each(function(){
+      var id = $(this).attr('id');
+      $("#"+id).validate({
+        errorElement:'span',
+        errorClass: 'help-block error',
+        errorPlacement:function(error, element){
+          element.parents('.controls').append(error);
+        },
+        highlight: function(label) {
+          $(label).closest('.control-group').removeClass('error success').addClass('error');
+        },
+        success: function(label) {
+          label.addClass('valid').closest('.control-group').removeClass('error success').addClass('success');
+        }
+      });
+    });
+  }
 });
 
   function onLoadDoc(div,unit,report_of) {

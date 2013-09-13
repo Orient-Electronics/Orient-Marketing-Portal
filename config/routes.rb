@@ -6,7 +6,7 @@ Orient::Application.routes.draw do
 
   resources :roles
 
-  resources :searches
+  resources :search
 
   resources :product_categories do
     resources :reports

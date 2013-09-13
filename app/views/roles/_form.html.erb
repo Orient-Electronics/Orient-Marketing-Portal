@@ -1,11 +1,11 @@
-<%= form_for @role, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_for @role, :html => { :class => 'form-horizontal form-validate' } do |f| %>
   <div class= "error-box">
-    <p><%= errors_for(@role, "unable to add new role").html_safe %></p>
+    <p><%= errors_for(@role, "").html_safe %></p>
   </div>
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :name, :class => 'text_field' %>
+      <%= f.text_field :name, :class => 'text_field required' %>
     </div>
   </div>
   <div class="control-group">
@@ -17,13 +17,13 @@
   <div class="control-group">
     <%= f.label :entity, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :entity, :class => 'text_field' %>
+      <%= f.text_field :entity, :class => 'text_field required' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :notes, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_area :notes, :class => 'text_area' %>
+      <%= f.text_area :notes, :class => 'text_area required' %>
     </div>
   </div>
 

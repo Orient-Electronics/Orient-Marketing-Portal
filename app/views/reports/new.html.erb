@@ -14,7 +14,7 @@
           </h3>
         </div>
         <div class="box-content">
-          <%= form_for [@shop,@report], :html => { :class => 'form-horizontal', :multipart => true } do |f| %>
+          <%= form_for [@shop,@report], :html => { :class => 'form-horizontal form-validate', :multipart => true } do |f| %>
             <div class = "row-fluid">
               <div class= "span6" >              
                <%= label_tag "year","Year", :class => 'control-label' %>  
@@ -48,7 +48,7 @@
                     <div class="control-group">
                       <%= label_tag "report[d_report][report_lines_attributes][#{index}][data]","#{brand.name} display", :class => 'control-label' %>
                       <div class="controls">
-                        <%= text_field_tag "report[d_report][report_lines_attributes][#{index}][data]","", :class => 'input-xlarge', "data-rule-required"=>"true" %>
+                        <%= text_field_tag "report[d_report][report_lines_attributes][#{index}][data]","", :class => 'input-xlarge requied number', "data-rule-required"=>"true" %>
                       </div>
                     </div>
                   <% end -%>
@@ -71,7 +71,7 @@
                     <div class="control-group">
                       <%= label_tag "report[s_report][report_lines_attributes][#{index}][data]","#{brand.name} sales", :class => 'control-label' %>
                       <div class="controls">
-                        <%= text_field_tag "report[s_report][report_lines_attributes][#{index}][data]","", :class => 'input-xlarge', "data-rule-required"=>"true" %>
+                        <%= text_field_tag "report[s_report][report_lines_attributes][#{index}][data]","", :class => 'input-xlarge required number', "data-rule-required"=>"true" %>
                       </div>
                     </div>
                   <%end-%>
@@ -97,7 +97,7 @@
                           <% temp = 0 %>
                           <div class= "parent-controls" remote ="true">
                             <div class="child-controls">
-                              <label class="label"> <%= file_field_tag "report[c_report][report_lines_attributes][#{index}][avatars_attributes][#{temp}][avatar]" %> 
+                              <label class="label"> <%= file_field_tag "report[c_report][report_lines_attributes][#{index}][avatars_attributes][#{temp}][avatar]" , :class => 'required' %> 
                              </label>
                             </div>
                             <%= link_to "add", "#" , :class => "addAvatar" ,  data: { index: index}%>
@@ -134,6 +134,10 @@
           child.append(data);
         }
     });
+  });
+
+  $( document ).ready(function() {
+    $('#new_report_form').validate();
   });
 
 </script>
