@@ -4,13 +4,13 @@ class SearchController < ApplicationController
   
     @search = Shop.search() do
       fulltext params[:search]
-       paginate :page => params[:page], :per_page => 10
+      paginate :page => params[:page], :per_page => 10
     end
-    @shops = @search.results 
+    @shops = @search.results
     respond_to do |format|
       format.html
-      format.json {render json: @searches}
-    end  
+      format.json {render json: @search}
+    end
   end
 
 end

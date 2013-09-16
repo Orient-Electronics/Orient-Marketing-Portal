@@ -29,6 +29,7 @@ class ReportsController < ApplicationController
     @shop = Shop.find params[:shop_id]
     @report = Report.new
     @category = ProductCategory.find params[:product_category_id]
+    
   end
 
   def create
@@ -39,9 +40,7 @@ class ReportsController < ApplicationController
       @report.year =params[:year]
       @report.user = current_user
       @report.shop_id = params[:shop_id]
-    
-      @report.save
-
+      @report.save!
     end
     respond_to do |format|
         format.html {redirect_to root_url}
