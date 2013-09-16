@@ -4,5 +4,5 @@ class City < ActiveRecord::Base
 
   attr_accessible :name
 
-  validates_presence_of :name, :length => {:maximum => 30}, :presence => true
+  validates :name, :length => {:maximum => 30}, :presence => true
 end

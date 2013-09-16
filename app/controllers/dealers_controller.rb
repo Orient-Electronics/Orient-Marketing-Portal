@@ -5,6 +5,9 @@ class DealersController < ApplicationController
     authorize! :read, Dealer
     @dealers = Dealer.all
     @shops = Shop.all
+    @reports = Report.all
+    @brands = Brand.all
+    @categories= ProductCategory.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @dealers }
@@ -47,7 +50,7 @@ class DealersController < ApplicationController
   # POST /dealers.json
   def create
     @dealer = Dealer.new(params[:dealer])
-
+    @dealer.build_avatar params[:dealer][:avatar_attributes]
     respond_to do |format|
       if @dealer.save
         format.html { redirect_to @dealer, notice: 'Dealer was successfully created.' }
