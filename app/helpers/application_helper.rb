@@ -8,13 +8,13 @@ module ApplicationHelper
     a = []
     i = 1
     until beginning > ending
-      end_of_week = beginning + 5.days
+      end_of_week = beginning + 6.days
       if i==1
-        a.push(["#{i.ordinalize + ' week - ' + b.strftime('%b')}" , i])
+        a.push(["#{i.ordinalize + ' week - ' + b.strftime('%d') + b.strftime('%b') + '-' +  end_of_week.strftime('%d') + end_of_week.strftime('%b')}" , i])
       else
-        a.push(["#{i.ordinalize + ' week - ' + beginning.strftime('%b')}" , i])
+        a.push(["#{i.ordinalize + ' week - ' + beginning.strftime('%d') + beginning.strftime('%b') + '-' + end_of_week.strftime('%d') + end_of_week.strftime('%b')}" , i])
       end
-      beginning = end_of_week + 2.days
+      beginning = end_of_week + 1.days
       i +=1
     end
     return a
