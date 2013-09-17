@@ -12,5 +12,4 @@ class Avatar < ActiveRecord::Base
                     },
                     :default_url => '/assets/default.png'
 
-  validates :avatar, :presence => true                  
 end

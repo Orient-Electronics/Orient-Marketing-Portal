@@ -55,7 +55,14 @@ Orient::Application.routes.draw do
   end
   resources :uploads
 
-  resources :tasks
+  resources :tasks do
+    member do
+      get 'change'
+    end
+    member do
+      get 'toggle_important'
+    end
+  end
 
   resources :reports do
     collection do
@@ -65,18 +72,7 @@ Orient::Application.routes.draw do
     end
   end
 
-  resources :tasks do
-    member do
-      get 'change'
-    end
-    member do
-      get 'toggle_important'
-    end
-
-  end
-
   devise_for :users, :controllers => {:registrations => "registrations"}
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
