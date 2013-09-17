@@ -12,6 +12,6 @@ class ReportLine < ActiveRecord::Base
   accepts_nested_attributes_for :avatars
 
   validates_presence_of :brand_id, :message => " ^please choose the brand"
-  validates_presence_of :report_id
+  validates_presence_of :product_category_id
   validates_numericality_of :data, :presence => true
 end
