@@ -12,14 +12,14 @@
             <% brand_report.each do |line| %>
               <% line.avatars.each do |upload| %>
                 <tr>
-                  <% if upload.avatar %> 
+                  <% if upload.avatar %>
                     <td class ="img"><%= image_tag upload.avatar.url %></td>
                   <% else %>
                     <td class ="img"><%= image_tag "/assets/default.png"%></td>
                   <% end %>
                   <td class="user"><%= upload.avatarable.product_category.name %></td>
                   <td class="date"><%= upload.avatarable.created_at.strftime('%m,%b,%y')%></td>
-                  <td class='icon search_btn' ><a href="#" class='btn'><i class="icon-search"></i></a>
+                  <td><a href="<%= upload.avatar.url(:medium) %>" class='btn colorbox-image'><i class="icon-search"></i></a>
                   </td>
                 </tr>
               <% end -%>
@@ -47,7 +47,7 @@
                   <% end %>
                   <td class="user"><%= upload.avatarable.brand.name %></td>
                   <td class="date"><%= upload.avatarable.created_at.strftime('%m,%b,%y')%></td>
-                  <td class='icon search_btn' ><a href="#" class='btn'><i class="icon-search"></i></a>
+                  <td><a href="<%= upload.avatar.url(:medium) %>" class='btn colorbox-image'><i class="icon-search"></i></a>
                   </td>
                 </tr>
               <% end -%>
