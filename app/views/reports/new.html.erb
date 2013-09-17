@@ -92,17 +92,16 @@
                     <div class="control-group">
                       <%= label_tag "report[c_report][report_lines_attributes][#{index}][data]","#{brand.name} display corner", :class => 'control-label' %>
                       <div class="controls">
-                        <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "1" %>Yes</label>
-                        <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "0" %>No</label>
-                          <% temp = 0 %>
-                          <div class= "parent-controls" remote ="true">
-                            <div class="child-controls">
-                              <label class="label"> <%= file_field_tag "report[c_report][report_lines_attributes][#{index}][avatars_attributes][#{temp}][avatar]" , :class => 'required' %> 
-                             </label>
-                            </div>
-                            <%= link_to "add", "#" , :class => "addAvatar" ,  data: { index: index}%>
-                          </div>
-                      </div>
+                        <div class = "radio-controls" remote ="true"  >
+                          <label class="radio" data-index = "<%= index %>" ><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "1" %>Yes</label>
+                          <label class="radio" data-index = "<%= index %>" ><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "0" %>No</label>
+                        </div>
+                        <% temp = 0 %>
+                        <div class= "parent-controls" remote ="true">
+                          <div class="child-controls"></div>
+                          <%= link_to "add", "#" , :class => "addAvatar hide" ,  data: { index: index} %>
+                        </div>
+                    </div>
                     </div>
                   <%end-%>
                 </div>
@@ -134,6 +133,36 @@
           child.append(data);
         }
     });
+  });
+
+  $(".radio-controls label input").change(function(e){
+    e.preventDefault();
+    text = $(this).val();
+    index = $(this).parent().data('index');
+    parent = $(this).parent().parent().parent();
+    length = parent.find('.parent-controls').find('input').length;
+    child = parent.find('.parent-controls').find('.child-controls');
+    avatar_link = parent.find('.parent-controls').find('.addAvatar');
+    if(text == 1)
+    {
+      console.log(text);
+      $.ajax ({
+        url:  '/reports/file_field',
+        data: {index: index, length: length },
+        success: function(data)
+        {
+          child.append(data);
+          avatar_link.show();
+        }
+      });
+    }
+    else
+    if(text == 0)
+    {
+      child.html("");
+      avatar_link.hide();
+    }
+
   });
 
   $( document ).ready(function() {
