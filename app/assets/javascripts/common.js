@@ -24,6 +24,50 @@ $('document').ready(function(){
       });
     });
   }
+  $(".addAvatar").click(function(e){
+    e.preventDefault();
+    console.log($(this));
+    index = $(this).data("index");
+    length = $(this).parent().find('input').length;
+    child = $(this).parent().find('.child-controls');
+    $.ajax ({
+        url:  '/reports/file_field',
+        data: {index: index, length: length },
+        success: function(data)
+        {
+          child.append(data);
+        }
+    });
+  });
+  $(".radio-controls label input").change(function(e){
+    e.preventDefault();
+    text = $(this).val();
+    index = $(this).parent().data('index');
+    parent = $(this).parent().parent().parent();
+    length = parent.find('.parent-controls').find('input').length;
+    child = parent.find('.parent-controls').find('.child-controls');
+    avatar_link = parent.find('.parent-controls').find('.addAvatar');
+    if(text == 1)
+    {
+      console.log(text);
+      $.ajax ({
+        url:  '/reports/file_field',
+        data: {index: index, length: length },
+        success: function(data)
+        {
+          child.append(data);
+          avatar_link.show();
+        }
+      });
+    }
+    else
+    if(text == 0)
+    {
+      child.html("");
+      avatar_link.hide();
+    }
+
+  });
 });
 
   function onLoadDoc(div,unit,report_of) {

@@ -60,42 +60,23 @@
 </div>
 <div class="step-forms ">
   <%= hidden_field_tag "report[c_report][report_type]",'', :value => "display_corner" %>
-  <% product.brands.each_with_index do |brand,index| %> 
+  <% product.brands.each_with_index do |brand,index| %>
       <%= hidden_field_tag "report[c_report][report_lines_attributes][#{index}][brand_id]","", :value => brand.id %>
       <%= hidden_field_tag "report[c_report][report_lines_attributes][#{index}][product_category_id]","", :value => @category.id %>
       <%= hidden_field_tag "report[c_report][report_lines_attributes][#{index}][product_id]","", :value => product.id %>  
       <div class="control-group">
         <%= label_tag "report[c_report][report_lines_attributes][#{index}][data]","#{brand.name} display corner", :class => 'control-label' %>
         <div class="controls">
-          <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "1" %>Yes</label>
-          <label class="radio"><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "0" %>No</label>
+          <div class = "radio-controls" remote ="true"  >
+            <label class="radio" data-index = "<%= index %>" ><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "1" %>Yes</label>
+            <label class="radio" data-index = "<%= index %>" ><%= radio_button_tag "report[c_report][report_lines_attributes][#{index}][data]", "0" %>No</label>
+          </div>
           <% temp = 0 %>
           <div class= "parent-controls" remote ="true">
             <div class="child-controls">
-              <label class="label"> <%= file_field_tag "report[c_report][report_lines_attributes][#{index}][avatars_attributes][#{temp}][avatar]" , :class => 'required', :id => "display_corner#{product.id}" %> </label>
             </div>
-            <%= link_to "add", "#" , :class => "addAvatar" ,  data: { index: index}%>
+            <%= link_to "add", "#" , :class => "addAvatar hide" ,  data: { index: index}%>
           </div>
       </div>  
   <% end -%>
 </div>
-
-<script type="text/javascript" charset="utf-8">
-
-  $(".addAvatar").click(function(e){
-    e.preventDefault();
-    index = $(this).data("index");
-    length = $(this).parent().find('input').length;
-    child = $(this).parent().find('.child-controls');
-    $.ajax ({
-        url:  '/reports/file_field',
-        data: {index: index, length: length },
-        success: function(data)
-        {
-          child.append(data);
-        }
-    });
-  });
-
-
-</script>
