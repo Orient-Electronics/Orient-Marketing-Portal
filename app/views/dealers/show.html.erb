@@ -252,7 +252,7 @@
                 <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
-              <div class="display_data_chart">
+              <div class="corner_data_chart">
                 <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data"} %>
               </div>
             </div>
@@ -270,7 +270,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="corner_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data"} %>
+                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data", :brand => nil} %>
               </div>
             </div>
           </div>

@@ -114,7 +114,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "display_data"} %>
+                <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "display_data", :brand => nil} %>
               </div>
               <hr>
               <div class="clearfix"></div>
@@ -131,7 +131,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "sales_data"} %>
+                <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "sales_data",:brand => nil} %>
               </div>
               <hr>
               <div class="clearfix"></div>
@@ -148,7 +148,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="corner_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "corner_data"} %>
+                <%= render :partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "corner_data",:brand => nil} %>
               </div>
             </div>
           </div>
