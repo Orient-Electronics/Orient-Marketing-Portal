@@ -103,7 +103,7 @@
                   <i class="icon-edit"></i>
                   <span>
                     <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
-                    <i class="user_name"> <%= "Assigned_by: " + t.child %></i>
+                    <i class="user_name"> <%= "Assigned_to: " + t.child %></i>
                   </span> 
                 </span>
                 <span class="task-actions">
