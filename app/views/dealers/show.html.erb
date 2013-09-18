@@ -8,7 +8,7 @@
     <button class="btn" data-dismiss="modal">Close</button>
   </div>
 </div>
-<div class="container-fluid">
+<div class="row-fluid">
   
   <div class="row-fluid">
     <div class="span6">
@@ -22,22 +22,18 @@
               Shops
             </h3>
           </div>
-          <div class="box-content nopadding">
+          <div class="box-content nopadding scrollable" style="overflow: hidden;">
             <table class="table table-hover table-nomargin" id="shop-data">
               <thead>
                 <tr class='thefilter row-fluid'>
-                  <th class="span2"><input type="text" name="search_shop" placeholder="Shop" class="search_init span12" /></th>
-                  <th class="span1"><input type="text" name="search_address" placeholder="Address" class="search_init span12" /></th>
-                  <th class="span2"><input type="text" name="search_location" placeholder="Location" class="search_init span12" /></th>
-                  <th class="span1"><input type="text" name="search_orient_dealer" placeholder="Orient Dealer" class="search_init span12" /></th>
-                  <th class="span2"><span class="span12">&nbsp;</span></th>
+                  <th class="span6"><input type="text" name="search_shop" placeholder="Shop" class="search_init span12" /></th>
+                  <th class="span3"><input type="text" name="search_orient_dealer" placeholder="Orient Dealer" class="search_init span12" /></th>
+                  <th class="span3"><span class="span12">&nbsp;</span></th>
                 </tr>
                 <tr class="row-fluid">
-                  <th class="span2"><%= model_class.human_attribute_name(:dealer_name) %></th>
-                  <th class="span1"><%= model_class.human_attribute_name(:address) %></th>
-                  <th class="span2"><%= model_class.human_attribute_name(:location_id) %></th>
-                  <th class="span1"><%= model_class.human_attribute_name(:orient_dealer) %></th>
-                  <th class="span2"><%=t '.actions', :default => t("helpers.actions") %></th>
+                  <th class="span6"><%= model_class.human_attribute_name(:dealer_name) %></th>
+                  <th class="span3"><%= model_class.human_attribute_name(:orient_dealer) %></th>
+                  <th class="span3"><%=t '.actions', :default => t("helpers.actions") %></th>
                 </tr>
               </thead>
               <tbody>
@@ -45,8 +41,6 @@
                   <% if can? :read, shop%>
                     <tr class="row-fluid">
                     <td class"span2"><%= link_to shop.dealer_name, shop_path(shop) %></td>
-                    <td class"span1"><%= shop.address %></td>
-                    <td class"span2"><%= shop.location.try(:complete_location) %></td>
                     <td class"span1"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non dealer</span>".html_safe %></td>
                     <td class"span2">
                       <%= link_to "<i class='icon-search'></i>".html_safe,
@@ -367,11 +361,7 @@
     var asInitVals = new Array();
     
     $(document).ready(function() {
-      var oTable = $('#shop-data').dataTable( {
-        "oLanguage": {
-          "sSearch": "Search all columns:"
-        }
-      } );
+      var oTable = $('#shop-data').dataTable();
       
       $(".thefilter input").keyup( function () {
         /* Filter on the column (the index) of this element */

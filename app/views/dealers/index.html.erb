@@ -19,12 +19,12 @@
           Dealers
         </h3>
         </div>
-        <div class="box-content nopadding scrollable" style="overflow: hidden; width: auto; height: 300px;">
+        <div class="box-content nopadding scrollable" style="overflow: hidden;">
           <table class="table table-hover table-nomargin" id="shop-data">
             <thead>
               <tr class='thefilter row-fluid'>
-              <th class="span9"><input type="text" name="search_dealer" placeholder="Dealer" class="search_init span12" /></th>
-              <th class="span3"><span class="span12">&nbsp;</span></th>
+                <th class="span9"><input type="text" name="search_dealer" placeholder="Dealer" class="search_init span12" /></th>
+                <th class="span3"><span class="span12">&nbsp;</span></th>
               </tr>
               <tr class="row-fluid">
               <th class="span9"><%= model_class.human_attribute_name(:name) %></th>
@@ -102,7 +102,6 @@
             People </i>
           </h3>
           <div class="actions">
-            <a href="#" class="btn btn-mini content-refresh"><i class="icon-refresh"></i></a>
             <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
             <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
           </div>
@@ -139,11 +138,7 @@
     var asInitVals = new Array();
     
     $(document).ready(function() {
-      var oTable = $('#shop-data').dataTable( {
-        "oLanguage": {
-          "sSearch": "Search all columns:"
-        }
-      } );
+      var oTable = $('#shop-data').dataTable();
       
       $(".thefilter input").keyup( function () {
         /* Filter on the column (the index) of this element */
