@@ -410,15 +410,12 @@
         {
           id = $(this).data("id");
           type = $(this).data("type")
-          console.log(id);
-          console.log(type);
           $.ajax ({
             url:  '/dealers/' + id + '/showmodal',
             data: {type: type},
             success: function(data)
             {                              
               $("#modal-user").html(data);
-              console.log(data);   
             }
           });
         });  
