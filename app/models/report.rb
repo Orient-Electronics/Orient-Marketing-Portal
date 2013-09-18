@@ -30,17 +30,28 @@ class Report < ActiveRecord::Base
     reports.select{|key| key.report_type=="display_corner"}.collect(&:report_lines).flatten.select{|key| key.brand_id == brand_id }.collect(&:data).reject {|r|r.nil?}.sum
   end
 
-  def self.category_sales(reports,category_id)
-    reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
+  def self.category_sales(reports,category_id,brand)
+    if brand.nil?
+      reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
+    else
+      reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.sum
+    end
   end
 
-  def self.category_display(reports,category_id)
-    p reports
-    reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
+  def self.category_display(reports,category_id,brand)
+    if brand.nil?
+      reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
+    else
+      reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.sum
+    end
   end
 
-  def self.category_corner(reports,category_id)
-    reports.select{|key| key.report_type=="display_corner"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
+  def self.category_corner(reports,category_id,brand)
+    if brand.nil?
+      reports.select{|key| key.report_type=="display_corner"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
+    else
+      reports.select{|key| key.report_type=="display_corner"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.sum
+    end
   end
 
 end

@@ -2,7 +2,7 @@
 <div id="category_display_data">
   <textarea class="hide display_data">
     <% categories.each do |category| %>
-      <%= [category.name,Report.category_display(reports,category.id)].join("|") %>
+      <%= [category.name,Report.category_display(reports,category.id,brand)].join("|") %>
       <%= "~" unless category == categories.last %>
     <% end -%>
   </textarea>
@@ -16,7 +16,7 @@
 <div id="category_sales_data">
   <textarea class="hide sales_data">
     <% categories.each do |category| %>
-      <%= [category.name,Report.category_sales(reports,category.id)].join("|") %>
+      <%= [category.name,Report.category_sales(reports,category.id,brand)].join("|") %>
       <%= "~" unless category == categories.last %>
     <% end -%>
   </textarea>
@@ -30,7 +30,7 @@
 <div id="category_corner_data">
   <textarea class="hide corner_data">
     <% categories.each do |category| %>
-      <%= [category.name,Report.category_corner(reports,category.id)].join("|") %>
+      <%= [category.name,Report.category_corner(reports,category.id,brand)].join("|") %>
       <%= "~" unless category == categories.last %>
     <% end -%>
   </textarea>

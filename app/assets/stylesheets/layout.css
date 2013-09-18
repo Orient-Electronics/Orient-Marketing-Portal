@@ -133,7 +133,7 @@ dd{
   margin-right: 8px;
 }
 .box-content{
-  height: 500px !important;
+  min-height: 500px !important;
 }
 
 

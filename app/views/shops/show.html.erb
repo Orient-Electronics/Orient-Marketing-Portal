@@ -159,7 +159,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @shop.reports, :type => "display_data"} %>
+                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @shop.reports, :type => "display_data", :brand => nil} %>
               </div>
             </div>
           </div>
@@ -229,7 +229,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @shop.reports, :type => "sales_data"} %>
+                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @shop.reports, :type => "sales_data", :brand => nil} %>
               </div>
             </div>
           </div>

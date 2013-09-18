@@ -43,7 +43,7 @@ class ReportsController < ApplicationController
       @report.save!
     end
     respond_to do |format|
-        format.html {redirect_to root_url}
+        format.html {redirect_to shop_path(@shop)}
         format.json { render json: @shop, status: :created, location: @shop }
     end
   end
@@ -51,9 +51,9 @@ class ReportsController < ApplicationController
   def brand_search
     unless params[:search][:product].blank?
       @parent = Product.find_by_name params[:search][:product]
-      @parent = ProductCategory.find_by_name params[:search][:product] if @parent.blank?
+      @pc = ProductCategory.find_by_name params[:search][:product] if @parent.blank?
       @reports = ReportLine.where(:product_id=> @parent.id).collect(&:report).uniq unless @parent.blank?
-      @reports = ReportLine.where(:product_category_id=> @parent.id).collect(&:report).uniq if @parent.blank?
+      @reports = ReportLine.where(:product_category_id=> @pc.id).collect(&:report).uniq if @parent.blank?
     else
       @reports = Report.all
     end
@@ -73,12 +73,7 @@ class ReportsController < ApplicationController
   end
 
   def category_search
-    unless params[:search][:brand].blank?
-      @parent = Brand.find params[:search][:brand]
-      @reports = ReportLine.where(:brand_id=> @parent.id).collect(&:report).uniq
-    else
-      @reports = Report.all
-    end
+    @reports = Report.all
     if !params[:search][:week].blank? and params[:search][:week].size > 1
       week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
       @reports = @reports.select{|r| week.include?(r[:week])}
@@ -95,8 +90,13 @@ class ReportsController < ApplicationController
       shops = dealer.shops.collect(&:id).flatten
       @reports = @reports.select{|r| shops.include?(r.shop_id)}.flatten
     end
+    unless params[:search][:brand].blank?
+      @parent = Brand.find params[:search][:brand]
+    end
+    brand = nil
+    brand = @parent.id unless @parent.blank?
     @categories = ProductCategory.all
-    render(:partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type]})
+    render(:partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type], :brand => brand })
   end
 
   def file_field
