@@ -132,14 +132,8 @@ dd{
   width: auto;
   margin-right: 8px;
 }
-.task-actions
-{
-  float: right;
-  margin-right: 15px;
-  clear :both;
-}
 .box-content{
-  min-height: 500px !important;
+  max-height: 500px !important;
 }
 
 

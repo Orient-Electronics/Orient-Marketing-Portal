@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
 
   has_many :reports, :dependent => :destroy
 
+  has_many :created_tasks, :foreign_key => 'assigned_by', :class_name => "Task"
+  has_many :assigned_tasks, :foreign_key => 'assigned_to', :class_name => "Task"
+
   #has_and_belongs_to_many :roles
 
   belongs_to :user_type
@@ -33,8 +36,8 @@ class User < ActiveRecord::Base
   end
 
   def get_assigned_shops
-    assigned_tasks = Task.find_all_by_assigned_to(self)
-    return assigned_tasks.collect(&:shop).flatten
+    assigned_shops = Task.find_all_by_assigned_to(self)
+    return assigned_shops.collect(&:shop).flatten
   end
-  
+
 end  
