@@ -6,22 +6,23 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def change_layout
-    if current_user
-       if current_user.user_type.try(:name) == 'employee'
-          'employee'
-       else
-          'application'
-       end
-    else
-      'application'
-    end
+      if current_user
+        current_user.user_employee? ? 'employee' : 'application'
+      else
+        'application'
+      end  
   end
 
   def check_admin
     if params[:controller] == 'rails_admin/main'
-      unless current_user.user_type.name == 'admin'
+      unless current_user.user_admin?
         return redirect_to "/"
       end
     end
   end
+
+  def after_sign_in_path_for(resource)
+    resource.user_admin? ? '/admin' : session["user_return_to"]         
+  end 
+
 end

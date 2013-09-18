@@ -26,7 +26,6 @@ $('document').ready(function(){
   }
   $(".addAvatar").click(function(e){
     e.preventDefault();
-    console.log($(this));
     index = $(this).data("index");
     length = $(this).parent().find('input').length;
     child = $(this).parent().find('.child-controls');
@@ -49,7 +48,6 @@ $('document').ready(function(){
     avatar_link = parent.find('.parent-controls').find('.addAvatar');
     if(text == 1)
     {
-      console.log(text);
       $.ajax ({
         url:  '/reports/file_field',
         data: {index: index, length: length },

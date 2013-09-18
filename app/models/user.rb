@@ -40,4 +40,11 @@ class User < ActiveRecord::Base
     return assigned_shops.collect(&:shop).flatten
   end
 
+  def user_admin?
+    user_type.try(:name) == "admin"
+  end
+  
+  def user_employee?
+    user_type.try(:name) == "employee"
+  end
 end  
