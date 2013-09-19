@@ -1,25 +1,19 @@
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-map-marker"></i>
-            Locations Information
-          </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
-        </div>
-        <div class="box-content no-padding">
-          <div class="span12" id="map_location" style="height: 500px;">
-          </div>
-          <textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>
-          <textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>
-        </div>
-      </div>
+<div class="box box-color box-bordered">
+  <div class="box-title">
+    <h3>
+      <i class="icon-map-marker"></i>
+      Locations Information
+    </h3>
+    <div class="actions">
+      <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
+      <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
     </div>
+  </div>
+  <div class="box-content no-padding">
+    <div class="span12" id="map_location" style="height: 500px;">
+    </div>
+    <textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>
+    <textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>
   </div>
 </div>
 
