@@ -29,7 +29,10 @@
     var mapOptions = {
       'center': (new google.maps.LatLng(lat,lng)),
       zoom: 4,
-      'disableDefaultUI':true
+      'disableDefaultUI':true,
+      'mapTypeControl': true,
+      'panControl': true,
+      'zoomControl': true
     };
     map = new google.maps.Map($("#map_location")[0], mapOptions);
     for (var i=0;i<lat_arr.length;i++)
