@@ -22,13 +22,24 @@
   </div>
   <div class="control-group">
     <%= f.label :shop_id,"Shop", :class => 'control-label' %>
-      <div class="controls">
-        <%= f.collection_select :shop_id, Shop.all,:id,:dealer_name, include_blank: true %>
-      </div>
-  </div> 
+    <div class="controls">
+      <%= f.text_field :shop_name, :class => 'text_field typeahead required' %>
+    </div>
+  </div>    
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
       <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                   tasks_path, :class => 'btn' %>
   </div>
 <% end %>
+<script type="text/javascript" charset="utf-8">
+
+  $('document').ready(function () {
+    $('.typeahead').typeahead({                                
+      name: 'shops',
+      local: '<%= Shop.all.collect{|c| c.dealer_name}.join("*") %>'.split("*"),
+      limit: 10                                                                   
+    });
+  });
+
+</script>

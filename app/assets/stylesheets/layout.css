@@ -176,3 +176,7 @@ dd{
   color: #b94a48;
   width: 600px;
 }
+
+.typeahead {
+  background-color: white !important;
+}

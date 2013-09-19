@@ -29,7 +29,7 @@
       <div class="control-group">
         <%= f.label :shop_id,"Shop", :class => 'control-label' %>
         <div class="controls">
-          <%= f.collection_select :shop_id, Shop.all,:id,:dealer_name, include_blank: false %>
+          <%= f.text_field :shop_name, :class => ' selectpicker text_field typeahead required' %>
         </div>
       </div>
       <div class="control-group">
@@ -153,5 +153,11 @@
         }            
       });
     });
-  });  
+    
+    $('.typeahead').typeahead({                                
+        name: 'shops',
+        local: '<%= Shop.all.collect{|c| c.dealer_name}.join("*") %>'.split("*"),
+        limit: 10                                                                   
+    });
+  });    
 </script>  
