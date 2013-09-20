@@ -133,7 +133,8 @@ dd{
   margin-right: 8px;
 }
 .box-content{
-  height: 500px !important;
+  max-height: 500px !important;
+  overflow: hidden;
 }
 
 
