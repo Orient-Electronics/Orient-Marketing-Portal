@@ -297,13 +297,6 @@
             <i class="icon-picture"></i>
             Images
           </h3>
-          <div class="actions">
-            <%= link_to "View All", shop_uploads_path(@shop), :class=> "btn btn-primary" %>
-            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
-        </div>
-        <div class="box-content nopadding">
           <div class="highlight-toolbar">
             <div class="pull-right">
               
@@ -319,19 +312,39 @@
               </div>
             </div>
           </div>
+          <div class="actions">
+            <%= link_to "View All", shop_uploads_path(@shop), :class=> "btn btn-primary" %>
+            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
+            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+          </div>
+        </div>
+        <div class="box-content nopadding">
           <ul class="gallery">
-            <% @shop.uploads.limit(6).each do |image| %>
+            <% count = 0%>
+            <% @shop_uploads.each do |image| %>
+              <% break if count == 6  %>
               <li>
-                <a href="#">
-                  <%= image_tag image.upload.url(:small) %>
-                </a>
-                <div class="extras">
-                  <div class="extras-inner">
-                    <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
-                    <a href="<%= image.to_jq_upload['delete_url'] %>" class='del-gallery-pic' data-method="delete"><i class="icon-trash"></i></a>
+                <% if image.class.to_s == "Upload"%>
+                  <a href="#">
+                    <%= image_tag image.upload.url(:small) %>
+                  </a>
+                  <div class="extras">
+                    <div class="extras-inner">
+                      <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
+                    </div>
                   </div>
-                </div>
+                <% else %>
+                  <a href="#">
+                    <%= image_tag image.avatar.url(:small) %>
+                  </a>
+                  <div class="extras">
+                    <div class="extras-inner">
+                      <a href="<%= image.avatar.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
+                    </div>
+                  </div>
+                <% end -%>
               </li>
+              <% count = count+1 %>
             <% end -%>
           </ul>
         </div>
