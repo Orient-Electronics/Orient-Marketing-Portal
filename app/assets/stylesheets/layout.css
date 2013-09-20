@@ -180,3 +180,9 @@ dd{
 .typeahead {
   background-color: white !important;
 }
+
+#fileupload input[type="file"]
+{
+  padding-left: 75px !important;
+  width: 200px !important;
+}

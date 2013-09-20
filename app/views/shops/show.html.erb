@@ -292,30 +292,23 @@
     <% end -%>
     <div class="span6">
         <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-picture"></i>
-            Images
-          </h3>
-          <div class="highlight-toolbar">
-            <div class="pull-right">
-              
-              <div class="btn-toolbar">
-                <% if can? :create, Upload%>  
-                  <div class="btn-group">
-                  <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload"  } do |f| %>
-                    <%= f.file_field :upload %>
-                    <button type="submit" class="btn btn-danger" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
-                  <% end -%>
-                  </div>
-                <% end -%>  
+          <div class="box-title">
+            <h3>
+              <i class="icon-picture"></i>
+              Images
+            </h3>
+            <% if can? :create, Upload%>
+              <div class="btn-group upload-form">
+                <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate" } do |f| %>
+                  <%=f.file_field :upload , :class => "required"%>
+                  <button type="submit" class="btn btn-danger" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
+                <% end -%>
               </div>
+            <% end -%>
+            <div class="actions">
+              <%= link_to "View All", shop_uploads_path(@shop), :class=> "btn btn-primary view_all_btn" %>
+              <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
             </div>
-          </div>
-          <div class="actions">
-            <%= link_to "View All", shop_uploads_path(@shop), :class=> "btn btn-primary" %>
-            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
           </div>
         </div>
         <div class="box-content nopadding">

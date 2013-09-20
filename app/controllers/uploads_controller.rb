@@ -49,11 +49,11 @@ class UploadsController < ApplicationController
     respond_to do |format|
       if @upload.save
         format.html {
-           redirect_to :back
+           return redirect_to :back
         }
         format.json { render json: {files: [@upload.to_jq_upload]}, status: :created, location: @upload }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to :back }
         format.json { render json: @upload.errors, status: :unprocessable_entity }
       end
     end
