@@ -33,18 +33,18 @@ class TasksController < ApplicationController
     end
   end
 
-  def change
-    @task = Task.find(params[:id])
-    @task.status = (@task.status == "completed" ? "pending" : "completed")
-    @task.save
-    render :text => @task.status
-  end
 
-  def toggle_important
+  def change_status
     @task = Task.find(params[:id])
-    @task.important = (@task.important == true ? false : true)
-    @task.save
-    render :text => @task.important
+    @task.status = params[:task][:status]
+    if @task.save
+      respond_to do |format|
+        format.html {redirect_to '/'}
+        format.json { render json: @tasks }
+      end
+    else
+      format.html { redirect_to '/' }
+      format.json { render json: @task.errors, status: :unprocessable_entity }
+    end
   end
-
 end

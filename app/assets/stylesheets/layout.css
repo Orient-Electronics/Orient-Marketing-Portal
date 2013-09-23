@@ -187,3 +187,14 @@ dd{
   padding-left: 75px !important;
   width: 200px !important;
 }
+
+.task
+{
+
+}
+
+span input
+{
+  float: right !important;
+  padding-top:  15px;
+}

@@ -1,6 +1,6 @@
 class Task < ActiveRecord::Base
   # attr_accessible :title, :body
-  attr_accessible :assigned_by, :assigned_to, :comment, :shop_id, :status, :important, :task_type, :shop_name
+  attr_accessible :assigned_by, :assigned_to, :comment, :shop_id, :status, :deadline, :task_type, :shop_name
 
   belongs_to :shop
   belongs_to :user
