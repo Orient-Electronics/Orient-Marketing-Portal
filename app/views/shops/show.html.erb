@@ -259,7 +259,10 @@
         </div>
         </div>
       </div>
-    <% end -%>  
+    <% end -%>
+    <%if current_user.user_employee? %>
+        <%= render :partial => 'employee_reports', :locals => {:display_report => @display_report, :sale_report => @sales_report}%>
+    <%end%>
   </div>
 
   <div class="row-fluid">

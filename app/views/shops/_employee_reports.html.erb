@@ -1,0 +1,70 @@
+<div class="span6">
+  <div class="box box-color box-bordered">
+    <div class="box-title">
+      <h3>
+        <i class="icon-bar-chart"></i>
+        Disaplay Report
+      </h3>
+      <div class="actions">
+        <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+      </div>
+    </div>  
+    <div class="box-content nonpadding scrollable" data-height = "500px" data-visible="true" >
+      <table class="table table-hover table-nomargin">
+        <thead>
+          <tr>
+            <th>Brand Name</th>
+            <th>Category Name</th>
+            <th class='hidden-350'>Quantity</th>
+            <th class='hidden-480'>Created at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% display_report.each do |report| %>
+            <tr>
+              <td> <%= Brand.find(report.brand_id).name %></td>
+              <td> <%= ProductCategory.find(report.product_category_id).name %></td>
+              <td> <%= report.data%></td>
+              <td> <%= report.created_at.strftime('%d-%m-%Y')%> </td>
+            </tr>
+          <% end -%>
+        </tbody>  
+      </table>
+    </div>
+  </div>
+</div>
+<div class="span6">
+  <div class="box box-color box-bordered">
+    <div class="box-title">
+      <h3>
+        <i class="icon-bar-chart"></i>
+        Sale Report
+      </h3>
+      <div class="actions">
+        <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+      </div>
+    </div>  
+    <div class="box-content nonpadding scrollable" data-height = "500px" data-visible="true" >
+      <table class="table table-hover table-nomargin">
+        <thead>
+          <tr>
+            <th>Brand Name</th>
+            <th>Category Name</th>
+            <th class='hidden-350'>Quantity</th>
+            <th class='hidden-480'>Created at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% sale_report.each do |report| %>
+            <tr>
+              <td> <%= Brand.find(report.brand_id).name %></td>
+              <td> <%= ProductCategory.find(report.product_category_id).name %></td>
+              <td> <%= report.data%></td>
+              <td> <%= report.created_at.strftime('%d-%m-%Y')%> </td>
+            </tr>
+          <% end -%>
+        </tbody>  
+      </table>
+    </div>
+  </div>
+</div>    
