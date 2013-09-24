@@ -22,7 +22,22 @@
         <a href="#" data-toggle="dropdown" class="btn btn-large btn-inverse dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <% ProductCategory.all.each do |pc| %>
-              <li><%= link_to "#{pc.name} Report", new_shop_report_path(@shop, :product_category_id => pc.id) %></li>
+            <% if !pc.products.blank? %>
+              <li class='dropdown-submenu'>
+                <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
+                <ul class="dropdown-menu pull-left">
+                  <% pc.products.each do |product|%>
+                    <li>
+                      <%= link_to product.name, new_shop_report_path(@shop, :product_category_id => pc.id, :product_id => product.id) %>
+                    </li>
+                  <% end -%>
+                </ul>
+              </li>
+            <%else%>
+              <li>
+                <%= link_to pc.name, new_shop_report_path(@shop, :product_category_id => pc.id) %>
+              </li>
+            <%end%>
           <% end -%>
         </ul>
       </div>
@@ -260,11 +275,11 @@
         </div>
       </div>
     <% end -%>
-    <%if current_user.user_employee? %>
-        <%= render :partial => 'employee_reports', :locals => {:display_report => @display_report, :sale_report => @sales_report}%>
-    <%end%>
+    
   </div>
-
+  <%if current_user.user_employee? %>
+      <%= render :partial => 'employee_reports', :locals => {:display_report => @display_report, :sales_report => @sales_report}%>
+  <%end%>
   <div class="row-fluid">
     <% if can? :read, Report%>
       <% if !@category_report_lines.blank? && !@brand_report_lines.blank? %>
@@ -291,7 +306,7 @@
             <%= render :partial => "shops/display_corner_report"%>
           </div>
         </div>
-      <% end %>  
+      <% end %>
     <% end -%>
     <% if can? :read, Upload%>
       <div class="span6">

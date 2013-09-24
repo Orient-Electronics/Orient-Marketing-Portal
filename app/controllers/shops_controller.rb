@@ -45,7 +45,8 @@ class ShopsController < ApplicationController
       @display_report = reports.where(:report_type => "display").collect(&:report_lines).flatten
       @sales_report   = reports.where(:report_type => "sales").collect(&:report_lines).flatten
       @corner_report  = reports.where(:report_type => "display_corner").collect(&:report_lines).flatten
-
+      @brands = Brand.all
+      @categories = ProductCategory.all
       if shops.include?(params[:id].to_i) 
         @shop = Shop.find(params[:id])
       else

@@ -29,7 +29,12 @@ class ReportsController < ApplicationController
     @shop = Shop.find params[:shop_id]
     @report = Report.new
     @category = ProductCategory.find params[:product_category_id]
-    
+    if !params[:product_id].blank?
+      @product = Product.find params[:product_id]
+      @brands = @product.brands
+    else
+      @brands = @category.brands
+    end
   end
 
   def create
