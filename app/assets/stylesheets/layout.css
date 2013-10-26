@@ -133,7 +133,8 @@ dd{
   margin-right: 8px;
 }
 .box-content{
-  min-height: 500px !important;
+  max-height: 500px !important;
+  overflow: hidden;
 }
 
 
@@ -175,4 +176,25 @@ dd{
   margin: 0;
   color: #b94a48;
   width: 600px;
+}
+
+.typeahead {
+  background-color: white !important;
+}
+
+#fileupload input[type="file"]
+{
+  padding-left: 75px !important;
+  width: 200px !important;
+}
+
+.task
+{
+
+}
+
+span input
+{
+  float: right !important;
+  padding-top:  15px;
 }

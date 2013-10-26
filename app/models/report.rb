@@ -53,5 +53,4 @@ class Report < ActiveRecord::Base
       reports.select{|key| key.report_type=="display_corner"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.sum
     end
   end
-
 end

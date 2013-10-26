@@ -33,14 +33,22 @@ class ShopsController < ApplicationController
   def show
     authorize! :read, Shop
     @product_categories = ProductCategory.all
-    shop_report_lines = Shop.find(params[:id]).reports.find_all_by_report_type("display_corner").collect(&:report_lines).flatten
+    shop_report_lines = Shop.find(params[:id]).reports.where(:report_type => "display_corner").collect(&:report_lines).flatten
     @brand_report_lines = shop_report_lines.group_by {|d| d[:brand_id] }
     @category_report_lines = shop_report_lines.group_by {|d| d[:product_category_id] }
+    @report_lines_avatars = shop_report_lines.collect(&:avatars).flatten
+    shop_upload = (Shop.find(params[:id]).uploads)
+    @shop_uploads = (shop_upload + @report_lines_avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     if current_user.user_type.name == "employee"
       shops = current_user.get_assigned_shops.collect(&:id)
-      p shops
+      reports = current_user.reports.where(:shop_id => Shop.find(params[:id]))
+      @display_report = reports.where(:report_type => "display").collect(&:report_lines).flatten
+      @sales_report   = reports.where(:report_type => "sales").collect(&:report_lines).flatten
+      @corner_report  = reports.where(:report_type => "display_corner").collect(&:report_lines).flatten
+      @brands = Brand.all
+      @categories = ProductCategory.all
       if shops.include?(params[:id].to_i) 
-        @shop = Shop.find(params[:id]) 
+        @shop = Shop.find(params[:id])
       else
         respond_to do |format|
           format.html {redirect_to '/shops'} 

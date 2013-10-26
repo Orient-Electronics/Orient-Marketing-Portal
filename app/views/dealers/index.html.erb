@@ -19,7 +19,7 @@
           Dealers
         </h3>
         </div>
-        <div class="box-content nopadding scrollable" style="overflow: hidden;height:500px;">
+        <div class="box-content nopadding scrollable">
           <table class="table table-hover table-nomargin" id="shop-data">
             <thead>
               <tr class='thefilter row-fluid'>
@@ -78,7 +78,7 @@
             </li>
           </ul>
         </div>
-        <div class="box-content">
+        <div class="box-content nopadding scrollable">
           <div class="tab-content">
             <div class="tab-pane active" id="brand-display-data">
               <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
@@ -145,7 +145,7 @@
             </li>
           </ul>
         </div>
-        <div class="box-content">
+        <div class="box-content nopadding scrollable">
           <div class="tab-content">
             <div class="tab-pane active" id="brand-sales-data">
               <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
@@ -214,7 +214,7 @@
               </li>
             </ul>
           </div>
-          <div class="box-content">
+          <div class="box-content nopadding scrollable">
             <div class="tab-content">
               <div class="tab-pane active" id="brand-corner-data">
                 <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
@@ -261,7 +261,7 @@
         </div>
       </div>
     <% end -%>
-  <% if can? :read, Upload%>
+    <% if can? :read, Upload%>
       <div class="span6">
         <div class="box box-color box-bordered">
           <div class="box-title">
@@ -275,26 +275,40 @@
             <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
           </div>
          </div>
-        <div class="box-content nopadding" >
+          <div class="box-content nopadding scrollable" data-height = "500px" >
           <ul class="gallery">
-            <% @shops.collect(&:uploads).flatten.first(6).each do |image| %>
+            <% count = 0%>
+            <% @uploads.each do |image| %>
+              <% break if count == 9  %>
+
               <li>
-                <a href="#">
-                  <%= image_tag image.upload.url(:small) %>
-                </a>
-                <div class="extras">
-                  <div class="extras-inner">
-                    <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
-                    <a href="<%= image.to_jq_upload['delete_url'] %>" class='del-gallery-pic' data-method="delete"><i class="icon-trash"></i></a>
+                <% if image.class.to_s == "Upload"%>
+                  <a href="#">
+                    <%= image_tag image.upload.url(:small) %>
+                  </a>
+                  <div class="extras">
+                    <div class="extras-inner">
+                      <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
+                    </div>
                   </div>
-                </div>
+                <% else %>
+                  <a href="#">
+                    <%= image_tag image.avatar.url(:small) %>
+                  </a>
+                  <div class="extras">
+                    <div class="extras-inner">
+                      <a href="<%= image.avatar.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
+                    </div>
+                  </div>
+                <% end -%>
               </li>
+              <% count = count+1 %>
             <% end -%>
           </ul>
+          </div>
         </div>
       </div>
-    </div>
-  <% end -%>
+    <% end -%>
 </div>
 <div class = "row-fluid">
   <% if can? :read, Owner, Manager%>
@@ -310,7 +324,7 @@
             <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
           </div>
         </div>
-        <div class="box-content nopadding scrollable" data-height="500" data-visible="true"   >
+        <div class="box-content nopadding scrollable" data-height="500" data- ="true"   >
           <table class="table table-user table-nohead">
             <tbody  remote ="true">
               <% @shops.each do |shop| %>

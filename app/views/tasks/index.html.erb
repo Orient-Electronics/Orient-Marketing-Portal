@@ -29,17 +29,24 @@
       <div class="control-group">
         <%= f.label :shop_id,"Shop", :class => 'control-label' %>
         <div class="controls">
-          <%= f.collection_select :shop_id, Shop.all,:id,:dealer_name, include_blank: false %>
+          <%= f.text_field :shop_name, :class => ' selectpicker text_field typeahead required' %>
         </div>
       </div>
       <div class="control-group">
-        <label for="tasktitel" class="control-label"></label>
+        <%= f.label :deadline,"Dead line", :class => 'control-label' %>
         <div class="controls">
-          <label class="checkbox">
-            <%= f.check_box :important, :value=> "yes" %> Mark as important
-          </label>
+          <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
+            <%= f.text_field :deadline, :readonly => true , :class =>'required date' %><span class="add-on"><i class="icon-th"></i></span>
+          </div>
         </div>
       </div>
+      <div class="control-group">
+        <%= f.label :status,"Status", :class => 'control-label' %>
+        <div class="controls">
+          <%= f.select :status, options_for_select(status) , include_blank: false %>
+        </div>
+      </div>
+
       <div class="form-actions new-task-submit">
         <%= f.submit "create task", :class => 'btn btn-primary' %>
       </div>
@@ -47,111 +54,121 @@
   <%end%>
 </div>
 
-<%if can? :read, Task%>
+<% if can? :read, Task%>
   <div class="row-fluid">
     <div class="span12">
-      <div class="box box-color box-bordered lightgrey">
+      <div class="box box-color box-bordered lightgrey taskbox">
         <div class="box-title">
-            <h3><i class="icon-ok"></i> Assigned Task</h3>
+          <h3><i class="icon-ok"></i> Assigned Task</h3>
         </div>
-        <div class="box-content nopadding">
-          <ul class="tasklist">
-            <% @assigned_tasks.each do |t| %>
-              <li class="status_check <%= 'done' if t.completed? %> <%= 'bookmarked' if t.important? %>" >
-                <div class="check">
-                  <input type="checkbox" class='check-me' data-skin="square" data-color="blue" <%= 'checked' if t.completed? %> data-id ="<%= t.id %>" >
-                </div>
-                <span class="task" data-id ="<%= t.id %>" >
-                  <i class="icon-edit"></i>
-                  <span>
-                    <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
-                    <i class="user_name"> <%= "Assigned_by: " + t.parent %></i>
-                  </span> 
-                </span>
-                <span class="task-actions">
-                  <a href="#" class="task-bookmark" rel="tooltip" title="Mark as   important"  data-id = <%= t.id %> remote =true>
-                     <i class="icon-bookmark-empty"></i>
-                  </a>
-                </span>
-              </li>
-            <%end%>
-          </ul>
+        <div class="box-content scrollable">
+          <table class="table table-hover table-nomargin">
+            <thead>
+              <tr>
+                <th>Current Status</th>
+                <th>Comment</th>
+                <th class='hidden-350'>Shop</th>
+                <th class='hidden-1024'>Assinged by</th>
+                <th class='hidden-480'>Created at</th>
+                <th class='hidden-480'>Deadline</th>
+                <%if can? :update, Task%>
+                  <th class='hidden-480'>Change Status</th>
+                <% end -%>  
+              </tr>
+            </thead>
+            <tbody>
+              <% @assigned_tasks.each do |t| %>
+                <tr>
+                  <td> <%= t.status %></td>
+                  <td> <%= t.comment %></td>
+                  <td> <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
+                  <td> <%=t.parent %> </td>
+                  <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
+                  <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
+                  <% if can? :update, Task%>
+                    <td> 
+                      <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal form-bordered' } do |f| %>
+                        <%= f.select :status, options_for_select(status) , include_blank: false %>
+                        <%= f.submit "update task", :class => 'btn btn-primary' %>
+                      <% end -%>
+                    </td>
+                  <% end -%>  
+                </tr>
+              <% end -%>
+            </tbody>  
+         </table>
         </div>
       </div>
-    </div> 
+    </div>
   </div>
-<%end%>
+<% end -%>
 <% if can? :create, Task%>
   <div class="row-fluid">
     <div class="span12">
-      <div class="box box-color box-bordered lightgrey">
+      <div class="box box-color box-bordered lightgrey taskbox">
         <div class="box-title">
           <h3><i class="icon-ok"></i> Created Task</h3>
           <div class="actions">
             <a href="#new-task" data-toggle="modal" class='btn'><i class="icon-plus-sign"></i> Add Task</a>
           </div>
         </div>
-        <div class="box-content nopadding">
-          <ul class="tasklist">
-            <% @created_tasks.each do |t| %>
-              <li class="status_check <%= 'done' if t.completed? %> <%= 'bookmarked' if t.important? %>" >
-                <div class="check">
-                  <input type="checkbox" class='check-me' data-skin="square" data-color="blue" <%= 'checked' if t.completed? %> data-id ="<%= t.id %>" >
-                </div>
-                <span class="task" data-id ="<%= t.id %>" >
-                  <i class="icon-edit"></i>
-                  <span>
-                    <%=t.comment %>  <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %> 
-                    <i class="user_name"> <%= "Assigned_to: " + t.child %></i>
-                  </span> 
-                </span>
-                <span class="task-actions">
-                  <a href="#" class="task-bookmark" rel="tooltip" title="Mark as   important"  data-id = <%= t.id %> remote =true>
-                     <i class="icon-bookmark-empty"></i>
-                  </a>
-                </span>
-              </li>
-            <%end%>
-          </ul>
+        <div class="box-content scrollable">
+          <table class="table table-hover table-nomargin">
+            <thead>
+              <tr>
+                <th>Current Status</th>
+                <th>Comment</th>
+                <th class='hidden-350'>Shop</th>
+                <th class='hidden-1024'>Assinged To</th>
+                <th class='hidden-480'>Created at</th>
+                <th class='hidden-480'>Deadline</th>
+                <% if can? :update, Task %>
+                  <th class='hidden-480'>Change Status</th>
+                <% end -%>  
+              </tr>
+            </thead>
+            <tbody>
+              <% @created_tasks.each do |t| %>
+                <tr>
+                  <td> <%= t.status %></td>
+                  <td> <%= t.comment %></td>
+                  <td> <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
+                  <td> <%=t.child %> </td>
+                  <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
+                  <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
+                  <% if can? :update, Task %>
+                    <td> 
+                      <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal form-bordered' } do |f| %>
+                        <%= f.select :status, options_for_select(status) , include_blank: false %>
+                        <%= f.submit "update task", :class => 'btn btn-primary' %>
+                      <% end -%>
+                    </td>
+                  <% end -%>
+                </tr>
+              <% end -%>
+            </tbody>  
+         </table>
         </div>
       </div>
-    </div> 
+    </div>
   </div>
-<%end%>
+<% end -%>
+        
 <script type="text/javascript" charset="utf-8">
   
   $( document ).ready(function() {
+    
     $('.new-task-submit').click(function()
     { 
       $('#new_task').submit();
     });
-
-    $('.check-me,.task').click(function()
-    {
-      task_id = $(this).data("id");
-     $.ajax({
-        url: '/tasks/' + task_id + '/change',
-        success: function(data){
-          if(data=="completed")
-            $(this).addClass('done');
-          else
-            $(this).removeClass('done');
-        }        
-      });
+    
+    $('.typeahead').typeahead({                                
+        name: 'shops',
+        local: '<%= Shop.all.collect{|c| c.dealer_name}.join("*") %>'.split("*"),
+        limit: 10                                                                   
     });
 
-    $('.task-bookmark').click(function()
-    {
-      task_id = $(this).data("id");
-     $.ajax({
-        url: '/tasks/' + task_id + '/toggle_important',
-        success: function(data){
-          if(data)
-            $(this).parent().parent().addClass('bookmarked');
-          else
-            $(this).parent().parent().removeClass('bookmarked');
-        }            
-      });
-    });
-  });  
+
+  });    
 </script>  

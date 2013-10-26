@@ -53,3 +53,7 @@ module ApplicationHelper
     html
   end  
 end
+
+def status
+  ['started','pending','completed']
+end

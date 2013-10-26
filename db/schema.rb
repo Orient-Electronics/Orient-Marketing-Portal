@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130905121002) do
+ActiveRecord::Schema.define(:version => 20130923072624) do
 
   create_table "avatars", :force => true do |t|
     t.string   "avatar_file_name"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(:version => 20130905121002) do
     t.integer  "item"
     t.string   "table"
     t.integer  "month",      :limit => 2
-    t.integer  "year",       :limit => 8
+    t.integer  "year",       :limit => 5
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
   end
@@ -180,7 +180,8 @@ ActiveRecord::Schema.define(:version => 20130905121002) do
     t.text     "comment"
     t.integer  "shop_id"
     t.string   "status",      :default => "pending"
-    t.boolean  "important"
+    t.string   "task_type",   :default => "report"
+    t.datetime "deadline"
   end
 
   create_table "uploads", :force => true do |t|

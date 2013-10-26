@@ -8,6 +8,10 @@ class DealersController < ApplicationController
     @reports = Report.all
     @brands = Brand.all
     @categories= ProductCategory.all
+    @shop = @dealers.collect(&:shops).flatten
+    uploads = @shop.collect(&:uploads).flatten
+    avatars = @shop.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+    @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @dealers }
@@ -19,8 +23,10 @@ class DealersController < ApplicationController
   def show
     authorize! :read, Dealer
     @parent = Dealer.find params[:id]
-    @shops = @parent.shops
-
+    @shops = @parent.shops.flatten
+    uploads = @shops.collect(&:uploads).flatten
+    avatars = @shops.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+    @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @dealer }
@@ -93,15 +99,19 @@ class DealersController < ApplicationController
 
   def gallery
     @dealer = Dealer.find(params[:id])
-    @uploads = @dealer.shops.collect(&:uploads).flatten
-    
+    @shop = @dealer.shops.flatten
+    uploads = @shop.collect(&:uploads).flatten
+    avatars = @shop.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+    @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
   end
 
 
   def showgallery
     @dealers = Dealer.all
-    @shop = @dealers.collect(&:shops)
-    @uploads = @shop.flatten.collect(&:uploads).flatten
+    @shop = @dealers.collect(&:shops).flatten
+    uploads = @shop.collect(&:uploads).flatten
+    avatars = @shop.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+    @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
   end
 
   def showmodal

@@ -4,11 +4,21 @@
       <table class="table table-user table-nohead">
         <tbody>
           <% @brand_report_lines.each do |brand_id,brand_report| %>
-            <tr class="alpha">
-              <td class="alpha-val" colspan="8">
-                <span><%= get_brand_name(brand_id) %></span>
-              </td>
-            </tr>
+            <% count = 0 %>
+            <% brand_report.each do |line| %>
+              <% line.avatars.each do |upload| %>
+                <% if upload.avatar %>
+                  <tr class="alpha">
+                    <%if count == 0%>
+                      <td class="alpha-val" colspan="8">
+                        <span><%= get_brand_name(brand_id) %></span>
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end %>
+                <% count = count +1 %>
+              <% end%>
+            <%end%>
             <% brand_report.each do |line| %>
               <% line.avatars.each do |upload| %>
                 <tr>

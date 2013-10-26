@@ -57,10 +57,7 @@ Orient::Application.routes.draw do
 
   resources :tasks do
     member do
-      get 'change'
-    end
-    member do
-      get 'toggle_important'
+      post 'change_status'
     end
   end
 

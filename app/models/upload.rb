@@ -9,20 +9,6 @@ class Upload < ActiveRecord::Base
                         :small => "150x150#",
                         :medium => "500x500>"
                     }
-
-  validates_presence_of :upload, :uploadable_id, :uploadable_type , :presence => true 
-
+  validates_attachment_presence :upload
   include Rails.application.routes.url_helpers
-
-  def to_jq_upload
-    {
-      "name" => read_attribute(:upload_file_name),
-      "size" => read_attribute(:upload_file_size),
-      "url" => upload.url(:original),
-      "thumbnail_url" => upload.url(:thumb),
-      "delete_url" => upload_path(self),
-      "delete_type" => "DELETE" 
-    }
-  end
-
 end

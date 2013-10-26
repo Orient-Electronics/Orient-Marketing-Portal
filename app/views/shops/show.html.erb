@@ -22,7 +22,22 @@
         <a href="#" data-toggle="dropdown" class="btn btn-large btn-inverse dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <% ProductCategory.all.each do |pc| %>
-              <li><%= link_to "#{pc.name} Report", new_shop_report_path(@shop, :product_category_id => pc.id) %></li>
+            <% if !pc.products.blank? %>
+              <li class='dropdown-submenu'>
+                <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
+                <ul class="dropdown-menu pull-left">
+                  <% pc.products.each do |product|%>
+                    <li>
+                      <%= link_to product.name, new_shop_report_path(@shop, :product_category_id => pc.id, :product_id => product.id) %>
+                    </li>
+                  <% end -%>
+                </ul>
+              </li>
+            <%else%>
+              <li>
+                <%= link_to pc.name, new_shop_report_path(@shop, :product_category_id => pc.id) %>
+              </li>
+            <%end%>
           <% end -%>
         </ul>
       </div>
@@ -30,7 +45,7 @@
   </div>
   <div class="row-fluid">
     <div class="span6" >
-      <div class="box box-color box-bordered">
+      <div class="box box-color box-bordered shop-info">
         <div class="box-title">
           <h3>
             <i class="icon-reorder"></i>
@@ -41,33 +56,56 @@
             <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
           </div>
         </div>
-        <div class="box-content">
+        <div class="box-content scrollable" data-height = "500px">
           <dl class="span12" >
             <%- model_class = Shop -%>
-            <dt><strong><%= model_class.human_attribute_name(:dealer_name) %>:</strong></dt>
-            <dd><%= @shop.dealer_name %></dd>
-            <dt><strong><%= model_class.human_attribute_name(:branch_of) %>:</strong></dt>
-            <dd><%= @shop.branch_of %></dd>
-            <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
-            <dd><%= @shop.phone %></dd>
-            <dt><strong><%= model_class.human_attribute_name(:website) %>:</strong></dt>
-            <dd><%= @shop.website %></dd>
-            <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
-            <dd><%= @shop.email %></dd>
-            <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
-            <dd><%= @shop.address %></dd>
-            <dt><strong><%= model_class.human_attribute_name(:orient_dealer) %>:</strong></dt>
-            <dd><%= @shop.orient_dealer %></dd>
-            <dt><strong><%= model_class.human_attribute_name(:shop_category_id) %>:</strong></dt>
-            <dd><%= @shop.shop_category.try(:name) %></dd>
+            <% if @shop.dealer_name %>
+              <dt><strong><%= model_class.human_attribute_name(:dealer_name) %>:</strong></dt>
+              <dd><%= @shop.dealer_name %></dd>
+            <% end -%>
+            <% if @shop.branch_of %>
+              <dt><strong><%= model_class.human_attribute_name(:branch_of) %>:</strong></dt>
+              <dd><%= @shop.branch_of %></dd>
+            <% end -%>
+            <% if @shop.phone%>
+              <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
+              <dd><%= @shop.phone %></dd>
+            <% end -%>
+            <% if @shop.website != 'N/A' %>
+              <dt><strong><%= model_class.human_attribute_name(:website) %>:</strong></dt>
+              <dd><%= @shop.website %></dd>
+            <% end -%>
+            <% if @shop.email != 'N/A' %>
+              <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
+              <dd><%= @shop.email %></dd>
+            <% end -%>
+            <% if @shop.address %>
+              <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
+              <dd><%= @shop.address %></dd>
+            <% end -%>
+            <% if @shop.orient_dealer %>
+              <dt><strong><%= model_class.human_attribute_name(:orient_dealer) %>:</strong></dt>
+              <dd><%= 'Yes' %></dd>
+            <% else %>
+              <dt><strong><%= model_class.human_attribute_name(:orient_dealer) %>:</strong></dt>
+              <dd><%= 'No' %></dd>
+            <% end -%>
+            <% if @shop.shop_category.try(:name)%>
+              <dt><strong><%= model_class.human_attribute_name(:shop_category_id) %>:</strong></dt>
+              <dd><%= @shop.shop_category.name %></dd>
+            <%end -%>
             <br><br>
             <dt><strong><%= model_class.human_attribute_name(:location_id) %></strong></dt>
             <dd></dd>
             <% child_class = Location %>
-            <dt><strong><%= child_class.human_attribute_name(:city_id) %>:</strong></dt>
-            <dd><%= @shop.location.try(:city).try(:name) %></dd>
-            <dt><strong><%= child_class.human_attribute_name(:area) %>:</strong></dt>
-            <dd><%= @shop.location.try(:area) %></dd>
+            <% if @shop.location.try(:city) %>
+              <dt><strong><%= child_class.human_attribute_name(:city_id) %>:</strong></dt>
+              <dd><%= @shop.location.city.name %></dd>
+            <% end -%>
+            <% if @shop.location.try(:area) %>
+              <dt><strong><%= child_class.human_attribute_name(:area) %>:</strong></dt>
+              <dd><%= @shop.location.area %></dd>
+            <% end -%>
           </dl>
         </div>
       </div>
@@ -84,12 +122,12 @@
             <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
           </div>
         </div>
-        <div class="box-content" style="padding:0px;">
+        <div class="box-content no-padding" style="height:540px !important;">
             <% child_class = Location %>
             <%= hidden_field_tag "lat", @shop.location.try(:latitude), :id => "lat" %>
             <%= hidden_field_tag "lng", @shop.location.try(:longitude), :id => "lng" %>
             <div class="row-fluid">
-              <div class="span12" id="map_location" style="height:500px;"></div>
+              <div class="span12" id="map_location" style="height:540px;"></div>
             </div>
         </div>
       </div>
@@ -117,7 +155,7 @@
             </li>
           </ul>
         </div>
-        <div class="box-content">
+        <div class="box-content nopadding scrollable">
           <div class="tab-content">
             <div class="tab-pane active" id="brand-display-data">
               <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
@@ -187,7 +225,7 @@
             </li>
           </ul>
         </div>
-        <div class="box-content">
+        <div class="box-content nopadding scrollable">
           <div class="tab-content">
             <div class="tab-pane active" id="brand-sales-data">
               <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
@@ -236,9 +274,12 @@
         </div>
         </div>
       </div>
-    <% end -%>  
+    <% end -%>
+    
   </div>
-
+  <%if current_user.user_employee? %>
+      <%= render :partial => 'employee_reports', :locals => {:display_report => @display_report, :sales_report => @sales_report}%>
+  <%end%>
   <div class="row-fluid">
     <% if can? :read, Report%>
       <% if !@category_report_lines.blank? && !@brand_report_lines.blank? %>
@@ -265,55 +306,63 @@
             <%= render :partial => "shops/display_corner_report"%>
           </div>
         </div>
-      <% end %>  
+      <% end %>
     <% end -%>
-    <div class="span6">
+    <% if can? :read, Upload%>
+      <div class="span6">
         <div class="box box-color box-bordered">
         <div class="box-title">
           <h3>
             <i class="icon-picture"></i>
             Images
           </h3>
+          <% if can? :create, Upload%>
+            <div class="btn-group upload-form">
+              <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate" } do |f| %>
+                <%=f.file_field :upload , :class => "required"%>
+                <button type="submit" class="btn btn-danger" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
+              <% end -%>
+            </div>
+          <% end -%>
           <div class="actions">
             <%= link_to "View All", shop_uploads_path(@shop), :class=> "btn btn-primary" %>
             <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
             <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
           </div>
         </div>
-        <div class="box-content nopadding">
-          <div class="highlight-toolbar">
-            <div class="pull-right">
-              
-              <div class="btn-toolbar">
-                <% if can? :create, Upload%>  
-                  <div class="btn-group">
-                  <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload"  } do |f| %>
-                    <%= f.file_field :upload %>
-                    <button type="submit" class="btn btn-danger" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
-                  <% end -%>
-                  </div>
-                <% end -%>  
-              </div>
-            </div>
-          </div>
+        <div class="box-content nopadding scrollable" data-height = "450px" data-visible="true">
           <ul class="gallery">
-            <% @shop.uploads.limit(6).each do |image| %>
+            <% count = 0%>
+            <% @shop_uploads.each do |image| %>
+              <% break if count == 9 %>
               <li>
-                <a href="#">
-                  <%= image_tag image.upload.url(:small) %>
-                </a>
-                <div class="extras">
-                  <div class="extras-inner">
-                    <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
-                    <a href="<%= image.to_jq_upload['delete_url'] %>" class='del-gallery-pic' data-method="delete"><i class="icon-trash"></i></a>
+                <% if image.class.to_s == "Upload"%>
+                  <a href="#">
+                    <%= image_tag image.upload.url(:small) %>
+                  </a>
+                  <div class="extras">
+                    <div class="extras-inner">
+                      <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
+                    </div>
                   </div>
-                </div>
+                <% else %>
+                  <a href="#">
+                    <%= image_tag image.avatar.url(:small) %>
+                  </a>
+                  <div class="extras">
+                    <div class="extras-inner">
+                      <a href="<%= image.avatar.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
+                    </div>
+                  </div>
+                <% end -%>
               </li>
+              <% count = count+1 %>
             <% end -%>
           </ul>
         </div>
         </div>
-    </div>
+      </div>
+    <% end -%>
   </div>
   <div class="row-fluid">
     <%if can? :read, Owner, Manager%>
@@ -337,21 +386,19 @@
                   <td class ="img"><img src="/assets/demo/user-1.jpg" alt=""></td>
                   <td class="user"><%= @shop.owner.name %></td>
                   <td class='icon search_btn' data-id = <%= @shop.id%> data-type = "owner" ><a href="#" class='btn'><i class="icon-search"></i></a></td>
-                </tr>    
+                </tr>
                 <tr>
                   <td class ="img"><img src="/assets/demo/user-2.jpg" alt=""></td>
                   <td class="user"><%= @shop.manager.name %></td>
                   <td class='icon search_btn' data-id =  <%= @shop.id%> data-type = "manager" ><a href="#" class='btn'><i class="icon-search"></i></a></td>
                 </tr>
               </tbody>
-            </table>    
+            </table>
           </div>
         </div>
       </div>
     <%end%>
-    
-
-  </div>  
+  </div>
 </div>
 
 <%= content_for :footer_js do %>
@@ -364,7 +411,10 @@
       var mapOptions = {
         'center': (new google.maps.LatLng(lat,lng)),
         zoom: 16,
-        'disableDefaultUI':true
+        'disableDefaultUI':true,
+        'mapTypeControl': true,
+        'panControl': true,
+        'zoomControl': true
       };
       map = new google.maps.Map($("#map_location")[0], mapOptions);
       addMarker(new google.maps.LatLng(lat,lng));
