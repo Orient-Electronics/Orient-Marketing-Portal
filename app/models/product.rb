@@ -14,5 +14,4 @@ class Product < ActiveRecord::Base
   validates_presence_of :name, :length => {:maximum => 30} 
   validates_presence_of :brand_ids, :message => "^ Please select brand/s"
   validates_presence_of :product_category_id,  :message => "^ Please select product_category"
-  validates_presence_of :info
 end

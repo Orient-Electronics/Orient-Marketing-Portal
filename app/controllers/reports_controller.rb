@@ -105,7 +105,6 @@ class ReportsController < ApplicationController
   end
 
   def file_field
-
     render(:partial => "/reports/reportline_avatars", :locals => {:index => params[:index], :temp => params[:length]})
   end
 

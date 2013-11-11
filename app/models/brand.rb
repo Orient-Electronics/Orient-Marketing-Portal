@@ -5,5 +5,5 @@ class Brand < ActiveRecord::Base
   has_many :report_lines
   attr_accessible :name
 
-  validates :name, :length => {:minimum => 3, :maximum => 30}, :presence => true 
+  validates_uniqueness_of :name, :length => {:minimum => 3, :maximum => 30}, :presence => true 
 end

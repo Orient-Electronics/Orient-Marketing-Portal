@@ -1,5 +1,6 @@
 class Shop < ActiveRecord::Base
 
+ 
   belongs_to :shop_category
   belongs_to :location
   belongs_to :dealer
@@ -34,13 +35,15 @@ class Shop < ActiveRecord::Base
   
 
   searchable do
-    text :dealer_name, :address
-    text :owner do
-      owner.try(:name)
-    end
-    text :manager do
-      manager.try(:name)
-    end
+    text :dealer_name, :stored => true
+      
+  #  text :address
+  #  text :owner do
+  #    owner.try(:name)
+  #  end
+  #  text :manager do
+  #    manager.try(:name)
+  #  end
   end
 
 

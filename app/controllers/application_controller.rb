@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
   layout :change_layout
   before_filter :check_admin
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => "You are not authorize for this action"
+  end
   protect_from_forgery
 
   def change_layout
