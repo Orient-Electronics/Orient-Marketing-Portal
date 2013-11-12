@@ -19,6 +19,7 @@
               <th class="span2"><input type="text" name="search_shop" placeholder="Shop" class="search_init span12" /></th>
               <th class="span1"><input type="text" name="search_phone" placeholder="Phone" class="search_init span12" /></th>
               <th class="span1"><input type="text" name="search_address" placeholder="Address" class="search_init span12" /></th>
+              <th class="span1"><input type="text" name="search_city" placeholder="City" class="search_init span12" /></th>
               <th class="span1"><input type="text" name="search_dealer" placeholder="Dealer" class="search_init span12" /></th>
               <th class="span2"><input type="text" name="search_category" placeholder="Category" class="search_init span12" /></th>
               <th class="span2"><input type="text" name="search_location" placeholder="Location" class="search_init span12" /></th>
@@ -29,6 +30,7 @@
               <th class="span2"><%= model_class.human_attribute_name(:dealer_name) %></th>
               <th class="span1"><%= model_class.human_attribute_name(:phone) %></th>
               <th class="span1"><%= model_class.human_attribute_name(:address) %></th>
+              <th class="span1"><%= model_class.human_attribute_name(:city) %></th>
               <th class="span1"><%= model_class.human_attribute_name(:dealer) %></th>
               <th class="span2"><%= model_class.human_attribute_name(:shop_category_id) %></th>
               <th class="span2"><%= model_class.human_attribute_name(:location_id) %></th>
@@ -42,6 +44,7 @@
                 <td class"span2"><%= link_to shop.dealer_name, shop_path(shop) %></td>
                 <td class"span1"><%= shop.phone %></td>
                 <td class"span1"><%= shop.address %></td>
+                <td class"span1"><%= shop.location.city.name %></td>
                 <td class"span1"><%= link_to shop.dealer.try(:name), dealer_shops_path(shop.dealer) if shop.dealer.present? %></td>
                 <td class"span2"><%= link_to shop.shop_category.try(:name), shop_category_shops_path(shop.shop_category) %></td>
                 <td class"span2"><%= shop.location.try(:complete_location) %></td>

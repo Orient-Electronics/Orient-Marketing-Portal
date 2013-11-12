@@ -28,11 +28,13 @@
                 <tr class='thefilter row-fluid'>
                   <th class="span6"><input type="text" name="search_shop" placeholder="Shop" class="search_init span12" /></th>
                   <th class="span3"><input type="text" name="search_orient_dealer" placeholder="Orient Dealer" class="search_init span12" /></th>
+                  <th class="span3"><input type="text" name="search_city" placeholder="City" class="search_init span12" /></th>
                   <th class="span3"><span class="span12">&nbsp;</span></th>
                 </tr>
                 <tr class="row-fluid">
                   <th class="span6"><%= model_class.human_attribute_name(:dealer_name) %></th>
                   <th class="span3"><%= model_class.human_attribute_name(:orient_dealer) %></th>
+                  <th class="span3"><%= model_class.human_attribute_name(:city) %></th>
                   <th class="span3"><%=t '.actions', :default => t("helpers.actions") %></th>
                 </tr>
               </thead>
@@ -42,6 +44,7 @@
                     <tr class="row-fluid">
                     <td class"span2"><%= link_to shop.dealer_name, shop_path(shop) %></td>
                     <td class"span1"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non dealer</span>".html_safe %></td>
+                    <td class"span1"><%= link_to shop.location.city.name, shop_path(shop) %></td>
                     <td class"span2">
                       <%= link_to "<i class='icon-search'></i>".html_safe,
                                   shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>
