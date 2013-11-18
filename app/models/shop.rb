@@ -57,5 +57,4 @@ class Shop < ActiveRecord::Base
       self.dealer = Dealer.create :name => name
     end
   end
-
 end

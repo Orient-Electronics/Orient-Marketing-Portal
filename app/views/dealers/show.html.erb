@@ -44,7 +44,7 @@
                     <tr class="row-fluid">
                     <td class"span2"><%= link_to shop.dealer_name, shop_path(shop) %></td>
                     <td class"span1"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non dealer</span>".html_safe %></td>
-                    <td class"span1"><%= link_to shop.location.city.name, shop_path(shop) %></td>
+                    <td class"span1"><%= shop.location.city.name %></td>
                     <td class"span2">
                       <%= link_to "<i class='icon-search'></i>".html_safe,
                                   shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>

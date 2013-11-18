@@ -126,6 +126,7 @@
             <% child_class = Location %>
             <%= hidden_field_tag "lat", @shop.location.try(:latitude), :id => "lat" %>
             <%= hidden_field_tag "lng", @shop.location.try(:longitude), :id => "lng" %>
+            <%= hidden_field_tag "shop_category", @shop.shop_category.name, :id => "shop_category" %>
             <div class="row-fluid">
               <div class="span12" id="map_location" style="height:540px;"></div>
             </div>
@@ -405,8 +406,10 @@
   <script type="text/javascript" charset="utf-8">
     var map;
     var markersArray = [];
+    var category
 
     function initialize(lat,lng){
+
       pos = (lat + ",") + lng;
       var mapOptions = {
         'center': (new google.maps.LatLng(lat,lng)),
@@ -417,14 +420,54 @@
         'zoomControl': true
       };
       map = new google.maps.Map($("#map_location")[0], mapOptions);
-      addMarker(new google.maps.LatLng(lat,lng));
+      addMarker(new google.maps.LatLng(lat,lng),category);
 
     }
 
-    function addMarker(location) {
+    function addMarker(location,shop_category) {
+      switch(shop_category)
+      {
+        case "Sony World" || "Sony Center":
+          marker_icon = '/assets/icon/sony.png';
+          break;
+        case "Dawlance USL" :
+          marker_icon ='/assets/icon/dawlance-usl.png';
+          break;
+        case "Orient Exclusive" :
+          marker_icon = '/assets/icon/orient.png';
+          break;  
+        case "Orient Center" :
+          marker_icon = '/assets/icon/orient-center.png';
+          break;
+        case "Dawlance Exclusive" :
+          marker_icon = '/assets/icon/dawlance.png';
+          break;
+        case "Haier Exclusive" :
+          marker_icon = '/assets/icon/haier.png';
+          break;
+        case "LG Concept Shop" :
+          marker_icon = '/assets/icon/lg.png';
+          break;
+        case "PEL Exclusive" :
+          marker_icon = '/assets/icon/pel.png';
+          break; 
+        case "Ruba Digital" :
+          marker_icon = '/assets/icon/ruba-digital.png';
+          break; 
+        case "Samsung Concept Shop" || "Samsung Brand Shop":
+          marker_icon = '/assets/icon/samsung.png';
+          break;
+        case "Singer Plus" :
+          marker_icon = '/assets/icon/singer.png';
+          break;   
+        default:
+          marker_icon ='';
+        break;  
+      } 
       marker = new google.maps.Marker({
         position: location,
-        map: map
+        map: map,
+        icon: marker_icon
       });
       marker.addListener("dragend", function(marker, ev) {
         point = marker.latLng;
@@ -488,6 +531,10 @@
     $('document').ready(function () {
       lat = convert($("#lat").val());
       lng = convert($("#lng").val());
+      category= $("#shop_category").val();
+      
+      
+
       if(lat &&  lng)
         initialize(lat,lng);
       $('.report-search').ajaxForm({
