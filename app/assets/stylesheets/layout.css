@@ -211,3 +211,16 @@ span input
   left: 12px;
   top: 5px; 
 }
+
+.map-ui
+{
+  position: absolute;
+  z-index:1;
+  left: 100px;
+  top: 250px; 
+  padding: 5px;
+  box-shadow: 0px 2px 4px #999;
+  border-radius: 8px;
+  text-decoration: none;
+  background: #fff;
+}
