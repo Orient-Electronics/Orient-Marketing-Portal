@@ -8,218 +8,283 @@
       <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
       <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
     </div>
+    <ul class="tabs">
+      <li class="active">
+        <a href="#" class='dealer' data-toggle="tab" data-form="filter-dealer" >Dealer</a>
+      </li>
+      <li class="">
+        <a href="#" class= 'orient-dealer' data-toggle="tab" data-form ="filter-orient">Orient Dealer</a>
+      </li>
+    </ul>
   </div>
   <div class="box-content no-padding">
-    <div class="span12" id="map_location" style="height: 500px;">
-    </div>
-    <textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>
-    <textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>
-    <textarea class="hide" id="shop_category"><%= @shops.collect(&:shop_category).collect(&:name).join("|")%></textarea>
+    <div class="span12" id="map_location" style="height: 500px;"></div>
+  </div>  
+</div>  
 
-  margin: 5px;
-    <div class='map-ui'>
-      <form class='filter-form'>
-        <lable><input type='checkbox' class='filter' name='filter1' id='orient-exclusive' value='Orient Exclusive' /> Orient Exclusive</label> <br>
-        <lable><input type='checkbox' class='filter' name='filter2' id='sony' value='Sony World' /> Sony World </label> <br>
-        <lable><input type='checkbox' class='filter' name='filter3' id='lg' value='LG Concept Shop' /> LG Concept Shop</label> <br>
-        <lable><input type='checkbox' class='filter' name='filter4' id='dawlance' value='Dawlance Exclusive' /> Dawlance Exclusive</label> <br>
-          <lable><input type='checkbox' class='filter' name='filter5' id='dawlance-usl' value='Dawlance USL' /> Dawlance USL</label> <br>
-        <lable><input type='checkbox' class='filter' name='filter6' id='pel' value='PEL Exclusive' /> PEL Exclusive </label> <br>
-        <lable><input type='checkbox' class='filter' name='filter7' id='hair' value='Haier Exclusive' /> Hair Exclusive </label> <br>
-        <lable><input type='checkbox' class='filter' name='filter8' id='orient-center' value='Orient Center' /> Orient Center </label> <br>
-        <lable><input type='checkbox' class='filter' name='filter9' id='singer' value='Singer Plus' /> Singer Plus </label> <br>
-        <lable><input type='checkbox' class='filter' name='filter10' id='ruba' value='Ruba Digital' /> Ruba Digital </label> <br>
-        <lable><input type='checkbox' class='filter' name='filter11' id='samsung' value='Samsung Concept Shop' /> Samsung Concept Shop </label> <br>
-        <lable><input type='checkbox' class='filter' name='filter12' id='other' value='other' /> Others </label>
+<div class='map-ui'>
+    <div class='filter-orient filters hide' data-name='filter-orient' data-property='orient_dealer'>
+      <form class='dealer-form'>
+        <label><input type='checkbox' class='filter' name='dealer-filter' id='yes' value='true' /> Dealer</label> 
+        <label><input type='checkbox' class='filter' name='dealer-filter' id='no' value='false' /> Not Orient Dealer</label>
       </form>
     </div>
-  </div>    
-</div>
+    <div class='filter-dealer filters hide' data-name='filter-dealer' data-property='category' >
+      <form class='category-form'>
+        <label><input type='checkbox' class='filter' name='filter' id='orient-exclusive' value='Orient Exclusive' /> Orient Exclusive</label> 
+        <label><input type='checkbox' class='filter' name='filter' id='sony' value='Sony World' /> Sony World </label> 
+        <label><input type='checkbox' class='filter' name='filter' id='lg' value='LG Concept Shop' /> LG Concept Shop</label> 
+        <label><input type='checkbox' class='filter' name='filter' id='dawlance' value='Dawlance Exclusive' /> Dawlance Exclusive</label> 
+          <label><input type='checkbox' class='filter' name='filter' id='dawlance-usl' value='Dawlance USL' /> Dawlance USL</label> 
+        <label><input type='checkbox' class='filter' name='filter' id='pel' value='PEL Exclusive' /> PEL Exclusive </label> 
+        <label><input type='checkbox' class='filter' name='filter' id='hair' value='Haier Exclusive' /> Hair Exclusive </label> 
+        <label><input type='checkbox' class='filter' name='filter' id='orient-center' value='Orient Center' /> Orient Center </label> 
+        <label><input type='checkbox' class='filter' name='filter' id='singer' value='Singer Plus' /> Singer Plus </label> 
+        <label><input type='checkbox' class='filter' name='filter' id='ruba' value='Ruba Digital' /> Ruba Digital </label> 
+        <label><input type='checkbox' class='filter' name='filter' id='samsung' value='Samsung Concept Shop' /> Samsung Concept Shop </label> 
+        <label><input type='checkbox' class='filter' name='filter' id='other' value='other' /> Others </label>
+      </form>
+    </div>  
+</div> 
 
-
+<textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>
+<textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>
+<textarea class="hide" id="shop_category"><%= @shops.collect(&:shop_category).collect(&:name).join("|")%></textarea>
+<textarea class="hide" id="shop_type"><%= @shops.collect(&:orient_dealer).join("|")%></textarea>
 
 <%= content_for :footer_js do %>
-<script type="text/javascript" charset="utf-8">
-  var map;
-  var markersArray = [];
-  var lat_arr;
-  var lng_arr;
-  var category_arr; 
-  var marker_icon;
+  <script type="text/javascript" charset="utf-8">
+    var map;
+    var markersArray = [];
+    var lat_arr;
+    var lng_arr;
+    var category_arr;
+    var type_arr;
+    var marker_icon;
 
-  function initialize(lat,lng){
-    pos = (lat + ",") + lng;
-    var mapOptions = {
-      'center': (new google.maps.LatLng(lat,lng)),
-      zoom: 4,
-      'disableDefaultUI':true,
-      'mapTypeControl': true,
-      'panControl': true,
-      'zoomControl': true
-    };
-    map = new google.maps.Map($("#map_location")[0], mapOptions);
-
-    for (var i=0;i<lat_arr.length;i++)
-    { 
-      var lat = convert(lat_arr[i]);
-      var lng = convert(lng_arr[i]);
-      var category = category_arr[i];
-      if(lat &&  lng)
-        addMarker((new google.maps.LatLng(lat,lng)), map, category);
-    }
-  }
-
-  function setgeolocation(address){
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode( { 'address': address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK)
-      {
-          lat = results[0].geometry.location.lat();
-          lng = results[0].geometry.location.lng();
-          initialize(lat,lng)
-      }
-    });
-  }
-
-  function addMarker(location,mapp,shop_category) {
-    switch(shop_category)
-    {
-      case "Sony World" || "Sony Center":
-        marker_icon = '/assets/icon/sony.png';
-        break;
-      case "Dawlance USL" :
-        marker_icon ='/assets/icon/dawlance-usl.png';
-        break;
-      case "Orient Exclusive" :
-        marker_icon = '/assets/icon/orient.png';
-        break;  
-      case "Orient Center" :
-        marker_icon = '/assets/icon/orient-center.png';
-        break;
-      case "Dawlance Exclusive" :
-        marker_icon = '/assets/icon/dawlance.png';
-        break;
-      case "Haier Exclusive" :
-        marker_icon = '/assets/icon/haier.png';
-        break;
-      case "LG Concept Shop" :
-        marker_icon = '/assets/icon/lg.png';
-        break;
-      case "PEL Exclusive" :
-        marker_icon = '/assets/icon/pel.png';
-        break; 
-      case "Ruba Digital" :
-        marker_icon = '/assets/icon/ruba-digital.png';
-        break; 
-      case "Samsung Concept Shop" || "Samsung Brand Shop":
-        marker_icon = '/assets/icon/samsung.png';
-        break;
-      case "Singer Plus" :
-        marker_icon = '/assets/icon/singer.png';
-        break;                 
-      default:
-        marker_icon ='';
-      break;  
-    } 
-    if(shop_category=='')
-      shop_category = 'other'
-    marker = new google.maps.Marker({
-      position: location,
-      map: mapp,
-      icon: marker_icon,
-      category: shop_category
-    });
-    marker.addListener("dragend", function(marker, ev) {
-      point = marker.latLng;
-    });
-    markersArray.push(marker);
-  }
-
-  function deleteOverlays() {
-    if (markersArray) {
-      for (i in markersArray) {
-        markersArray[i].setMap(null);
-      }
-      markersArray.length = 0;
-    }
-  }
-
-  function isNumber(o) {
-    return !isNaN(o - 0);
-  }
-
-  function convert(c) {
-      if (isNumber(c))
-          return Number(c);
-
-      var match = false;
-      var points = {
-          sign: 1,
-          degree: 0,
-          min: 0,
-          sec: 0
+    function initialize(lat,lng){
+      pos = (lat + ",") + lng;
+      var mapOptions = {
+        'center': (new google.maps.LatLng(lat,lng)),
+        zoom: 4,
+        'disableDefaultUI':true,
+        'mapTypeControl': true,
+        'panControl': true,
+        'zoomControl': true
       };
+      map = new google.maps.Map($("#map_location")[0], mapOptions);
 
-      var MinDec = /^([NWES+-])*(\d+)°(\d+).(\d+)'/i; // 067°08.601', -067°08.601', E067°08.601'
-      var DMS = /^([NWES+-])*(\d+)°(\d+)'(\d+)\.?(\d+)*"/i; // 33°36'47", -33°36'47", N33°36'47"
-
-      if (c.match(MinDec)) {
-          var arr = MinDec.exec(c);
-
-          match = true;
-          points.sign = (arr[1] == 'W' || arr[1] == 'S' || arr[1] == '-') ? -1 : 1;
-          points.degree = Number(arr[2]);
-          points.min = Number(arr[3] + '.' + arr[4]);
+      for (var i=0;i<lat_arr.length;i++)
+      { 
+        var lat = convert(lat_arr[i]);
+        var lng = convert(lng_arr[i]);
+        var category = category_arr[i];
+        var type = type_arr[i];
+        if(lat &&  lng)
+          addMarker((new google.maps.LatLng(lat,lng)), map, category,type);
       }
-      else if (c.match(DMS)) {
-          var arr = DMS.exec(c);
+      change_pin('filter-dealer');
+    }
 
-          match = true;
-          points.sign = (arr[1] == 'W' || arr[1] == 'S' || arr[1] == '-') ? -1 : 1;
-          points.degree = Number(arr[2]);
-          points.min = Number(arr[3]);
-          points.sec = Number(arr[4] + '.' + arr[5]);
-      }
-
-      if (match) {
-          return (points.degree + ((points.min * 60 + points.sec) / 3600)) * points.sign;
-      }
-
-      return false;
-  }
-
-  $(document).ready(function () {
-    lat_arr = $("#lat").val().split("|");
-    lng_arr = $("#lng").val().split("|");
-    category_arr = $("#shop_category").val().split("|");
-    setgeolocation("Pakistan");
-
-    $('.filter-form input:checkbox').click(function() {
-      var filters = [];
-      var this_arr = [];
-      $('.filter-form input').each(function() {
-        if ($(this).is(":checked"))
+    function setgeolocation(address){
+      geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK)
         {
-         filters.push($(this).val());
+            lat = results[0].geometry.location.lat();
+            lng = results[0].geometry.location.lng();
+            initialize(lat,lng)
         }
       });
-      if ( filters.length > 0 ) {
+    }
+
+    function addMarker(location,mapp,shop_category,type) {
+      marker = new google.maps.Marker({
+        position: location,
+        map: mapp,
+        icon: '',
+        category: shop_category,
+        orient_dealer: type
+      });
+      marker.addListener("dragend", function(marker, ev) {
+        point = marker.latLng;
+      });
+      markersArray.push(marker);
+    }
+
+    function deleteOverlays() {
+      if (markersArray) {
+        for (i in markersArray) {
+          markersArray[i].setMap(null);
+        }
+        markersArray.length = 0;
+      }
+    }
+
+    function isNumber(o) {
+      return !isNaN(o - 0);
+    }
+
+    function convert(c) {
+        if (isNumber(c))
+            return Number(c);
+
+        var match = false;
+        var points = {
+            sign: 1,
+            degree: 0,
+            min: 0,
+            sec: 0
+        };
+
+        var MinDec = /^([NWES+-])*(\d+)°(\d+).(\d+)'/i; // 067°08.601', -067°08.601', E067°08.601'
+        var DMS = /^([NWES+-])*(\d+)°(\d+)'(\d+)\.?(\d+)*"/i; // 33°36'47", -33°36'47", N33°36'47"
+
+        if (c.match(MinDec)) {
+            var arr = MinDec.exec(c);
+
+            match = true;
+            points.sign = (arr[1] == 'W' || arr[1] == 'S' || arr[1] == '-') ? -1 : 1;
+            points.degree = Number(arr[2]);
+            points.min = Number(arr[3] + '.' + arr[4]);
+        }
+        else if (c.match(DMS)) {
+            var arr = DMS.exec(c);
+
+            match = true;
+            points.sign = (arr[1] == 'W' || arr[1] == 'S' || arr[1] == '-') ? -1 : 1;
+            points.degree = Number(arr[2]);
+            points.min = Number(arr[3]);
+            points.sec = Number(arr[4] + '.' + arr[5]);
+        }
+
+        if (match) {
+            return (points.degree + ((points.min * 60 + points.sec) / 3600)) * points.sign;
+        }
+
+        return false;
+    }
+
+    function load_map(form_name)
+    {
+      filters = [];
+      form = '.' + form_name;
+      $(form + ' form input').each(function() {
+        if ($(this).is(":checked"))
+          filters.push($(this).val());
+      });
+      if (filters.length > 0 ) {
         $(markersArray).each(function(){
-          this.setVisible(false);
+            this.setVisible(false);
         });
         for(var i=0;i<filters.length;i++ ){
           $(markersArray).each(function(){
-            if(this.category==filters[i])
-              this.setVisible(true);
+            if($(form).data('property')=='category'){
+              if(this.category==filters[i])
+                this.setVisible(true);
+            }
+            else{
+              if(this.orient_dealer==filters[i])
+                this.setVisible(true);
+            }
           });
         }
-      }
+      }    
       else{
         $(markersArray).each(function(){
           this.setVisible(true);
         });
       }
+    }
+
+    function change_pin(form_name)
+    {
+      if(form_name == 'filter-orient')
+      {
+        $(markersArray).each(function(){
+          switch(this.orient_dealer)
+          {
+            case "true":
+              this.icon = '/assets/icon/dealer-icon.png';
+              break;
+            case "false":
+              this.icon ='/assets/icon/non-dealer-icon.png';
+            break;
+          }
+        });  
+      }
+      else 
+      {
+        $(markersArray).each(function(){
+          switch(this.category)
+          {
+            case "Sony World" || "Sony Center":
+              this.icon = '/assets/icon/sony.png';
+              break;
+            case "Dawlance USL" :
+              this.icon ='/assets/icon/dawlance-usl.png';
+              break;
+            case "Orient Exclusive" :
+              this.icon = '/assets/icon/orient.png';
+              break;  
+            case "Orient Center" :
+              this.icon = '/assets/icon/orient-center.png';
+              break;
+            case "Dawlance Exclusive" :
+              this.icon = '/assets/icon/dawlance.png';
+              break;
+            case "Haier Exclusive" :
+              this.icon = '/assets/icon/haier.png';
+              break;
+            case "LG Concept Shop" :
+              this.icon = '/assets/icon/lg.png';
+              break;
+            case "PEL Exclusive" :
+              this.icon = '/assets/icon/pel.png';
+              break; 
+            case "Ruba Digital" :
+              this.icon = '/assets/icon/ruba-digital.png';
+              break; 
+            case "Samsung Concept Shop" || "Samsung Brand Shop":
+              this.icon = '/assets/icon/samsung.png';
+              break;
+            case "Singer Plus" :
+              this.icon = '/assets/icon/singer.png';
+              break;                 
+            default:
+              {this.icon ='';
+              this.category = 'other';}
+            break; 
+          }
+        });
+      }  
+    }
+      
+    $(document).ready(function () {
+
+      lat_arr = $("#lat").val().split("|");
+      lng_arr = $("#lng").val().split("|");
+      category_arr = $("#shop_category").val().split("|");
+      type_arr =$("#shop_type").val().split("|");
+
+      setgeolocation("Pakistan");
+
+      $('.filter-dealer').show();
+      load_map('filter-dealer');
+      
+      $('.dealer, .orient-dealer').click(function(){
+        form_name = $(this).data('form')
+        $('.filters').hide();
+        $('.' + form_name).show();
+        load_map(form_name);
+        change_pin(form_name);
+      }); 
+     
+      $('.filters form input').click(function(){
+        parent = $(this).closest('.filters');
+        form_name = parent.data('name');
+        load_map(form_name);
+      });
     });
-  });
-</script>
+  </script>
 <% end -%>

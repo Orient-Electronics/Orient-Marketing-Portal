@@ -106,7 +106,7 @@
   </div>
   <div class="control-group">
     <%= f.label :shop_category_id, :class => 'control-label' %>
-    <div class="controls">
+    <div class="controls shop-category">
       <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, include_blank: true, :class => 'required' %>
     </div>
   </div>

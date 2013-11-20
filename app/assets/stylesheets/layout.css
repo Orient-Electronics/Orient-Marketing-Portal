@@ -211,7 +211,12 @@ span input
   left: 12px;
   top: 5px; 
 }
-
+.shop-category
+{
+  position: relative !important;
+  z-index: 1500 !important;
+  top: 5px; 
+}
 .map-ui
 {
   position: absolute;
