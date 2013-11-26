@@ -12,6 +12,7 @@ class DealersController < ApplicationController
     uploads = @shop.collect(&:uploads).flatten
     avatars = @shop.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
     @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    @shop_categories = ShopCategory.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @dealers }
@@ -27,6 +28,7 @@ class DealersController < ApplicationController
     uploads = @shops.collect(&:uploads).flatten
     avatars = @shops.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
     @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    @shop_categories = ShopCategory.all
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @dealer }
@@ -50,6 +52,7 @@ class DealersController < ApplicationController
   def edit
     authorize! :update, Dealer
     @dealer = Dealer.find(params[:id])
+    
   end
 
   # POST /dealers

@@ -28,7 +28,7 @@ class ShopCategoriesController < ApplicationController
   def new
     authorize! :create, ShopCategory
     @shop_category = ShopCategory.new
-
+    @shop_category.build_avatar
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @shop_category }
@@ -39,13 +39,14 @@ class ShopCategoriesController < ApplicationController
   def edit
     authorize! :update, ShopCategory
     @shop_category = ShopCategory.find(params[:id])
+    @shop_category.build_avatar
   end
 
   # POST /shop_categories
   # POST /shop_categories.json
   def create
     @shop_category = ShopCategory.new(params[:shop_category])
-
+    @shop_category.build_avatar params[:shop_category][:avatar_attributes]
     respond_to do |format|
       if @shop_category.save
         format.html { redirect_to @shop_category, notice: 'Shop category was successfully created.' }

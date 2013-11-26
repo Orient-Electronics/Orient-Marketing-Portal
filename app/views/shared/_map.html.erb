@@ -31,18 +31,9 @@
     </div>
     <div class='filter-dealer filters hide' data-name='filter-dealer' data-property='category' >
       <form class='category-form'>
-        <label><input type='checkbox' class='filter' name='filter' id='orient-exclusive' value='Orient Exclusive' /> Orient Exclusive</label> 
-        <label><input type='checkbox' class='filter' name='filter' id='sony' value='Sony World' /> Sony World </label> 
-        <label><input type='checkbox' class='filter' name='filter' id='lg' value='LG Concept Shop' /> LG Concept Shop</label> 
-        <label><input type='checkbox' class='filter' name='filter' id='dawlance' value='Dawlance Exclusive' /> Dawlance Exclusive</label> 
-          <label><input type='checkbox' class='filter' name='filter' id='dawlance-usl' value='Dawlance USL' /> Dawlance USL</label> 
-        <label><input type='checkbox' class='filter' name='filter' id='pel' value='PEL Exclusive' /> PEL Exclusive </label> 
-        <label><input type='checkbox' class='filter' name='filter' id='hair' value='Haier Exclusive' /> Hair Exclusive </label> 
-        <label><input type='checkbox' class='filter' name='filter' id='orient-center' value='Orient Center' /> Orient Center </label> 
-        <label><input type='checkbox' class='filter' name='filter' id='singer' value='Singer Plus' /> Singer Plus </label> 
-        <label><input type='checkbox' class='filter' name='filter' id='ruba' value='Ruba Digital' /> Ruba Digital </label> 
-        <label><input type='checkbox' class='filter' name='filter' id='samsung' value='Samsung Concept Shop' /> Samsung Concept Shop </label> 
-        <label><input type='checkbox' class='filter' name='filter' id='other' value='other' /> Others </label>
+        <% @shop_categories.each do |category| %>
+          <label> <input type='checkbox' class='filter' name='filter' id='<%= category.name %>' value='<%= category.name %>' /><%= category.name %> </label>
+        <% end %>
       </form>
     </div>  
 </div> 
@@ -50,8 +41,9 @@
 <textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>
 <textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>
 <textarea class="hide" id="shop_category"><%= @shops.collect(&:shop_category).collect(&:name).join("|")%></textarea>
+<textarea class="hide" id="shop_category_pin"><%= @shops.collect(&:shop_category).collect(&:avatar).collect(&:avatar).collect(&:url).join("|")%></textarea>
 <textarea class="hide" id="shop_type"><%= @shops.collect(&:orient_dealer).join("|")%></textarea>
-
+<textarea class="hide" id="shop_id"><%= @shops.collect(&:dealer_name).join("|")%></textarea>
 <%= content_for :footer_js do %>
   <script type="text/javascript" charset="utf-8">
     var map;
@@ -61,6 +53,9 @@
     var category_arr;
     var type_arr;
     var marker_icon;
+    var category_pin_arr;
+    var shop_id_arr;
+    var pins_arr = [];
 
     function initialize(lat,lng){
       pos = (lat + ",") + lng;
@@ -79,11 +74,12 @@
         var lat = convert(lat_arr[i]);
         var lng = convert(lng_arr[i]);
         var category = category_arr[i];
+        var marker_pin = category_pin_arr[i];
+        var id = shop_id_arr[i];
         var type = type_arr[i];
         if(lat &&  lng)
-          addMarker((new google.maps.LatLng(lat,lng)), map, category,type);
+          addMarker((new google.maps.LatLng(lat,lng)), map, category,type,marker_pin,id);
       }
-      change_pin('filter-dealer');
     }
 
     function setgeolocation(address){
@@ -97,19 +93,22 @@
         }
       });
     }
-
-    function addMarker(location,mapp,shop_category,type) {
+  
+    function addMarker(location,mapp,shop_category,type,marker_pin,shop_id) {
       marker = new google.maps.Marker({
         position: location,
         map: mapp,
-        icon: '',
+        icon: marker_pin,
         category: shop_category,
-        orient_dealer: type
+        orient_dealer: type,
+        title: shop_id
       });
       marker.addListener("dragend", function(marker, ev) {
         point = marker.latLng;
       });
+
       markersArray.push(marker);
+      pins_arr.push(marker_pin);
     }
 
     function deleteOverlays() {
@@ -215,49 +214,10 @@
       }
       else 
       {
-        $(markersArray).each(function(){
-          switch(this.category)
-          {
-            case "Sony World" || "Sony Center":
-              this.icon = '/assets/icon/sony.png';
-              break;
-            case "Dawlance USL" :
-              this.icon ='/assets/icon/dawlance-usl.png';
-              break;
-            case "Orient Exclusive" :
-              this.icon = '/assets/icon/orient.png';
-              break;  
-            case "Orient Center" :
-              this.icon = '/assets/icon/orient-center.png';
-              break;
-            case "Dawlance Exclusive" :
-              this.icon = '/assets/icon/dawlance.png';
-              break;
-            case "Haier Exclusive" :
-              this.icon = '/assets/icon/haier.png';
-              break;
-            case "LG Concept Shop" :
-              this.icon = '/assets/icon/lg.png';
-              break;
-            case "PEL Exclusive" :
-              this.icon = '/assets/icon/pel.png';
-              break; 
-            case "Ruba Digital" :
-              this.icon = '/assets/icon/ruba-digital.png';
-              break; 
-            case "Samsung Concept Shop" || "Samsung Brand Shop":
-              this.icon = '/assets/icon/samsung.png';
-              break;
-            case "Singer Plus" :
-              this.icon = '/assets/icon/singer.png';
-              break;                 
-            default:
-              {this.icon ='';
-              this.category = 'other';}
-            break; 
-          }
+        $(markersArray).each(function(i){
+          this.icon = pins_arr[i];
         });
-      }  
+      } 
     }
       
     $(document).ready(function () {
@@ -265,6 +225,8 @@
       lat_arr = $("#lat").val().split("|");
       lng_arr = $("#lng").val().split("|");
       category_arr = $("#shop_category").val().split("|");
+      category_pin_arr = $("#shop_category_pin").val().split("|");
+      shop_id_arr = $("#shop_id").val().split("|");
       type_arr =$("#shop_type").val().split("|");
 
       setgeolocation("Pakistan");
