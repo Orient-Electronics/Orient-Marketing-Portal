@@ -46,7 +46,6 @@ class Shop < ActiveRecord::Base
   #  end
   end
 
-
   def branch_of
     self.dealer.try(:name) || ""
   end

@@ -20,6 +20,7 @@ Orient::Application.routes.draw do
     member do
       get 'gallery'
       get 'showmodal'
+      get 'get_info'
     end
     collection do
       get 'showgallery'

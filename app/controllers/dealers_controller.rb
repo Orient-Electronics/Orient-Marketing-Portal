@@ -52,7 +52,8 @@ class DealersController < ApplicationController
   def edit
     authorize! :update, Dealer
     @dealer = Dealer.find(params[:id])
-    
+    @dealer.build_avatar
+
   end
 
   # POST /dealers
@@ -75,7 +76,7 @@ class DealersController < ApplicationController
   # PUT /dealers/1.json
   def update
     @dealer = Dealer.find(params[:id])
-
+    @dealer.build_avatar params[:dealer][:avatar_attributes]
     respond_to do |format|
       if @dealer.update_attributes(params[:dealer])
         format.html { redirect_to @dealer, notice: 'Dealer was successfully updated.' }
@@ -122,5 +123,11 @@ class DealersController < ApplicationController
     @shop = Shop.find(params[:id])
     params[:type]=="owner" ? @parent=@shop.owner : @parent=@shop.manager
     render :partial =>"/dealers/show_modal" , :locals => {:person => @parent, :shop => @shop}
+  end
+
+  def get_info
+    @shop =  Shop.find(params[:id])
+    
+    render :partial =>"/dealers/get_info" , :locals => {:@shop => @shop}
   end  
 end

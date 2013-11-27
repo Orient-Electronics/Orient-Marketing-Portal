@@ -1,0 +1,7 @@
+<div class='heading'>
+  <h5><%= @shop.dealer_name %></h5>
+</div>
+<div class='body'>
+  <p><%= @shop.address %></p>
+  <%= link_to 'view more..' , shop_path(@shop), :class => 'pull-right' %>
+</div>    

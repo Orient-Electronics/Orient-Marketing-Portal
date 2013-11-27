@@ -223,9 +223,24 @@ span input
   z-index:1;
   left: 100px;
   top: 250px; 
-  padding: 5px;
+  padding: 10px;
+  padding-bottom: 0px !important;
   box-shadow: 0px 2px 4px #999;
   border-radius: 8px;
   text-decoration: none;
   background: #fff;
+}
+
+.map-ui form input
+{
+  margin-right: 10px !important;
+}
+
+.result
+{
+  height: 85px !important; 
+  width: 180px !important;
+  line-height:1.35 !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
 }
