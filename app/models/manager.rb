@@ -7,5 +7,5 @@ class Manager < ActiveRecord::Base
 
   validates_presence_of :shop_id, :presence => true
   validates :name, :presence => :true, :length => {:minimum => 3, :maximum => 25}
-  validates_numericality_of :cell_number, :presence => true
+  #validates_numericality_of :cell_number, :presence => true
 end

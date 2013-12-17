@@ -13,7 +13,7 @@ class Shop < ActiveRecord::Base
   has_many :uploads, :as => :uploadable, :dependent => :destroy
   has_many :tasks, :dependent => :destroy
 
-  attr_accessible :address, :orient_dealer, :dealer_name, :email, :location_id, :phone, :shop_category_id, :website, :location_attributes, :owner_attributes, :manager_attributes, :dealer_id, :branch_of, :avatar_attributes
+  attr_accessible :address, :orient_dealer, :dealer_name, :email, :location_id, :phone, :shop_category_id, :website, :location_attributes, :owner_attributes, :manager_attributes, :dealer_id, :branch_of, :category, :avatar_attributes
 
   accepts_nested_attributes_for :owner
   accepts_nested_attributes_for :manager
@@ -21,16 +21,16 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :avatar
 
  
-  validates_presence_of :website
-  validates_presence_of :avatar, :presence => true, :message => "^please upload shop logo" 
-  validates :address, :presence => true, :length => { :maximum => 250 }
-  validates_presence_of :dealer_name, :presence => true, :length => { :maximum => 25 }, :message => "^Shop Name Can't be Blank"
-  validates_numericality_of :phone, :presence => true
-  validates :email, :presence => true, 
-                    :length => {:minimum => 3, :maximum => 25},
-                    :uniqueness => true,
-                    :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
-  validates :orient_dealer, :presence => true
+  # validates_presence_of :website
+  # validates_presence_of :avatar, :presence => true, :message => "^please upload shop logo" 
+   validates :address, :presence => true, :length => { :maximum => 250 }
+   validates_presence_of :dealer_name, :presence => true, :length => { :maximum => 25 }, :message => "^Shop Name Can't be Blank"
+  # validates_numericality_of :phone, :presence => true
+  # validates :email, :presence => true, 
+  #                   :length => {:minimum => 3, :maximum => 25},
+  #                   :uniqueness => true,
+  #                   :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
+  # validates :orient_dealer, :presence => true
 
   
 
@@ -54,6 +54,13 @@ class Shop < ActiveRecord::Base
     self.dealer = Dealer.find_by_name(name)
     if self.dealer.blank?
       self.dealer = Dealer.create :name => name
+    end
+  end
+
+  def category=(name)
+    self.shop_category = ShopCategory.find_by_name(name)
+    if self.shop_category.blank?
+      self.shop_category = ShopCategory.create :name => name
     end
   end
 end
