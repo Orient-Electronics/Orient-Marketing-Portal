@@ -26,19 +26,6 @@
               </ul>
             </li>
           <% end -%>
-          <% if can? :read, Shop %>
-            <li class='dropdown-submenu'>
-              <a href="#">Shops</a>
-              <ul class="dropdown-menu" >
-                <li>
-                  <a href="/shops">View All</a>
-                </li>
-                <li>
-                  <a href="/shops/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
           <% if can? :read, ShopCategory %>
             <li class='dropdown-submenu'>
               <a href="#">Shop Category</a>
