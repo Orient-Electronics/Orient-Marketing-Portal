@@ -22,7 +22,9 @@ oo.default_sheet = oo.sheets.first
   location = Location.new
   owner = Owner.new
   manager = Manager.new
-  location.city = City.find_by_name(oo.cell(line,'A').strip)
+  city_name = oo.cell(line,'A').strip
+  city = City.find_or_create_by_name city_name
+  location.city = city
   location.area   = oo.cell(line,'B')
   shop.dealer_name      = oo.cell(line,'C')
   shop.branch_of    = oo.cell(line,'D')
@@ -39,19 +41,28 @@ oo.default_sheet = oo.sheets.first
   manager.cell_number    = oo.cell(line,'O')
   manager.dob    = oo.cell(line,'P')
   shop.orient_dealer    = oo.cell(line,'Q').strip.capitalize == 'Yes' ? true : false
-  shop.category    = oo.cell(line,'R')
+  shop.shop_category = ShopCategory.find_or_create_by_name(oo.cell(line,'R').strip)
  
   #letter = 'R'
   if shop.save
 
     location.shop = shop
-    location.save
     owner.shop = shop
-    owner.save
     manager.shop = shop
-    manager.save
+    if location.save
+      if owner.save
+        if manager.save
+          p shop
+        else
+          shop.destroy
+        end
+      else
+        shop.destroy
+      end
+    else
+      shop.destroy
+    end
   
-    p shop
 
     # sales_report = Report.create :report_type => "sales", :shop_id => shop.id
     # display_report = Report.create :report_type => "display", :shop_id => shop.id
