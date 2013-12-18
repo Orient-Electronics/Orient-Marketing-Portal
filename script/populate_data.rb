@@ -41,7 +41,7 @@ oo.default_sheet = oo.sheets.first
   manager.cell_number    = oo.cell(line,'O')
   manager.dob    = oo.cell(line,'P')
   shop.orient_dealer    = oo.cell(line,'Q').strip.capitalize == 'Yes' ? true : false
-  shop_category = ShopCategory.find_or_create_by_name(oo.cell(line,'R').strip)
+  shop.shop_category = ShopCategory.find_or_create_by_name(oo.cell(line,'R').strip)
  
   #letter = 'R'
   if shop.save
