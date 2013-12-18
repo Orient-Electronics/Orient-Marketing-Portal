@@ -31,7 +31,7 @@ class Shop < ActiveRecord::Base
   #                   :uniqueness => true,
   #                   :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
   # validates :orient_dealer, :presence => true
-
+  validates_presence_of :shop_category_id
   
 
   searchable do
@@ -58,9 +58,8 @@ class Shop < ActiveRecord::Base
   end
 
   def category=(name)
-    self.shop_category = ShopCategory.find_by_name(name)
-    if self.shop_category.blank?
-      self.shop_category = ShopCategory.create :name => name
-    end
+    self.shop_category = ShopCategory.find_or_create_by_name(name)
+    return false if self.shop_category.blank?
+    return true
   end
 end
