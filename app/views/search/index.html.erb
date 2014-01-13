@@ -16,7 +16,7 @@
     <div class="shop_detail">
       <h4><b><%= link_to shop.dealer_name, shop_path(shop) %> </b></h4>
       <ul>
-        <li><b> Dealer : </b> <%= link_to shop.dealer.try(:name), dealer_shops_path(shop.dealer) if shop.dealer.present? %></li>
+        <li><b> Dealer : </b> <%= link_to shop.dealer.try(:name), dealer_path(shop.dealer) if shop.dealer.present? %></li>
         <li><b> Manage : </b> <%= shop.owner.name%></li>
         <li><%= shop.address%> </li>
       </ul> 

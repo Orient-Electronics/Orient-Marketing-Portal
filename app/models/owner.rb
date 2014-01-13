@@ -5,5 +5,5 @@ class Owner < ActiveRecord::Base
 
   attr_accessible :cell_number, :dob, :name, :shop_id
 
-  validates :name, :presence => :true, :length => {:minimum => 3, :maximum => 25}
+  validates :name, :presence => :true
 end

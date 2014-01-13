@@ -11,7 +11,7 @@ class Product < ActiveRecord::Base
 
   accepts_nested_attributes_for :brands
 
-  validates_presence_of :name, :length => {:maximum => 30} 
+  validates_presence_of :name
   validates_presence_of :brand_ids, :message => "^ Please select brand/s"
   validates_presence_of :product_category_id,  :message => "^ Please select product_category"
 end

@@ -6,7 +6,7 @@ class Dealer < ActiveRecord::Base
 
   accepts_nested_attributes_for :avatar
 
-  validates :name,  :presence => true, :length => {:minimum => 3, :maximum => 25}
+  validates :name,  :presence => true
   #validates_presence_of :avatar, :message => "^please upload the picture"
 
 end

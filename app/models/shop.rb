@@ -24,7 +24,7 @@ class Shop < ActiveRecord::Base
   # validates_presence_of :website
   # validates_presence_of :avatar, :presence => true, :message => "^please upload shop logo" 
    validates :address, :presence => true, :length => { :maximum => 250 }
-   validates_presence_of :dealer_name, :presence => true, :length => { :maximum => 25 }, :message => "^Shop Name Can't be Blank"
+   validates_presence_of :dealer_name, :presence => true, :message => "^Shop Name Can't be Blank"
   # validates_numericality_of :phone, :presence => true
   # validates :email, :presence => true, 
   #                   :length => {:minimum => 3, :maximum => 25},

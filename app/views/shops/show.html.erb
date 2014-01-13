@@ -5,7 +5,7 @@
 </div>
 <div class="container-fluid">
   <div class="row-fluid">
-    <ul class="tiles span8">
+    <ul class="tiles span1">
       <li class="image" style="margin:0px;">
         <a href="#">
           <% if @shop.avatar.present? %>
@@ -18,7 +18,7 @@
       </li>
     </ul>
     <div class="span4">
-      <div class="btn-group pull-right" style="margin-top:20px;">
+      <div class="btn-group pull-right" style="margin-top:180px;">
         <a href="#" data-toggle="dropdown" class="btn btn-large btn-inverse dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <% ProductCategory.all.each do |pc| %>

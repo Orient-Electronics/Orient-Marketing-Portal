@@ -9,6 +9,6 @@ class ProductCategory < ActiveRecord::Base
 
   accepts_nested_attributes_for :brands
 
-  validates :name, :length => {:minimum => 3, :maximum => 30} , :presence => true
+  validates :name , :presence => true
   validates_presence_of :brand_ids, :presence => true, :message => "^ please select brand/s"
 end
