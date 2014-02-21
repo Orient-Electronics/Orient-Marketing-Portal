@@ -10,11 +10,12 @@
     </div>
     <ul class="tabs">
       <li class="active">
-        <a href="#" class='dealer' data-toggle="tab" data-form="filter-dealer" >Dealer</a>
-      </li>
-      <li class="">
         <a href="#" class= 'orient-dealer' data-toggle="tab" data-form ="filter-orient">Orient Dealer</a>
       </li>
+      <li>
+        <a href="#" class='dealer' data-toggle="tab" data-form="filter-dealer" >Dealer</a>
+      </li>
+      
     </ul>
   </div>
   <div class="box-content no-padding">
@@ -59,6 +60,9 @@
     var iw = new google.maps.InfoWindow();
 
     function initialize(lat,lng){
+
+      allmarkers = []
+
       pos = (lat + ",") + lng;
       var mapOptions = {
         'center': (new google.maps.LatLng(lat,lng)),
@@ -66,7 +70,8 @@
         'disableDefaultUI':true,
         'mapTypeControl': true,
         'panControl': true,
-        'zoomControl': true
+        'zoomControl': true,
+        "autoZoom": true
       };
       map = new google.maps.Map($("#map_location")[0], mapOptions);
 
@@ -79,18 +84,33 @@
         var id = shop_id_arr[i];
         var type = type_arr[i];
         if(lat &&  lng)
-          addMarker((new google.maps.LatLng(lat,lng)), map, category,type,marker_pin,id);
+          allmarkers =addMarker((new google.maps.LatLng(lat,lng)), map, category,type,marker_pin,id);
       }
-    }
+
+      new_boundary = new google.maps.LatLngBounds();
+
+        for(i=0; i < markersArray.length; i++){
+          position = markersArray[i].position;
+          new_boundary.extend(position);
+        }
+
+        map.fitBounds(new_boundary);
+
+        return allmarkers;
+      }
+
+
 
     function setgeolocation(address){
+      allmarkers = []
       geocoder = new google.maps.Geocoder();
       geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK)
         {
             lat = results[0].geometry.location.lat();
             lng = results[0].geometry.location.lng();
-            initialize(lat,lng)
+            allmarkers = initialize(lat,lng);
+            change_pin('filter-orient', allmarkers);
         }
       });
     }
@@ -128,6 +148,8 @@
 
       markersArray.push(marker);
       pins_arr.push(marker_pin);
+
+      return markersArray;
     }
 
     function deleteOverlays() {
@@ -215,11 +237,11 @@
       }
     }
 
-    function change_pin(form_name)
+    function change_pin(form_name,mar)
     {
       if(form_name == 'filter-orient')
       {
-        $(markersArray).each(function(){
+        $(mar).each(function(event){
           switch(this.orient_dealer)
           {
             case "true":
@@ -229,19 +251,18 @@
               this.icon ='/assets/icon/non-dealer-icon.png';
             break;
           }
+          
         });  
       }
       else 
       {
-        $(markersArray).each(function(i){
+        $(mar).each(function(i){
           this.icon = pins_arr[i];
         });
       } 
     }
       
     $(document).ready(function () {
-
-
 
       lat_arr = $("#lat").val().split("|");
       lng_arr = $("#lng").val().split("|");
@@ -251,23 +272,26 @@
       type_arr =$("#shop_type").val().split("|");
 
       setgeolocation("Pakistan");
-
-      $('.filter-dealer').show();
-      load_map('filter-dealer');
-      
+      $(".dealer-form, .category-form").slideDown();
       $('.dealer, .orient-dealer').click(function(){
-        form_name = $(this).data('form')
+        form_name = $(this).data('form');
+
         $('.filters').hide();
+        
         $('.' + form_name).show();
         load_map(form_name);
-        change_pin(form_name);
+        change_pin(form_name, markersArray);
+        $(".dealer-form, .category-form").slideToggle();
       }); 
-     
+      
       $('.filters form input').click(function(){
         parent = $(this).closest('.filters');
         form_name = parent.data('name');
         load_map(form_name);
       });
+
+      $(".orient-dealer").trigger('click');
+
     });
   </script>
 <% end -%>

@@ -217,23 +217,24 @@ span input
   z-index: 1500 !important;
   top: 5px; 
 }
+
 .map-ui
 {
   position: absolute;
   z-index:1;
-  left: 100px;
-  top: 250px; 
-  padding: 10px;
+  left: 30%;
+  top: 218px; 
   padding-bottom: 0px !important;
   box-shadow: 0px 2px 4px #999;
-  border-radius: 8px;
   text-decoration: none;
   background: #fff;
+  width: 15%;
 }
 
 .map-ui form input
 {
-  margin-right: 10px !important;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .result
@@ -243,4 +244,36 @@ span input
   line-height:1.35 !important;
   overflow:hidden !important;
   white-space:nowrap !important;
+}
+
+
+#map_location .gm-style > .gmnoprint > .gmnoprint div[title="Zoom in"] {
+  top: 2px !important;
+  left: 4px !important;
+  width: 56px !important; 
+  height: 21px !important;
+}
+
+#map_location .gm-style > .gmnoprint > .gmnoprint div[title="Zoom in"] img{
+  position: absolute;
+  left: -38px !important;
+  top: -400px;
+  width: 60px;
+  height: 492px;
+  -webkit-user-select: none;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+#map_location .gm-style > .gmnoprint > .gmnoprint div[title="Click to zoom"]
+{
+  width: 57px !important;
+}
+#map_location .gm-style > .gmnoprint > .gmnoprint div[title="Drag to zoom"]
+{
+  width: 66px !important;
+}
+#map_location .gm-style > .gmnoprint > .gmnoprint div[title="Zoom out"]
+{
+  width: 68px !important;
 }

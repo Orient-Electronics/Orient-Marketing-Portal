@@ -404,16 +404,16 @@
       $('.report-search').ajaxForm({
         success: showResponse
       });
-    $('.report-search select').change(function(){
-      $(this).parent().submit();
-    });
-    $('.category-report-search').ajaxForm({
-        success: showCatResponse
+      $('.report-search select').change(function(){
+        $(this).parent().submit();
       });
-    $('.category-report-search select').change(function(){
-      $(this).parent().submit();
-    });
-    $('#category-data').removeClass('active');
+      $('.category-report-search').ajaxForm({
+          success: showCatResponse
+        });
+      $('.category-report-search select').change(function(){
+        $(this).parent().submit();
+      });
+      $('#category-data').removeClass('active');
     } );
   </script>
 <% end -%>
