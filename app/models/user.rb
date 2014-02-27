@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :created_tasks, :foreign_key => 'assigned_by', :class_name => "Task"
   has_many :assigned_tasks, :foreign_key => 'assigned_to', :class_name => "Task"
 
+  has_many :posts, :dependent => :destroy
+
   #has_and_belongs_to_many :roles
 
   belongs_to :user_type

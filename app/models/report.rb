@@ -6,11 +6,13 @@ class Report < ActiveRecord::Base
   belongs_to :shop
   belongs_to :user
 
-  attr_accessible :data, :week, :year, :report_type, :user_id, :shop_id, :report_lines_attributes
+  belongs_to :post
+
+  attr_accessible :data, :week, :year, :report_type, :user_id, :shop_id, :report_lines_attributes, :post_id
 
   accepts_nested_attributes_for :report_lines
 
-  validates_presence_of :week, :year, :report_type, :user_id
+  validates_presence_of :report_type, :user_id
   validates_associated :report_lines
 
 
@@ -29,8 +31,6 @@ class Report < ActiveRecord::Base
   def self.brand_corner(reports,brand_id)
     reports.select{|key| key.report_type=="display_corner"}.collect(&:report_lines).flatten.select{|key| key.brand_id == brand_id }.collect(&:data).reject {|r|r.nil?}.sum
   end
-
-
 
   def self.category_sales(reports,category_id,brand)
     if brand.nil?

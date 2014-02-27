@@ -5,6 +5,8 @@ class ProductCategory < ActiveRecord::Base
   has_many :products, :dependent => :destroy
   has_many :report_lines, :dependent => :destroy
 
+  has_many :posts, :dependent => :destroy
+
   attr_accessible :name, :brand_ids
 
   accepts_nested_attributes_for :brands

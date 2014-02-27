@@ -23,12 +23,12 @@ $('document').ready(function(){
         }
       });
     });
-  }
-  $(".addAvatar").click(function(e){
+  } 
+  $(".add_more_link").click(function(e){
     e.preventDefault();
     index = $(this).data("index");
     length = $(this).parent().find('input').length;
-    child = $(this).parent().find('.child-controls');
+    child = $(this).parent().find('.avatar-fields');
     $.ajax ({
         url:  '/reports/file_field',
         data: {index: index, length: length },
@@ -39,13 +39,15 @@ $('document').ready(function(){
     });
   });
   $(".radio-controls label input").change(function(e){
+
     e.preventDefault();
+
     text = $(this).val();
     index = $(this).parent().data('index');
-    parent = $(this).parent().parent().parent();
-    length = parent.find('.parent-controls').find('input').length;
-    child = parent.find('.parent-controls').find('.child-controls');
-    avatar_link = parent.find('.parent-controls').find('.addAvatar');
+  
+    parent = $(this).parent().parent().find(".avatar-fields")
+    avatar_link = $(this).parent().parent().find('.parent-avatar-field').find('.add_more_link');
+    length = parent.find('input').length;
     if(text == 1)
     {
       $.ajax ({
@@ -53,7 +55,7 @@ $('document').ready(function(){
         data: {index: index, length: length },
         success: function(data)
         {
-          child.append(data);
+          parent.append(data);
           avatar_link.show();
         }
       });
@@ -61,7 +63,7 @@ $('document').ready(function(){
     else
     if(text == 0)
     {
-      child.html("");
+      parent.html("");
       avatar_link.hide();
     }
 

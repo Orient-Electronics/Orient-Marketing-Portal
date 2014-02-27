@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="page-header">
     <div class="pull-left">
-      <h1>New report </h1>
+      <h1>Edit report </h1>
     </div>
   </div>
   <div class="row-fluid">
@@ -10,11 +10,11 @@
         <div class="box-title">
           <h3>
             <i class="icon-magic"></i>
-            Add Report
+            Edit Report
           </h3>
         </div>
         <div class="box-content scrollable">
-          <%= form_for @post , :url => shop_reports_path(@shop) , :html => { :class => 'form-horizontal form-validate', :multipart => true } do |f| %>
+          <%= form_for @post , :url => "/shops/#{@shop.id}/reports/#{@post.id}" , :html => { :class => 'form-horizontal form-validate', :multipart => true } do |f| %>
             <%= f.hidden_field :shop_id %>
             <%= f.hidden_field :user_id %>
             <%= f.hidden_field :product_category_id %>
@@ -77,31 +77,23 @@
                   <%= report.hidden_field :user_id %>
                   <div class="step-forms ">
                     <%= report.fields_for :report_lines do |report_line| %>
-                      <%  index = 0 %>
                       <% brand= Brand.find report_line.object.brand_id %>
                       <%= report_line.hidden_field :product_category_id %>
                       <%= report_line.hidden_field :product_id %>
                       <%= report_line.hidden_field :brand_id %>
                       <div class="control-group">
-                        <%= report_line.label :data,"#{brand.name.capitalize} #{type.capitalize}", :class => 'control-label' %>
+                        <%= report_line.label :data,"#{brand.name} #{type}", :class => 'control-label' %>
                         <div class="controls">
-                          <div class = "radio-controls required" remote ="true"  >
-                            <label class="radio" data-index= "<%= index %>">
+                          <div class = "radio-controls">
+                            <label class="radio">
                               <%= report_line.radio_button :data, "1" %>Yes
                             </label>
-                            <label class="radio" data-index= "<%= index %>" >
+                            <label class="radio">
                               <%= report_line.radio_button :data, "0" %>No
                             </label>
-                            <div class="parent-avatar-field">
-                              <div class="avatar-fields">
-                                
-                              </div>
-                              <%= link_to "Add More", "#", :remote => :true , :class => "hide add_more_link", :data => {:index => index } %>
-                            </div>  
-                          </div>  
+                          </div>
                         </div>
                       </div>
-                      <% index += 1 %>
                     <% end -%>
                   </div>
                 </div>

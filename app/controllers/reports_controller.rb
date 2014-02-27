@@ -5,7 +5,8 @@ class ReportsController < ApplicationController
     @categories = ProductCategory.all
     if params[:shop_id].present?
       @parent = Shop.find params[:shop_id]
-      @reports = @shop.reports
+      @reports = @parent.reports
+      @brands = Brand.all
     else
       if params[:product_id].present?
         @parent = Product.find params[:product_id]
@@ -25,23 +26,24 @@ class ReportsController < ApplicationController
   end
 
   def show
-    @report = Report.find(params[:id])
-    report_lines = @report.report_lines
-    @brand_report_lines = report_lines.group_by {|d| d[:brand_id] }
-    @category_report_lines = report_lines.group_by {|d| d[:product_category_id]}
-    @report_lines_avatars = report_lines.collect(&:avatars).flatten
+    @shop = Shop.find(params[:shop_id])
+    @post = Post.find(params[:id])
+    @reports = @post.reports
+    @display_report  = @reports.where(:report_type => "display").collect(&:report_lines).flatten
+    @sales_report   = @reports.where(:report_type => "sales").collect(&:report_lines).flatten
+    @corner_report  = @reports.where(:report_type => "display_corner").collect(&:report_lines).flatten
+    @brand_report_lines = @corner_report.group_by {|d| d[:brand_id] }
+    @category_report_lines = @corner_report.group_by {|d| d[:product_category_id] }
+    @report_lines_avatars = @corner_report.collect(&:avatars).flatten
     @brands = Brand.all
-    @pc = report_lines.last.product_category
+    @categories = ProductCategory.all
   end
 
-  def edit
-    @report = Report.find(params[:id])
-  end
+  
 
   def new
     authorize! :create, Report
     @shop = Shop.find params[:shop_id]
-    @report = Report.new
     @category = ProductCategory.find params[:product_category_id]
     if !params[:product_id].blank?
       @product = Product.find params[:product_id]
@@ -49,22 +51,51 @@ class ReportsController < ApplicationController
     else
       @brands = @category.brands
     end
+    @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id
+    report_one = @post.reports.build :shop_id => @shop.id, :report_type => 'display', :user_id => current_user.id
+    @brands.each do |brand|
+      report_one.report_lines.build :brand_id => brand.id, :product_category_id => @category.try(:id), :product_id => @product.try(:id)
+    end
+    report_two = @post.reports.build :shop_id => @shop.id, :report_type => 'sales', :user_id => current_user.id
+    @brands.each do |brand|
+      report_two.report_lines.build :brand_id => brand.id, :product_category_id => @category.try(:id), :product_id => @product.try(:id)
+    end
+    report_three = @post.reports.build :shop_id => @shop.id, :report_type => 'display_corner', :user_id => current_user.id
+    @brands.each do |brand|
+      line = report_three.report_lines.build :brand_id => brand.id, :product_category_id => @category.try(:id), :product_id => @product.try(:id)
+    end
+  end
+
+  def edit
+    @post = Post.find params[:id]
+    @shop = Shop.find params[:shop_id]
   end
 
   def create
     @shop = Shop.find params[:shop_id]
-    params[:report].collect do |key,report|
-      @report = Report.new report
-      @report.week = params[:week]
-      @report.year =params[:year]
-      @report.user = current_user
-      @report.shop_id = params[:shop_id]
-      @report.save!
+    @post = Post.new params[:post]
+    if @post.save
+      redirect_to shop_path(@shop)
+    else
+      render 'new'
     end
-    respond_to do |format|
-        format.html {redirect_to shop_path(@shop)}
-        format.json { render json: @shop, status: :created, location: @shop }
+  end
+
+  def update
+    @post = Post.find params[:id]
+    @shop = Shop.find params[:shop_id]
+    if @post.update_attributes(params[:post])
+      redirect_to shop_path(@shop)
+    else
+      render 'edit'
     end
+  end   
+
+  def destroy
+    @post = Post.find params[:id]
+    @shop = Shop.find params[:shop_id]
+    @post.destroy
+      redirect_to shop_reports_path(@shop)
   end
 
   def brand_search
