@@ -1,0 +1,17 @@
+<div id="<%= type %>">
+  <textarea class="hide <%= type %>">
+    <% brands.each do |brand| %>
+      <%= [brand.name,report.report_view(brand.id)].join("|") %>
+      <%= "~" unless brand == brands.last %>
+    <% end -%>
+  </textarea>
+  <div class="row-fluid">
+    <div class="span12 jchartfx" style="height: 400px; display: inline-block;" data-unit="<%= type %>">
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $('document').ready(function(){
+    onLoadDoc($("#<%= type %> .jchartfx"),"<%= type %>","Brand");  
+  });
+</script>

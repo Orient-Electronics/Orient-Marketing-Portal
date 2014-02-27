@@ -90,7 +90,7 @@ class ShopsController < ApplicationController
   # POST /shops.json
   def create
     @shop = Shop.new(params[:shop])
-    @shop.build_avatar params[:shop][:avatar_attributes]
+    @shop.build_avatar params[:shop][:avatar_attributes ]
     respond_to do |format|
       if @shop.save
         format.html { redirect_to @shop, notice: 'Shop was successfully created.' }

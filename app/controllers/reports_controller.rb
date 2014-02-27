@@ -24,6 +24,20 @@ class ReportsController < ApplicationController
     end
   end
 
+  def show
+    @report = Report.find(params[:id])
+    report_lines = @report.report_lines
+    @brand_report_lines = report_lines.group_by {|d| d[:brand_id] }
+    @category_report_lines = report_lines.group_by {|d| d[:product_category_id]}
+    @report_lines_avatars = report_lines.collect(&:avatars).flatten
+    @brands = Brand.all
+    @pc = report_lines.last.product_category
+  end
+
+  def edit
+    @report = Report.find(params[:id])
+  end
+
   def new
     authorize! :create, Report
     @shop = Shop.find params[:shop_id]

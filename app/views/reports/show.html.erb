@@ -1,0 +1,37 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+    <div class="span12">
+    	<div class="box box-color box-bordered">
+    		<div class="box-title">
+          <h3>
+            <i class="icon-bar-chart"></i>
+            Report
+          </h3>
+          <div class="actions">
+            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+          </div>
+          <ul class="tabs">
+            <li class="active">
+              <a href="#brand-data" data-toggle="tab">Brand Data</a>
+            </li>
+          </ul>
+        </div>
+        <div class="box-content">
+          <div class="tab-content">
+          	<div class="tab-pane active" id="brand-data">
+          		<h4><i class="icon-inbox"></i> <%= "#{@report.report_type.capitalize} Report" %></h4>
+        				<span class= "product_category"> Product Category </span> :  <b><span><%= @pc.name %></span></b>  <br>
+              	<span class="report_date"> Created at </span> :  <b> <span> <%= @report.created_at.strftime('%D') %>  </b> </span>
+              <div class="display_data_chart">
+              	<% unless @report.report_type == "display_corner"%>	
+                	<%= render :partial => "/reports/bar_show_report", :locals => {:brands => @brands, :report => @report, :type => "#{@report.report_type}_data"} %>
+             		<% else %> 	
+             			<%= render :partial => "display_corner_report"%>
+             		<% end %> 	
+          		</div>	
+        		</div>
+        	</div>	
+    	</div>	
+    </div>
+  </div>
+</div>    		
