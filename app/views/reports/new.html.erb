@@ -54,7 +54,7 @@
                         <%= report_line.hidden_field :product_id %>
                         <%= report_line.hidden_field :brand_id %>
                         <%= report_line.label :data,"#{brand.name} #{type}", :class => 'control-label' %>
-                        <%= report_line.text_field :data %>
+                        <%= report_line.text_field :data, :class => "input-xlarge required number" %>
                       </div>
                     <% end -%>
                   </div>
@@ -76,8 +76,9 @@
                   <%= report.hidden_field :shop_id %>
                   <%= report.hidden_field :user_id %>
                   <div class="step-forms ">
+                    <%  index = 0 %>
                     <%= report.fields_for :report_lines do |report_line| %>
-                      <%  index = 0 %>
+                      
                       <% brand= Brand.find report_line.object.brand_id %>
                       <%= report_line.hidden_field :product_category_id %>
                       <%= report_line.hidden_field :product_id %>
@@ -90,18 +91,17 @@
                               <%= report_line.radio_button :data, "1" %>Yes
                             </label>
                             <label class="radio" data-index= "<%= index %>" >
-                              <%= report_line.radio_button :data, "0" %>No
+                              <%= report_line.radio_button :data, "0" , :checked => "checked" %>No
                             </label>
                             <div class="parent-avatar-field">
                               <div class="avatar-fields">
-                                
                               </div>
                               <%= link_to "Add More", "#", :remote => :true , :class => "hide add_more_link", :data => {:index => index } %>
                             </div>  
                           </div>  
                         </div>
                       </div>
-                      <% index += 1 %>
+                      <% index = index +  1 %>
                     <% end -%>
                   </div>
                 </div>

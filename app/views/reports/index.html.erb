@@ -13,7 +13,6 @@
         </div>
         <div class="box-content nonpadding scrollable" data-height ='400px' >
           <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
-          
             <thead>
               <tr>
                 <th> S.No. </th>
@@ -31,8 +30,8 @@
               <tr>
                 <td> <%= index+1 %> </td>
                 <td> <%= post.product_category.name %> </td>
-                <td> <%= "#{post.week}".to_i.ordinalize %> </td>
-                <td> <%= post.year %> </td>
+                <td> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
+                <td> <%= post.reports.first.year %> </td>
                 <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
                 <td> <%= link_to "show",  "/shops/#{@parent.id}/reports/#{post.id}" %> </td>
                 <td> <%= link_to "edit",  "/shops/#{@parent.id}/reports/#{post.id}/edit" %> </td>

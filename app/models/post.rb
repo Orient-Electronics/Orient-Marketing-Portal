@@ -12,24 +12,12 @@ class Post < ActiveRecord::Base
 
   accepts_nested_attributes_for :reports
 
-  def year
-    self.reports.first.year
-	end
+  before_save :update_reports_attribute
 
-  def year=(value)
+  def update_reports_attribute
     self.reports.each do |report|
-      report.year = value
+      report.year = self.year
+      report.week = self.week
     end
   end
-
-  def week
-    self.reports.first.week
-  end
-
-  def week=(value)
-    self.reports.each do |report|
-      report.week = value
-    end
-  end
-
 end

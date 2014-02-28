@@ -153,4 +153,10 @@ class ReportsController < ApplicationController
     render(:partial => "/reports/reportline_avatars", :locals => {:index => params[:index], :temp => params[:length]})
   end
 
+  def remove_report_line
+    report_line = ReportLine.find params[:id]
+    report_line.avatars.clear
+      render :text => "Successfully Removed"   
+  end
+
 end

@@ -22,11 +22,11 @@
             <div class='row-fluid'>
               <div class= "span6" >
                 <%= f.label :year ,"Year", :class => 'control-label' %>  
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y')) %>
+                <%= f.select :year , options_for_select( (2000..2020).to_a , @post.reports.first.year) %>
               </div>
               <div class ="span6">
                 <%= f.label :week ,"Week number", :class => 'control-label' %> 
-                <%= f.select :week , options_for_select(year_weeks, Date.today.cweek) %>
+                <%= f.select :week , options_for_select(year_weeks, @post.reports.first.week) %>
               </div>
             </div>
             <%= f.fields_for :reports do |report| %>
@@ -54,7 +54,7 @@
                         <%= report_line.hidden_field :product_id %>
                         <%= report_line.hidden_field :brand_id %>
                         <%= report_line.label :data,"#{brand.name} #{type}", :class => 'control-label' %>
-                        <%= report_line.text_field :data %>
+                        <%= report_line.text_field :data , :class => "input-xlarge required number"%>
                       </div>
                     <% end -%>
                   </div>
@@ -76,24 +76,43 @@
                   <%= report.hidden_field :shop_id %>
                   <%= report.hidden_field :user_id %>
                   <div class="step-forms ">
+                    <%  index = 0 %>
                     <%= report.fields_for :report_lines do |report_line| %>
+                      
                       <% brand= Brand.find report_line.object.brand_id %>
                       <%= report_line.hidden_field :product_category_id %>
                       <%= report_line.hidden_field :product_id %>
                       <%= report_line.hidden_field :brand_id %>
                       <div class="control-group">
-                        <%= report_line.label :data,"#{brand.name} #{type}", :class => 'control-label' %>
+                        <%= report_line.label :data,"#{brand.name.capitalize} #{type.capitalize}", :class => 'control-label' %>
                         <div class="controls">
-                          <div class = "radio-controls">
-                            <label class="radio">
-                              <%= report_line.radio_button :data, "1" %>Yes
+                          <div class = "radio-controls-edit required" remote ="true">
+                            <label class="radio" data-index= "<%= index %>">
+                              <%= report_line.radio_button :data, "1" ,:checked => "checked" %>Yes
                             </label>
-                            <label class="radio">
+                            <label class="radio" data-index= "<%= index %>" data-id = "<%= report_line.object.id%>">
                               <%= report_line.radio_button :data, "0" %>No
                             </label>
+                            
+                            <div class="parent-avatar-field">
+                              <%= report_line.fields_for :avatars do |avatar| %>
+                                  <div class="image-field">      
+                                    <%= image_tag(avatar.object.avatar(:thumb)) %>
+                                    <%= avatar.label "Change Image"  %>
+                                    <div class="avatar-fields">
+                                      <%= avatar.file_field :avatar  %>
+                                    </div>
+                                  </div>  
+                              <% end %>
+                              <div class="add-more-avatar"></div>
+
+                              <%= link_to "Add More", "#", :remote => :true , :class => "edit_add_more_link #{"hide" unless !report_line.object.avatars.blank?} ", :data => {:index => index }  %> 
+                            </div>
                           </div>
+
                         </div>
                       </div>
+                      <% index += 1 %>
                     <% end -%>
                   </div>
                 </div>
