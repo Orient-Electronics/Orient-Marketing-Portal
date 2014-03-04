@@ -3,6 +3,7 @@ class TasksController < ApplicationController
   def index
       @created_tasks = current_user.created_tasks
       @assigned_tasks = current_user.assigned_tasks
+      @complete_assigned_tasks = @created_tasks.where(:status => "completed").flatten
       @shops = Shop.all
       @task = Task.new
 
@@ -47,4 +48,14 @@ class TasksController < ApplicationController
       format.json { render json: @task.errors, status: :unprocessable_entity }
     end
   end
+
+  def publish_report
+    post = Post.find(params[:post_id])
+    post.published = true
+    post.save
+    respond_to do |format|
+      format.html { redirect_to tasks_path, notice: 'Report was successfully published.'}
+    end
+  end
+  
 end

@@ -60,6 +60,9 @@ Orient::Application.routes.draw do
     member do
       post 'change_status'
     end
+    collection do 
+      get 'publish_report'
+    end
   end
 
   resources :reports do

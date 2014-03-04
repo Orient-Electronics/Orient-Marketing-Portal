@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published
+  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id
 
   attr_accessor :week, :year
 
@@ -7,7 +7,7 @@ class Post < ActiveRecord::Base
   belongs_to :shop
   belongs_to :user
   belongs_to :product_category
-
+  belongs_to :task
   has_many :reports, :dependent => :destroy
 
   accepts_nested_attributes_for :reports

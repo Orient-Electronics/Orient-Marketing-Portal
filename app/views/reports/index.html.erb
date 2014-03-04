@@ -5,7 +5,7 @@
         <div class="box-title">
           <h3>
             <i class="icon-bar-chart"></i>
-             <%= @parent.dealer_name.capitalize %> Reports
+             <%= @parent.dealer_name.capitalize unless @parent.blank? %> Reports
           </h3>
           <div class="actions">
             <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
@@ -29,18 +29,18 @@
             <% @posts.each_with_index do |post, index| %>
               <tr>
                 <td> <%= index+1 %> </td>
-                <td> <%= post.product_category.name %> </td>
+                <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
                 <td> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
                 <td> <%= post.reports.first.year %> </td>
                 <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
-                <td> <%= link_to "show",  "/shops/#{@parent.id}/reports/#{post.id}" %> </td>
+                <td> <%= link_to "show",  "/shops/#{post.shop_id}/reports/#{post.id}" %> </td>
                 <td> <% unless post.published? %> 
-                      <%= link_to "edit",  "/shops/#{@parent.id}/reports/#{post.id}/edit" %>
+                      <%= link_to "edit",  "/shops/#{post.shop_id}/reports/#{post.id}/edit" %>
                      <% else %>
                        <span> Published</span>
                      <% end %>  
                      </td>
-                <td> <%= link_to "delete",  "/shops/#{@parent.id}/reports/#{post.id}", :method => :delete, :confirm => "are you sure? "  %> </td>
+                <td> <%= link_to "delete",  "/shops/#{post.shop_id}/reports/#{post.id}", :method => :delete, :confirm => "are you sure? "  %> </td>
               </tr>
             <% end %>
             </tbody>

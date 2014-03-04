@@ -3,15 +3,20 @@ class ReportsController < ApplicationController
   def index
     authorize! :read, Post
     @categories = ProductCategory.all
-    @parent = Shop.find params[:shop_id]
-    @brands = Brand.all
-    if current_user.user_type.name == "employee"
-      @posts =  Post.where(:shop_id => params[:shop_id].to_i, :user_id => current_user.id)
+    unless params[:shop_id].blank?
+      @parent = Shop.find params[:shop_id]
+      @brands = Brand.all
+      if current_user.user_type.name == "employee"
+        @posts =  Post.where(:shop_id => params[:shop_id].to_i, :user_id => current_user.id)
+        @reports = @posts.collect(&:reports).flatten
+      else   
+        @posts =  Post.published_reports.where(:shop_id => params[:shop_id].to_i)
+        @reports = @posts.collect(&:reports).flatten
+      end
+    else
+      @posts =  Post.where(:user_id => current_user.id)
       @reports = @posts.collect(&:reports).flatten
-    else   
-      @posts =  Post.published_reports.where(:shop_id => params[:shop_id].to_i)
-      @reports = @posts.collect(&:reports).flatten
-    end
+    end  
     
   end
 
@@ -36,13 +41,15 @@ class ReportsController < ApplicationController
     authorize! :create, Post
     @shop = Shop.find params[:shop_id]
     @category = ProductCategory.find params[:product_category_id]
+    @task = Task.find(params[:task_id])
+    p @task
     if !params[:product_id].blank?
       @product = Product.find params[:product_id]
       @brands = @product.brands
     else
       @brands = @category.brands
     end
-    @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id
+    @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id, :task_id => @task.id
     report_one = @post.reports.build :shop_id => @shop.id, :report_type => 'display', :user_id => current_user.id
     @brands.each do |brand|
       report_one.report_lines.build :brand_id => brand.id, :product_category_id => @category.try(:id), :product_id => @product.try(:id)

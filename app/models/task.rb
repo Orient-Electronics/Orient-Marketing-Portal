@@ -4,7 +4,7 @@ class Task < ActiveRecord::Base
 
   belongs_to :shop
   belongs_to :user
-  
+  has_one :post
   validates_presence_of :assigned_to, :message => "^ select the assigned to"
   validates_presence_of :shop_name, :message => "^ select the shop" 
   validates_presence_of :comment

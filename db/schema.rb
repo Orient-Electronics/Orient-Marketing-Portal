@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140303194423) do
+ActiveRecord::Schema.define(:version => 20140304081712) do
 
   create_table "avatars", :force => true do |t|
     t.string   "avatar_file_name"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(:version => 20140303194423) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.boolean  "published",           :default => false
+    t.integer  "task_id"
   end
 
   create_table "product_categories", :force => true do |t|
