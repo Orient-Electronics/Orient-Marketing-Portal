@@ -1,31 +1,22 @@
 class ReportsController < ApplicationController
 
   def index
-    authorize! :read, Report
+    authorize! :read, Post
     @categories = ProductCategory.all
-    if params[:shop_id].present?
-      @parent = Shop.find params[:shop_id]
-      @reports = @parent.reports
-      @brands = Brand.all
-    else
-      if params[:product_id].present?
-        @parent = Product.find params[:product_id]
-        @brands = Brand.all
-        @reports = ReportLine.where(:product_id=> params[:product_id]).collect(&:report).uniq
-      else
-        if params[:product_category_id].present?
-          @parent = ProductCategory.find params[:product_category_id]
-          @brands = Brand.all
-          @reports = ReportLine.where(:product_category_id=> params[:product_category_id]).collect(&:report).uniq
-        else
-          @reports = Report.all
-          @brands = Brand.all
-        end
-      end
+    @parent = Shop.find params[:shop_id]
+    @brands = Brand.all
+    if current_user.user_type.name == "employee"
+      @posts =  Post.where(:shop_id => params[:shop_id].to_i, :user_id => current_user.id)
+      @reports = @posts.collect(&:reports).flatten
+    else   
+      @posts =  Post.published_reports.where(:shop_id => params[:shop_id].to_i)
+      @reports = @posts.collect(&:reports).flatten
     end
+    
   end
 
   def show
+    authorize! :read, Post
     @shop = Shop.find(params[:shop_id])
     @post = Post.find(params[:id])
     @reports = @post.reports
@@ -42,7 +33,7 @@ class ReportsController < ApplicationController
   
 
   def new
-    authorize! :create, Report
+    authorize! :create, Post
     @shop = Shop.find params[:shop_id]
     @category = ProductCategory.find params[:product_category_id]
     if !params[:product_id].blank?
@@ -67,8 +58,13 @@ class ReportsController < ApplicationController
   end
 
   def edit
+    authorize! :update, Post
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
+    unless !@post.published? 
+      redirect_to shop_reports_path(@shop), notice: 'access denied to edit this report'
+    end 
+    
   end
 
   def create
@@ -92,6 +88,7 @@ class ReportsController < ApplicationController
   end   
 
   def destroy
+    authorize! :delete, Post
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
     @post.destroy

@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week
+  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published
 
   attr_accessor :week, :year
 
@@ -11,6 +11,8 @@ class Post < ActiveRecord::Base
   has_many :reports, :dependent => :destroy
 
   accepts_nested_attributes_for :reports
+
+  scope :published_reports, where(:published => true)
 
   before_save :update_reports_attribute
 
