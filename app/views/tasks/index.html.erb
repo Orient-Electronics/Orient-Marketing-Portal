@@ -87,7 +87,7 @@
                   <td> <% if t.post.published? %>
                         <span> Published </span>
                       <% else %>
-                        <%= link_to "Publish Report", publish_report_tasks_path(:post_id => t.post.id) %> 
+                        <%= link_to "Publish Report", publish_report_tasks_path(:post_id => t.post.id), :class => "btn btn-inverse" %> 
                       <% end %>  
                     </td>
                 </tr>
@@ -136,7 +136,7 @@
                             <% if !pc.products.blank? %>
                               <li class='dropdown-submenu'>
                                 <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
-                                <ul class="dropdown-menu pull-left">
+                                <ul class="dropdown-menu dropup pull-left">
                                   <% pc.products.each do |product|%>
                                     <li>
                                       <%= link_to product.name, new_shop_report_path(:shop_id => t.shop_id, :task_id => t.id, :product_category_id => pc.id, :product_id => product.id) %>
