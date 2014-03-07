@@ -99,9 +99,6 @@ $('document').ready(function(){
     contents_2 = $(this).parent().parent().find(".add-more-avatar");
 
     avatar_link = $(this).parent().parent().find('.edit_add_more_link');
-
-  
-    
     
     length = 0;
     if(text == 1)
