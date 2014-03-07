@@ -40,7 +40,10 @@
                        <span> Published</span>
                      <% end %>  
                      </td>
-                <td> <%= link_to "delete",  "/shops/#{post.shop_id}/reports/#{post.id}", :method => :delete, :confirm => "are you sure? "  %> </td>
+                <td> <% unless post.published? %>
+                   <%= link_to "delete",  "/shops/#{post.shop_id}/reports/#{post.id}", :method => :delete, :confirm => "are you sure? "  %> 
+                   <% end %>
+               </td>
               </tr>
             <% end %>
             </tbody>
