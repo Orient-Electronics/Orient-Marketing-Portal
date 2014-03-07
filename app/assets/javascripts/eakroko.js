@@ -49,18 +49,6 @@ $(document).ready(function() {
 
 	icheck();
 
-	if($(".complexify-me").length > 0){
-		$(".complexify-me").complexify(function(valid, complexity){
-			if(complexity < 40){
-				$(this).parent().find(".progress .bar").removeClass("bar-green").addClass("bar-red");
-			} else {
-				$(this).parent().find(".progress .bar").addClass("bar-green").removeClass("bar-red");
-			}
-
-			$(this).parent().find(".progress .bar").width(Math.floor(complexity)+"%").html(Math.floor(complexity)+"%");
-		});
-	}
-
 	// Round charts (easypie)
 	if($(".chart").length > 0)
 	{
@@ -125,24 +113,6 @@ $(document).ready(function() {
 	}
 	
 
-	// Notifications
-	$(".notify").click(function(){
-		var $el = $(this);
-		var title = $el.attr('data-notify-title'),
-		message = $el.attr('data-notify-message'),
-		time = $el.attr('data-notify-time'),
-		sticky = $el.attr('data-notify-sticky'),
-		overlay = $el.attr('data-notify-overlay');
-
-		$.gritter.add({
-			title: 	(typeof title !== 'undefined') ? title : 'Message - Head',
-			text: 	(typeof message !== 'undefined') ? message : 'Body',
-			image: 	(typeof image !== 'undefined') ? image : null,
-			sticky: (typeof sticky !== 'undefined') ? sticky : false,
-			time: 	(typeof time !== 'undefined') ? time : 3000
-		});
-	});
-
 	// masked input
 	if($('.mask_date').length > 0){
 		$(".mask_date").mask("9999/99/99");	
@@ -181,10 +151,6 @@ $(document).ready(function() {
 			disableFocus: true,
 			template: 'dropdown'
 		});
-	}
-	// colorpicker
-	if($('.colorpick').length > 0){
-		$('.colorpick').colorpicker();	
 	}
 	// uniform
 	if($('.uniform-me').length > 0){
@@ -236,33 +202,6 @@ $(document).ready(function() {
 		$('.spinner').spinner();
 	}
 
-	// dynatree
-	if($(".filetree").length > 0){
-		$(".filetree").each(function(){
-			var $el = $(this),
-			opt = {};
-			opt.debugLevel = 0;
-			if($el.hasClass("filetree-callbacks")){
-				opt.onActivate = function(node){
-					$(".activeFolder").text(node.data.title);
-					$(".additionalInformation").html("<ul style='margin-bottom:0;'><li>Key: "+node.data.key+"</li><li>is folder: "+node.data.isFolder+"</li></ul>");
-				};
-			}
-			if($el.hasClass("filetree-checkboxes")){
-				opt.checkbox = true;
-
-				opt.onSelect = function(select, node){
-					var selNodes = node.tree.getSelectedNodes();
-					var selKeys = $.map(selNodes, function(node){
-						return "[" + node.data.key + "]: '" + node.data.title + "'";
-					});
-					$(".checkboxSelect").text(selKeys.join(", "));
-				};
-			}
-
-			$el.dynatree(opt);
-		});
-	}
 
 	if($(".colorbox-image").length > 0){
 		$(".colorbox-image").colorbox({
