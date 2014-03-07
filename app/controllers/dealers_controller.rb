@@ -11,7 +11,7 @@ class DealersController < ApplicationController
     @categories= ProductCategory.all
     @shop = @dealers.collect(&:shops).flatten
     uploads = @shop.collect(&:uploads).flatten
-    avatars = @shop.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+    avatars = @reports.flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
     @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     @shop_categories = ShopCategory.all
     respond_to do |format|

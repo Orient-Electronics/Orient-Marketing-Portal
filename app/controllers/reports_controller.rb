@@ -41,15 +41,17 @@ class ReportsController < ApplicationController
     authorize! :create, Post
     @shop = Shop.find params[:shop_id]
     @category = ProductCategory.find params[:product_category_id]
-    @task = Task.find(params[:task_id])
-    p @task
     if !params[:product_id].blank?
       @product = Product.find params[:product_id]
       @brands = @product.brands
     else
       @brands = @category.brands
     end
-    @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id, :task_id => @task.id
+    unless params[:task_id].blank?
+      @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id, :task_id => parms[:task_id].to_i
+    else
+      @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id
+    end
     report_one = @post.reports.build :shop_id => @shop.id, :report_type => 'display', :user_id => current_user.id
     @brands.each do |brand|
       report_one.report_lines.build :brand_id => brand.id, :product_category_id => @category.try(:id), :product_id => @product.try(:id)
