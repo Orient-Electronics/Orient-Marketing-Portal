@@ -100,6 +100,9 @@ class ReportsController < ApplicationController
     authorize! :delete, Post
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
+    unless !@post.published? 
+      redirect_to shop_reports_path(@shop), notice: 'access denied to edit this report'
+    end
     @post.destroy
       redirect_to shop_reports_path(@shop)
   end
