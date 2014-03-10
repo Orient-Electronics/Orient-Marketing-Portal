@@ -1,5 +1,6 @@
 class City < ActiveRecord::Base
 
+  include PublicActivity::Common	
   has_many :locations
 
   attr_accessible :name

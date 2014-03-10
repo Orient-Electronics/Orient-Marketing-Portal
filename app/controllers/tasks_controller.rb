@@ -25,6 +25,7 @@ class TasksController < ApplicationController
     @task = Task.new(params[:task])
     respond_to do |format|
       if @task.save
+        @task.create_activity :create, owner: current_user
         format.html { redirect_to tasks_path, notice: 'Task was successfully created.'}
         format.json { render json: tasks }
       else
@@ -39,6 +40,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     @task.status = params[:task][:status]
     if @task.save
+      @task.create_activity :update, owner: current_user
       respond_to do |format|
         format.html {redirect_to '/'}
         format.json { render json: @tasks }
@@ -53,6 +55,7 @@ class TasksController < ApplicationController
     post = Post.find(params[:post_id])
     post.published = true
     post.save
+    post.create_activity :update, owner: current_user
     respond_to do |format|
       format.html { redirect_to tasks_path, notice: 'Report was successfully published.'}
     end

@@ -1,4 +1,5 @@
 class Task < ActiveRecord::Base
+  include PublicActivity::Common
   # attr_accessible :title, :body
   attr_accessible :assigned_by, :assigned_to, :comment, :shop_id, :status, :deadline, :task_type, :shop_name
 

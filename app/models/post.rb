@@ -1,4 +1,7 @@
 class Post < ActiveRecord::Base
+  
+  include PublicActivity::Common
+  
   attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id
 
   attr_accessor :week, :year

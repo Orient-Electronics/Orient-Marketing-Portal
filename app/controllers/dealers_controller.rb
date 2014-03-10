@@ -65,6 +65,7 @@ class DealersController < ApplicationController
     @dealer.build_avatar params[:dealer][:avatar_attributes]
     respond_to do |format|
       if @dealer.save
+        @dealer.create_activity :create, owner: current_user
         format.html { redirect_to @dealer, notice: 'Dealer was successfully created.' }
         format.json { render json: @dealer, status: :created, location: @dealer }
       else
@@ -81,6 +82,7 @@ class DealersController < ApplicationController
     @dealer.build_avatar params[:dealer][:avatar_attributes]
     respond_to do |format|
       if @dealer.update_attributes(params[:dealer])
+        @dealer.create_activity :update, owner: current_user
         format.html { redirect_to @dealer, notice: 'Dealer was successfully updated.' }
         format.json { head :no_content }
       else
@@ -95,6 +97,7 @@ class DealersController < ApplicationController
   def destroy
     authorize! :destroy, Dealer
     @dealer = Dealer.find(params[:id])
+    @dealer.create_activity :destroy, owner: current_user
     @dealer.destroy
 
     respond_to do |format|

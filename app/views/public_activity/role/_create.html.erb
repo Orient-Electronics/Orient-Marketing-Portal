@@ -1,0 +1,6 @@
+add role
+<% if activity.trackable %>
+  <%= link_to activity.trackable.name, role_path(activity.trackable) %>
+<% else %>
+  which has since been removed 
+<% end %>

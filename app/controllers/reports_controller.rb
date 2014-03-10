@@ -48,7 +48,7 @@ class ReportsController < ApplicationController
       @brands = @category.brands
     end
     unless params[:task_id].blank?
-      @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id, :task_id => parms[:task_id].to_i
+      @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id, :task_id => params[:task_id].to_i
     else
       @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id
     end
@@ -80,6 +80,7 @@ class ReportsController < ApplicationController
     @shop = Shop.find params[:shop_id]
     @post = Post.new params[:post]
     if @post.save
+      @post.create_activity :create, owner: current_user
       redirect_to shop_path(@shop)
     else
       render 'new'
@@ -90,6 +91,7 @@ class ReportsController < ApplicationController
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
     if @post.update_attributes(params[:post])
+      @post.create_activity :update, owner: current_user
       redirect_to shop_path(@shop)
     else
       render 'edit'

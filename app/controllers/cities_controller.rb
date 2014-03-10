@@ -48,6 +48,7 @@ class CitiesController < ApplicationController
 
     respond_to do |format|
       if @city.save
+        @city.create_activity :create, owner: current_user
         format.html { redirect_to @city, notice: 'City was successfully created.' }
         format.json { render json: @city, status: :created, location: @city }
       else
@@ -64,6 +65,7 @@ class CitiesController < ApplicationController
 
     respond_to do |format|
       if @city.update_attributes(params[:city])
+        @city.create_activity :update, owner: current_user
         format.html { redirect_to @city, notice: 'City was successfully updated.' }
         format.json { head :no_content }
       else
@@ -78,6 +80,7 @@ class CitiesController < ApplicationController
   def destroy
     authorize! :destroy, City
     @city = City.find(params[:id])
+    @city.create_activity :destroy, owner: current_user
     @city.destroy
 
     respond_to do |format|

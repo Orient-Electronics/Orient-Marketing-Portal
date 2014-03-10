@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  include PublicActivity::Common
+  
   has_one :avatar, :as => :avatarable, :dependent => :destroy
 
   has_many :reports, :dependent => :destroy
@@ -19,7 +21,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   attr_accessible :email, :password, :remember_me, :password_confirmation, :first_name, :last_name, :phone_number, :avatar_attributes, :user_type_id
-
+  
   validates :user_type_id, :presence => true
 
   accepts_nested_attributes_for :avatar

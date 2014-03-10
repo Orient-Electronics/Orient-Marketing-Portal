@@ -48,6 +48,7 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.save
+        @role.create_activity :create, owner: current_user
         format.html { redirect_to @role, notice: 'Role was successfully created.' }
         format.json { render json: @role, status: :created, location: @role }
       else
@@ -64,6 +65,7 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.update_attributes(params[:role])
+        @role.create_activity :update, owner: current_user
         format.html { redirect_to @role, notice: 'Role was successfully updated.' }
         format.json { head :no_content }
       else
@@ -78,6 +80,7 @@ class RolesController < ApplicationController
   def destroy
     authorize! :destroy, Role
     @role = Role.find(params[:id])
+    @role.create_activity :destroy, owner: current_user
     @role.destroy
 
     respond_to do |format|

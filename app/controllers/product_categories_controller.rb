@@ -48,6 +48,7 @@ class ProductCategoriesController < ApplicationController
 
     respond_to do |format|
       if @product_category.save
+        @product_category.create_activity :create, owner: current_user
         format.html { redirect_to @product_category, notice: 'Product category was successfully created.' }
         format.json { render json: @product_category, status: :created, location: @product_category }
       else
@@ -64,6 +65,7 @@ class ProductCategoriesController < ApplicationController
 
     respond_to do |format|
       if @product_category.update_attributes(params[:product_category])
+        @product_category.create_activity :update, owner: current_user
         format.html { redirect_to @product_category, notice: 'Product category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -78,6 +80,7 @@ class ProductCategoriesController < ApplicationController
   def destroy
     authorize! :destroy, ProductCategory
     @product_category = ProductCategory.find(params[:id])
+    @product_category.create_activity :destroy, owner: current_user
     @product_category.destroy
 
     respond_to do |format|

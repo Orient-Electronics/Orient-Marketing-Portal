@@ -1,5 +1,5 @@
 class Report < ActiveRecord::Base
-
+  include PublicActivity::Common
   has_many :report_lines, :dependent => :destroy
   has_many :products, :through => :report_lines
 

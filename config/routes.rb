@@ -1,4 +1,6 @@
 Orient::Application.routes.draw do
+  
+
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   resources :user_types
@@ -12,7 +14,7 @@ Orient::Application.routes.draw do
     resources :reports
   end
 
-
+  resources :activities
 
 
   resources :dealers do

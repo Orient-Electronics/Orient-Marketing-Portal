@@ -1,4 +1,6 @@
 class Dealer < ActiveRecord::Base
+
+  include PublicActivity::Common	
   attr_accessible :name, :avatar_attributes
 
   has_many :shops, :dependent => :destroy

@@ -1,0 +1,30 @@
+<div class="row-fluid">
+	<div class="user-image-cover span12">
+		<%= image_tag(@user.avatar.avatar(:small)) %>
+	</div>	
+</div>
+<div class="row-fluid">
+	<div class="about-user span4">
+		<h5 class="heading">About </h5>
+		<div class="span11">
+			<span>Full Name:  <%= @user.name %> </span> <br>
+			<span>Designation:  <%= @user.user_type.name %> </span> <br>
+			<span>Email Address:  <%= @user.email %> </span> <br>
+			<span>Phone No:  <%= @user.phone_number %> </span> <br>
+			<span>Joined at:  <%= @user.created_at.strftime("%Y-%m-%d") %> </span> <br >
+		</div>	
+	</div>	
+	<div class="user-activities about-user span8">
+		<h5 class="heading"><%= @activities.first.owner.name %> Activities </h5>
+			<div class="activities-list scrollable">
+				<ul class="nomargin">
+					<% @activities.each do |activity| %>
+					  <li> 
+					    <%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %>
+						  <%= render_activity activity %>
+						</li>  
+					<% end %>
+				</ul>
+			</div>	
+	</div>
+</div>

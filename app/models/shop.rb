@@ -1,6 +1,6 @@
 class Shop < ActiveRecord::Base
 
- 
+  include PublicActivity::Common 
   belongs_to :shop_category
   belongs_to :location
   belongs_to :dealer

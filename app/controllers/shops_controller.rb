@@ -95,6 +95,7 @@ class ShopsController < ApplicationController
     @shop.build_avatar params[:shop][:avatar_attributes ]
     respond_to do |format|
       if @shop.save
+        @shop.create_activity :create, owner: current_user
         format.html { redirect_to @shop, notice: 'Shop was successfully created.' }
         format.json { render json: @shop, status: :created, location: @shop }
       else
@@ -112,6 +113,7 @@ class ShopsController < ApplicationController
 
     respond_to do |format|
       if @shop.update_attributes(params[:shop])
+        @shop.create_activity :update, owner: current_user
         format.html { redirect_to @shop, notice: 'Shop was successfully updated.' }
         format.json { head :no_content }
       else
@@ -127,7 +129,7 @@ class ShopsController < ApplicationController
     authorize! :destroy, Shop
     @shop = Shop.find(params[:id])
     @shop.destroy
-
+    @dealer.create_activity :destroy, owner: current_user
     respond_to do |format|
       format.html { redirect_to shops_url }
       format.json { head :no_content }
