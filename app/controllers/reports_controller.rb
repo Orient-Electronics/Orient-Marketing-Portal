@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
         @posts =  Post.where(:shop_id => params[:shop_id].to_i, :user_id => current_user.id)
         @reports = @posts.collect(&:reports).flatten
       else   
-        @posts =  Post.published_reports.where(:shop_id => params[:shop_id].to_i)
+        @posts =  Post.where(:shop_id => params[:shop_id].to_i)
         @reports = @posts.collect(&:reports).flatten
       end
     else

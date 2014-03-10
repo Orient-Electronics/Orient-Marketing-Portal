@@ -57,7 +57,7 @@ class TasksController < ApplicationController
     post.save
     post.create_activity :update, owner: current_user
     respond_to do |format|
-      format.html { redirect_to tasks_path, notice: 'Report was successfully published.'}
+      format.html { redirect_to :back, notice: 'Report was successfully published.'}
     end
   end
   

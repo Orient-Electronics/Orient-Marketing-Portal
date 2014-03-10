@@ -23,6 +23,9 @@
                 <th> View Report </th>
                 <th> Edit View </th>
                 <th> Delete Report </th>
+                <% if can? :create, Task %>
+                  <th>Publish Report</th>
+                <% end %>  
               <tr/>
             </thead>
             <tbody>
@@ -34,16 +37,24 @@
                 <td> <%= post.reports.first.year %> </td>
                 <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
                 <td> <%= link_to "show",  "/shops/#{post.shop_id}/reports/#{post.id}" %> </td>
-                <td> <% unless post.published? %> 
-                      <%= link_to "edit",  "/shops/#{post.shop_id}/reports/#{post.id}/edit" %>
-                     <% else %>
-                       <span> Published</span>
-                     <% end %>  
-                     </td>
+                <td> 
+                  <% unless post.published? %> 
+                    <%= link_to "edit",  "/shops/#{post.shop_id}/reports/#{post.id}/edit" %>
+                  <% end %>
+                </td>
                 <td> <% unless post.published? %>
                    <%= link_to "delete",  "/shops/#{post.shop_id}/reports/#{post.id}", :method => :delete, :confirm => "are you sure? "  %> 
                    <% end %>
-               </td>
+                </td>
+                <% if can? :create, Task %>
+                  <td>
+                    <% unless post.published? %> 
+                      <%= link_to "Publish Report", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
+                    <% else %> 
+                      <span> Published </span>
+                    <% end %>
+                  </td>
+                <% end %>   
               </tr>
             <% end %>
             </tbody>
