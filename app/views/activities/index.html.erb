@@ -15,7 +15,8 @@
 		</div>	
 	</div>	
 	<div class="user-activities about-user span8">
-		<h5 class="heading"><%= @activities.first.owner.name %> Activities </h5>
+		<% unless @activities.blank? %>
+			<h5 class="heading"><%= @activities.first.owner.name %> Activities </h5>
 			<div class="activities-list scrollable">
 				<ul class="nomargin">
 					<% @activities.each do |activity| %>
@@ -26,5 +27,9 @@
 					<% end %>
 				</ul>
 			</div>	
+		<% else %>	
+			<h5 class="heading">Activities </h5>
+			<div> No activities </div>
+		<% end %>	
 	</div>
 </div>
