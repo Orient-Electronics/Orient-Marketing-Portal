@@ -10,7 +10,7 @@
         </tr>
         <tr>
           <td><strong>Date Range: </strong></td>
-          <td><%= year_weeks[@report.week-1][0].split(' - ')[1] %></td>
+          <td><%= year_weeks[@report.week-1][0].split(' - ')[1] unless @report.week.blank? %></td>
         </tr>
         <tr>
           <td><strong>Submitted on: </strong></td>
