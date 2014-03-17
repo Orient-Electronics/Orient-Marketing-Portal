@@ -75,25 +75,30 @@
               </tr>
             </thead>
             <tbody>
-              <% unless @complete_assigned_tasks.blank? %>
-                <% @complete_assigned_tasks.each do |t| %>
-                  <tr>
-                    <td> <%= "Task_#{t.id}"  %></td>
-                    <td> <%= t.comment %></td>
-                    <td> <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
-                    <td> <%=t.child %> </td>
-                    <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
-                    <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
-                    <td> <%= link_to "view Report", "/shops/#{t.shop_id}/reports/#{t.post.id}" %> </td>
-                    <td> <% if t.post.published? %>
-                          <span> Published </span>
-                        <% else %>
-                          <%= link_to "Publish Report", publish_report_tasks_path(:post_id => t.post.id), :class => "btn btn-inverse" %> 
-                        <% end %>  
-                      </td>
-                  </tr>
-                <% end -%>
-              <% end -%>  
+              <% @complete_assigned_tasks.each do |t| %>
+                <tr>
+                  <td> <%= "Task_#{t.id}"  %></td>
+                  <td> <%= t.comment %></td>
+                  <td> <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
+                  <td> <%=t.child %> </td>
+                  <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
+                  <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
+                  <td>
+                    <% unless t.post.blank? %>
+                      <%= link_to "view Report", "/shops/#{t.shop_id}/reports/#{t.post.id}" %> 
+                    <% end -%>
+                  </td>
+                  <td> 
+                    <% unless t.post.blank? %>
+                      <% if t.post.published? %>
+                        <span> Published </span>
+                      <% else %>
+                        <%= link_to "Publish Report", publish_report_tasks_path(:post_id => t.post.id), :class => "btn btn-inverse" %> 
+                      <% end %>  
+                    <% end -%>
+                  </td>
+                </tr>
+              <% end -%>
             </tbody>  
          </table>
         </div>

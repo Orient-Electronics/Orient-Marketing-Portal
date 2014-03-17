@@ -1,44 +1,99 @@
+<h2>Shop visit report</h2>
+<hr>
+<div class='row-fluid'>
+  <div class='span4'>
+    <table class='table table-bordered table-nomargin table-condensed'>
+      <thead></thead>
+        <tr>
+          <td><strong>Week: </strong></td>
+          <td><%= @report.week %></td>
+        </tr>
+        <tr>
+          <td><strong>Date Range: </strong></td>
+          <td><%= year_weeks[@report.week-1][0].split(' - ')[1] %></td>
+        </tr>
+        <tr>
+          <td><strong>Submitted on: </strong></td>
+          <td><%= @post.created_at.strftime('%d %B, %Y') %></td>
+        </tr>
+        <tr>
+          <td><strong>Status: </strong></td>
+          <td><%= @post.published ? 'Published' : 'Draft' %></td>
+        </tr>
+    </table>
+  </div>
+  <div class='span3 offset1'>
+    <table class='table table-bordered table-nomargin table-condensed'>
+      <thead></thead>
+      <tr>
+        <td><strong>Shop: </strong></td>
+        <td><%= link_to @post.shop.dealer_name, shop_path(@post.shop) %></td>
+      </tr>
+      <tr>
+        <td><strong>Dealer: </strong></td>
+        <td><%= link_to @post.dealer.name, dealer_path(@post.dealer) %></td>
+      </tr>
+      <tr>
+        <td><strong>City: </strong></td>
+        <td><%= @post.shop.location.city.name %></td>
+      </tr>
+      <tr>
+        <td><strong>Product Category: </strong></td>
+        <td><%= @display_report.first.product_category.name %></td>
+      </tr>
+    </table>
+  </div>
+  <div class='span3 offset1'>
+    <table class='table table-bordered table-nomargin table-condensed'>
+      <thead></thead>
+      <tr>
+        <td><strong>Submitted by: </strong></td>
+        <td><%= link_to @report.user.name, activities_path(:user_id => @report.user_id) %></td>
+      </tr>
+      <tr>
+        <td><strong>Assigned by: </strong></td>
+        <td><%= link_to(@post.task.try(&:parent), activities_path(:user_id => @post.task.try(&:assigned_by))) %></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<hr>
 <div class="row-fluid">
   <div class="span12">
     <div class="box box-color box-bordered">
       <div class="box-title">
         <h3>
           <i class="icon-bar-chart"></i>
-          Display Report
+          Display
         </h3>
         <div class="actions">
           <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
         </div>
       </div>
-      <div class="box-content nonpadding scrollable" data-height ='500px' >
-        <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
+      <div class="box-content nonpadding scrollable" data-height ='auto' >
+        <div class='row-fluid'>
+          <div class="span3">
+            <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y table-condensed">
           <thead>
             <tr>
-              <th></th>
-              <% @categories.each do |category|%>
-                <th><%= category.name%></th>
-              <% end -%>
+              <th>Brand</th>
+              <th>Quantity</th>
             <tr/>
           </thead>
           <tbody>
-            <%@brands.each do |brand|%>
-              <tr>
-                <th><%=brand.name%></th>
-                <%@categories.each do |category| %>
-                  <td>
-                    <% sum=0 %>
-                    <% @display_report.each do |report|%>
-                      <%if report.product_category_id == category.id && report.brand_id == brand.id%>
-                        <% sum += report.data %>
-                      <% end -%>
-                    <% end -%>
-                    <%= sum %>
-                  </td>
-                <%end%>
-              </tr>
+            <% @display_report.each do |report| %>
+            <tr>
+              <td><strong><%= report.brand.name %></strong></td>
+              <td><%= report.data.to_i %></td>
+            </tr>
             <% end -%>
           </tbody>
-        </table>
+            </table>
+          </div>
+          <div class='span9'>
+            <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @reports, :type => "display_data"} %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -49,41 +104,36 @@
       <div class="box-title">
         <h3>
           <i class="icon-bar-chart"></i>
-          Sale Report
+          Sales
         </h3>
         <div class="actions">
           <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
         </div>
       </div>
-      <div class="box-content nonpadding scrollable" data-height ='500px' >
-        <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
+      <div class="box-content nonpadding scrollable" data-height ='auto' >
+        <div class='row-fluid'>
+          <div class="span3">
+            <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
           <thead>
             <tr>
-              <th>Brands</th>
-              <% @categories.each do |category|%>
-                <th><%= category.name%></th>
-              <% end -%>
+              <th>Brand</th>
+              <th>Quantity</th>
             <tr/>
           </thead>
           <tbody>
-            <%@brands.each do |brand|%>
-              <tr>
-                <th><%=brand.name%></th>
-                <%@categories.each do |category| %>
-                  <td>
-                    <% sum=0 %>
-                    <% @sales_report.each do |report|%>
-                      <%if report.product_category_id == category.id && report.brand_id == brand.id%>
-                        <% sum += report.data %>
-                      <% end -%>
-                    <% end -%>
-                    <%= sum %>
-                  </td>
-                <%end%>
-              </tr>
+            <% @sales_report.each do |report| %>
+            <tr>
+              <td><strong><%= report.brand.name %></strong></td>
+              <td><%= report.data.to_i %></td>
+            </tr>
             <% end -%>
           </tbody>
-        </table>
+            </table>
+          </div>
+          <div class='span9'>
+            <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @reports, :type => "sales_data"} %>
+          </div>
+        </div>
       </div>
     </div>
   </div> 

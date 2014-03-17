@@ -1,5 +1,3 @@
-require 'rubygems'
-
 reports = Report.all.group_by {|d| d.year and d.week and d.user_id and d.shop_id and (d.report_lines.first.product_id or d.report_lines.first.product_category_id) }
 
 reports.collect do |key, report|
