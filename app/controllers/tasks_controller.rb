@@ -54,6 +54,7 @@ class TasksController < ApplicationController
   def publish_report
     post = Post.find(params[:post_id])
     post.published = true
+    post.approved_id = current_user.id
     post.save
     post.create_activity :update, owner: current_user
     respond_to do |format|

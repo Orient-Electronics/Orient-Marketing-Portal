@@ -17,7 +17,6 @@ class ReportsController < ApplicationController
       @posts =  Post.where(:user_id => current_user.id)
       @reports = @posts.collect(&:reports).flatten
     end  
-    
   end
 
   def show
@@ -35,8 +34,6 @@ class ReportsController < ApplicationController
     @brands = Brand.all
     @categories = ProductCategory.all
   end
-
-  
 
   def new
     authorize! :create, Post

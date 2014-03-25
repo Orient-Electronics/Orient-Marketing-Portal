@@ -2,7 +2,7 @@ class Post < ActiveRecord::Base
   
   include PublicActivity::Common
   
-  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id
+  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id, :approved_id
 
   attr_accessor :week, :year
 
@@ -20,9 +20,11 @@ class Post < ActiveRecord::Base
   before_save :update_reports_attribute
 
   def update_reports_attribute
-    self.reports.each do |report|
-      report.year = self.year
-      report.week = self.week
+    unless self.year.blank?
+      self.reports.each do |report|
+        report.year = self.year
+        report.week = self.week
+      end
     end
-  end
+  end   
 end

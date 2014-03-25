@@ -54,6 +54,10 @@
         <td><strong>Assigned by: </strong></td>
         <td><%= link_to(@post.task.try(&:parent), activities_path(:user_id => @post.task.try(&:assigned_by))) %></td>
       </tr>
+      <tr>
+        <td><strong>Approved by: </strong></td>
+        <td><%= link_to User.find(@post.approved_id).name, activities_path(:user_id => @post.approved_id) unless @post.approved_id.blank? %></td>
+      </tr>
     </table>
   </div>
 </div>
@@ -113,7 +117,7 @@
       <div class="box-content nonpadding scrollable" data-height ='auto' >
         <div class='row-fluid'>
           <div class="span3">
-            <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
+            <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y table-condensed">
           <thead>
             <tr>
               <th>Brand</th>

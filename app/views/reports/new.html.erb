@@ -23,11 +23,11 @@
             <div class='row-fluid'>
               <div class= "span6" >
                 <%= f.label :year ,"Year", :class => 'control-label' %>  
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y')) %>
+                <%= f.select :year , options_for_select((2000..2020).to_a , Date.today.strftime('%Y')) , :value => Date.today.strftime('%Y') %>
               </div>
               <div class ="span6">
                 <%= f.label :week ,"Week number", :class => 'control-label' %> 
-                <%= f.select :week , options_for_select(year_weeks, Date.today.cweek) %>
+                <%= f.select :week , options_for_select(year_weeks, Date.today.cweek), :value => Date.today.cweek  %>
               </div>
             </div>
             <%= f.fields_for :reports do |report| %>
