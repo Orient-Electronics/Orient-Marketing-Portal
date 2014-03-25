@@ -316,3 +316,8 @@ span input
 {
   margin: 0px !important;
 }
+
+.shop-name-field
+{
+  z-index: 0 !important;
+}
