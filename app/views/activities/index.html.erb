@@ -15,8 +15,6 @@
 	</div>
 </div>
 <div class="row-fluid">
-	
-
 	<div class="user-activities span12">
 		<div class="box box-color box-bordered">
 			<div class="box-title">
@@ -25,7 +23,7 @@
 					<%= @activities.first.owner.name %> Activities
 				</h3>
 			</div>
-			<div class="box-content nopadding scrollable">
+			<div class="box-content nopadding scrollable" style="height: 380px;">
 				<% unless @activities.blank? %>
 
 					<div class="activities-list">
