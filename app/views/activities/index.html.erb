@@ -4,7 +4,7 @@
 	</div>	
 </div>
 <div class="row-fluid">
-	<div class="about-user span4">
+	<div class="about-user span3">
 		<h5 class="heading">About </h5>
 		<div class="span11">
 			<span>Full Name:  <%= @user.name %> </span> <br>
@@ -13,23 +13,47 @@
 			<span>Phone No:  <%= @user.phone_number %> </span> <br>
 			<span>Joined at:  <%= @user.created_at.strftime("%Y-%m-%d") %> </span> <br >
 		</div>	
-	</div>	
-	<div class="user-activities about-user span8">
-		<% unless @activities.blank? %>
-			<h5 class="heading"><%= @activities.first.owner.name %> Activities </h5>
-			<div class="activities-list scrollable">
-				<ul class="nomargin">
-					<% @activities.each do |activity| %>
-					  <li> 
-					    <%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %>
-						  <%= render_activity activity %>
-						</li>  
-					<% end %>
-				</ul>
+	</div>
+
+	<div class="user-activities span9">
+		<div class="box box-color box-bordered">
+			<div class="box-title">
+				<h3>
+					<i class="fa fa-bars"></i>
+					<%= @activities.first.owner.name %> Activities
+				</h3>
+			</div>
+			<div class="box-content nopadding scrollable">
+				<% unless @activities.blank? %>
+
+					<div class="activities-list">
+						<ul class="timeline">
+							<% @activities.each do |activity| %>
+							  <li> 
+							  	<div class="timeline-content">
+							  		<div class="left">
+											<div class="icon">
+												<i class="fa fa-picture-o"> <%= image_tag(@user.avatar.avatar(:small)) %> </i>
+											</div>
+											<div class="date"><%= activity.created_at.strftime("%B, %d")%></div>
+										</div>
+										<div class="activity">
+											<div class="user">
+									    	<%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %>
+										  	<%= render_activity activity %>
+										  </div>	
+										</div>  
+									</div>  
+									<div class="line"></div>
+								</li>  
+							<% end %>	
+						</ul>
+					</div>	
+				<% else %>	
+					<h5 class="heading">Activities </h5>
+					<div> No activities </div>
+				<% end %>
 			</div>	
-		<% else %>	
-			<h5 class="heading">Activities </h5>
-			<div> No activities </div>
-		<% end %>	
+		</div>	
 	</div>
 </div>

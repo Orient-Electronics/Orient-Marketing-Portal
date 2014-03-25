@@ -1,4 +1,4 @@
-genrate <%= link_to 'report', shop_report_path(activity.trackable.shop_id, activity.trackable.id) %> of 
+genrate <%= link_to 'report', shop_svr_path(activity.trackable.shop_id, activity.trackable.id) %> of 
 <% if activity.trackable %>
   <%= link_to activity.trackable.shop.dealer_name, shop_path(activity.trackable.shop_id) %>
 <% else %>
