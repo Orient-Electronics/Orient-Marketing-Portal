@@ -31,7 +31,8 @@ class SvrsController < ApplicationController
     @brand_report_lines = @corner_report.group_by {|d| d[:brand_id] }
     @category_report_lines = @corner_report.group_by {|d| d[:product_category_id] }
     @report_lines_avatars = @corner_report.collect(&:avatars).flatten
-    @brands = Brand.all
+    @category = @post.product_category
+    @brands = @category.brands
     @categories = ProductCategory.all
   end
 

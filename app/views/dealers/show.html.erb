@@ -120,7 +120,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-display-data">
@@ -137,7 +137,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data", :brand => nil} %>
               </div>
             </div>
           </div>
@@ -190,7 +190,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-sales-data">
@@ -207,7 +207,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data", :brand => nil} %>
               </div>
             </div>
           </div>
@@ -263,7 +263,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="corner_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-corner-data">
@@ -280,7 +280,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="corner_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data", :brand => nil} %>
               </div>
             </div>
           </div>

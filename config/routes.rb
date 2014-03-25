@@ -77,6 +77,8 @@ Orient::Application.routes.draw do
     end
   end
 
+  match 'shops/:shop_id/svr/:id' => 'svrs#show', as: 'show'
+
   devise_for :users, :controllers => {:registrations => "registrations"}
 
   # The priority is based upon order of creation:

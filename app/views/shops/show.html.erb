@@ -139,7 +139,7 @@
                 <%= hidden_field_tag "shop_id", @shop.id %>
                 <select name=search[product]>
                   <option value="">All</option>
-                  <% ProductCategory.all.each do |pc| %>
+                  <% @categories.each do |pc| %>
                     <% if pc.products.blank? %>
                       <option value="<%= pc.name %>"><%= pc.name %></option>
                     <% else %>
@@ -156,7 +156,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => Brand.all, :reports => @shop.reports, :type => "display_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @shop.reports, :type => "display_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-display-data">
@@ -165,7 +165,7 @@
                 <%= hidden_field_tag "shop_id", @shop.id %>
                 <select name=search[brand]>
                   <option value="">All</option>
-                  <% Brand.all.each do |pc| %>
+                  <% @brands.each do |pc| %>
                     <option value="<%= pc.id %>"><%= pc.name %></option>
                   <% end -%>
                 </select>
@@ -173,7 +173,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => ProductCategory.all, :reports => @shop.reports, :type => "display_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @shop.reports, :type => "display_data", :brand => nil} %>
               </div>
             </div>
           </div>
@@ -209,7 +209,7 @@
                 <%= hidden_field_tag "shop_id", @shop.id %>
                 <select name=search[product]>
                   <option value="">All</option>
-                  <% ProductCategory.all.each do |pc| %>
+                  <% @categories.each do |pc| %>
                     <% if pc.products.blank? %>
                       <option value="<%= pc.name %>"><%= pc.name %></option>
                     <% else %>
@@ -226,7 +226,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => Brand.all, :reports => @shop.reports, :type => "sales_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @shop.reports, :type => "sales_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-sales-data">
@@ -235,7 +235,7 @@
                 <%= hidden_field_tag "shop_id", @shop.id %>
                 <select name=search[brand]>
                   <option value="">All</option>
-                  <% Brand.all.each do |pc| %>
+                  <% @brands.each do |pc| %>
                     <option value="<%= pc.id %>"><%= pc.name %></option>
                   <% end -%>
                 </select>
@@ -243,7 +243,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => ProductCategory.all, :reports => @shop.reports, :type => "sales_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @shop.reports, :type => "sales_data", :brand => nil} %>
               </div>
             </div>
           </div>

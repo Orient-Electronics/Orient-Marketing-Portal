@@ -36,7 +36,7 @@
                 <td> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
                 <td> <%= post.reports.first.year %> </td>
                 <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
-                <td> <%= link_to "show",  "/shops/#{post.shop_id}/svrs/#{post.id}" %> </td>
+                <td> <%= link_to "show",  "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
                 <td> 
                   <% unless post.published? %> 
                     <%= link_to "edit",  "/shops/#{post.shop_id}/svrs/#{post.id}/edit" %>

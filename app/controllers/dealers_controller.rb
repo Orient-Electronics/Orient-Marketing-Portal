@@ -5,10 +5,10 @@ class DealersController < ApplicationController
     authorize! :read, Dealer
     @dealers = Dealer.all
     @shops = Shop.all
-    @post = Post.published_reports
-    @reports = @post.collect(&:reports).flatten
-    @brands = Brand.all
-    @categories= ProductCategory.all
+    @posts = Post.published_reports
+    @reports = @posts.collect(&:reports).flatten
+    @categories= @posts.collect(&:product_category).uniq
+    @brands = @categories.collect(&:brands).uniq.flatten
     @shop = @dealers.collect(&:shops).flatten
     uploads = @shop.collect(&:uploads).flatten
     avatars = @reports.flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
@@ -27,6 +27,8 @@ class DealersController < ApplicationController
     @parent = Dealer.find params[:id]
     @shops = @parent.shops.flatten
     @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
+    @categories= @posts.collect(&:product_category).uniq
+    @brands = @categories.collect(&:brands).uniq.flatten
     uploads = @shops.collect(&:uploads).flatten
     avatars = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
     @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}

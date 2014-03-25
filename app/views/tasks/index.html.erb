@@ -85,7 +85,7 @@
                   <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
                   <td>
                     <% unless t.post.blank? %>
-                      <%= link_to "view Report", "/shops/#{t.shop_id}/svrs/#{t.post.id}" %> 
+                      <%= link_to "view Report", "/shops/#{t.shop_id}/svr/#{t.post.id}" %> 
                     <% end -%>
                   </td>
                   <td> 

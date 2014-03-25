@@ -285,11 +285,10 @@ span input
   padding-left: 10px;
 }
 
-
-.nomargin
-{
-  margin: 0px !important;
+.time-line-container{
+  margin-top: 10px; 
 }
+
 
 .shop-name-field
 {

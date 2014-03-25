@@ -48,8 +48,8 @@ class ShopsController < ApplicationController
       @display_report = reports.select{|a| a.report_type == "display"}.collect(&:report_lines).flatten
       @sales_report   = reports.select{|a| a.report_type == "sales"}.collect(&:report_lines).flatten
       @corner_report  = reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
-      @brands = Brand.all
-      @categories = ProductCategory.all
+      @categories = @posts.collect(&:product_category).uniq
+      @brands = @categories.collect(&:brands).uniq.flatten
       if shops.include?(params[:id].to_i) 
         @shop = Shop.find(params[:id])
       else
@@ -59,7 +59,8 @@ class ShopsController < ApplicationController
       end   
     else 
       @shop = Shop.find(params[:id])     
-        
+      @categories = @posts.collect(&:product_category).uniq
+      @brands = @categories.collect(&:brands).uniq.flatten  
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @shop }
