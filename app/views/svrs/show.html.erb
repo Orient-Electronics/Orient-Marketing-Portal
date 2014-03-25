@@ -95,7 +95,7 @@
             </table>
           </div>
           <div class='span9'>
-            <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @reports, :type => "display_data"} %>
+            <%= render :partial => "/svrs/bar", :locals => {:brands => Brand.all, :reports => @reports, :type => "display_data"} %>
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@
             </table>
           </div>
           <div class='span9'>
-            <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @reports, :type => "sales_data"} %>
+            <%= render :partial => "/svrs/bar", :locals => {:brands => Brand.all, :reports => @reports, :type => "sales_data"} %>
           </div>
         </div>
       </div>

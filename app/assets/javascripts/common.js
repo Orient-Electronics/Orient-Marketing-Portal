@@ -30,7 +30,7 @@ $('document').ready(function(){
     length = $(this).parent().find('input').length;
     child = $(this).parent().find('.avatar-fields');
     $.ajax ({
-        url:  '/reports/file_field',
+        url:  '/svrs/file_field',
         data: {index: index, length: length },
         success: function(data)
         {
@@ -52,7 +52,7 @@ $('document').ready(function(){
     if(text == 1)
     {
       $.ajax ({
-        url:  '/reports/file_field',
+        url:  '/svrs/file_field',
         data: {index: index, length: length },
         success: function(data)
         {
@@ -77,7 +77,7 @@ $('document').ready(function(){
     child = $(this).parent().find('.add-more-avatar');
     length = parent + child.find("input").length;
     $.ajax ({
-        url:  '/reports/file_field',
+        url:  '/svrs/file_field',
         data: {index: index, length: length },
         success: function(data)
         {
@@ -104,7 +104,7 @@ $('document').ready(function(){
     if(text == 1)
     {
       $.ajax ({
-        url:  '/reports/file_field',
+        url:  '/svrs/file_field',
         data: {index: index, length: length },
         success: function(data)
         {
@@ -119,7 +119,7 @@ $('document').ready(function(){
       id =$(this).parent().data("id");
       console.log(id);
       $.ajax ({
-        url:  '/reports/remove_report_line',
+        url:  '/svrs/remove_report_line',
         data: {id: id},
         success: function(data)
         {

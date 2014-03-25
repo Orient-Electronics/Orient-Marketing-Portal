@@ -85,7 +85,7 @@
                   <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
                   <td>
                     <% unless t.post.blank? %>
-                      <%= link_to "view Report", "/shops/#{t.shop_id}/reports/#{t.post.id}" %> 
+                      <%= link_to "view Report", "/shops/#{t.shop_id}/svrs/#{t.post.id}" %> 
                     <% end -%>
                   </td>
                   <td> 
@@ -147,14 +147,14 @@
                                   <ul class="dropdown-menu dropup pull-left">
                                     <% pc.products.each do |product|%>
                                       <li>
-                                        <%= link_to product.name, new_shop_report_path(:shop_id => t.shop_id, :task_id => t.id, :product_category_id => pc.id, :product_id => product.id) %>
+                                        <%= link_to product.name, new_shop_svr_path(:shop_id => t.shop_id, :task_id => t.id, :product_category_id => pc.id, :product_id => product.id) %>
                                       </li>
                                     <% end -%>
                                   </ul>
                                 </li>
                               <%else%>
                                 <li>
-                                  <%= link_to pc.name, new_shop_report_path(:shop_id => t.shop_id, :task_id => t.id, :product_category_id => pc.id) %>
+                                  <%= link_to pc.name, new_shop_svr_path(:shop_id => t.shop_id, :task_id => t.id, :product_category_id => pc.id) %>
                                 </li>
                               <%end%>
                             <% end -%>

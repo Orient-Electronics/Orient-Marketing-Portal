@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="page-header">
     <div class="pull-left">
-      <h1>Edit report </h1>
+      <h1>New report </h1>
     </div>
   </div>
   <div class="row-fluid">
@@ -10,23 +10,24 @@
         <div class="box-title">
           <h3>
             <i class="icon-magic"></i>
-            Edit Report
+            Add Report
           </h3>
         </div>
         <div class="box-content scrollable">
-          <%= form_for @post , :url => "/shops/#{@shop.id}/reports/#{@post.id}" , :html => { :class => 'form-horizontal form-validate', :multipart => true } do |f| %>
+          <%= form_for @post , :url => shop_svrs_path(@shop) , :html => { :class => 'form-horizontal form-validate', :multipart => true } do |f| %>
             <%= f.hidden_field :shop_id %>
             <%= f.hidden_field :user_id %>
             <%= f.hidden_field :product_category_id %>
             <%= f.hidden_field :dealer_id %>
+            <%= f.hidden_field :task_id %>
             <div class='row-fluid'>
               <div class= "span6" >
                 <%= f.label :year ,"Year", :class => 'control-label' %>  
-                <%= f.select :year , options_for_select( (2000..2020).to_a , @post.reports.first.year) %>
+                <%= f.select :year , options_for_select((2000..2020).to_a , Date.today.strftime('%Y')) , :value => Date.today.strftime('%Y') %>
               </div>
               <div class ="span6">
                 <%= f.label :week ,"Week number", :class => 'control-label' %> 
-                <%= f.select :week , options_for_select(year_weeks, @post.reports.first.week) %>
+                <%= f.select :week , options_for_select(year_weeks, Date.today.cweek), :value => Date.today.cweek  %>
               </div>
             </div>
             <%= f.fields_for :reports do |report| %>
@@ -54,7 +55,7 @@
                         <%= report_line.hidden_field :product_id %>
                         <%= report_line.hidden_field :brand_id %>
                         <%= report_line.label :data,"#{brand.name} #{type}", :class => 'control-label' %>
-                        <%= report_line.text_field :data , :class => "input-xlarge required number"%>
+                        <%= report_line.text_field :data, :class => "input-xlarge required number" %>
                       </div>
                     <% end -%>
                   </div>
@@ -86,33 +87,22 @@
                       <div class="control-group">
                         <%= report_line.label :data,"#{brand.name.capitalize} #{type.capitalize}", :class => 'control-label' %>
                         <div class="controls">
-                          <div class = "radio-controls-edit required" remote ="true">
+                          <div class = "radio-controls required" remote ="true"  >
                             <label class="radio" data-index= "<%= index %>">
-                              <%= report_line.radio_button :data, "1" ,:checked => "checked" %>Yes
+                              <%= report_line.radio_button :data, "1" %>Yes
                             </label>
-                            <label class="radio" data-index= "<%= index %>" data-id = "<%= report_line.object.id%>">
-                              <%= report_line.radio_button :data, "0" %>No
+                            <label class="radio" data-index= "<%= index %>" >
+                              <%= report_line.radio_button :data, "0" , :checked => "checked" %>No
                             </label>
-                            
                             <div class="parent-avatar-field">
-                              <%= report_line.fields_for :avatars do |avatar| %>
-                                  <div class="image-field">      
-                                    <%= image_tag(avatar.object.avatar(:thumb)) %>
-                                    <%= avatar.label "Change Image"  %>
-                                    <div class="avatar-fields">
-                                      <%= avatar.file_field :avatar  %>
-                                    </div>
-                                  </div>  
-                              <% end %>
-                              <div class="add-more-avatar"></div>
-
-                              <%= link_to "Add More", "#", :remote => :true , :class => "edit_add_more_link #{"hide" unless !report_line.object.avatars.blank?} ", :data => {:index => index }  %> 
-                            </div>
-                          </div>
-
+                              <div class="avatar-fields">
+                              </div>
+                              <%= link_to "Add More", "#", :remote => :true , :class => "hide add_more_link", :data => {:index => index } %>
+                            </div>  
+                          </div>  
                         </div>
                       </div>
-                      <% index += 1 %>
+                      <% index = index +  1 %>
                     <% end -%>
                   </div>
                 </div>

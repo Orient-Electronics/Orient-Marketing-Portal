@@ -1,4 +1,4 @@
-class ReportsController < ApplicationController
+class SvrsController < ApplicationController
 
   def index
     authorize! :read, Post
@@ -69,7 +69,7 @@ class ReportsController < ApplicationController
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
     unless !@post.published? 
-      redirect_to shop_reports_path(@shop), notice: 'access denied to edit this report'
+      redirect_to shop_svrs_path(@shop), notice: 'access denied to edit this report'
     end 
     
   end
@@ -101,10 +101,10 @@ class ReportsController < ApplicationController
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
     unless !@post.published? 
-      redirect_to shop_reports_path(@shop), notice: 'access denied to edit this report'
+      redirect_to shop_svrs_path(@shop), notice: 'access denied to edit this report'
     end
     @post.destroy
-      redirect_to shop_reports_path(@shop)
+      redirect_to shop_svrs_path(@shop)
   end
 
   def brand_search
@@ -155,11 +155,11 @@ class ReportsController < ApplicationController
     brand = nil
     brand = @parent.id unless @parent.blank?
     @categories = ProductCategory.all
-    render(:partial => "/reports/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type], :brand => brand })
+    render(:partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type], :brand => brand })
   end
 
   def file_field
-    render(:partial => "/reports/reportline_avatars", :locals => {:index => params[:index], :temp => params[:length]})
+    render(:partial => "/svrs/reportline_avatars", :locals => {:index => params[:index], :temp => params[:length]})
   end
 
   def remove_report_line

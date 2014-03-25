@@ -11,7 +11,7 @@ Orient::Application.routes.draw do
   resources :search
 
   resources :product_categories do
-    resources :reports
+    resources :svrs
   end
 
   resources :activities
@@ -31,12 +31,12 @@ Orient::Application.routes.draw do
   end
 
   resources :brands do
-    resources :reports
+    resources :svrs
   end
 
 
   resources :products do
-    resources :reports
+    resources :svrs
   end
 
 
@@ -54,8 +54,9 @@ Orient::Application.routes.draw do
 
   resources :shops do
     resources :uploads
-    resources :reports   
+    resources :svrs
   end
+
   resources :uploads
 
   resources :tasks do
@@ -67,7 +68,7 @@ Orient::Application.routes.draw do
     end
   end
 
-  resources :reports do
+  resources :svrs do
     collection do
       post 'brand_search'
       post 'category_search'
