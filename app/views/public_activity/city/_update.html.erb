@@ -1,0 +1,6 @@
+update city 
+<% if activity.trackable %>
+  <%= link_to activity.trackable.name, city_path(activity.trackable) %>
+<% else %>
+  which has since been removed 
+<% end %>

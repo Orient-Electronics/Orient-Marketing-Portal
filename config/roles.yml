@@ -24,3 +24,4 @@ entities:
   user_type: UserType
   task: Task
   report_line: RerportLine
+  post: Post

@@ -1,0 +1,10 @@
+<div class="label"> <%=file_field_tag "post[reports_attributes][2][report_lines_attributes][#{index}][avatars_attributes][#{temp}][avatar]",  :class => 'required' %>  
+<%= link_to "   (remove)", "#", :class => "remove-avatar-link" %> <br /> </div>
+
+<script>
+	$(document).ready(function(){
+		$(".remove-avatar-link").click(function(){
+	      $(this).parent().remove();
+	  	});
+	});
+</script>

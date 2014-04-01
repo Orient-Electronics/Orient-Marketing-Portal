@@ -22,6 +22,7 @@ class ShopsController < ApplicationController
         end
       end  
     end
+    @shop_categories = ShopCategory.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @shops }
@@ -33,7 +34,9 @@ class ShopsController < ApplicationController
   def show
     authorize! :read, Shop
     @product_categories = ProductCategory.all
-    shop_report_lines = Shop.find(params[:id]).reports.where(:report_type => "display_corner").collect(&:report_lines).flatten
+    @posts =  Post.published_reports.where(:shop_id => params[:id])
+    @reports = @posts.collect(&:reports).flatten
+    shop_report_lines = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
     @brand_report_lines = shop_report_lines.group_by {|d| d[:brand_id] }
     @category_report_lines = shop_report_lines.group_by {|d| d[:product_category_id] }
     @report_lines_avatars = shop_report_lines.collect(&:avatars).flatten
@@ -41,12 +44,12 @@ class ShopsController < ApplicationController
     @shop_uploads = (shop_upload + @report_lines_avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     if current_user.user_type.name == "employee"
       shops = current_user.get_assigned_shops.collect(&:id)
-      reports = current_user.reports.where(:shop_id => Shop.find(params[:id]))
-      @display_report = reports.where(:report_type => "display").collect(&:report_lines).flatten
-      @sales_report   = reports.where(:report_type => "sales").collect(&:report_lines).flatten
-      @corner_report  = reports.where(:report_type => "display_corner").collect(&:report_lines).flatten
-      @brands = Brand.all
-      @categories = ProductCategory.all
+      reports = current_user.posts.where(:shop_id => Shop.find(params[:id])).collect(&:reports).flatten
+      @display_report = reports.select{|a| a.report_type == "display"}.collect(&:report_lines).flatten
+      @sales_report   = reports.select{|a| a.report_type == "sales"}.collect(&:report_lines).flatten
+      @corner_report  = reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
+      @categories = @posts.collect(&:product_category).uniq
+      @brands = @categories.collect(&:brands).uniq.flatten
       if shops.include?(params[:id].to_i) 
         @shop = Shop.find(params[:id])
       else
@@ -56,7 +59,8 @@ class ShopsController < ApplicationController
       end   
     else 
       @shop = Shop.find(params[:id])     
-        
+      @categories = @posts.collect(&:product_category).uniq
+      @brands = @categories.collect(&:brands).uniq.flatten  
       respond_to do |format|
         format.html # show.html.erb
         format.json { render json: @shop }
@@ -90,9 +94,10 @@ class ShopsController < ApplicationController
   # POST /shops.json
   def create
     @shop = Shop.new(params[:shop])
-    @shop.build_avatar params[:shop][:avatar_attributes]
+    @shop.build_avatar params[:shop][:avatar_attributes ]
     respond_to do |format|
       if @shop.save
+        @shop.create_activity :create, owner: current_user
         format.html { redirect_to @shop, notice: 'Shop was successfully created.' }
         format.json { render json: @shop, status: :created, location: @shop }
       else
@@ -110,6 +115,7 @@ class ShopsController < ApplicationController
 
     respond_to do |format|
       if @shop.update_attributes(params[:shop])
+        @shop.create_activity :update, owner: current_user
         format.html { redirect_to @shop, notice: 'Shop was successfully updated.' }
         format.json { head :no_content }
       else
@@ -125,7 +131,7 @@ class ShopsController < ApplicationController
     authorize! :destroy, Shop
     @shop = Shop.find(params[:id])
     @shop.destroy
-
+    @dealer.create_activity :destroy, owner: current_user
     respond_to do |format|
       format.html { redirect_to shops_url }
       format.json { head :no_content }

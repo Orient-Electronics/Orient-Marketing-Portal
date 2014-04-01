@@ -1,0 +1,86 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="box box-color box-bordered">
+        <div class="box-title">
+          <h3>
+            <i class="icon-bar-chart"></i>
+             <%= @parent.dealer_name.capitalize unless @parent.blank?  %>  Reports
+          </h3>
+          <div class="actions">
+            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
+          </div>
+        </div>
+        <div class="box-content nonpadding" data-height ='auto' >
+          <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
+            <thead>
+              <tr>
+                <th> S.No. </th>
+                <th> Product Category </th>
+                <th> Week No. </th>
+                <th> Year </th>
+                <th> Report Created at </th>
+                <th> View Report </th>
+                <th> Edit View </th>
+                <th> Delete Report </th>
+                <% if can? :create, Task %>
+                  <th>Publish Report</th>
+                <% end %>  
+              <tr/>
+            </thead>
+            <tbody>
+            <% @posts.each_with_index do |post, index| %>
+              <tr>
+                <td> <%= index+1 %> </td>
+                <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
+                <td> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
+                <td> <%= post.reports.first.year %> </td>
+                <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
+                <td> <%= link_to "show",  "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
+                <td> 
+                  <% unless post.published? %> 
+                    <%= link_to "edit",  "/shops/#{post.shop_id}/svrs/#{post.id}/edit" %>
+                  <% end %>
+                </td>
+                <td> <% unless post.published? %>
+                   <%= link_to "delete",  "/shops/#{post.shop_id}/svrs/#{post.id}", :method => :delete, :confirm => "are you sure? "  %> 
+                   <% end %>
+                </td>
+                
+                <% if can? :create, Task %>
+                  <td>
+                    <% unless post.published? %> 
+                      <%= link_to "Publish Report", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
+                    <% else %> 
+                      <span> Published </span>
+                    <% end %>
+                  </td>
+                <% end %>   
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>  
+      </div>
+    </div>  
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('document').ready(function(){
+    $('.report-search').ajaxForm({
+        success: showResponse
+      });
+    $('.report-search select').change(function(){
+      $(this).parent().submit();
+    });
+    $('.category-report-search').ajaxForm({
+        success: showCatResponse
+      });
+    $('.category-report-search select').change(function(){
+      $(this).parent().submit();
+    });
+    $('#category-data').removeClass('active');
+  });
+
+</script>

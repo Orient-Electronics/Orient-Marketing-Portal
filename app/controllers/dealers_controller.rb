@@ -5,12 +5,13 @@ class DealersController < ApplicationController
     authorize! :read, Dealer
     @dealers = Dealer.all
     @shops = Shop.all
-    @reports = Report.all
-    @brands = Brand.all
-    @categories= ProductCategory.all
+    @posts = Post.published_reports
+    @reports = @posts.collect(&:reports).flatten
+    @categories= @posts.collect(&:product_category).uniq
+    @brands = @categories.collect(&:brands).uniq.flatten
     @shop = @dealers.collect(&:shops).flatten
     uploads = @shop.collect(&:uploads).flatten
-    avatars = @shop.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+    avatars = @reports.flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
     @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     @shop_categories = ShopCategory.all
     respond_to do |format|
@@ -25,8 +26,11 @@ class DealersController < ApplicationController
     authorize! :read, Dealer
     @parent = Dealer.find params[:id]
     @shops = @parent.shops.flatten
+    @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
+    @categories= @posts.collect(&:product_category).uniq
+    @brands = @categories.collect(&:brands).uniq.flatten
     uploads = @shops.collect(&:uploads).flatten
-    avatars = @shops.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+    avatars = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
     @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     @shop_categories = ShopCategory.all
     respond_to do |format|
@@ -63,6 +67,7 @@ class DealersController < ApplicationController
     @dealer.build_avatar params[:dealer][:avatar_attributes]
     respond_to do |format|
       if @dealer.save
+        @dealer.create_activity :create, owner: current_user
         format.html { redirect_to @dealer, notice: 'Dealer was successfully created.' }
         format.json { render json: @dealer, status: :created, location: @dealer }
       else
@@ -79,6 +84,7 @@ class DealersController < ApplicationController
     @dealer.build_avatar params[:dealer][:avatar_attributes]
     respond_to do |format|
       if @dealer.update_attributes(params[:dealer])
+        @dealer.create_activity :update, owner: current_user
         format.html { redirect_to @dealer, notice: 'Dealer was successfully updated.' }
         format.json { head :no_content }
       else
@@ -93,6 +99,7 @@ class DealersController < ApplicationController
   def destroy
     authorize! :destroy, Dealer
     @dealer = Dealer.find(params[:id])
+    @dealer.create_activity :destroy, owner: current_user
     @dealer.destroy
 
     respond_to do |format|

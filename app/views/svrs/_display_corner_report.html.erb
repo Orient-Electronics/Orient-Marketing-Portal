@@ -1,0 +1,36 @@
+<table class="table table-user table-nohead">
+  <tbody>
+    <% @brand_report_lines.each do |brand_id,brand_report| %>
+      <% count = 0 %>
+      <% brand_report.each do |line| %>
+        <% line.avatars.each do |upload| %>
+          <% if upload.avatar %>
+            <tr class="alpha">
+              <%if count == 0%>
+                <td class="" colspan="8">
+                  <span>Brand Name : <b><%= get_brand_name(brand_id) %> </b></span>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+          <% count = count +1 %>
+        <% end%>
+      <%end%>
+      <% brand_report.each do |line| %>
+        <% line.avatars.each do |upload| %>
+          <tr>
+            <% if upload.avatar %>
+              <td class ="img"><%= image_tag upload.avatar.url %></td>
+            <% else %>
+              <td class ="img"><%= image_tag "/assets/default.png"%></td>
+            <% end %>
+            <td class="user"><%= upload.avatarable.product_category.name %></td>
+            <td class="date"><%= upload.avatarable.created_at.strftime('%m,%b,%y')%></td>
+            <td><a href="<%= upload.avatar.url(:medium) %>" class='btn colorbox-image'><i class="icon-search"></i></a>
+            </td>
+          </tr>
+        <% end -%>
+      <%end %>
+    <% end-%>       
+  </tbody>
+</table>

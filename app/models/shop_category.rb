@@ -1,5 +1,6 @@
 class ShopCategory < ActiveRecord::Base
 
+  include PublicActivity::Common	
   attr_accessible :name, :avatar_attributes
   has_many :shops
   has_one :avatar, :as => :avatarable, :dependent => :destroy

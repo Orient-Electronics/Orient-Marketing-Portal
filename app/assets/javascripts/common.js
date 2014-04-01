@@ -23,14 +23,14 @@ $('document').ready(function(){
         }
       });
     });
-  }
-  $(".addAvatar").click(function(e){
+  } 
+  $(".add_more_link").click(function(e){
     e.preventDefault();
     index = $(this).data("index");
     length = $(this).parent().find('input').length;
-    child = $(this).parent().find('.child-controls');
+    child = $(this).parent().find('.avatar-fields');
     $.ajax ({
-        url:  '/reports/file_field',
+        url:  '/svrs/file_field',
         data: {index: index, length: length },
         success: function(data)
         {
@@ -38,22 +38,25 @@ $('document').ready(function(){
         }
     });
   });
+
   $(".radio-controls label input").change(function(e){
+
     e.preventDefault();
+
     text = $(this).val();
     index = $(this).parent().data('index');
-    parent = $(this).parent().parent().parent();
-    length = parent.find('.parent-controls').find('input').length;
-    child = parent.find('.parent-controls').find('.child-controls');
-    avatar_link = parent.find('.parent-controls').find('.addAvatar');
+  
+    parent = $(this).parent().parent().find(".avatar-fields")
+    avatar_link = $(this).parent().parent().find('.parent-avatar-field').find('.add_more_link');
+    length = parent.find('input').length;
     if(text == 1)
     {
       $.ajax ({
-        url:  '/reports/file_field',
+        url:  '/svrs/file_field',
         data: {index: index, length: length },
         success: function(data)
         {
-          child.append(data);
+          parent.append(data);
           avatar_link.show();
         }
       });
@@ -61,11 +64,76 @@ $('document').ready(function(){
     else
     if(text == 0)
     {
-      child.html("");
+      parent.html("");
       avatar_link.hide();
     }
 
   });
+
+  $(".edit_add_more_link").click(function(e){
+    e.preventDefault();
+    index = $(this).data("index");
+    parent = $(this).parent().find('.avatar-fields').find('input').length;
+    child = $(this).parent().find('.add-more-avatar');
+    length = parent + child.find("input").length;
+    $.ajax ({
+        url:  '/svrs/file_field',
+        data: {index: index, length: length },
+        success: function(data)
+        {
+          child.append(data);
+        }
+    });
+  });
+
+
+  $(".radio-controls-edit label input").change(function(e){
+    
+    e.preventDefault();
+
+    text = $(this).val();
+    index = $(this).parent().data('index');
+
+    contents_1 = $(this).parent().parent().find(".image-field");
+
+    contents_2 = $(this).parent().parent().find(".add-more-avatar");
+
+    avatar_link = $(this).parent().parent().find('.edit_add_more_link');
+    
+    length = 0;
+    if(text == 1)
+    {
+      $.ajax ({
+        url:  '/svrs/file_field',
+        data: {index: index, length: length },
+        success: function(data)
+        {
+          contents_2.append(data);
+          avatar_link.show();
+        }
+      });
+    }
+    else
+    if(text == 0)
+    {
+      id =$(this).parent().data("id");
+      console.log(id);
+      $.ajax ({
+        url:  '/svrs/remove_report_line',
+        data: {id: id},
+        success: function(data)
+        {
+          contents_1.html("");
+          contents_2.html("");
+          avatar_link.hide();
+        }
+      });
+      
+    }
+
+  });
+
+  
 });
 
   function onLoadDoc(div,unit,report_of) {

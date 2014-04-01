@@ -98,7 +98,7 @@
         <div class="box-content nopadding scrollable">
           <div class="tab-content">
             <div class="tab-pane active" id="brand-display-data">
-              <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
+              <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
                 <%= f.hidden_field :type, :value => "display_data" %>
                 <%= hidden_field_tag "dealer_id", @parent.id %>
                 <select name=search[product]>
@@ -120,11 +120,11 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_data_chart">
-                <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-display-data">
-              <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
+              <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
                 <%= f.hidden_field :type, :value => "display_data" %>
                 <%= hidden_field_tag "dealer_id", @parent.id %>
                 <select name=search[brand]>
@@ -137,7 +137,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @parent.shops.collect(&:reports).flatten, :type => "display_data", :brand => nil} %>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@
         <div class="box-content nopadding scrollable">
           <div class="tab-content">
             <div class="tab-pane active" id="brand-sales-data">
-              <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
+              <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
                 <%= f.hidden_field :type, :value => "sales_data" %>
                 <%= hidden_field_tag "dealer_id", @parent.id %>
                 <select name=search[product]>
@@ -190,11 +190,11 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_data_chart">
-                <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-sales-data">
-              <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
+              <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
                 <%= f.hidden_field :type, :value => "sales_data" %>
                 <%= hidden_field_tag "dealer_id", @parent.id %>
                 <select name=search[brand]>
@@ -207,7 +207,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @parent.shops.collect(&:reports).flatten, :type => "sales_data", :brand => nil} %>
               </div>
             </div>
           </div>
@@ -241,7 +241,7 @@
         <div class="box-content nopadding scrollable">
           <div class="tab-content">
             <div class="tab-pane active" id="brand-corner-data">
-              <%= form_for :search,:url => brand_search_reports_path, :html => {:class => "report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
+              <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
                 <%= f.hidden_field :type, :value => "corner_data" %>
                 <%= hidden_field_tag "dealer_id", @parent.id %>
                 <select name=search[product]>
@@ -263,11 +263,11 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="corner_data_chart">
-                <%= render :partial => "/reports/bar", :locals => {:brands => Brand.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-corner-data">
-              <%= form_for :search,:url => category_search_reports_path, :html => {:class => "category-report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
+              <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search", "data-unit"=> "corner_data"}, :method => :post do |f| %>
                 <%= f.hidden_field :type, :value => "corner_data" %>
                 <%= hidden_field_tag "dealer_id", @parent.id %>
                 <select name=search[brand]>
@@ -280,7 +280,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="corner_category_data_chart">
-                <%= render :partial => "/reports/category_bar", :locals => {:categories => ProductCategory.all, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @parent.shops.collect(&:reports).flatten, :type => "corner_data", :brand => nil} %>
               </div>
             </div>
           </div>

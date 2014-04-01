@@ -1,6 +1,6 @@
 class Shop < ActiveRecord::Base
 
- 
+  include PublicActivity::Common 
   belongs_to :shop_category
   belongs_to :location
   belongs_to :dealer
@@ -12,6 +12,7 @@ class Shop < ActiveRecord::Base
   has_many :reports, :dependent => :destroy
   has_many :uploads, :as => :uploadable, :dependent => :destroy
   has_many :tasks, :dependent => :destroy
+  has_many :posts, :dependent => :destroy
 
   attr_accessible :address, :orient_dealer, :dealer_name, :email, :location_id, :phone, :shop_category_id, :website, :location_attributes, :owner_attributes, :manager_attributes, :dealer_id, :branch_of, :category, :avatar_attributes
 

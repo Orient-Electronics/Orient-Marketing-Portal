@@ -1,11 +1,15 @@
 class User < ActiveRecord::Base
 
+  include PublicActivity::Common
+  
   has_one :avatar, :as => :avatarable, :dependent => :destroy
 
   has_many :reports, :dependent => :destroy
 
   has_many :created_tasks, :foreign_key => 'assigned_by', :class_name => "Task"
   has_many :assigned_tasks, :foreign_key => 'assigned_to', :class_name => "Task"
+
+  has_many :posts, :dependent => :destroy
 
   #has_and_belongs_to_many :roles
 
@@ -17,7 +21,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   attr_accessible :email, :password, :remember_me, :password_confirmation, :first_name, :last_name, :phone_number, :avatar_attributes, :user_type_id
-
+  
   validates :user_type_id, :presence => true
 
   accepts_nested_attributes_for :avatar

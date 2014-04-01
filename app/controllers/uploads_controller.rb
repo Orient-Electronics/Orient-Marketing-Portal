@@ -48,6 +48,7 @@ class UploadsController < ApplicationController
 
     respond_to do |format|
       if @upload.save
+        @upload.create_activity :create, owner: current_user
         format.html {
            return redirect_to :back
         }
@@ -66,6 +67,7 @@ class UploadsController < ApplicationController
 
     respond_to do |format|
       if @upload.update_attributes(params[:upload])
+        @upload.create_activity :update, owner: current_user
         format.html { redirect_to @upload, notice: 'Upload was successfully updated.' }
         format.json { head :no_content }
       else
@@ -79,6 +81,7 @@ class UploadsController < ApplicationController
   # DELETE /uploads/1.json
   def destroy
     @upload = Upload.find(params[:id])
+    @upload.create_activity :destroy, owner: current_user
     @upload.destroy
 
     respond_to do |format|

@@ -1,16 +1,18 @@
 class Report < ActiveRecord::Base
-
+  include PublicActivity::Common
   has_many :report_lines, :dependent => :destroy
   has_many :products, :through => :report_lines
 
   belongs_to :shop
   belongs_to :user
 
-  attr_accessible :data, :week, :year, :report_type, :user_id, :shop_id, :report_lines_attributes
+  belongs_to :post
+
+  attr_accessible :data, :week, :year, :report_type, :user_id, :shop_id, :report_lines_attributes, :post_id
 
   accepts_nested_attributes_for :report_lines
 
-  validates_presence_of :week, :year, :report_type, :user_id
+  validates_presence_of :report_type, :user_id
   validates_associated :report_lines
 
 
@@ -53,4 +55,9 @@ class Report < ActiveRecord::Base
       reports.select{|key| key.report_type=="display_corner"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.sum
     end
   end
+
+  def report_view(brand_id)
+    self.report_lines.flatten.select{|key| key.brand_id == brand_id }.collect(&:data).reject {|r|r.nil?}.sum
+  end
+  
 end

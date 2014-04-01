@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
 
+  include PublicActivity::StoreController
+
   before_filter :authenticate_user!
   layout :change_layout
   before_filter :check_admin
@@ -28,4 +30,10 @@ class ApplicationController < ActionController::Base
     resource.user_admin? ? '/admin' : session["user_return_to"]         
   end 
 
+  # def current_user
+  #   @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  # end
+  helper_method :current_user
+  hide_action :current_user
+  
 end

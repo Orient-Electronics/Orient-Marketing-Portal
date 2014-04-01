@@ -49,6 +49,7 @@ class ShopCategoriesController < ApplicationController
     @shop_category.build_avatar params[:shop_category][:avatar_attributes]
     respond_to do |format|
       if @shop_category.save
+        @shop_category.create_activity :create, owner: current_user
         format.html { redirect_to @shop_category, notice: 'Shop category was successfully created.' }
         format.json { render json: @shop_category, status: :created, location: @shop_category }
       else
@@ -65,6 +66,7 @@ class ShopCategoriesController < ApplicationController
 
     respond_to do |format|
       if @shop_category.update_attributes(params[:shop_category])
+        @shop_category.create_activity :update, owner: current_user
         format.html { redirect_to @shop_category, notice: 'Shop category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -79,6 +81,7 @@ class ShopCategoriesController < ApplicationController
   def destroy
     authorize! :destroy, ShopCategory
     @shop_category = ShopCategory.find(params[:id])
+    @shop_category.create_activity :destroy, owner: current_user
     @shop_category.destroy
 
     respond_to do |format|

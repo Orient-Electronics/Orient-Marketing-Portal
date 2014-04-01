@@ -53,7 +53,59 @@
     </div>
   <%end%>
 </div>
-
+<% if can? :create, Task %>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="box box-color box-bordered lightgrey taskbox">
+        <div class="box-title">
+          <h3><i class="icon-ok"></i> Task Responses </h3>
+        </div>
+        <div class="box-content scrollable">
+          <table class="table table-hover table-nomargin">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Comment</th>
+                <th class='hidden-350'>Shop</th>
+                <th class='hidden-1024'>Assinged To</th>
+                <th class='hidden-480'>Created at</th>
+                <th class='hidden-480'>Deadline</th>
+                <th class='hidden-480'>Report</th>
+                <th class='hidden-480'>Publish Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @complete_assigned_tasks.each do |t| %>
+                <tr>
+                  <td> <%= "Task_#{t.id}"  %></td>
+                  <td> <%= t.comment %></td>
+                  <td> <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
+                  <td> <%=t.child %> </td>
+                  <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
+                  <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
+                  <td>
+                    <% unless t.post.blank? %>
+                      <%= link_to "view Report", "/shops/#{t.shop_id}/svr/#{t.post.id}" %> 
+                    <% end -%>
+                  </td>
+                  <td> 
+                    <% unless t.post.blank? %>
+                      <% if t.post.published? %>
+                        <span> Published </span>
+                      <% else %>
+                        <%= link_to "Publish Report", publish_report_tasks_path(:post_id => t.post.id), :class => "btn btn-inverse" %> 
+                      <% end %>  
+                    <% end -%>
+                  </td>
+                </tr>
+              <% end -%>
+            </tbody>  
+         </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 <% if can? :read, Task%>
   <div class="row-fluid">
     <div class="span12">
@@ -71,30 +123,52 @@
                 <th class='hidden-1024'>Assinged by</th>
                 <th class='hidden-480'>Created at</th>
                 <th class='hidden-480'>Deadline</th>
-                <%if can? :update, Task%>
-                  <th class='hidden-480'>Change Status</th>
-                <% end -%>  
+                <th class='hidden-480'>Create Report</th>
+                <th class='hidden-480'>Change Status</th>
               </tr>
             </thead>
             <tbody>
-              <% @assigned_tasks.each do |t| %>
-                <tr>
-                  <td> <%= t.status %></td>
-                  <td> <%= t.comment %></td>
-                  <td> <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
-                  <td> <%=t.parent %> </td>
-                  <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
-                  <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
-                  <% if can? :update, Task%>
+              <% unless @assigned_tasks.blank? %>
+                <% @assigned_tasks.each do |t| %>
+                  <tr>
+                    <td> <%= t.status %></td>
+                    <td> <%= t.comment %></td>
+                    <td> <%= link_to Shop.find(t.shop_id).dealer_name, shop_path(t.shop_id) %></td>
+                    <td> <%=t.parent %> </td>
+                    <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
+                    <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
+                    <td> <div class="btn-group">
+                          <a href="#" data-toggle="dropdown" class="btn dropdown-toggle"><i class="icon-align-left"></i> Generate Report <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                            <% ProductCategory.all.each do |pc| %>
+                              <% if !pc.products.blank? %>
+                                <li class='dropdown-submenu'>
+                                  <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
+                                  <ul class="dropdown-menu dropup pull-left">
+                                    <% pc.products.each do |product|%>
+                                      <li>
+                                        <%= link_to product.name, new_shop_svr_path(:shop_id => t.shop_id, :task_id => t.id, :product_category_id => pc.id, :product_id => product.id) %>
+                                      </li>
+                                    <% end -%>
+                                  </ul>
+                                </li>
+                              <%else%>
+                                <li>
+                                  <%= link_to pc.name, new_shop_svr_path(:shop_id => t.shop_id, :task_id => t.id, :product_category_id => pc.id) %>
+                                </li>
+                              <%end%>
+                            <% end -%>
+                          </ul>
+                        </div>  </td>
                     <td> 
                       <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal form-bordered' } do |f| %>
                         <%= f.select :status, options_for_select(status) , include_blank: false %>
                         <%= f.submit "update task", :class => 'btn btn-primary' %>
                       <% end -%>
                     </td>
-                  <% end -%>  
-                </tr>
-              <% end -%>
+                  </tr>
+                <% end -%>
+              <% end %>  
             </tbody>  
          </table>
         </div>
@@ -122,9 +196,7 @@
                 <th class='hidden-1024'>Assinged To</th>
                 <th class='hidden-480'>Created at</th>
                 <th class='hidden-480'>Deadline</th>
-                <% if can? :update, Task %>
-                  <th class='hidden-480'>Change Status</th>
-                <% end -%>  
+                <th class='hidden-480'>Change Status</th>
               </tr>
             </thead>
             <tbody>

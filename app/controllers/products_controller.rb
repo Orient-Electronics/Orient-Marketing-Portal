@@ -49,6 +49,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
+        @product.create_activity :create, owner: current_user
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render json: @product, status: :created, location: @product }
       else
@@ -65,6 +66,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
+        @product.create_activity :update, owner: current_user
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { head :no_content }
       else
@@ -79,6 +81,7 @@ class ProductsController < ApplicationController
   def destroy
     authorize! :destroy, Product
     @product = Product.find(params[:id])
+    @product.create_activity :destroy, owner: current_user
     @product.destroy
 
     respond_to do |format|

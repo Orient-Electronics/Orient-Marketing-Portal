@@ -1,0 +1,6 @@
+add shop category 
+<% if activity.trackable %>
+  <%= link_to activity.trackable.name, shop_category_path(activity.trackable) %>
+<% else %>
+  which has since been removed 
+<% end %>

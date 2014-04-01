@@ -45,9 +45,10 @@ class BrandsController < ApplicationController
   # POST /brands.json
   def create
     @brand = Brand.new(params[:brand])
-
+    
     respond_to do |format|
       if @brand.save
+        @brand.create_activity :create, owner: current_user
         format.html { redirect_to @brand, notice: 'Brand was successfully created.' }
         format.json { render json: @brand, status: :created, location: @brand }
       else
@@ -61,9 +62,9 @@ class BrandsController < ApplicationController
   # PUT /brands/1.json
   def update
     @brand = Brand.find(params[:id])
-
     respond_to do |format|
       if @brand.update_attributes(params[:brand])
+        @brand.create_activity :update, owner: current_user
         format.html { redirect_to @brand, notice: 'Brand was successfully updated.' }
         format.json { head :no_content }
       else
@@ -78,6 +79,7 @@ class BrandsController < ApplicationController
   def destroy
     authorize! :destroy, Brand
     @brand = Brand.find(params[:id])
+    @brand.create_activity :destroy, owner: current_user
     @brand.destroy
 
     respond_to do |format|
