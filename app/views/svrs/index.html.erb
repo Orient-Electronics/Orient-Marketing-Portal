@@ -11,7 +11,7 @@
             <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
           </div>
         </div>
-        <div class="box-content nonpadding" data-height ='auto' >
+        <div class="box-content nonpadding scrollable" data-height ='550px' >
           <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
             <thead>
               <tr>
@@ -19,6 +19,7 @@
                 <th> Product Category </th>
                 <th> Week No. </th>
                 <th> Year </th>
+                <th> Report Created by</th>
                 <th> Report Created at </th>
                 <th> View Report </th>
                 <th> Edit View </th>
@@ -35,6 +36,7 @@
                 <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
                 <td> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
                 <td> <%= post.reports.first.year %> </td>
+                <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
                 <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
                 <td> <%= link_to "show",  "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
                 <td> 
