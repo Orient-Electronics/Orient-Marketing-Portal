@@ -8,8 +8,6 @@ class ActivitiesController < ApplicationController
   	@user = current_user
   	subscribe = User.find(params[:id])
   	@subscriber =  @user.subscribers.build :subscribe_id => subscribe.id
-
-  	p @subscriber
   end
 
   def create_subscriber
@@ -19,5 +17,16 @@ class ActivitiesController < ApplicationController
   	else
   		redirect_to  activities_path(:user_id => @subscriber.subscribe_id)
   	end
+  end
+
+  def destroy_subscriber
+  	@user = current_user
+  	@subscriber = Subscriber.find_by_user_id_and_subscribe_id(current_user.id, params[:id])
+  	if @subscriber.destroy
+  		redirect_to  activities_path(:user_id => params[:id])
+  	else
+  		redirect_to  activities_path(:user_id => params[:id])
+  	end
+
   end
 end

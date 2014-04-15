@@ -20,7 +20,7 @@
 				<% unless current_user.already_subscribe?(@user) %>
 					<%= link_to "Click here to subscribe", subscriber_activity_path(:id => @user.id) ,:class => 'subscribe-btn btn' %> </div>
 				<% else %>
-					<%= link_to "Click here to un-subscribe", 'javascript:void(0);' ,:class => 'subscribe-btn btn' %> </div>
+					<%= link_to "Click here to un-subscribe", destroy_subscriber_activity_path(:id => @user.id) ,:class => 'subscribe-btn btn' %> </div>
 				<% end %>	
 
 		</div>
