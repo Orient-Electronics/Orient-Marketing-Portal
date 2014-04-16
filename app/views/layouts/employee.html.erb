@@ -21,6 +21,9 @@
        
     <% if user_signed_in? %> 
       <%= render :partial => "/layouts/employee_header" %>
+      <% unless Announcement.all.blank? %>
+        <div class="announcement text-center alert-error"> <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <%= Announcement.last.try(:announcement) %> </marquee></div>
+      <% end -%>  
     <% end -%>
 
     <div class="container-fluid">
