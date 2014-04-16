@@ -2,7 +2,6 @@
 	<div class="user-image-cover span4">
 		<%= image_tag(@user.avatar.avatar(:small)) %>
 	</div>	
-	<div class="span4"> </div>
 	<div class="about-user span4">
 		<h5 class="heading">About </h5>
 		<div class="span11">
@@ -13,6 +12,20 @@
 			<span>Joined at:  <%= @user.created_at.strftime("%Y-%m-%d") %> </span> <br >
 		</div>	
 	</div>
+	<% unless current_user == @user %>
+		<div class="span4"> 
+			<h5 class="heading">Subscribe to <%= @user.name %>  </h5>
+
+			<div class="text-center">
+				<% unless current_user.already_subscribe?(@user) %>
+					<%= link_to "Click here to subscribe", subscriber_activity_path(:id => @user.id) ,:class => 'subscribe-btn btn' %> </div>
+				<% else %>
+					<%= link_to "Click here to un-subscribe", destroy_subscriber_activity_path(:id => @user.id) ,:class => 'subscribe-btn btn' %> </div>
+				<% end %>	
+
+		</div>
+	<% end %>
+	
 </div>
 <div class="row-fluid">
 	<div class="user-activities span12">

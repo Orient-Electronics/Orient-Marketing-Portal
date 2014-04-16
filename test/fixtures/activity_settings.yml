@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  subscriber_id: 1
+  activity_name: MyString
+  activity_type: MyString
+
+two:
+  subscriber_id: 1
+  activity_name: MyString
+  activity_type: MyString

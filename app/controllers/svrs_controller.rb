@@ -7,14 +7,18 @@ class SvrsController < ApplicationController
       @parent = Shop.find params[:shop_id]
       @brands = Brand.all
       if current_user.user_type.name == "employee"
-        @posts =  Post.where(:shop_id => params[:shop_id].to_i, :user_id => current_user.id)
+        @posts =  Post.where(:shop_id => params[:shop_id].to_i, :user_id => current_user.id).sort_by{ |a| a.published ? 0 : 1 }
         @reports = @posts.collect(&:reports).flatten
       else   
-        @posts =  Post.where(:shop_id => params[:shop_id].to_i)
+        @posts =  Post.where(:shop_id => params[:shop_id].to_i).sort_by{ |a| a.published ? 1 : 0 }
         @reports = @posts.collect(&:reports).flatten
       end
     else
-      @posts =  Post.where(:user_id => current_user.id)
+      if current_user.user_type.name == "employee"
+        @posts =  Post.where(:user_id => current_user.id).sort_by{ |a| a.published ? 1 : 0 }
+      else 
+        @posts =  Post.all.sort_by{ |a| a.published ? 1 : 0 }
+      end  
       @reports = @posts.collect(&:reports).flatten
     end  
   end

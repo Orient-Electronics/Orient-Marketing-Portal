@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :assigned_tasks, :foreign_key => 'assigned_to', :class_name => "Task"
 
   has_many :posts, :dependent => :destroy
-
+  has_many :subscribers, :dependent => :destroy
   #has_and_belongs_to_many :roles
 
   belongs_to :user_type
@@ -20,11 +20,12 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  attr_accessible :email, :password, :remember_me, :password_confirmation, :first_name, :last_name, :phone_number, :avatar_attributes, :user_type_id
+  attr_accessible :email, :password, :remember_me, :password_confirmation, :first_name, :last_name, :phone_number, :avatar_attributes, :user_type_id, :subscribers_attributes
   
   validates :user_type_id, :presence => true
 
   accepts_nested_attributes_for :avatar
+  accepts_nested_attributes_for :subscribers
 
   def name
     [first_name,last_name].join(" ")
@@ -51,4 +52,8 @@ class User < ActiveRecord::Base
   def user_employee?
     user_type.try(:name) == "employee"
   end
+
+  def already_subscribe?(user)
+    self.subscribers.find_by_subscribe_id(user.id).blank? ? false : true
+  end 
 end  

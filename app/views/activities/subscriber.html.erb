@@ -1,0 +1,131 @@
+<%= form_for(@subscriber, :url => create_subscriber_activities_path, :html => { :class => 'form-horizontal form-validate subscriber-form' }) do |f| %>
+	<div class= "error-box">
+    <p><%= errors_for(@subscriber, "").html_safe %></p>
+  </div>
+  <%= f.hidden_field :subscribe_id %>
+  <%= f.hidden_field :user_id %>
+  <label> Select Activites of  </label>
+  <div class="control-group">
+  	
+  	<div class="select-activity">
+			<div class= "activity-type">
+				Brand
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][0][activity_type]" , "Brand" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][1][activity_type]" , "Brand" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][2][activity_type]" , "Brand" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][0][activity_name]" , "brand.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][1][activity_name]" , "brand.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][2][activity_name]" , "brand.destroy" %> Destroy </label>
+			</div>
+		</div>
+		<div class="select-activity">
+			<div class= "activity-type ">
+				Dealer
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][3][activity_type]" , "Dealer" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][4][activity_type]" , "Dealer" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][5][activity_type]" , "Dealer" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][3][activity_name]" , "dealer.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][4][activity_name]" , "dealer.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][5][activity_name]" , "dealer.destroy" %> Destroy </label>
+			</div>
+		</div>
+		<div class="select-activity">
+			<div class= "activity-type ">
+				Shop
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][6][activity_type]" , "Shop" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][7][activity_type]" , "Shop" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][8][activity_type]" , "Shop" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][6][activity_name]" , "shop.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][7][activity_name]" , "shop.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][8][activity_name]" , "shop.destroy" %> Destroy </label>
+			</div>
+		</div>
+		<div class="select-activity">
+			<div class= "activity-type ">
+				Post
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][9][activity_type]" , "Post" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][10][activity_type]" , "Post" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][11][activity_type]" , "Post" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][9][activity_name]" , "post.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][10][activity_name]" , "post.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][11][activity_name]" , "post.destroy" %> Destroy </label>
+			</div>
+		</div>
+		<div class="select-activity">
+			<div class= "activity-type ">
+				Product
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][12][activity_type]" , "Product" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][13][activity_type]" , "Product" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][14][activity_type]" , "Product" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][12][activity_name]" , "product.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][13][activity_name]" , "product.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][14][activity_name]" , "product.destroy" %> Destroy </label>
+			</div>
+		</div>
+		<div class="select-activity">
+			<div class= "activity-type ">
+				Role
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][15][activity_type]" , "Role" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][16][activity_type]" , "Role" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][17][activity_type]" , "Role" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][15][activity_name]" , "role.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][16][activity_name]" , "role.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][17][activity_name]" , "role.destroy" %> Destroy </label>
+			</div>
+		</div>
+		<div class="select-activity">
+			<div class= "activity-type ">
+				Shop Category
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][18][activity_type]" , "Shop Category" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][19][activity_type]" , "Shop Category" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][20][activity_type]" , "Shop Category" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][18][activity_name]" , "shop_category.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][19][activity_name]" , "shop_category.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][20][activity_name]" , "shop_category.destroy" %> Destroy </label>
+			</div>
+		</div>
+		<div class="select-activity">
+			<div class= "activity-type ">
+				Task
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][21][activity_type]" , "Task" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][22][activity_type]" , "Task" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][23][activity_type]" , "Task" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][21][activity_name]" , "task.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][22][activity_name]" , "task.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][23][activity_name]" , "task.destroy" %> Destroy </label>
+			</div>
+		</div>
+		<div class="select-activity">
+			<div class= "activity-type ">
+				City
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][24][activity_type]" , "City" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][25][activity_type]" , "City" %>
+				<%= hidden_field_tag "subscriber[activity_settings_attributes][26][activity_type]" , "City" %>
+			</div>		
+			<div class="activity-name">
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][24][activity_name]" , "city.create" %> Create </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][25][activity_name]" , "city.update" %> Update </label>
+				<label><%= check_box_tag "subscriber[activity_settings_attributes][26][activity_name]" , "city.destroy" %> Destroy </label>
+			</div>
+		</div>
+  </div>	
+   <div class="form-actions text-center">
+    <%= f.submit "subscribe", :class => 'btn btn-primary' %>
+  </div>
+<% end %>
