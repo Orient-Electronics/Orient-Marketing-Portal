@@ -136,13 +136,15 @@ $('document').ready(function(){
   $(".notification").click(function(){
     id = $(this).data("notification");
     count = $(".notification-count").text();
+    $(this).remove();
     $.ajax ({
       url:  '/activities/update_activity',
       data: {id: id },
       success: function(data)
       {
-        $(this).remove();
-        $(".notification-count").text(count-1);
+        
+        if(count>0)
+          $(".notification-count").text(count-1);
       }
     });
   });
