@@ -24,12 +24,4 @@
   </div>
   <hr/ >
 <% end %>
-<div class="results">
-  <% @search.hits.each do |hit| %>
-     <%= link_to hit.stored(:dealer_name), shop_path(hit.primary_key) %>
-     <% hit.highlights(:dealer_name).each do |highlight| %>          
-         <%= highlight.format { |word| "<p class = 'search-word'>*#{word}*</p>" }.html_safe %><br/>
-        <% end %>
-  <% end %>
-</div>
 <%= paginate @search.hits %>
