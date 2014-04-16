@@ -6,7 +6,6 @@ class TasksController < ApplicationController
       @complete_assigned_tasks = @created_tasks.where(:status => "completed").flatten
       @shops = Shop.all
       @task = Task.new
-
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @tasks }

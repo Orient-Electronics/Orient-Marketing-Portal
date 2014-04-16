@@ -1,0 +1,42 @@
+<div class="row-fluid">
+	<div class="user-activities span12">
+		<div class="box box-color box-bordered">
+			<div class="box-title">
+				<h3>
+					<i class="fa fa-bars"></i>
+					Subscriber's activities
+				</h3>
+			</div>
+			<div class="box-content nopadding scrollable" style="height: 380px;">
+				<% unless @activities.blank? %>
+					<div class="activities-list">
+						<ul class="timeline">
+							<% @activities.each do |activity| %>
+							  <li> 
+							  	<div class="timeline-content">
+							  		<div class="left">
+											<div class="icon">
+												<i class="fa fa-picture-o"> <%= image_tag(User.find(activity.owner.id).avatar.avatar(:small)) %> </i>
+											</div>
+											<div class="date"><%= activity.created_at.strftime("%B, %d")%></div>
+										</div>
+										<div class="activity">
+											<div class="user">
+									    	<%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %>
+										  	<%= render_activity activity %>
+										  </div>	
+										</div>  
+									</div>  
+									<div class="line"></div>
+								</li>  
+							<% end %>	
+						</ul>
+					</div>	
+				<% else %>	
+					<h5 class="heading">Activities </h5>
+					<div> No activities </div>
+				<% end %>
+			</div>	
+		</div>	
+	</div>
+</div>
