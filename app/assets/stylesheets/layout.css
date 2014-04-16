@@ -335,3 +335,8 @@ span input
   width: 29%;
   float: left;
 }
+
+.announcement
+{
+  padding: 10px;
+}
