@@ -18,14 +18,13 @@
 
 			<div class="text-center">
 				<% unless current_user.already_subscribe?(@user) %>
-					<%= link_to "Click here to subscribe", subscriber_activity_path(:id => @user.id) ,:class => 'subscribe-btn btn' %> </div>
+					<%= link_to "Click here to subscribe", 'javascript:void(0);', "data-toggle" => "modal", "data-target"=> "#subscriber_modal", :class => 'subscribe-btn btn' %>
 				<% else %>
-					<%= link_to "Click here to un-subscribe", destroy_subscriber_activity_path(:id => @user.id) ,:class => 'subscribe-btn btn' %> </div>
+					<%= link_to "Click here to un-subscribe", destroy_subscriber_activity_path(:id => @user.id) ,:class => 'subscribe-btn btn' %>
 				<% end %>	
-
-		</div>
+			</div>
+		</div>	
 	<% end %>
-	
 </div>
 <div class="row-fluid">
 	<div class="user-activities span12">
@@ -70,3 +69,5 @@
 		</div>	
 	</div>
 </div>
+
+<%= render :partial => 'subscriber', :locals => {user_id: current_user.id, subscribe_id: @user.id} %>

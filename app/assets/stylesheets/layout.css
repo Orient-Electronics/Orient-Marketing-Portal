@@ -332,11 +332,6 @@ span input
 
 .select-activity
 {
-  margin-left: 20px;
-  width: 15%;
+  width: 29%;
   float: left;
-  margin-bottom: 20px;
 }
-.select-activity .activity-name{
-  margin-left: 30px;
-}  

@@ -16,8 +16,7 @@ Orient::Application.routes.draw do
   end
 
   resources :activities do
-    member do 
-      get 'subscriber'
+    member do
       get 'destroy_subscriber'
     end 
     collection do

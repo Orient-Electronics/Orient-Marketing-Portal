@@ -1,7 +1,17 @@
 class RegistrationsController < Devise::RegistrationsController
 
-  def new
+  def create
+    super
     current_user.create_activity :create, :owner => current_user
-    return redirect_to user_session_path
+  end
+
+  def update
+  	super
+  	current_user.create_activity :update, :owner => current_user
+  end
+
+  def destroy
+  	super
+  	current_user.create_activity :destroy, :owner => current_user
   end
 end

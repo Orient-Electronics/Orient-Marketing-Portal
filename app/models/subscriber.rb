@@ -5,10 +5,10 @@ class Subscriber < ActiveRecord::Base
   accepts_nested_attributes_for :activity_settings
 
   def activities
-  	@activities ||= []
+  	activities ||= []
 		self.activity_settings.each do |activity|
-			@activities.concat(PublicActivity::Activity.where(owner_id: self.subscribe_id, key: activity.activity_name))
+			activities.concat(PublicActivity::Activity.where(owner_id: self.subscribe_id, key: activity.activity_name))
 		end
-		@activities
+		activities
 	end
 end
