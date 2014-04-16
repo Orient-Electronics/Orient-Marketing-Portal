@@ -6,6 +6,7 @@ class CreateActivities < ActiveRecord::Migration
       t.belongs_to :trackable, :polymorphic => true
       t.belongs_to :owner, :polymorphic => true
       t.string  :key
+      t.string  :status, :default => 'unread'
       t.text    :parameters
       t.belongs_to :recipient, :polymorphic => true
 

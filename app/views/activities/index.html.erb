@@ -69,5 +69,8 @@
 		</div>	
 	</div>
 </div>
-
-<%= render :partial => 'subscriber', :locals => {user_id: current_user.id, subscribe_id: @user.id} %>
+<% unless current_user == @user %>
+	<% unless current_user.already_subscribe?(@user) %>
+		<%= render :partial => 'subscriber', :locals => {user_id: current_user.id, subscribe_id: @user.id} %>
+	<% end %>	
+<% end -%>	

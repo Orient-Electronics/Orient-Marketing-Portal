@@ -55,7 +55,7 @@ class TasksController < ApplicationController
     post.published = true
     post.approved_id = current_user.id
     post.save
-    post.create_activity :update, owner: current_user
+    post.create_activity :publish, owner: current_user
     respond_to do |format|
       format.html { redirect_to :back, notice: 'Report was successfully published.'}
     end

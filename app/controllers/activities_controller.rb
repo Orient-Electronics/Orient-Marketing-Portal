@@ -22,4 +22,15 @@ class ActivitiesController < ApplicationController
   		redirect_to  activities_path(:user_id => params[:id])
   	end
   end
+
+  def update_activity
+    @activity = PublicActivity::Activity.find(params[:id])
+    
+    @activity.status = "read"
+    if @activity.save
+      render :text => 'success'
+    else
+      render :text => 'falied'
+    end  
+  end
 end

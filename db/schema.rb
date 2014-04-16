@@ -19,11 +19,12 @@ ActiveRecord::Schema.define(:version => 20140416080307) do
     t.integer  "owner_id"
     t.string   "owner_type"
     t.string   "key"
+    t.string   "status",         :default => "unread"
     t.text     "parameters"
     t.integer  "recipient_id"
     t.string   "recipient_type"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
   add_index "activities", ["owner_id", "owner_type"], :name => "index_activities_on_owner_id_and_owner_type"

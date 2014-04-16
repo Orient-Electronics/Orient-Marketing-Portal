@@ -20,6 +20,7 @@ Orient::Application.routes.draw do
       get 'destroy_subscriber'
     end 
     collection do
+      get 'update_activity'
       post 'create_subscriber'
     end
   end

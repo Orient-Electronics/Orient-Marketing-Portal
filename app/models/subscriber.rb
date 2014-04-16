@@ -11,4 +11,12 @@ class Subscriber < ActiveRecord::Base
 		end
 		activities
 	end
+
+  def notifications
+    notifications ||= []
+    self.activity_settings.each do |activity|
+      notifications.concat(PublicActivity::Activity.where(owner_id: self.subscribe_id, key: activity.activity_name, status: 'unread'))
+    end
+    notifications
+  end
 end

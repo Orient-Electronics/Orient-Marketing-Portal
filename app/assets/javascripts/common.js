@@ -133,6 +133,20 @@ $('document').ready(function(){
 
   });
 
+  $(".notification").click(function(){
+    id = $(this).data("notification");
+    count = $(".notification-count").text();
+    $.ajax ({
+      url:  '/activities/update_activity',
+      data: {id: id },
+      success: function(data)
+      {
+        $(this).remove();
+        $(".notification-count").text(count-1);
+      }
+    });
+  });
+
   
 });
 

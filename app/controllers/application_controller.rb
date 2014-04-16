@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include PublicActivity::StoreController
 
   before_filter :authenticate_user!
+  before_filter :fetch_notification
   layout :change_layout
   before_filter :check_admin
   rescue_from CanCan::AccessDenied do |exception|
@@ -16,6 +17,12 @@ class ApplicationController < ActionController::Base
       else
         'application'
       end  
+  end
+
+  def fetch_notification 
+    if current_user
+      @notifications = current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}
+    end
   end
 
   def check_admin
