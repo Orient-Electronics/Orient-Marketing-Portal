@@ -84,7 +84,7 @@ class SvrsController < ApplicationController
     @post = Post.new params[:post]
     if @post.save
       @post.create_activity :create, owner: current_user
-      redirect_to shop_path(@shop)
+      redirect_to "/shops/#{@shop.id}/svr/#{@post.id}"
     else
       render 'new'
     end

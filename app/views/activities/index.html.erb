@@ -1,12 +1,14 @@
 <div class="row-fluid time-line-container">
 	<div class="user-image-cover span4">
-		<%= image_tag(@user.avatar.avatar(:small)) %>
+		<% unless @user.avatar.blank? %>
+			<%= image_tag(@user.avatar.avatar(:small)) %>
+		<% end %>		
 	</div>	
 	<div class="about-user span4">
 		<h5 class="heading">About </h5>
 		<div class="span11">
 			<span>Full Name:  <%= @user.name %> </span> <br>
-			<span>Designation:  <%= @user.user_type.name %> </span> <br>
+			<span>Designation:  <%= @user.user_type.try(:name) %> </span> <br>
 			<span>Email Address:  <%= @user.email %> </span> <br>
 			<span>Phone No:  <%= @user.phone_number %> </span> <br>
 			<span>Joined at:  <%= @user.created_at.strftime("%Y-%m-%d") %> </span> <br >

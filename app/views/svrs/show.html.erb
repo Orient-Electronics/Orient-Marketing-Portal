@@ -14,7 +14,7 @@
         </tr>
         <tr>
           <td><strong>Submitted on: </strong></td>
-          <td><%= @post.created_at.strftime('%d %B, %Y') %></td>
+          <td><%= @post.created_at.strftime('%d %B, %Y - %I:%M (%p)') %></td>
         </tr>
         <tr>
           <td><strong>Status: </strong></td>
@@ -56,16 +56,39 @@
           <td><%= link_to(@post.task.try(&:parent), activities_path(:user_id => @post.task.try(&:assigned_by))) %></td>
         </tr>
       <% end %>
-      <tr>
-        <td><strong>Approved by: </strong></td>
-        <td><%= link_to User.find(@post.approved_id).name, activities_path(:user_id => @post.approved_id) unless @post.approved_id.blank? %></td>
-      </tr>
+       <% unless @post.published? %> 
+          <tr>
+            <td><strong>Edit: </strong></td>
+            <td><%= link_to "edit",  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit" %> </td>
+          </tr>
+          <tr>
+            <td><strong>Delete: </strong></td>
+            <td><%= link_to "delete",  "/shops/#{@post.shop_id}/svrs/#{@post.id}", :method => :delete, :confirm => "are you sure? "  %> </td>
+          </tr>
+        <% else %>  
+          <tr>
+            <td><strong>Approved by: </strong></td>
+            <td><%= link_to User.find(@post.approved_id).name, activities_path(:user_id => @post.approved_id) unless @post.approved_id.blank? %></td>
+          </tr>
+        <% end %>
+        <% if can? :create, Task %>
+          <tr>
+            <td><strong> Update Status: </strong></td>
+            <td>
+              <% unless @post.published? %> 
+                <%= link_to "Publish Report", publish_report_tasks_path(:post_id => @post.id), :class => "btn btn-inverse" %>
+              <% else %> 
+                <%= link_to "Unpublish Report", unpublish_report_tasks_path(:post_id => @post.id), :class => "btn btn-inverse" %>
+              <% end %>
+            </td>
+          </tr>  
+        <% end %>  
     </table>
   </div>
 </div>
 <hr>
 <div class="row-fluid">
-  <div class="span12">
+  <div class="span6">
     <div class="box box-color box-bordered">
       <div class="box-title">
         <h3>
@@ -78,34 +101,15 @@
       </div>
       <div class="box-content nonpadding" data-height ='auto' >
         <div class='row-fluid'>
-          <div class="span3">
-            <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y table-condensed">
-          <thead>
-            <tr>
-              <th>Brand</th>
-              <th>Quantity</th>
-            <tr/>
-          </thead>
-          <tbody>
-            <% @display_report.each do |report| %>
-            <tr>
-              <td><strong><%= report.brand.name %></strong></td>
-              <td><%= report.data.to_i %></td>
-            </tr>
-            <% end -%>
-          </tbody>
-            </table>
-          </div>
-          <div class='span9'>
+          
+          <div class='span12'>
             <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @reports, :type => "display_data"} %>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row-fluid">
-  <div class="span12">
+  <div class="span6">
     <div class="box box-color box-bordered">
       <div class="box-title">
         <h3>
@@ -118,25 +122,7 @@
       </div>
       <div class="box-content nonpadding" data-height ='auto' >
         <div class='row-fluid'>
-          <div class="span3">
-            <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y table-condensed">
-          <thead>
-            <tr>
-              <th>Brand</th>
-              <th>Quantity</th>
-            <tr/>
-          </thead>
-          <tbody>
-            <% @sales_report.each do |report| %>
-            <tr>
-              <td><strong><%= report.brand.name %></strong></td>
-              <td><%= report.data.to_i %></td>
-            </tr>
-            <% end -%>
-          </tbody>
-            </table>
-          </div>
-          <div class='span9'>
+          <div class='span12'>
             <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @reports, :type => "sales_data"} %>
           </div>
         </div>

@@ -1,6 +1,6 @@
 update task i.e assign to 
 <% if activity.trackable %>
-  <%= link_to activity.trackable.child, activities_path(:user_id => activity.trackable.id) %> for <%= link_to activity.trackable.shop.dealer_name, shop_path(activity.trackable.shop) %> 
+  <%= link_to activity.trackable.child, activities_path(:user_id => activity.trackable.assigned_to) %> for <%= link_to activity.trackable.shop.dealer_name, shop_path(activity.trackable.shop) %> 
 <% else %>
   which has since been removed 
 <% end %>

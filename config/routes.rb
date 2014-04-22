@@ -74,6 +74,7 @@ Orient::Application.routes.draw do
     end
     collection do 
       get 'publish_report'
+      get 'unpublish_report'
     end
   end
 

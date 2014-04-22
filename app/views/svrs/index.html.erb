@@ -54,7 +54,7 @@
                     <% unless post.published? %> 
                       <%= link_to "Publish Report", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
                     <% else %> 
-                      <span> Published </span>
+                      <span> <%= link_to "Unpublished Report", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %> </span>
                     <% end %>
                   </td>
                 <% end %>   

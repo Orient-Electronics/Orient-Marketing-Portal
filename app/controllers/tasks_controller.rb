@@ -60,5 +60,16 @@ class TasksController < ApplicationController
       format.html { redirect_to :back, notice: 'Report was successfully published.'}
     end
   end
+
+  def unpublish_report
+    post = Post.find(params[:post_id])
+    post.published = false
+    post.approved_id = nil
+    post.save
+    post.create_activity :unpublish, owner: current_user
+    respond_to do |format|
+      format.html { redirect_to :back, notice: 'Report was successfully unpublished.'}
+    end
+  end
   
 end
