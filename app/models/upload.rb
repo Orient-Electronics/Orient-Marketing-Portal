@@ -10,5 +10,6 @@ class Upload < ActiveRecord::Base
                         :medium => "500x500>"
                     }
   validates_attachment_presence :upload
+  validates_attachment_size :upload, :less_than => 1.megabytes, :message => "^ Please select image with size less than 1MB" 
   include Rails.application.routes.url_helpers
 end

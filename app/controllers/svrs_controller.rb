@@ -67,6 +67,8 @@ class SvrsController < ApplicationController
     @brands.each do |brand|
       line = report_three.report_lines.build :brand_id => brand.id, :product_category_id => @category.try(:id), :product_id => @product.try(:id)
     end
+    #@post.uploads.build
+    #@post.uploads.build
   end
 
   def edit
@@ -165,6 +167,10 @@ class SvrsController < ApplicationController
 
   def file_field
     render(:partial => "/svrs/reportline_avatars", :locals => {:index => params[:index], :temp => params[:length]})
+  end
+
+  def upload_field
+    render(:partial => "/svrs/report_upload", :locals => {:temp => params[:length]})
   end
 
   def remove_report_line

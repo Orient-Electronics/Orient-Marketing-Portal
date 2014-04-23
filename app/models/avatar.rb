@@ -11,4 +11,6 @@ class Avatar < ActiveRecord::Base
                         :medium => "500x500>"
                     },
                     :default_url => '/assets/default.png'
+  validates_attachment_size :avatar, :less_than => 1.megabytes, :message => "^ Please select image with size less than 1MB" 
+  
 end

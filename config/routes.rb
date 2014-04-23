@@ -92,6 +92,7 @@ Orient::Application.routes.draw do
       post 'brand_search'
       post 'category_search'
       get  'file_field'
+      get 'upload_field'
       get 'remove_report_line'
     end
   end

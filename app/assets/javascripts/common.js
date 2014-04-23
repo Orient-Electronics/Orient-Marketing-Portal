@@ -39,6 +39,8 @@ $('document').ready(function(){
     });
   });
 
+  
+
   $(".radio-controls label input").change(function(e){
 
     e.preventDefault();
@@ -68,6 +70,45 @@ $('document').ready(function(){
       avatar_link.hide();
     }
 
+  });
+
+
+  $(".upload-radio-controls label input").change(function(e){
+    text = $(this).val();
+    avatar_link = $('.add_more_upload_link');
+    parent = $('.parent-upload-field');
+    length = parent.find("input").length;
+    if(text == 1)
+    {
+      $.ajax ({
+        url:  '/svrs/upload_field',
+        data: {length: length },
+        success: function(data)
+        {
+          parent.append(data);
+          avatar_link.show();
+        }
+      });
+    }
+    else
+    {
+      parent.html("");
+      avatar_link.hide();
+    }
+  }); 
+
+  $(".add_more_upload_link").click(function(e){
+    e.preventDefault();
+    parent = $('.parent-upload-field');
+    length = parent.find("input").length;
+    $.ajax ({
+        url:  '/svrs/upload_field',
+        data: {length: length },
+        success: function(data)
+        {
+          parent.append(data);
+        }
+    });
   });
 
   $(".edit_add_more_link").click(function(e){

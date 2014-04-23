@@ -1,0 +1,10 @@
+<div class="label"> <%=file_field_tag "post[uploads_attributes][#{temp}][upload]",  :class => 'required' %>  
+<%= link_to "   (remove)", "javascript:void(0);", :class => "remove-upload-link" %> <br /> </div>
+
+<script>
+	$(document).ready(function(){
+		$(".remove-upload-link").click(function(){
+	      $(this).parent().remove();
+	  	});
+	});
+</script>

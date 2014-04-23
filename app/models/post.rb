@@ -2,7 +2,7 @@ class Post < ActiveRecord::Base
   
   include PublicActivity::Common
   
-  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id, :approved_id
+  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id, :approved_id, :uploads_attributes
 
   attr_accessor :week, :year
 
@@ -12,8 +12,10 @@ class Post < ActiveRecord::Base
   belongs_to :product_category
   belongs_to :task
   has_many :reports, :dependent => :destroy
+  has_many :uploads, :as => :uploadable, :dependent => :destroy
 
   accepts_nested_attributes_for :reports
+  accepts_nested_attributes_for :uploads
 
   scope :published_reports, where(:published => true)
 
