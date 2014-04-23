@@ -149,6 +149,18 @@ $('document').ready(function(){
     });
   });
 
+  $(".announcement-dismiss").click(function() {
+    parent = $(this).parent();
+    console.log(parent)
+    $.ajax ({
+      url:  '/announcements/update_user_status',
+      success: function(data)
+      {
+        parent.remove();
+      }
+    });
+  });
+
   
 });
 

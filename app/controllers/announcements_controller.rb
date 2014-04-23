@@ -53,9 +53,15 @@ class AnnouncementsController < ApplicationController
 		@announcement.create_activity :destroy, owner: current_user
 		@announcement.destroy
 		respond_to do |format|
-      format.html { redirect_to announcement_url, notice: 'Announcement was successfully deleted.'  }
-      format.json { head :no_content }
-    end
+    		format.html { redirect_to announcements_url, notice: 'Announcement was successfully deleted.'  }
+    		format.json { head :no_content }
+  	end
+	end
+
+	def update_user_status
+		user = current_user
+		user.update_attributes(:view_announcement => false)
+		render :text => "successful"
 	end
 
 end

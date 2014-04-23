@@ -6,6 +6,8 @@
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:announcement) %>:</strong></dt>
   <dd><%= @announcement.announcement %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:created_at) %>:</strong></dt>
+  <dd><%= @announcement.created_at.strftime("%d %B, %Y %H:%M %p") %></dd>
 </dl>
 
 <div class="form-actions">

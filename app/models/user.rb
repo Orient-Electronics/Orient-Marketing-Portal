@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  attr_accessible :email, :password, :remember_me, :password_confirmation, :first_name, :last_name, :phone_number, :avatar_attributes, :user_type_id, :subscribers_attributes
+  attr_accessible :email, :password, :remember_me, :password_confirmation, :first_name, :last_name, :phone_number, :avatar_attributes, :user_type_id, :subscribers_attributes, :view_announcement
   
   validates :user_type_id, :presence => true
 
@@ -56,4 +56,9 @@ class User < ActiveRecord::Base
   def already_subscribe?(user)
     self.subscribers.find_by_subscribe_id(user.id).blank? ? false : true
   end 
+
+  def can_view_announcement?
+    self.view_announcement
+  end
+  
 end  

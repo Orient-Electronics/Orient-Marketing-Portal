@@ -22,7 +22,12 @@
     <% if user_signed_in? %> 
       <%= render :partial => "/layouts/header" %>
       <% unless Announcement.all.blank? %>
-        <div class="announcement text-center alert-error"> <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <%= Announcement.last.try(:created_at).strftime("%d %B, %Y %H:%M %p") %> <%= Announcement.last.try(:announcement) %> </marquee></div>
+        <% if current_user.can_view_announcement? %>
+          <div class="announcement-parent"> 
+            <button class="announcement-dismiss close">×</button>
+            <div class="announcement text-center alert-error"> <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <%= Announcement.last.try(:created_at).strftime("%d %B, %Y %H:%M %p") %> <%= Announcement.last.try(:announcement) %> </marquee></div>
+          </div>
+        <% end %>  
       <% end -%>  
     <% end -%>
 

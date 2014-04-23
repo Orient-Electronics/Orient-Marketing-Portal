@@ -11,7 +11,11 @@ Orient::Application.routes.draw do
 
   resources :search
 
-  resources :announcements
+  resources :announcements do 
+    collection do 
+      get 'update_user_status'
+    end
+  end
 
   resources :product_categories do
     resources :svrs
