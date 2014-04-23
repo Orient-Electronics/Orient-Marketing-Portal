@@ -1,6 +1,9 @@
 Orient::Application.routes.draw do
   
 
+  resources :areas
+
+
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   resources :user_types

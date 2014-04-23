@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140423064553) do
+ActiveRecord::Schema.define(:version => 20140423082542) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -43,6 +43,12 @@ ActiveRecord::Schema.define(:version => 20140423064553) do
     t.string   "announcement"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "areas", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "avatars", :force => true do |t|
@@ -87,7 +93,7 @@ ActiveRecord::Schema.define(:version => 20140423064553) do
 
   create_table "locations", :force => true do |t|
     t.integer  "city_id"
-    t.string   "area"
+    t.integer  "area_id"
     t.string   "latitude"
     t.string   "longitude"
     t.datetime "created_at", :null => false

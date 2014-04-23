@@ -52,6 +52,19 @@
               </ul>
             </li>
           <% end -%>
+          <% if can? :read, Area %>
+            <li class="dropdown-submenu">
+              <a href="#">Area</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/areas">View All</a>
+                </li>
+                <li>
+                  <a href="/areas/new">Add New</a>
+                </li>
+              </ul>
+            </li>
+          <% end -%>
           <% if can? :read, ProductCategory %>
             <li class="dropdown-submenu">
               <a href="#">Porduct Category</a>

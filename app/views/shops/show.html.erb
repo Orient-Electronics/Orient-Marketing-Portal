@@ -154,7 +154,7 @@
             <% end -%>
             <% if @shop.location.try(:area) %>
               <dt><strong><%= child_class.human_attribute_name(:area) %>:</strong></dt>
-              <dd><%= @shop.location.area %></dd>
+              <dd><%= @shop.location.area.name %></dd>
             <% end -%>
           </dl>
         </div>
