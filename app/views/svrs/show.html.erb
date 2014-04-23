@@ -56,16 +56,17 @@
           <td><%= link_to(@post.task.try(&:parent), activities_path(:user_id => @post.task.try(&:assigned_by))) %></td>
         </tr>
       <% end %>
-       <% unless @post.published? %> 
+       <% if can? :create, Task %> 
           <tr>
             <td><strong>Edit: </strong></td>
-            <td><%= link_to "edit",  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit" %> </td>
+            <td><%= link_to "edit",  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit", :class => "btn btn-mini" %> </td>
           </tr>
           <tr>
             <td><strong>Delete: </strong></td>
-            <td><%= link_to "delete",  "/shops/#{@post.shop_id}/svrs/#{@post.id}", :method => :delete, :confirm => "are you sure? "  %> </td>
+            <td><%= link_to "delete",  "/shops/#{@post.shop_id}/svrs/#{@post.id}", :method => :delete, :confirm => "are you sure? ", :class => "btn btn-mini btn-danger"  %> </td>
           </tr>
-        <% else %>  
+        <% end %>  
+        <% if @post.published? %>
           <tr>
             <td><strong>Approved by: </strong></td>
             <td><%= link_to User.find(@post.approved_id).name, activities_path(:user_id => @post.approved_id) unless @post.approved_id.blank? %></td>

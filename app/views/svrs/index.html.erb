@@ -21,8 +21,7 @@
                 <th> Year </th>
                 <th> Report Created by</th>
                 <th> Report Created at </th>
-                <th> View Report </th>
-                <th> Edit View </th>
+                <th> Update Report </th>
                 <th> Delete Report </th>
                 <% if can? :create, Task %>
                   <th>Publish Report</th>
@@ -32,24 +31,19 @@
             <tbody>
             <% @posts.each_with_index do |post, index| %>
               <tr>
-                <td> <%= index+1 %> </td>
+                <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
                 <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
                 <td> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
                 <td> <%= post.reports.first.year %> </td>
                 <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
                 <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
-                <td> <%= link_to "show",  "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
-                <td> 
-                  <% unless post.published? %> 
-                    <%= link_to "edit",  "/shops/#{post.shop_id}/svrs/#{post.id}/edit" %>
-                  <% end %>
-                </td>
-                <td> <% unless post.published? %>
-                   <%= link_to "delete",  "/shops/#{post.shop_id}/svrs/#{post.id}", :method => :delete, :confirm => "are you sure? "  %> 
-                   <% end %>
-                </td>
-                
                 <% if can? :create, Task %>
+                  <td> 
+                      <%= link_to "update",  "/shops/#{post.shop_id}/svrs/#{post.id}/edit", :class => "btn btn-mini" %>
+                  </td>
+                  <td>
+                     <%= link_to "delete",  "/shops/#{post.shop_id}/svrs/#{post.id}", :method => :delete, :confirm => "are you sure? ", :class => "btn btn-mini btn-danger"  %> 
+                  </td>
                   <td>
                     <% unless post.published? %> 
                       <%= link_to "Publish Report", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
