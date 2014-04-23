@@ -1,0 +1,6 @@
+update area 
+<% if activity.trackable %>
+  <%= link_to activity.trackable.name, area_path(activity.trackable) %>
+<% else %>
+  which has since been removed 
+<% end %>

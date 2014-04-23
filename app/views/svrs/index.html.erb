@@ -24,7 +24,7 @@
                 <th> Update Report </th>
                 <th> Delete Report </th>
                 <% if can? :create, Task %>
-                  <th>Publish Report</th>
+                  <th>Change Status</th>
                 <% end %>  
               <tr/>
             </thead>
@@ -46,9 +46,9 @@
                   </td>
                   <td>
                     <% unless post.published? %> 
-                      <%= link_to "Publish Report", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
+                      <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
                     <% else %> 
-                      <span> <%= link_to "Unpublished Report", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %> </span>
+                      <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %> </span>
                     <% end %>
                   </td>
                 <% end %>   
