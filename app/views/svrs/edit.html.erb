@@ -118,6 +118,37 @@
                 </div>
               <% end -%>
             <% end -%>
+            <div class="step">
+              <div class="single-step">
+                <span class="circle">
+                  <span class="active"></span>
+                </span>
+                <span class="description">
+                  <h3> Upload Extra Images </h3> <hr />
+                </span>
+              </div>
+            </div>
+            <div class="step-forms ">
+              <div class="control-group">
+                <label> Do you want to upload images </label>
+                <div class="upload-radio-controls controls">
+                  <label class="radio"><%= radio_button_tag :upload,  '1',:checked => "checked" %> Yes</label>
+                  <label class="radio"><%= radio_button_tag :upload,  '0'%> No </label>
+                </div>
+                <div class="parent-upload-field controls">
+                  <%= f.fields_for :uploads do |upload| %>
+                    <div class="image-field">      
+                      <%= image_tag(upload.object.upload(:thumb)) %>
+                      <%= upload.label "Change Image"  %>
+                      <div class="avatar-fields">
+                        <%= upload.file_field :upload  %>
+                      </div>
+                    </div>  
+                  <% end %>
+                </div>
+                <%= link_to "Add More", "#", :remote => :true , :class => " #{"hide" unless !f.object.uploads.blank?}  add_more_upload_link controls"%>
+              </div>  
+            </div>
             <div class="form-actions">
               <input type="reset" class="btn" value="Back" id="back">
               <input type="submit" class="btn btn-primary" value="Submit" id="next">

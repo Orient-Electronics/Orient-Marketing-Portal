@@ -37,6 +37,7 @@ class SvrsController < ApplicationController
     @report_lines_avatars = @corner_report.collect(&:avatars).flatten
     @category = @post.product_category
     @brands = @category.brands
+    @post_uploads  = @post.uploads
     @categories = ProductCategory.all
   end
 
@@ -75,8 +76,8 @@ class SvrsController < ApplicationController
     authorize! :update, Post
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
-    unless !@post.published? 
-      redirect_to shop_svrs_path(@shop), notice: 'access denied to edit this report'
+    unless can? :create, Task 
+      redirect_to :back, notice: 'access denied to edit this report'
     end 
     
   end
@@ -97,7 +98,7 @@ class SvrsController < ApplicationController
     @shop = Shop.find params[:shop_id]
     if @post.update_attributes(params[:post])
       @post.create_activity :update, owner: current_user
-      redirect_to shop_path(@shop)
+      redirect_to "/shops/#{@shop.id}/svr/#{@post.id}"
     else
       render 'edit'
     end
@@ -107,7 +108,7 @@ class SvrsController < ApplicationController
     authorize! :delete, Post
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
-    unless !@post.published? 
+    unless can? :create, Task
       redirect_to shop_svrs_path(@shop), notice: 'access denied to edit this report'
     end
     @post.destroy
