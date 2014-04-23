@@ -6,22 +6,22 @@
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span2">
-      <div class="row-fluid">
-        <ul class="tiles span12">
-          
-            <li class="image span12" style="margin:0px;">
-              <a href="#">
-                <% if @shop.avatar.present? %>
-                  <%= image_tag @shop.avatar.avatar.url(:small) %>
-                <% else %>
-                  <%= image_tag "/assets/default.png" %>
-                <% end -%>
-                <span class='name'><%= @shop.dealer_name %></span>
-              </a>
-            </li>
-        </ul>
-        <div class="span12">
-          <div class="btn-group pull-right" style="margin-top:50px;">
+      <ul class="tiles">
+        
+          <li class="image span12" style="margin:0px;">
+            <a href="#">
+              <% if @shop.avatar.present? %>
+                <%= image_tag @shop.avatar.avatar.url(:small) %>
+              <% else %>
+                <%= image_tag "/assets/default.png" %>
+              <% end -%>
+              <span class='name'><%= @shop.dealer_name %></span>
+            </a>
+          </li>
+      </ul>
+    </div>
+    <div class="span4"> 
+      <div class="btn-group pull-right" style="margin-top:20px;">
             <a href="#" data-toggle="dropdown" class="btn btn-large btn-inverse dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <% ProductCategory.all.each do |pc| %>
@@ -44,10 +44,8 @@
               <% end -%>
             </ul>
           </div>
-        </div>
-      </div>
-    </div>    
-    <div class="span10">
+    </div>   
+    <div class="span6">
       <div class="box box-color box-bordered">
         <div class="box-title">
           <h3>
@@ -64,12 +62,10 @@
               <tr>
                 <th> S.No. </th>
                 <th> Product Category </th>
-                <th> Week No. </th>
-                <th> Year </th>
                 <th> Report Created by</th>
                 <th> Report Created at </th>
                 <% if can? :create, Task %>
-                  <th>Publish Report</th>
+                  <th>Change Status</th>
                 <% end %>  
               <tr/>
             </thead>
@@ -78,16 +74,14 @@
                 <tr>
                   <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
                   <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
-                  <td> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
-                  <td> <%= post.reports.first.year %> </td>
                   <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
                   <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
                   <% if can? :create, Task %>
                     <td>
                       <% unless post.published? %> 
-                        <%= link_to "Publish Report", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
+                        <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
                       <% else %> 
-                        <span> <%= link_to "Unpublished Report", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %> </span>
+                        <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %> </span>
                       <% end %>
                     </td>
                   <% end %>   
