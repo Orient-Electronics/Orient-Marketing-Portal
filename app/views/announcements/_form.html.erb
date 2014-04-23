@@ -1,0 +1,17 @@
+<%= form_for @announcement, :html => { :class => 'form-horizontal form-validate' } do |f| %>
+  <div class= "error-box">
+    <p><%= errors_for(@announcement, "").html_safe %></p>
+  </div>
+  <div class="control-group">
+    <%= f.label :announcement, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :announcement, :class => 'text_field required' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                announcements_path, :class => 'btn' %>
+  </div>
+<% end %>

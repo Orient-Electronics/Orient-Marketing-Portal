@@ -11,6 +11,8 @@ Orient::Application.routes.draw do
 
   resources :search
 
+  resources :announcements
+
   resources :product_categories do
     resources :svrs
   end

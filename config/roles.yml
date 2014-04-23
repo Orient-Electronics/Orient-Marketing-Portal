@@ -25,3 +25,4 @@ entities:
   task: Task
   report_line: RerportLine
   post: Post
+  announcement: Announcement
