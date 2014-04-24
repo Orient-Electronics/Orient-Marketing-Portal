@@ -37,7 +37,7 @@ class SvrsController < ApplicationController
     @report_lines_avatars = @corner_report.collect(&:avatars).flatten
     @category = @post.product_category
     @brands = @category.brands
-    @post_uploads  = @post.uploads
+    @post_uploads  = @post.uploads.flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     @categories = ProductCategory.all
   end
 

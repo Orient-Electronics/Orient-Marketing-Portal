@@ -50,7 +50,7 @@ class ShopsController < ApplicationController
       @corner_report  = reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
       @categories = @posts.collect(&:product_category).uniq
       @brands = @categories.collect(&:brands).uniq.flatten
-      @posts =  Post.where(:shop_id => params[:id].to_i, :user_id => current_user.id).sort_by{ |a| a.published ? 0 : 1 }
+      @posts =  Post.where(:shop_id => params[:id].to_i, :user_id => current_user.id).sort_by{ |a| a.published ? 1 : 0 }
       @reports = @posts.collect(&:reports).flatten
       if shops.include?(params[:id].to_i) 
         @shop = Shop.find(params[:id])
@@ -60,7 +60,7 @@ class ShopsController < ApplicationController
         end
       end   
     else 
-      @posts =  Post.where(:shop_id => params[:id].to_i).sort_by{ |a| a.published ? 0 : 1 }
+      @posts =  Post.where(:shop_id => params[:id].to_i).sort_by{ |a| a.published ? 1 : 0 }
       @reports = @posts.collect(&:reports).flatten
       @shop = Shop.find(params[:id])     
       @categories = @posts.collect(&:product_category).uniq

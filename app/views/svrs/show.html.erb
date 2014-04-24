@@ -77,9 +77,9 @@
             <td><strong> Update Status: </strong></td>
             <td>
               <% unless @post.published? %> 
-                <%= link_to "Publish Report", publish_report_tasks_path(:post_id => @post.id), :class => "btn btn-inverse" %>
+                <%= link_to "Publish", publish_report_tasks_path(:post_id => @post.id), :class => "btn btn-inverse" %>
               <% else %> 
-                <%= link_to "Unpublish Report", unpublish_report_tasks_path(:post_id => @post.id), :class => "btn btn-inverse" %>
+                <%= link_to "Unpublish", unpublish_report_tasks_path(:post_id => @post.id), :class => "btn btn-inverse" %>
               <% end %>
             </td>
           </tr>  
