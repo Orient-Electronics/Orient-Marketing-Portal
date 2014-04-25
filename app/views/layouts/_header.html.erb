@@ -14,7 +14,7 @@
       <div class="sidebar-section sidebar-user clearfix">
         <div class="sidebar-user-avatar">
           <a href="<%= activities_path(:user_id => current_user.id) %>">
-            <%= image_tag(current_user.get_avatar.avatar.url(:small_thumb)) %>
+            <%= image_tag(current_user.get_avatar.avatar.url(:thumb)) %>
           </a>
         </div>
         <div class="sidebar-user-name"><%= current_user.name %></div>

@@ -1,76 +1,142 @@
-<div class="row-fluid time-line-container">
-	<div class="user-image-cover span4">
+<!-- User Profile Header -->
+<div class="content-header content-header-media">
+	<div class="header-section">
 		<% unless @user.avatar.blank? %>
-			<%= image_tag(@user.avatar.avatar(:small)) %>
-		<% end %>		
-	</div>	
-	<div class="about-user span4">
-		<h5 class="heading">About </h5>
-		<div class="span11">
-			<span>Full Name:  <%= @user.name %> </span> <br>
-			<span>Designation:  <%= @user.user_type.try(:name) %> </span> <br>
-			<span>Email Address:  <%= @user.email %> </span> <br>
-			<span>Phone No:  <%= @user.phone_number %> </span> <br>
-			<span>Joined at:  <%= @user.created_at.strftime("%Y-%m-%d") %> </span> <br >
-		</div>	
+			<%= image_tag(@user.avatar.avatar(:thumb), :class =>"pull-right img-circle") %>
+		<% else %>	
+    	<%= image_tag('/assets/default.png', :class => "img-circle pull-right" , :size => "65x70" )%>
+		<% end %>	
+    <h1><%= @user.name %>  <br><small><%= @user.user_type.try(:name) %> </small></h1>
 	</div>
-	<% unless current_user == @user %>
-		<div class="span4"> 
-			<h5 class="heading">Subscribe to <%= @user.name %>  </h5>
+	<img src="assets/placeholders/headers/profile_header.jpg" alt="header image" class="animation-pulseSlow">	
+</div>	
+ <!-- END User Profile Header -->
 
-			<div class="text-center">
-				<% unless current_user.already_subscribe?(@user) %>
-					<%= link_to "Click here to subscribe", 'javascript:void(0);', "data-toggle" => "modal", "data-target"=> "#subscriber_modal", :class => 'subscribe-btn btn' %>
-				<% else %>
-					<%= link_to "Click here to un-subscribe", destroy_subscriber_activity_path(:id => @user.id) ,:class => 'subscribe-btn btn' %>
-				<% end %>	
-			</div>
-		</div>	
-	<% end %>
-</div>
-<div class="row-fluid">
-	<div class="user-activities span12">
-		<div class="box box-color box-bordered">
-			<div class="box-title">
-				<h3>
-					<i class="fa fa-bars"></i>
-					<%= @user.name %> Activities
-				</h3>
-			</div>
-			<div class="box-content nopadding scrollable" style="height: 380px;">
-				<% unless @activities.blank? %>
+ <!-- User Profile Content -->
+ 	<div class="row">
+ 		<!-- First Column -->
+    <div class="col-md-6 col-lg-7">
+ 			<% unless @activities.blank? %>
+	 			<!-- Newsfeed Block -->
+	 			<div class="block">
 
-					<div class="activities-list">
-						<ul class="timeline">
-							<% @activities.each do |activity| %>
-							  <li> 
-							  	<div class="timeline-content">
-							  		<div class="left">
-											<div class="icon">
-												<i class="fa fa-picture-o"> <%= image_tag(@user.avatar.avatar(:small)) %> </i>
-											</div>
-											<div class="date"><%= activity.created_at.strftime("%B, %d")%></div>
-										</div>
-										<div class="activity">
-											<div class="user">
-									    	<%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %>
-										  	<%= render_activity activity %>
-										  </div>	
-										</div>  
-									</div>  
-									<div class="line"></div>
-								</li>  
-							<% end %>	
-						</ul>
-					</div>	
-				<% else %>	
-					<h5 class="heading">Activities </h5>
-					<div> No activities </div>
-				<% end %>
-			</div>	
-		</div>	
-	</div>
-</div>
+	 				<!-- Newsfeed Title -->
+	        <div class="block-title">
+	          <div class="block-options pull-right">
+	            <a href="javascript:void(0)" class="btn btn-sm btn-alt btn-default" data-toggle="tooltip" title="Customize Feed"><i class="fa fa-pencil"></i></a>
+	          </div>
+	          <h2><strong>Newsfeed</strong></h2>
+	        </div>
+	        <!-- END Newsfeed Title -->	
+
+	        <!-- Newsfeed Content -->
+	        <div class="block-content-full">
+	        	<ul class="media-list media-feed media-feed-hover">
+	        		<% @activities.each do |activity| %>
+	        			<li class="media">
+	        				<a href="page_ready_user_profile.html" class="pull-left">
+                      <%= image_tag(@user.avatar.avatar(:thumb), :class => "img-circle") %>
+                  </a>
+                  <div class="media-body">
+                    <p class="push-bit">
+                      <span class="text-muted pull-right">
+                        <small><%= activity.created_at.strftime("%B, %d")%></small>
+                        <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
+                      </span>
+                      <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>
+                    </p>
+                  </div>    
+	        			</li>	
+	        		<% end %>
+	        	</ul>	
+	        </div>	
+	        <!-- END Newsfeed Content -->
+	 			</div>
+	 			<!-- END feed Block -->
+	 		<% end %>	
+ 		</div>	
+ 		<!-- END First Column -->
+
+ 		<!-- Second Column -->
+ 		<div class="col-md-6 col-lg-5">
+      
+      <!-- Info Block -->
+      <div class="block">
+      	<!-- Info Title -->
+        <div class="block-title">
+          <div class="block-options pull-right">
+          	<% unless current_user == @user %>
+          		<% unless current_user.already_subscribe?(@user) %>
+            		<a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="modal" data-target = "#subscriber_modal" title="Subscribe"><i class="fa fa-plus"></i></a>
+            	<% else %>	
+            		<a href="<%= destroy_subscriber_activity_path(:id => @user.id) %>" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="Un-Subscribe"><i class="fa fa-plus"></i></a>
+            	<% end %>
+            <% end %>	
+          </div>
+          <h2>About <strong><%= @user.name %></strong></h2>
+        </div>
+        <!-- END Info Title -->
+
+        <!-- Info Content -->
+        <table class="table table-borderless table-striped">
+          <tbody>
+            <tr>
+              <td style="width: 20%;"><strong>Info</strong></td>
+              <td>Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non.</td>
+            </tr>
+            <tr>
+              <td><strong><%= @user.user_type.try(:name) %></strong></td>
+              <td><a href="javascript:void(0)">Orient</a></td>
+            </tr>
+            <tr>
+              <td><strong>Email Address</strong></td>
+              <td><a href="javascript:void(0)"><%= @user.email %></a></td>
+            </tr>
+            <tr>
+              <td><strong>Phone No</strong></td>
+              <td><a href="javascript:void(0)"><%= @user.phone_number %></a></td>
+            </tr>
+            <tr>
+              <td><strong>Joined at</strong></td>
+              <td><a href="javascript:void(0)"><%= @user.created_at.strftime("%Y-%m-%d") %></a></td>
+            </tr>
+          </tbody>
+      	</table>
+      	<!-- END Info Content -->
+      </div>
+      <!-- END Info Block -->	
+      <% unless @subscribers.blank? %>
+	      <!-- Friends Block -->
+	      <div class="block">
+	          <!-- Friends Title -->
+	          <div class="block-title">
+	              <h2>New <strong>Friends</strong> <small>&bull; <a href="javascript:void(0)"><% @subscribers.count %></a></small></h2>
+	          </div>
+	          <!-- END Friends Title -->
+
+	          <!-- Friends Content -->
+	          <div class="row text-center">
+	            <% @subscribers.each do |sub| %>
+	            	<% user = User.find(sub.subscribe_id) %>
+		            <div class="col-xs-4 col-sm-3 col-lg-2 block-section">
+		              <a href="<%= activities_path(:user_id => user.id) %>">
+		              	<% unless user.avatar.blank? %>
+		                	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name )%>
+		                <% else %>	
+		                	<%= image_tag('/assets/default.png', :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name, :size => "65x70" )%>
+		                <% end %>	
+		              </a>
+		            </div>
+		          <% end %>  
+	          </div>
+	          <!-- END Friends Content -->
+	      </div>
+	      <!-- END Friends Block -->
+	    <% end %>  
+    </div>  
+ 		<!-- END Second Column -->
+ 	</div>	
+ <!-- END User Profile Content -->
 <% unless current_user == @user %>
 	<% unless current_user.already_subscribe?(@user) %>
 		<%= render :partial => 'subscriber', :locals => {user_id: current_user.id, subscribe_id: @user.id} %>
