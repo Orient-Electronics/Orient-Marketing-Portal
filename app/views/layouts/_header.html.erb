@@ -1,189 +1,106 @@
-<div id="navigation">
-  <div class="container-fluid">
-    <a href="#" id="brand">ORIENT</a>
-    <ul class='main-nav'>
-      <li>
-        <a href="/">
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
-          <span>Dealers Network</span>
-          <span class="caret"></span>
-        </a>
-        <ul class='dropdown-menu'>
-          <% if can? :read, Dealer %>
-            <li class='dropdown-submenu'>
-              <a href="#" data-toggle="dropdown" class='dropdown-toggle'>Dealers</a>
-              <ul class="dropdown-menu">
-                <li >
-                  <a href="/dealers">View All</a>
-                </li>
-                <li>
-                  <a href="/dealers/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
-          <% if can? :read, ShopCategory %>
-            <li class='dropdown-submenu'>
-              <a href="#">Shop Category</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/shop_categories">View All</a>
-                </li>
-                <li>
-                  <a href="/shop_categories/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
-          <% if can? :read, City %>
-            <li class="dropdown-submenu">
-              <a href="#">City</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/cities">View All</a>
-                </li>
-                <li>
-                  <a href="/cities/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
-          <% if can? :read, Area %>
-            <li class="dropdown-submenu">
-              <a href="#">Area</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/areas">View All</a>
-                </li>
-                <li>
-                  <a href="/areas/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
-          <% if can? :read, ProductCategory %>
-            <li class="dropdown-submenu">
-              <a href="#">Porduct Category</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/product_categories">View All</a>
-                </li>
-                <li>
-                  <a href="/product_categories/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
-          <% if can? :read, Product %>
-            <li class="dropdown-submenu">
-              <a href="#">Product</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/products">View All</a>
-                </li>
-                <li>
-                  <a href="/products/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
-          <% if can? :read, Brand %>
-            <li class="dropdown-submenu">
-              <a href="#">Brand</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/brands">View All</a>
-                </li>
-                <li>
-                  <a href="/brands/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
-          <% if can? :read, Role %>
-            <li class="dropdown-submenu">
-              <a href="#">Role</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="/roles">View All</a>
-                </li>
-                <li>
-                  <a href="/roles/new">Add New</a>
-                </li>
-              </ul>
-            </li>
-          <% end -%>
-        </ul>
-      </li>
-      <li>
-        <a href="#" data-toggle="dropdown" class='dropdown-toggle'>
-          <span>Tasks</span>
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            <a href="/tasks">View All</a>
-          </li>
-          <li>
-            <a href="/tasks/new">Add New</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="/svrs">
-          <span>Shop visit reports</span>
-        </a>
-      </li>
-      <li>
-        <a href="/announcements">
-          <span>Announcements</span>
-        </a>
-      </li>
-
-    </ul>
-    <div class="user">
-      <% unless  @notifications.count <= 0 %>
-        <div class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-envelope"></i>
-            <span class="label label-lightred notification-count"><%= @notifications.count %></span>
-          </a>
-          <ul class="dropdown-menu pull-right message-ul" >
-            <% @notifications.each do |notification|%>
-              <li class="notification" data-notification = "<%= notification.id%>">
-                <a href="javascript:void(0);">
-                  <div class="image"><%= image_tag User.find(notification.owner.id).avatar.avatar(:small) %></div>
-                  <div class="details">
-                    <div class="name"><%= notification.owner.name %></div>
-                    <div class="message">
-                     <%= render_activity notification %>
-                    </div>
-                  </div>
-                </a>
-              </li>
-            <% end -%>    
-          </ul>
+<!-- Main Sidebar -->
+<div id="sidebar">
+  <!-- Wrapper for scrolling functionality -->
+  <div class="sidebar-scroll">
+    <!-- Sidebar Content -->
+    <div class="sidebar-content">
+      <!-- Brand -->
+      <a href="/" class="sidebar-brand">
+        <i class="gi gi-flash"></i><strong>ORIENT</strong>
+      </a>
+      <!-- END Brand -->
+      <!-- User Info -->
+      <div class="sidebar-section sidebar-user clearfix">
+        <div class="sidebar-user-avatar">
+            <a href="<%= activities_path(:user_id => current_user.id) %>">
+              <%= image_tag(current_user.get_avatar.avatar.url(:small_thumb)) %>
+            </a>
         </div>
-      <% end -%>  
-      <div class="dropdown">
-        <a href="#" class='dropdown-toggle' data-toggle="dropdown"><%= current_user.name %> <%= image_tag current_user.get_avatar.avatar.url(:small_thumb), :size => "27x27" %></a>
-        <ul class="dropdown-menu pull-right">
-          <li>
-            <%= link_to "View Profile", activities_path(:user_id => current_user.id)%>
-          </li>
-          <li>
-            <%= link_to "Edit Profile", edit_user_registration_path%>
-          </li>
-          <li>
-            <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
-          </li>
-        </ul>
+        <div class="sidebar-user-name"><%= current_user.name %></div>
+        <div class="sidebar-user-links">
+            <a href="<%= activities_path(:user_id => current_user.id) %>" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
+            <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="Messages"><i class="gi gi-envelope"></i></a>
+            <!-- Opens the user settings modal that can be found at the bottom of each page (page_footer.html in PHP version) -->
+            <a href="<%= edit_user_registration_path %>" class="enable-tooltip" data-placement="bottom" title="Settings"><i class="gi gi-cogwheel"></i></a>
+            <a href="<%= destroy_user_session_path %>" method= "delete" data-toggle="tooltip" data-placement="bottom" title="Logout"><i class="gi gi-exit"></i></a>
+        </div>
       </div>
+      <!-- END User Info -->
+      <!-- Theme Colors -->
+      <!-- Change Color Theme functionality can be found in js/app.js - templateOptions() -->
+      <ul class="sidebar-section sidebar-themes clearfix">
+        <li class="active">
+          <a href="javascript:void(0)" class="themed-background-dark-default themed-border-default" data-theme="default" data-toggle="tooltip" title="Default Blue"></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="themed-background-dark-night themed-border-night" data-theme="/assets/themes/night.css" data-toggle="tooltip" title="Night"></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="themed-background-dark-amethyst themed-border-amethyst" data-theme="/assets/themes/amethyst.css" data-toggle="tooltip" title="Amethyst"></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="themed-background-dark-modern themed-border-modern" data-theme="/assets/themes/modern.css" data-toggle="tooltip" title="Modern"></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="themed-background-dark-autumn themed-border-autumn" data-theme="/assets/themes/autumn.css" data-toggle="tooltip" title="Autumn"></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="themed-background-dark-flatie themed-border-flatie" data-theme="/assets/themes/flatie.css" data-toggle="tooltip" title="Flatie"></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="themed-background-dark-spring themed-border-spring" data-theme="/assets/themes/spring.css" data-toggle="tooltip" title="Spring"></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="themed-background-dark-fancy themed-border-fancy" data-theme="/assets/themes/fancy.css" data-toggle="tooltip" title="Fancy"></a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="themed-background-dark-fire themed-border-fire" data-theme="/assets/themes/fire.css" data-toggle="tooltip" title="Fire"></a>
+        </li>
+      </ul>
+      <!-- END Theme Colors -->
+      <!-- Sidebar Navigation -->
+      <ul class="sidebar-nav">
+        <li>
+          <a href="/" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
+        </li>
+        <li class="sidebar-header">
+          <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a><a href="javascript:void(0)" data-toggle="tooltip" title="Create the most amazing pages with the widget kit!"><i class="gi gi-lightbulb"></i></a></span>
+          <span class="sidebar-header-title">Dealers Network</span>
+        </li>
+        <li>
+          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Dealer</a>
+          <ul>
+            <li>
+              <a href="page_ui_grid_blocks.html">View All</a>
+            </li>
+            <li>
+              <a href="page_ui_typography.html">Add New</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Shop Category</a>
+          <ul>
+            <li>
+              <a href="page_ui_grid_blocks.html">View All</a>
+            </li>
+            <li>
+              <a href="page_ui_typography.html">Add New</a>
+            </li>
+          </ul>
+        </li> 
+        <li>
+          <a href="/svrs"><i class="gi gi-charts sidebar-nav-icon"></i>Shop Visit Reports</a>
+        </li>
+        <li>
+          <a href="/announcements"><i class="gi gi-share_alt sidebar-nav-icon"></i>Announcements</a>
+        </li>
+        
+      </ul>  
+      <!-- END Sidebar Navigation -->
     </div>
-    <%= render :partial => 'search/search' %>
+    <!-- END Sidebar Content -->
   </div>
-</div>
+  <!-- END Wrapper for scrolling functionality -->
+</div>      
+<!-- END Main Sidebar -->
