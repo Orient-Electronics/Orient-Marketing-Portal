@@ -7,52 +7,14 @@
         <i class="fa fa-bars fa-fw"></i>
       </a>
     </li>
-    <!-- END Main Sidebar Toggle Button -->
-
-      <!-- Template Options -->
-      <!-- Change Options functionality can be found in js/app.js - templateOptions() -->
-      <li class="dropdown">
-          <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="gi gi-settings"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-custom dropdown-options">
-              <li class="dropdown-header text-center">Header Style</li>
-              <li>
-                  <div class="btn-group btn-group-justified btn-group-sm">
-                      <a href="javascript:void(0)" class="btn btn-primary" id="options-header-default">Light</a>
-                      <a href="javascript:void(0)" class="btn btn-primary" id="options-header-inverse">Dark</a>
-                  </div>
-              </li>
-              <li class="dropdown-header text-center">Page Style</li>
-              <li>
-                  <div class="btn-group btn-group-justified btn-group-sm">
-                      <a href="javascript:void(0)" class="btn btn-primary" id="options-main-style">Default</a>
-                      <a href="javascript:void(0)" class="btn btn-primary" id="options-main-style-alt">Alternative</a>
-                  </div>
-              </li>
-              <li class="dropdown-header text-center">Main Layout</li>
-              <li>
-                  <button class="btn btn-sm btn-block btn-primary" id="options-header-top">Fixed Side/Header (Top)</button>
-                  <button class="btn btn-sm btn-block btn-primary" id="options-header-bottom">Fixed Side/Header (Bottom)</button>
-              </li>
-              <li class="dropdown-header text-center">Footer</li>
-              <li>
-                  <div class="btn-group btn-group-justified btn-group-sm">
-                      <a href="javascript:void(0)" class="btn btn-primary" id="options-footer-static">Default</a>
-                      <a href="javascript:void(0)" class="btn btn-primary" id="options-footer-fixed">Fixed</a>
-                  </div>
-              </li>
-          </ul>
-      </li>
-      <!-- END Template Options -->
   </ul>
   <!-- END Left Header Navigation -->
 
   <!-- Search Form -->
-  <form action="page_ready_search_results.html" method="post" class="navbar-form-custom" role="search">
-      <div class="form-group">
-          <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
-      </div>
+  <form action="/search" method="get" class="navbar-form-custom" role="search">
+    <div class="form-group">
+      <input type="text" id="top-search" name="search" class="form-control" placeholder="Search..">
+    </div>
   </form>
   <!-- END Search Form -->
 
@@ -71,11 +33,6 @@
                       <i class="fa fa-clock-o fa-fw pull-right"></i>
                       <span class="badge pull-right">10</span>
                       Updates
-                  </a>
-                  <a href="page_ready_inbox.html">
-                      <i class="fa fa-envelope-o fa-fw pull-right"></i>
-                      <span class="badge pull-right">5</span>
-                      Messages
                   </a>
                   <a href="page_ready_pricing_tables.html"><i class="fa fa-magnet fa-fw pull-right"></i>
                       <span class="badge pull-right">3</span>
