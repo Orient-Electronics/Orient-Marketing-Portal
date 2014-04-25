@@ -19,7 +19,7 @@
   </head>
   <body class="<%= 'login' unless user_signed_in? %>">
     <div id="page-container" class="sidebar-partial sidebar-visible-lg sidebar-no-animations">
-      <%= render :partial => "layouts/alternet_slider"%>
+      <%#= render :partial => "layouts/alternet_slider"%>
       <% if user_signed_in? %> 
         <%= render :partial => "/layouts/header" %>
         <% unless Announcement.all.blank? %>
@@ -31,13 +31,16 @@
           <% end %>  
         <% end -%>  
       <% end -%>
-
-      <div class="container-fluid">
-        <div class="row-fluid">
+      <!-- Main Container -->
+      <div id="main-container">
+        <!-- Header -->
+          <%#= render :partial => "/layouts/main_header" %>
+        <!-- END Header -->
+        <!-- <div class="row-fluid">
           <div class="span12">
-            <%= bootstrap_flash %>
+            <%#= bootstrap_flash %>
             <%#= yield %>
-          </div>
+          </div> -->
         </div><!--/row-->
       </div> <!-- /container -->
 

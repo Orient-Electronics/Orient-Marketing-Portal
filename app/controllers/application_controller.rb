@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include PublicActivity::StoreController
 
   before_filter :authenticate_user!
-  before_filter :fetch_notification
+  before_filter :fetch_notification, :fetch_activities
   layout :change_layout
   before_filter :check_admin
   rescue_from CanCan::AccessDenied do |exception|
@@ -25,6 +25,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def fetch_activities
+    if current_user
+      @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: current_user.id, owner_type: "User")
+    end
+  end
   def check_admin
     if params[:controller] == 'rails_admin/main'
       unless current_user.user_admin?

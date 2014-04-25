@@ -1624,6 +1624,7 @@ a[data-toggle="lightbox-image"]:hover img {
 /* Navbar */
 .navbar.navbar-default {
   background-color: #f9fafc;
+  position: inherit !important;
 }
 
 .navbar.navbar-inverse {
