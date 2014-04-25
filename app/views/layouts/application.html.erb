@@ -46,6 +46,9 @@
       <!-- Placed at the end of the document so the pages load faster -->
       <%= javascript_include_tag "application" %>
       <%= yield :footer_js %>
-    </div>  
+    </div>
+    <!-- Scroll to top link, initialized in js/app.js - scrollToTop() -->
+      <a href="#" id="to-top"><i class="fa fa-angle-double-up"></i></a>
+    <!-- User Settings, modal which opens from Settings link (found in top right user menu)    -->
   </body>
 </html>
