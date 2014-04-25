@@ -18,4 +18,3 @@
 //= require bootstrap.min
 //= require plugins
 //= require app
-//= require index

@@ -456,7 +456,7 @@ var App = function() {
                 if (themeLink.length) {
                     themeLink.attr('href', theme);
                 } else {
-                    $('link[href="css/themes.css"]').before('<link id="theme-link" rel="stylesheet" href="' + theme + '">');
+                    $('link[href="/assets/stylesheets/themes.css"]').before('<link id="theme-link" rel="stylesheet" href="' + theme + '">');
                     themeLink = $('#theme-link');
                 }
             }
