@@ -16,6 +16,6 @@
 //= require jquery.ui.all
 //= require modernizr
 //= require twitter/bootstrap
-//= require bootstrap.min
 //= require plugins
 //= require app
+//= require common

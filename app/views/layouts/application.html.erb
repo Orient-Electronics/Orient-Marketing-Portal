@@ -22,25 +22,17 @@
       <%#= render :partial => "layouts/alternet_slider"%>
       <% if user_signed_in? %> 
         <%= render :partial => "/layouts/header" %>
-        <% unless Announcement.all.blank? %>
-          <% if current_user.can_view_announcement? %>
-            <div class="announcement-parent"> 
-              <button class="announcement-dismiss close">×</button>
-              <div class="announcement text-center alert-error"> <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> <%= Announcement.last.try(:created_at).strftime("%d %B, %Y %H:%M %p") %> <%= Announcement.last.try(:announcement) %> </marquee></div>
-            </div>
-          <% end %>  
-        <% end -%>  
       <% end -%>
       <!-- Main Container -->
       <div id="main-container">
         <!-- Header -->
+        <% if user_signed_in? %> 
           <%= render :partial => "/layouts/main_header" %> 
+        <% end -%>  
         <!-- END Header -->
-        <div class="row-fluid">
-          <div class="span12">
-            <%#= bootstrap_flash %>
-            <%#= yield %>
-          </div>
+        <div id="page-content" >
+            <%= bootstrap_flash %>
+            <%= yield %>
         </div><!--/row-->
       </div> <!-- /container -->
 

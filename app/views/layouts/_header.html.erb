@@ -21,7 +21,7 @@
         <div class="sidebar-user-links">
           <a href="<%= activities_path(:user_id => current_user.id) %>" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
           <a href="<%= edit_user_registration_path %>" class="enable-tooltip" data-placement="bottom" title="Settings"><i class="gi gi-cogwheel"></i></a>
-          <a href="<%= destroy_user_session_path %>" method= "delete" data-toggle="tooltip" data-placement="bottom" title="Logout"><i class="gi gi-exit"></i></a>
+          <%= link_to  raw("<i class='gi gi-exit'></i>"), destroy_user_session_path, :method => :delete, "data-toggle"=>"tooltip",  "data-placement"=>"bottom", :title=> "Logout" %>
         </div>
       </div>
       <!-- END User Info -->
@@ -158,7 +158,6 @@
           </div>    
         <% end %>
       </div>
-    
     </div>
     <!-- END Sidebar Content -->
   </div>
