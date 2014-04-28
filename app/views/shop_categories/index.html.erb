@@ -1,32 +1,33 @@
-<%- model_class = ShopCategory -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
-</div>
-<table class="table table-striped">
-  <thead>
-    <tr class="row-fluid">
-      <th class="span9"><%= model_class.human_attribute_name(:name) %></th>
-      <th class="span3"><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @shop_categories.each do |shop_category| %>
-      <tr class="row-fluid">
-        <td class="span9"><%= link_to shop_category.name, shop_category_shops_path(shop_category) %></td>
-        <td class="span3">
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_shop_category_path(shop_category), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      shop_category_path(shop_category),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_shop_category_path,
-            :class => 'btn btn-primary' %>
+<div class="block">
+  <div class="block-title">
+    <h2><strong>Shop Category </strong></h2>
+    <div class="pull-right btn-group btn-group-xs"><%= link_to raw("<i class='gi gi-new_window'></i>"),new_shop_category_path,:class => 'btn btn-default btn-new text-center ',"data-toggle" => "tooltip", :title=> "Add New"  %>
+    </div>  
+  </div>
+ 
+  <div class="table-responsive">
+    <table class="table table-striped table-vcenter">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shop_categories.each do |shop_category| %>
+          <tr>
+            <td>
+              <%= link_to shop_category.name, shop_category_shops_path(shop_category) %>
+            </td>
+            <td class="text-center">
+              <div class="btn-group btn-group-xs">
+                <%= link_to raw("<i class='fa fa-pencil'></i>"),edit_shop_category_path(shop_category), :class => 'btn btn-default', "data-toggle" => "tooltip", :title=> "Edit" %>
+                <%= link_to raw("<i class='fa fa-times'></i>"),shop_category_path(shop_category),:method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), "data-toggle"=>"tooltip" ,:title=>"Delete" }, :class => 'btn btn-danger' %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>  
+  </div> 
+</div>            

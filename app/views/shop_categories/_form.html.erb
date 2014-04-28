@@ -1,24 +1,25 @@
-<%= form_for @shop_category, :html => { :class => 'form-horizontal form-validate', :multipart => true } do |f| %>
+<%= form_for @shop_category, :html => { :class => 'form-horizontal form-bordered', :multipart => true } do |f| %>
   <div class= "error-box">
     <p><%= errors_for(@shop_category, "").html_safe %></p>
   </div>
-  <div class="control-group">
-    <%= f.label :name, :class => 'control-label' %>
-    <div class="controls">
+  <div class="form-group">
+    <%= f.label :name, :class => 'col-md-3 control-label' %>
+    <div class="col-md-9">
       <%= f.text_field :name, :class => 'text_field required' %>
     </div>
   </div>
-  <%= f.fields_for :avatar do |f| %>
-    <div class= "control-group">
-      <%= f.label "Marker Pin", :id => :avatar, :class => 'control-label'%>
-      <div class="controls">
-        <%= f.file_field :avatar ,:class => 'avatar_field required' %>
+  <div class="form-group">
+    <%= f.fields_for :avatar do |f| %>
+      <div class= "control-group">
+        <%= f.label "Marker Pin", :id => :avatar, :class => 'col-md-3  control-label'%>
+        <div class="col-md-9">
+          <%= f.file_field :avatar ,:class => 'avatar_field required' %>
+        </div>
       </div>
-    </div>
-  <% end -%> 
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                shop_categories_path, :class => 'btn' %>
+    <% end -%> 
+  </div>  
+  <div class="form-group form-actions text-center">
+    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-primary' %>
+    <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>            
   </div>
 <% end %>

@@ -50,8 +50,8 @@ class ShopCategoriesController < ApplicationController
     respond_to do |format|
       if @shop_category.save
         @shop_category.create_activity :create, owner: current_user
-        format.html { redirect_to @shop_category, notice: 'Shop category was successfully created.' }
-        format.json { render json: @shop_category, status: :created, location: @shop_category }
+        format.html { redirect_to shop_categories_url, notice: 'Shop category was successfully created.' }
+        format.json { render json: shop_categories_url, status: :created, location: @shop_category }
       else
         format.html { render action: "new" }
         format.json { render json: @shop_category.errors, status: :unprocessable_entity }

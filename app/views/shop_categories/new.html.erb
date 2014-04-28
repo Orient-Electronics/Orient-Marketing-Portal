@@ -1,5 +1,12 @@
-<%- model_class = ShopCategory -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %></h1>
-</div>
-<%= render :partial => 'form' %>
+<div class="row">
+	<div class="col-md-12">
+		<div class="block">
+		  <div class="block-title">
+		  	<div class="pull-right btn-group btn-group-xs"><%= link_to raw("<i class='gi gi-step_backward'></i>"),shop_categories_path,:class => 'btn btn-default btn-new text-center ',"data-toggle" => "tooltip", :title=> "Back"  %>
+		  	</div>	
+		   	<h2><strong>New Shop Category </strong></h2>
+		  </div>  
+		  <%= render :partial => 'form' %>
+		</div>
+	</div>		
+</div>	
