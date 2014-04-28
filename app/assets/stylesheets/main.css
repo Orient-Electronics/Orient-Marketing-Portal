@@ -3456,6 +3456,30 @@ p, .table, .alert, .carousel {
   }
 }
 
+.pagination>span{
+  color: #999 !important;
+  border-color: #ddd !important;
+  cursor: not-allowed !important;
+  background-color: #1bbae1 !important;
+  position: relative !important;
+  float: left !important;
+  padding: 6px 12px !important;
+  line-height: 1.42857143;
+  text-decoration: none;
+  color: #428bca !important;
+  background-color: #fff !important;
+  border: 1px solid #ddd !important;
+  margin-left: -1px !important;
+  border-radius: 25px !important;
+}
+
+.pagination span.current
+{
+  border-color: #428bca !important;
+  cursor: default !important;
+  background-color: #1bbae1 !important;
+}
+
 /* Large devices, Desktops (>1199px) */
 @media screen and (min-width: 1200px) {
 
