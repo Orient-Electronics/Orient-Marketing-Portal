@@ -17,45 +17,55 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
   </head>
-  <body class="<%= 'login' unless user_signed_in? %>">
-    <div id="page-container" class="sidebar-partial sidebar-visible-lg sidebar-no-animations">
-      <%#= render :partial => "layouts/alternet_slider"%>
-      <% if user_signed_in? %> 
-        <%= render :partial => "/layouts/header" %>
-      <% end -%>
-      <!-- Main Container -->
-      <div id="main-container">
-        <!-- Header -->
+  <body>
+    <% if user_signed_in? %>
+      <div id="page-container" class="sidebar-partial sidebar-visible-lg sidebar-no-animations">
+        <%#= render :partial => "layouts/alternet_slider"%>
         <% if user_signed_in? %> 
-          <%= render :partial => "/layouts/main_header" %> 
-        <% end -%>  
-        <!-- END Header -->
-        <div id="page-content" >
-          <%= bootstrap_flash %>
+          <%= render :partial => "/layouts/header" %>
+        <% end -%>
+        <!-- Main Container -->
+        <div id="main-container">
+          <!-- Header -->
           <% if user_signed_in? %> 
-          <%= render :partial => "/layouts/user_header" %> 
-        <% end -%>  
-          <%= yield %>
-        </div><!--/row-->
-        <!-- Footer -->
-          <footer class="clearfix">
-            <div class="pull-right">
-                Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://goo.gl/vNS3I" target="_blank">pixelcave</a>
-            </div>
-            <div class="pull-left">
-                <span id="year-copy"></span> &copy; <a href="http://goo.gl/TDOSuC" target="_blank">ProUI 1.3</a>
-            </div>
-          </footer>
-        <!-- END Footer -->
+            <%= render :partial => "/layouts/main_header" %> 
+          <% end -%>  
+          <!-- END Header -->
+          <div id="page-content" >
+            <%= bootstrap_flash %>
+            <% if user_signed_in? %> 
+            <%= render :partial => "/layouts/user_header" %> 
+          <% end -%>  
+          
+            <%= yield %>
+          </div><!--/row-->
+          <!-- Footer -->
+            <footer class="clearfix">
+              <div class="pull-right">
+                  Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://goo.gl/vNS3I" target="_blank">pixelcave</a>
+              </div>
+              <div class="pull-left">
+                  <span id="year-copy"></span> &copy; <a href="http://goo.gl/TDOSuC" target="_blank">ProUI 1.3</a>
+              </div>
+            </footer>
+          <!-- END Footer -->
 
-      </div> <!-- /container -->
+        </div> <!-- /container -->
 
-      <!-- Javascripts
-      ================================================== -->
-      <!-- Placed at the end of the document so the pages load faster -->
-      <%= javascript_include_tag "application" %>
-      <%= yield :footer_js %>
+        <!-- Javascripts
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <%= javascript_include_tag "application" %>
+        <%= yield :footer_js %>
+      </div>
+   <% else %>
+    <!-- Login Background -->
+    <div id="login-background">
+    <!-- For best results use an image with a resolution of 2560x400 pixels (prefer a blurred image for smaller file size) -->
+      <img src="/assets/placeholders/headers/login_header.jpg" alt="Login Background" class="animation-pulseSlow">
     </div>
+    <%= yield %>
+   <% end %> 
     
     <!-- Scroll to top link, initialized in js/app.js - scrollToTop() -->
       <a href="#" id="to-top"><i class="fa fa-angle-double-up"></i></a>
