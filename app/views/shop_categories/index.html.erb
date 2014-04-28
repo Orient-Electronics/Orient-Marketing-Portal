@@ -17,7 +17,7 @@
         <% @shop_categories.each do |shop_category| %>
           <tr>
             <td>
-              <%= link_to shop_category.name, shop_category_shops_path(shop_category) %>
+              <%= link_to shop_category.name, shop_category_path(shop_category) %>
             </td>
             <td class="text-center">
               <div class="btn-group btn-group-xs">
