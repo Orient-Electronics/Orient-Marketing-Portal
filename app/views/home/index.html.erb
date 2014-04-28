@@ -8,10 +8,10 @@
 				</h3>
 			</div>
 			<div class="box-content nopadding">
-				<% unless @activities.blank? %>
+				<% unless @subscriber_activities.blank? %>
 					<div class="activities-list">
 						<ul class="timeline">
-							<% @activities.each do |activity| %>
+							<% @subscriber_activities.each do |activity| %>
 							  <li> 
 							  	<div class="timeline-content">
 							  		<div class="left">
