@@ -32,11 +32,11 @@
           <% end -%>  
           <!-- END Header -->
           <div id="page-content" >
-            <%= bootstrap_flash %>
+            
             <% if user_signed_in? %> 
             <%= render :partial => "/layouts/user_header" %> 
-          <% end -%>  
-          
+            <% end -%>  
+            <%= bootstrap_flash %>
             <%= yield %>
           </div><!--/row-->
           <!-- Footer -->

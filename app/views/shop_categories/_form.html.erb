@@ -1,9 +1,9 @@
-<%= form_for @shop_category, :html => { :class => 'form-horizontal form-bordered', :multipart => true } do |f| %>
-  <div class= "error-box">
+<%= form_for @shop_category, :html => { :class => 'form-horizontal form-bordered', :id => "form-validation", :multipart => true } do |f| %>
+  <div class= "form-group error-box">
     <p><%= errors_for(@shop_category, "").html_safe %></p>
   </div>
   <div class="form-group">
-    <%= f.label :name, :class => 'col-md-3 control-label' %>
+    <%= f.label :name, :class => 'col-md-3 control-label'%>
     <div class="col-md-9">
       <%= f.text_field :name, :class => 'text_field required' %>
     </div>

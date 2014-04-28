@@ -3484,6 +3484,49 @@ p, .table, .alert, .carousel {
 {
   margin: 9px !important;
 }
+
+.error-box{
+  padding-left: 125px !important;
+}
+.formErrors h5{
+  
+  background-color: rgb(229, 20, 0);
+  border-left-color: rgb(229, 20, 0);
+  border-left-style: solid;
+  border-left-width: 2px;
+  border-right-color: rgb(229, 20, 0);
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-top-color: rgb(229, 20, 0);
+  border-top-style: solid;
+  border-top-width: 2px;
+  color: #fff;
+  height: 42px;
+  margin:0;
+  padding-bottom: 7px;
+  padding-left: 40px;
+  padding-top: 7px;
+  font-size: 22px;
+  width: 600px;
+}
+.formErrors ul{
+
+  border-bottom-color: rgb(229, 20, 0);
+  border-bottom-style: solid;
+  border-left-color: rgb(229, 20, 0);
+  border-left-style: solid;
+  border-left-width: 2px;
+  border-right-color: rgb(229, 20, 0);
+  border-right-style: solid;
+  border-right-width: 2px;
+  
+  padding-bottom: 20px;
+  padding-left: 40px;
+  padding-top: 20px;
+  margin: 0;
+  color: #b94a48;
+  width: 600px;
+}
 /* Large devices, Desktops (>1199px) */
 @media screen and (min-width: 1200px) {
 
