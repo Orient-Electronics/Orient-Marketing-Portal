@@ -1,24 +1,18 @@
-<%- model_class = City -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-</div>
+<div class="block">
+  <div class="block-title">
+    <h2><strong>City </strong></h2>
+    <div class="pull-right btn-group btn-group-xs"><%= link_to raw("<i class='gi gi-new_window'></i>"),new_city_path,:class => 'btn btn-default btn-new text-center ',"data-toggle" => "tooltip", :title=> "Add New"  %>
+    </div>  
+  </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @city.name %></dd>
-</dl>
+  <dl class="dl-horizontal">
+    <dt><strong>Name :</strong></dt>
+    <dd><%= @city.name %></dd>
+  </dl>
 
-<div class="form-actions">
-  <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_city_path,
-            :class => 'btn btn-primary' %>
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              cities_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_city_path(@city), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              city_path(@city),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+  <div class="form-group form-actions text-center btn-group-xs">
+    <%= link_to raw("<i class='hi hi-arrow-left'></i>"),cities_path,:class => 'btn btn-default text-center ',"data-toggle" => "tooltip", :title=> "Back"  %>
+     <%= link_to raw("<i class='fa fa-pencil'></i>"),edit_city_path(@city), :class => 'btn btn-default', "data-toggle" => "tooltip", :title=> "Edit" %>
+                <%= link_to raw("<i class='fa fa-times'></i>"),city_path(@city),:method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), "data-toggle"=>"tooltip" ,:title=>"Delete" }, :class => 'btn btn-danger' %>
+  </div>
 </div>
