@@ -1,17 +1,3 @@
-<!-- User Profile Header -->
-<div class="content-header content-header-media">
-	<div class="header-section">
-		<% unless @user.avatar.blank? %>
-			<%= image_tag(@user.avatar.avatar(:thumb), :class =>"pull-right img-circle") %>
-		<% else %>	
-    	<%= image_tag('/assets/default.png', :class => "img-circle pull-right" , :size => "65x70" )%>
-		<% end %>	
-    <h1><%= @user.name %>  <br><small><%= @user.user_type.try(:name) %> </small></h1>
-	</div>
-	<img src="assets/placeholders/headers/profile_header.jpg" alt="header image" class="animation-pulseSlow">	
-</div>	
- <!-- END User Profile Header -->
-
  <!-- User Profile Content -->
  	<div class="row">
  		<!-- First Column -->

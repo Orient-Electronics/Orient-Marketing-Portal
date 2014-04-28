@@ -1,42 +1,72 @@
-<div class="row-fluid">
-	<div class="user-activities span12">
-		<div class="box box-color box-bordered">
-			<div class="box-title">
-				<h3>
-					<i class="fa fa-bars"></i>
-					Subscriber's activities
-				</h3>
-			</div>
-			<div class="box-content nopadding">
-				<% unless @subscriber_activities.blank? %>
-					<div class="activities-list">
-						<ul class="timeline">
-							<% @subscriber_activities.each do |activity| %>
-							  <li> 
-							  	<div class="timeline-content">
-							  		<div class="left">
-											<div class="icon">
-												<i class="fa fa-picture-o"> <%= image_tag(User.find(activity.owner.id).avatar.avatar(:small)) %> </i>
-											</div>
-											<div class="date"><%= activity.created_at.strftime("%B, %d")%></div>
-										</div>
-										<div class="activity">
-											<div class="user">
-									    	<%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %>
-										  	<%= render_activity activity %>
-										  </div>	
-										</div>  
-									</div>  
-									<div class="line"></div>
-								</li>  
-							<% end %>	
-						</ul>
-					</div>	
-				<% else %>	
-					<h5 class="heading">Activities </h5>
-					<div> No activities </div>
-				<% end %>
-			</div>	
-		</div>	
-	</div>
+<div class="row">
+	<!-- First Column -->
+    <div class="col-md-6 col-lg-7">
+ 			<% unless @subscriber_activities.blank? %>
+	 			<!-- Newsfeed Block -->
+	 			<div class="block">
+
+	 				<!-- Newsfeed Title -->
+	        <div class="block-title">
+	          <h2><strong>Subscribers Actiivities</strong></h2>
+	        </div>
+	        <!-- END Newsfeed Title -->	
+
+	        <!-- Newsfeed Content -->
+	        <div class="block-content-full">
+	        	<ul class="media-list media-feed media-feed-hover">
+	        		<% @subscriber_activities .each do |activity| %>
+	        			<li class="media">
+	        				<a href="page_ready_user_profile.html" class="pull-left">
+                      <%= image_tag(User.find(activity.owner.id).avatar.avatar(:thumb), :class => "img-circle") %>
+                  </a>
+                  <div class="media-body">
+                    <p class="push-bit">
+                      <span class="text-muted pull-right">
+                        <small><%= activity.created_at.strftime("%B, %d")%></small>
+                        <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
+                      </span>
+                      <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>
+                    </p>
+                  </div>    
+	        			</li>	
+	        		<% end %>
+	        	</ul>	
+	        </div>	
+	        <!-- END Newsfeed Content -->
+	 			</div>
+	 			<!-- END feed Block -->
+	 		<% end %>	
+ 		</div>	
+ 		<!-- END First Column -->
+
+ 		<!-- Second Column -->
+ 		<div class="col-md-6 col-lg-5">
+ 			<!-- Friends Block -->
+ 			<div class="block">
+        <!-- Friends Title -->
+        <div class="block-title">
+          <h2><strong>Subscribers </strong> <small> <a href="javascript:void(0)">(<%= current_user.subscribers.count %>)</a></small></h2>
+        </div>
+        <!-- END Friends Title -->
+
+        <!-- Friends Content -->
+        <div class="row text-center">
+          <% current_user.subscribers.each do |sub| %>
+          	<% user = User.find(sub.subscribe_id) %>
+            <div class="col-xs-4 col-sm-3 col-lg-2 block-section">
+              <a href="<%= activities_path(:user_id => user.id) %>">
+              	<% unless user.avatar.blank? %>
+                	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name )%>
+                <% else %>	
+                	<%= image_tag('/assets/default.png', :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name, :size => "65x70" )%>
+                <% end %>	
+              </a>
+            </div>
+          <% end %>  
+        </div>
+      <!-- END Friends Content -->
+      </div>
+	    <!-- END Friends Block -->
+ 		</div>
+ 		<!-- END Second Column -->
 </div>
