@@ -1,31 +1,25 @@
-<%- model_class = Product -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-</div>
+<div class="block">
+  <div class="block-title">
+    <h2><strong>Product </strong></h2>
+    <div class="pull-right btn-group btn-group-xs"><%= link_to raw("<i class='gi gi-new_window'></i>"),new_product_path,:class => 'btn btn-default btn-new text-center ',"data-toggle" => "tooltip", :title=> "Add New"  %>
+    </div>  
+  </div>
 
-<dl class="dl-horizontal well">
-  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @product.name %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:info) %>:</strong></dt>
-  <dd><%= @product.info %></dd>
-</dl>
-<div class="well">
-  <h3>Brands</h3>
-  <ul>
-    <% @product.brands.each do |brand| %>
-      <li><%= brand.name %></li>
-    <% end -%>
-  </ul>
-</div>
-
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              products_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_product_path(@product), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              product_path(@product),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+  <dl class="dl-horizontal">
+    <dt><strong>Name :</strong></dt>
+    <dd><%= @product.name %></dd>
+    <dt><strong>Info :</strong></dt>
+    <dd><%= @product.info %></dd>
+    <dt><strong>Brands:</strong></dt>
+    <dd>
+      <% @product.brands.each do |brand| %>
+        <span><%= brand.name %></span> <br>
+      <% end -%>
+    </dd>
+  </dl>  
+  <div class="form-group form-actions text-center btn-group-xs">
+    <%= link_to raw("<i class='hi hi-arrow-left'></i>"),products_path,:class => 'btn btn-default text-center ',"data-toggle" => "tooltip", :title=> "Back"  %>
+     <%= link_to raw("<i class='fa fa-pencil'></i>"),edit_product_path(@product), :class => 'btn btn-default', "data-toggle" => "tooltip", :title=> "Edit" %>
+                <%= link_to raw("<i class='fa fa-times'></i>"),product_path(@product),:method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), "data-toggle"=>"tooltip" ,:title=>"Delete" }, :class => 'btn btn-danger' %>
+  </div>
 </div>
