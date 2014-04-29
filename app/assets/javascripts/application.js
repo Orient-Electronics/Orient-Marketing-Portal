@@ -18,4 +18,6 @@
 //= require twitter/bootstrap
 //= require plugins
 //= require app
+//= require Chart
 //= require common
+

@@ -2,6 +2,7 @@
   <div class="block-title">
     <h2>
       Shop Visit Reports
+      <i class="fa fa-bar-chart-o"></i>
     </h2>
   </div>
   <div class="table-responsive">
@@ -25,7 +26,7 @@
         <tr>
           <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
           <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
-          <td> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
+          <td class="text-center"> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
           <td> <%= post.reports.first.year %> </td>
           <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
           <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
