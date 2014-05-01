@@ -231,7 +231,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @shop.reports, :type => "display_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @reports, :type => "display_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-display-data">
@@ -248,7 +248,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="display_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @shop.reports, :type => "display_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "display_data", :brand => nil} %>
               </div>
             </div>
           </div>
@@ -301,7 +301,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @shop.reports, :type => "sales_data"} %>
+                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @reports, :type => "sales_data"} %>
               </div>
             </div>
             <div class="tab-pane active" id="category-sales-data">
@@ -318,7 +318,7 @@
                 <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
               <% end -%>
               <div class="sales_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @shop.reports, :type => "sales_data", :brand => nil} %>
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "sales_data", :brand => nil} %>
               </div>
             </div>
           </div>

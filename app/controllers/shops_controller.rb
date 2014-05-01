@@ -61,7 +61,6 @@ class ShopsController < ApplicationController
       end   
     else 
       @posts =  Post.where(:shop_id => params[:id].to_i).sort_by{ |a| a.published ? 1 : 0 }
-      @reports = @posts.collect(&:reports).flatten
       @shop = Shop.find(params[:id])     
       @categories = @posts.collect(&:product_category).uniq
       @brands = @categories.collect(&:brands).uniq.flatten  

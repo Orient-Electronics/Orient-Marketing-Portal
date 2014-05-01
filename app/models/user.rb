@@ -26,7 +26,16 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :avatar
   accepts_nested_attributes_for :subscribers
+  before_destroy :remove_public_activities, :remove_subscribers
 
+  def remove_public_activities
+    PublicActivity::Activity.where(owner_id: self.id, owner_type: "User").destroy_all
+  end
+
+  def remove_subscribers
+    Subscriber.where(:subscribe_id => self.id).destroy_all
+  end
+  
   def name
     [first_name,last_name].join(" ")
   end
