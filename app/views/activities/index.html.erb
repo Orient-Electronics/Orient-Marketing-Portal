@@ -17,9 +17,7 @@
 	        	<ul class="media-list media-feed media-feed-hover">
 	        		<% @activities.each do |activity| %>
 	        			<li class="media">
-	        				<a href="page_ready_user_profile.html" class="pull-left">
-                      <%= image_tag(@user.avatar.avatar(:thumb), :class => "img-circle") %>
-                  </a>
+                  <%=link_to raw(image_tag(@user.avatar.avatar(:thumb), :class => "img-circle")), activities_path(:user_id => @user.id),:class => "pull-left" %>
                   <div class="media-body">
                     <p class="push-bit">
                       <span class="text-muted pull-right">

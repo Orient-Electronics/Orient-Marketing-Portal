@@ -14,11 +14,7 @@ class ShopsController < ApplicationController
           @parent = City.find params[:city_id]
           @shops = @parent.locations.collect(&:shop).flatten.reject {|r| r.nil? }
         else
-          if current_user.user_type.name == "employee"  
-             @shops = current_user.get_assigned_shops
-          else
-             @shops = Shop.all 
-          end
+          @shops = Shop.all 
         end
       end  
     end
@@ -34,7 +30,7 @@ class ShopsController < ApplicationController
   def show
     authorize! :read, Shop
     @product_categories = ProductCategory.all
-    @posts =  Post.published_reports.where(:shop_id => params[:id])
+    @posts =  Post.published_reports.where(:shop_id => params[:id].to_i)
     @reports = @posts.collect(&:reports).flatten
     shop_report_lines = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
     @brand_report_lines = shop_report_lines.group_by {|d| d[:brand_id] }
@@ -43,22 +39,14 @@ class ShopsController < ApplicationController
     shop_upload = (Shop.find(params[:id]).uploads)
     @shop_uploads = (shop_upload + @report_lines_avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     if current_user.user_type.name == "employee"
-      shops = current_user.get_assigned_shops.collect(&:id)
-      reports = current_user.posts.where(:shop_id => Shop.find(params[:id])).collect(&:reports).flatten
+      reports = Post.published_reports.where(:shop_id => params[:id].to_i, :user_id => current_user.id).collect(&:reports).flatten
       @display_report = reports.select{|a| a.report_type == "display"}.collect(&:report_lines).flatten
       @sales_report   = reports.select{|a| a.report_type == "sales"}.collect(&:report_lines).flatten
       @corner_report  = reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
       @categories = @posts.collect(&:product_category).uniq
       @brands = @categories.collect(&:brands).uniq.flatten
       @posts =  Post.where(:shop_id => params[:id].to_i, :user_id => current_user.id).sort_by{ |a| a.published ? 1 : 0 }
-      @reports = @posts.collect(&:reports).flatten
-      if shops.include?(params[:id].to_i) 
-        @shop = Shop.find(params[:id])
-      else
-        respond_to do |format|
-          format.html {redirect_to '/shops'} 
-        end
-      end   
+      @shop = Shop.find(params[:id])
     else 
       @posts =  Post.where(:shop_id => params[:id].to_i).sort_by{ |a| a.published ? 1 : 0 }
       @shop = Shop.find(params[:id])     
