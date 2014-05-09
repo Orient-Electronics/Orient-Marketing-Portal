@@ -18,6 +18,6 @@
 //= require twitter/bootstrap
 //= require plugins
 //= require app
-//= require Chart
+//= require_directory ./plugins/jchartfx
+//= require presenter
 //= require common
-

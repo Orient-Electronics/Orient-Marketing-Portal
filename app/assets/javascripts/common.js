@@ -206,7 +206,8 @@ $('document').ready(function(){
 });
 
   function onLoadDoc(div,unit,report_of) {
-    chart1 = new cfx.Chart();chart1.getAnimations().getLoad().setEnabled(true);
+    chart1 = new cfx.Chart();
+    //chart1.getAnimations().getLoad().setEnabled(true);
     chart1.setGallery(cfx.Gallery.Bar);
     
     chart1.getDataGrid().setVisible(true);
