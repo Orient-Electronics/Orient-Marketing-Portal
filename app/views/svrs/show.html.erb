@@ -2,14 +2,11 @@
   <div class="header-section">
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
-          <a href="javascript:void(0)" data-toggle="dropdown" class="btn btn-sm btn-success dropdown-toggle">Published <span class="caret"></span></a>
-          <ul class="dropdown-menu text-left">
-            <% if @post.published? %>
-              <li><%= link_to "Unpublish", unpublish_report_tasks_path(:post_id => @post.id) %></li>
-            <% else %>  
-              <li><%= link_to "Submit for Approval", publish_report_tasks_path(:post_id => @post.id) %></li>
-            <% end %>   
-          </ul>
+      <% if @post.published? %>
+        <%= link_to "Unpublish", unpublish_report_tasks_path(:post_id => @post.id), :class => "btn btn-sm btn-success" %>
+      <% else %>  
+        <%= link_to "Publish", publish_report_tasks_path(:post_id => @post.id), :class => "btn btn-sm btn-success" %>
+      <% end %>   
       </div>
       <div class="btn-group">
         <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit", :class => "btn btn-sm btn-primary" %>
@@ -112,71 +109,142 @@
       <div class="block-title">
         <h2><strong>SVR</strong> Reports</h2>
       </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <textarea class="hide dispaly_brand_data">
-              <% @brands.uniq.each do |brand| %>
-                <%= [brand.name,Report.brand_display(@reports,brand.id)].join("|") %>
-                <%= "~" unless brand == @brands.last %>
-              <% end -%>
-            </textarea>
-            <textarea class="hide sale_brand_data">
-              <% @brands.uniq.each do |brand| %>
-                <%= [brand.name,Report.brand_sales(@reports,brand.id)].join("|") %>
-                <%= "~" unless brand == @brands.last %>
-              <% end -%>
-            </textarea>
-          <div id='brand_data_chart' style='width:950px;height:400px;'></div>
-        </div>
-     </div>  
-  </div>  
+      <textarea class="hide dispaly_brand_data">
+        <% @brands.uniq.each do |brand| %>
+          <%= [brand.name,Report.brand_display(@reports,brand.id)].join("|") %>
+          <%= "~" unless brand == @brands.last %>
+        <% end -%>
+      </textarea>
+      <textarea class="hide sale_brand_data">
+        <% @brands.uniq.each do |brand| %>
+          <%= [brand.name,Report.brand_sales(@reports,brand.id)].join("|") %>
+          <%= "~" unless brand == @brands.last %>
+        <% end -%>
+      </textarea>
+      <div id='brand_data_chart' style='width:950px;height:400px;'></div>
+      <table class="table table-striped table-condensed" style="margin-bottom: 0; margin-top: 20px;">
+        <thead>
+          <tr>
+            <th>Brand Name</th>
+            <th>Dispaly Data</th>
+            <th>Sales Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @brands.uniq.each do |brand| %>
+            <tr>
+              <td><%= brand.name %></td>
+              <td><%= Report.brand_sales(@reports, brand.id) %></td>
+              <td><%= Report.brand_sales(@reports,brand.id) %></td>
+            </tr>
+          <% end %>  
+        </tbody>
+      </table>  
+    </div>  
   </div>
 </div>
-
-<% if can? :read, Upload%>
-  <div class="span6">
-    <div class="box box-color box-bordered">
-    <div class="box-title">
-      <h3>
-        <i class="icon-picture"></i>
-        Exta Uploads
-      </h3>
-      <div class="actions">
-
-        <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-        <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-      </div>
-    </div>
-    <div class="box-content nopadding scrollable" data-height = "450px" data-visible="true">
-      <ul class="gallery">
-        <% @post_uploads.each do |image| %>
-          <li>
-            <% if image.class.to_s == "Upload"%>
-              <a href="#">
-                <%= image_tag image.upload.url(:small) %>
-              </a>
-              <div class="extras">
-                <div class="extras-inner">
-                  <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
-                </div>
-              </div>
-            <% else %>
-              <a href="#">
-                <%= image_tag image.avatar.url(:small) %>
-              </a>
-              <div class="extras">
-                <div class="extras-inner">
-                  <a href="<%= image.avatar.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
-                </div>
-              </div>
-            <% end -%>
-          </li>
-        <% end -%>
-      </ul>
-    </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="block">
+      <div class="block-title">
+        <h2><strong>Display Corner</strong></h2>
+        <ul class="nav nav-tabs" data-toggle="tabs">
+          <li class="active"><a href="#corner_brand">Brands</a></li>
+          <li><a href="#corner_category">Categories</a></li>
+        </ul>
+      </div>  
+      <div class="tab-content">
+        <div class="tab-pane active" id="corner_brand">
+          <div class="gallery" data-toggle="lightbox-gallery">
+            <% @brand_report_lines.each do |brand_id,brand_report| %>
+              <div class="row">
+                <% brand_report.each do |line| %>
+                  <% line.avatars.each do |upload| %>
+                    <div class="col-sm-4 gallery-image">
+                      <% if upload.avatar %>
+                        <%= image_tag upload.avatar.url %>
+                        <div class="gallery-image-options text-center">
+                          <div class="btn-group btn-group-sm">
+                            <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          </div>
+                        </div>
+                      <% else %>
+                        <%= image_tag "/assets/default.png"%>
+                        <div class="gallery-image-options text-center">
+                          <div class="btn-group btn-group-sm">
+                            <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          </div>
+                        </div>
+                      <% end%>
+                    </div>  
+                  <% end %>  
+                <% end %>  
+              </div>  
+            <% end %>
+          </div>  
+        </div>
+        <div class="tab-pane" id="corner_category">
+          <div class="gallery" data-toggle="lightbox-gallery">
+            <% @category_report_lines.each do |category,cat_report| %>
+              <div class="row">
+                <% cat_report.each do |line| %>
+                  <% line.avatars.each do |upload| %>
+                    <div class="col-sm-4 gallery-image">
+                      <% if upload.avatar %>
+                        <%= image_tag upload.avatar.url %>
+                        <div class="gallery-image-options text-center">
+                          <div class="btn-group btn-group-sm">
+                            <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          </div>
+                        </div>
+                      <% else %>
+                        <%= image_tag "/assets/default.png"%>
+                        <div class="gallery-image-options text-center">
+                          <div class="btn-group btn-group-sm">
+                            <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          </div>
+                        </div>
+                      <% end%>
+                    </div>  
+                  <% end %>  
+                <% end %>  
+              </div>  
+            <% end %>
+          </div>
+        </div>
+      </div>  
     </div>
   </div>
-<% end -%>   
+  <div class="col-md-6">
+    <div class="block">
+      <div class="block-title">
+        <h2>Other Pictures</h2>
+      </div>
+      <div class="gallery" data-toggle="lightbox-gallery">
+        <div class="row">
+          <% @post_uploads.each do |image| %>
+
+            <div class="col-sm-4 gallery-image">
+              <% if image.class.to_s == "Upload"%>
+                <%= image_tag image.upload.url(:small) %>
+                <div class="gallery-image-options text-center">
+                  <div class="btn-group btn-group-sm">
+                    <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                  </div>    
+              <% else %>
+                <%= image_tag image.avatar.url(:small) %>
+                <div class="btn-group btn-group-sm">
+                    <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                  </div> 
+              <% end %>
+            </div>  
+          <% end %>
+        </div>  
+      </div>
+    </div>
+  </div>      
+</div>
+
 
 <script type="text/javascript">
   

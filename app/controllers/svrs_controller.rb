@@ -68,8 +68,6 @@ class SvrsController < ApplicationController
     @brands.each do |brand|
       line = report_three.report_lines.build :brand_id => brand.id, :product_category_id => @category.try(:id), :product_id => @product.try(:id)
     end
-    #@post.uploads.build
-    #@post.uploads.build
   end
 
   def edit
@@ -136,7 +134,7 @@ class SvrsController < ApplicationController
       @reports = @reports.select{|r| r.shop_id==params[:shop_id].to_i}.flatten
     end
     @brands = Brand.all
-    render(:partial => "/reports/bar", :locals => {:brands => @brands, :reports => @reports, :type => params[:search][:type]})
+    render(:partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @reports, :type => params[:search][:type]})
   end
 
   def category_search
