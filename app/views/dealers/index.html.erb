@@ -5,11 +5,12 @@
     </h1>
   </div>
 </div>
-<div id="modal-user" class="modal hide">
+<div  id="modal-user" class="modal">
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal">Close</button>
   </div>
 </div>
+<a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
 <div class="row">
   <div class="col-md-6">
     <%= render :partial => "/shared/map"%>
@@ -248,8 +249,9 @@
             url:  '/dealers/' + id + '/showmodal',
             data: {type: type},
             success: function(data)
-            {                              
+            {                          
               $("#modal-user").html(data);
+              $(".person-inform-link").click();
             }
           });
         });

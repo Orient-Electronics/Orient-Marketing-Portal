@@ -3533,6 +3533,15 @@ p, .table, .alert, .carousel {
   height:400px;
 }
 
+
+#modal-user
+{
+  background-color: white;
+  width: 50%;
+  left: 20%;
+  height: 380px;
+  overflow: auto;
+}
 /* Large devices, Desktops (>1199px) */
 @media screen and (min-width: 1200px) {
 
