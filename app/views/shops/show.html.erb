@@ -1,456 +1,357 @@
-<div id="modal-user" class="modal hide">
+<!-- Shop Profile Header -->
+<div class="content-header content-header-media">
+  <div class="header-section">
+    <% if @shop.avatar.present?  %>
+      <%= image_tag(@shop.avatar.avatar.url(:thumb), :class =>"pull-right img-circle") %>
+    <% else %>  
+      <%= image_tag('/assets/default.png', :class => "img-circle pull-right" , :size => "65x70" )%>
+    <% end %> 
+    <h1><span class='name'><%= @shop.dealer_name %></span></h1>
+  </div>
+</div>  
+
+<div  id="modal-user" class="modal">
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal">Close</button>
   </div>
 </div>
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span2">
-      <ul class="tiles">
-        
-          <li class="image span12" style="margin:0px;">
-            <a href="#">
-              <% if @shop.avatar.present? %>
-                <%= image_tag @shop.avatar.avatar.url(:small) %>
-              <% else %>
-                <%= image_tag "/assets/default.png" %>
-              <% end -%>
-              <span class='name'><%= @shop.dealer_name %></span>
-            </a>
-          </li>
-      </ul>
-    </div>
-    <div class="span4"> 
-      <div class="btn-group pull-right" style="margin-top:20px;">
-            <a href="#" data-toggle="dropdown" class="btn btn-large btn-inverse dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <% ProductCategory.all.each do |pc| %>
-                <% if !pc.products.blank? %>
-                  <li class='dropdown-submenu'>
-                    <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
-                    <ul class="dropdown-menu pull-left">
-                      <% pc.products.each do |product|%>
-                        <li>
-                          <%= link_to product.name, new_shop_svr_path(@shop, :product_category_id => pc.id, :product_id => product.id) %>
-                        </li>
-                      <% end -%>
-                    </ul>
-                  </li>
-                <%else%>
-                  <li>
-                    <%= link_to pc.name, new_shop_svr_path(@shop, :product_category_id => pc.id) %>
-                  </li>
-                <%end%>
-              <% end -%>
-            </ul>
+<a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
+<div class="row">
+  <div class="col-md-6">
+    <div class="block block-color block-bordered">
+      <div class="block-title">
+        <div class="btn-toolbar pull-right">
+            <div class="btn-group">
+              <a href="#" data-toggle="dropdown" class="btn btn-success dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <% ProductCategory.all.each do |pc| %>
+                  <% if !pc.products.blank? %>
+                    <li class='dropdown-submenu'>
+                      <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
+                      <ul class="dropdown-menu pull-left">
+                        <% pc.products.each do |product|%>
+                          <li>
+                            <%= link_to product.name, new_shop_svr_path(@shop, :product_category_id => pc.id, :product_id => product.id) %>
+                          </li>
+                        <% end -%>
+                      </ul>
+                    </li>
+                  <%else%>
+                    <li>
+                      <%= link_to pc.name, new_shop_svr_path(@shop, :product_category_id => pc.id) %>
+                    </li>
+                  <%end%>
+                <% end -%>
+              </ul>
+            </div>  
           </div>
-    </div>   
-    <div class="span6">
-      <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-bar-chart"></i>
-             <%= @shop.dealer_name.capitalize unless @shop.blank?  %>  Reports
-          </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
+        <h3>
+
+          <i class="icon-bar-chart"></i>
+           Shop Visit Reports
+        </h3>
+        <div class="actions">
+          <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
         </div>
-        <div class="box-content nonpadding scrollable" data-height ='300px' >
-          <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
-            <thead>
-              <tr>
-                <th> S.No. </th>
-                <th> Product Category </th>
-                <th> Report Created by</th>
-                <th> Report Created at </th>
-                <% if can? :create, Task %>
-                  <th>Change Status</th>
-                <% end %>  
-              <tr/>
-            </thead>
-            <tbody>
-              <% @posts.each_with_index do |post, index| %>
-                <tr>
-                  <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
-                  <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
-                  <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
-                  <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
-                  <% if can? :create, Task %>
-                    <td>
-                      <% unless post.published? %> 
-                        <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
-                      <% else %> 
-                        <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %> </span>
-                      <% end %>
-                    </td>
-                  <% end %>   
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>  
       </div>
+      <div class="block-content nonpadding scrollable" data-height ='300px' >
+        <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
+          <thead>
+            <tr>
+              <th> S.No. </th>
+              <th> Product Category </th>
+              <th> Report Created by</th>
+              <th> Report Created at </th>
+              <% if can? :create, Task %>
+                <th>Change Status</th>
+              <% end %>  
+            <tr/>
+          </thead>
+          <tbody>
+            <% @posts.each_with_index do |post, index| %>
+              <tr>
+                <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
+                <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
+                <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
+                <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
+                <% if can? :create, Task %>
+                  <td>
+                    <% unless post.published? %> 
+                      <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
+                    <% else %> 
+                      <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %> </span>
+                    <% end %>
+                  </td>
+                <% end %>   
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>  
     </div>
   </div>  
-  <div class="row-fluid">
-    <div class="span6" >
-      <div class="box box-color box-bordered shop-info">
-        <div class="box-title">
-          <h3>
-            <i class="icon-reorder"></i>
-            Basic Information
-          </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
-        </div>
-        <div class="box-content scrollable" data-height = "500px">
-          <dl class="span12" >
-            <%- model_class = Shop -%>
-            <% if @shop.dealer_name %>
-              <dt><strong><%= model_class.human_attribute_name(:dealer_name) %>:</strong></dt>
-              <dd><%= @shop.dealer_name %></dd>
-            <% end -%>
-            <% if @shop.branch_of %>
-              <dt><strong><%= model_class.human_attribute_name(:branch_of) %>:</strong></dt>
-              <dd><%= @shop.branch_of %></dd>
-            <% end -%>
-            <% if @shop.phone%>
-              <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
-              <dd><%= @shop.phone %></dd>
-            <% end -%>
-            <% if @shop.website != 'N/A' %>
-              <dt><strong><%= model_class.human_attribute_name(:website) %>:</strong></dt>
-              <dd><%= @shop.website %></dd>
-            <% end -%>
-            <% if @shop.email != 'N/A' %>
-              <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
-              <dd><%= @shop.email %></dd>
-            <% end -%>
-            <% if @shop.address %>
-              <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
-              <dd><%= @shop.address %></dd>
-            <% end -%>
+  <div class="col-md-6">
+    <div class="block">
+      <div class="block-title">
+        <h2>Basic Information</h2>
+      </div> 
+      <table class="table table-borderless table-striped">
+        <tbody>
+          <tr>
+            <td style="width: 20%;"><strong>Dealer Name </strong></td>
+            <td><%= @shop.dealer_name %></td>
+          </tr>
+          <tr>
+            <td style="width: 20%;"><strong>Branch Of </strong></td>
+            <td><%= @shop.branch_of %></td>
+          </tr>
+          <tr>
+            <td style="width: 20%;"><strong>Phone </strong></td>
+            <td><%= @shop.phone %></td>
+          </tr>
+          <% if @shop.website != 'N/A' %>
+            <tr>
+              <td style="width: 20%;"><strong>Website </strong></td>
+              <td><%= @shop.website %></td>
+            </tr>
+          <% end %>
+          <% if @shop.email != 'N/A' %>
+            <tr>
+              <td style="width: 20%;"><strong>Email</strong></td>
+              <td><%= @shop.email %></td>
+            </tr>
+          <% end -%>
+          <% if @shop.address %>
+            <tr>
+              <td style="width: 20%;"><strong>Address</strong></td>
+              <td><%= @shop.address %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td>Orient Dealer</td>
             <% if @shop.orient_dealer %>
-              <dt><strong><%= model_class.human_attribute_name(:orient_dealer) %>:</strong></dt>
-              <dd><%= 'Yes' %></dd>
+              <td>Yes</td>
             <% else %>
-              <dt><strong><%= model_class.human_attribute_name(:orient_dealer) %>:</strong></dt>
-              <dd><%= 'No' %></dd>
-            <% end -%>
-            <% if @shop.shop_category.try(:name)%>
-              <dt><strong><%= model_class.human_attribute_name(:shop_category_id) %>:</strong></dt>
-              <dd><%= @shop.shop_category.name %></dd>
-            <%end -%>
-            <br><br>
-            <dt><strong><%= model_class.human_attribute_name(:location_id) %></strong></dt>
-            <dd></dd>
+              <td>No</td>
+            <% end %>
+          </tr>
+          <% if @shop.shop_category.try(:name)%>
+            <tr>
+              <td>Shop Category</td>
+              <td><%= @shop.shop_category.name %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td style="width: 20%;"><%= Location %></td>
             <% child_class = Location %>
             <% if @shop.location.try(:city) %>
-              <dt><strong><%= child_class.human_attribute_name(:city_id) %>:</strong></dt>
-              <dd><%= @shop.location.city.name %></dd>
+              <td>
+               City :  <%= @shop.location.city.name %>
+              </td>  
             <% end -%>
             <% if @shop.location.try(:area) %>
-              <dt><strong><%= child_class.human_attribute_name(:area) %>:</strong></dt>
-              <dd><%= @shop.location.area.name %></dd>
+              <td>
+               Area :  <%= @shop.location.area.name %>
+              </td> 
             <% end -%>
-          </dl>
-        </div>
+
+        </tbody>
+      </table> 
+    </div>  
+  </div>
+</div>    
+<div class="row">
+  <div class="col-md-12">
+    <div class="block block-color block-bordered">
+      <div class="block-title">
+        <h3>
+          <i class="icon-map-marker"></i>
+          Location Information
+        </h3>
+      </div>
+      <div class="block-content no-padding" style="height:540px !important;">
+          <% child_class = Location %>
+          <%= hidden_field_tag "lat", @shop.location.try(:latitude), :id => "lat" %>
+          <%= hidden_field_tag "lng", @shop.location.try(:longitude), :id => "lng" %>
+          <%= hidden_field_tag "shop_category", @shop.shop_category.name, :id => "shop_category" %>
+          <div class="row">
+            <div class="col-md-12" id="map_location" style="height:540px;"></div>
+          </div>
       </div>
     </div>
-    <div class="span6">
-      <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-map-marker"></i>
-            Location Information
-          </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
-        </div>
-        <div class="box-content no-padding" style="height:540px !important;">
-            <% child_class = Location %>
-            <%= hidden_field_tag "lat", @shop.location.try(:latitude), :id => "lat" %>
-            <%= hidden_field_tag "lng", @shop.location.try(:longitude), :id => "lng" %>
-            <%= hidden_field_tag "shop_category", @shop.shop_category.name, :id => "shop_category" %>
-            <div class="row-fluid">
-              <div class="span12" id="map_location" style="height:540px;"></div>
-            </div>
-        </div>
-      </div>
-    </div> 
-  </div>
-
-  <div class="row-fluid">
-    <% if can? :read, Report %>
-      <div class="span6">
-        <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-bar-chart"></i>
-            Disaplay Report
-          </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
-          <ul class="tabs">
-            <li class="active">
-              <a href="#brand-display-data" data-toggle="tab">Brand Data</a>
-            </li>
-            <li class="">
-              <a href="#category-display-data" data-toggle="tab">Category Data</a>
-            </li>
+  </div> 
+</div>
+<div class="row">
+  <% if can? :read, Report %>
+    <div class="col-md-12">
+      <div class="block">
+        <div class="block-title">
+          <h3><strong> Display &amp; Corner  Reports</strong></h3>
+          <ul class="nav nav-tabs" data-toggle="tabs">
+            <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
+            <li><a class="category-tab" href="#category-display-data">Categories</a></li>
           </ul>
-        </div>
-        <div class="box-content nopadding scrollable">
+        </div>  
+        <div class="block-content">
           <div class="tab-content">
-            <div class="tab-pane active" id="brand-display-data">
-              <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
-                <%= f.hidden_field :type, :value => "display_data" %>
-                <%= hidden_field_tag "shop_id", @shop.id %>
-                <select name=search[product]>
-                  <option value="">All</option>
-                  <% @categories.each do |pc| %>
-                    <% if pc.products.blank? %>
-                      <option value="<%= pc.name %>"><%= pc.name %></option>
-                    <% else %>
-                      <optgroup label="<%= pc.name %>">
-                        <% pc.products.each do |product| %>
-                          <option value="<%= product.name %>"><%= product.name %></option>
-                        <% end -%>
-                      </optgroup>
-                    <% end -%>
-                   
-                  <% end -%>
-                </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ), {} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-              <% end -%>
-              <div class="display_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @reports, :type => "display_data"} %>
-              </div>
-            </div>
-            <div class="tab-pane active" id="category-display-data">
-              <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search", "data-unit"=> "display_data"}, :method => :post do |f| %>
-                <%= f.hidden_field :type, :value => "display_data" %>
-                <%= hidden_field_tag "shop_id", @shop.id %>
-                <select name=search[brand]>
-                  <option value="">All</option>
-                  <% @brands.each do |pc| %>
-                    <option value="<%= pc.id %>"><%= pc.name %></option>
-                  <% end -%>
-                </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-              <% end -%>
-              <div class="display_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "display_data", :brand => nil} %>
-              </div>
-            </div>
+           <div class="tab-pane active" id="brand-display-data">
+              <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
+           </div>
+           <div class="tab-pane active" id="category-display-data">
+              <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "display_data", :brand => nil} %>
+           </div> 
+          </div>
+        </div>  
+      </div>  
+    </div>
+  <% end %>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="block">
+      <div class="block-title">
+        <h2><strong>Display Corner Reports</strong></h2>
+        <ul class="nav nav-tabs" data-toggle="tabs">
+          <li class="active"><a href="#corner_brand">Brands</a></li>
+          <li><a href="#corner_category">Categories</a></li>
+        </ul>
+      </div>  
+      <div class="tab-content">
+        <div class="tab-pane active" id="corner_brand">
+          <div class="gallery" data-toggle="lightbox-gallery">
+            <% @brand_report_lines.each do |brand_id,brand_report| %>
+              <div class="row">
+                <% brand_report.each do |line| %>
+                  <% line.avatars.each do |upload| %>
+                    <div class="col-sm-4 gallery-image">
+                      <% if upload.avatar %>
+                        <%= image_tag upload.avatar.url %>
+                        <div class="gallery-image-options text-center">
+                          <div class="btn-group btn-group-sm">
+                            <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          </div>
+                        </div>
+                      <% else %>
+                        <%= image_tag "/assets/default.png"%>
+                        <div class="gallery-image-options text-center">
+                          <div class="btn-group btn-group-sm">
+                            <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          </div>
+                        </div>
+                      <% end%>
+                    </div>  
+                  <% end %>  
+                <% end %>  
+              </div>  
+            <% end %>
+          </div>  
+        </div>
+        <div class="tab-pane" id="corner_category">
+          <div class="gallery" data-toggle="lightbox-gallery">
+            <% @category_report_lines.each do |category,cat_report| %>
+              <div class="row">
+                <% cat_report.each do |line| %>
+                  <% line.avatars.each do |upload| %>
+                    <div class="col-sm-4 gallery-image">
+                      <% if upload.avatar %>
+                        <%= image_tag upload.avatar.url %>
+                        <div class="gallery-image-options text-center">
+                          <div class="btn-group btn-group-sm">
+                            <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          </div>
+                        </div>
+                      <% else %>
+                        <%= image_tag "/assets/default.png"%>
+                        <div class="gallery-image-options text-center">
+                          <div class="btn-group btn-group-sm">
+                            <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          </div>
+                        </div>
+                      <% end%>
+                    </div>  
+                  <% end %>  
+                <% end %>  
+              </div>  
+            <% end %>
           </div>
         </div>
-        </div>
-      </div>
-    <% end -%>
-    <% if can? :read, Report%>
-      <div class="span6">
-        <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-bar-chart"></i>
-            Sales Report
-          </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
-          <ul class="tabs">
-            <li class="active">
-              <a href="#brand-sales-data" data-toggle="tab">Brand Data</a>
-            </li>
-            <li class="">
-              <a href="#category-sales-data" data-toggle="tab">Category Data</a>
-            </li>
-          </ul>
-        </div>
-        <div class="box-content nopadding scrollable">
-          <div class="tab-content">
-            <div class="tab-pane active" id="brand-sales-data">
-              <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
-                <%= f.hidden_field :type, :value => "sales_data" %>
-                <%= hidden_field_tag "shop_id", @shop.id %>
-                <select name=search[product]>
-                  <option value="">All</option>
-                  <% @categories.each do |pc| %>
-                    <% if pc.products.blank? %>
-                      <option value="<%= pc.name %>"><%= pc.name %></option>
-                    <% else %>
-                      <optgroup label="<%= pc.name %>">
-                        <% pc.products.each do |product| %>
-                          <option value="<%= product.name %>"><%= product.name %></option>
-                        <% end -%>
-                      </optgroup>
-                    <% end -%>
-                   
-                  <% end -%>
-                </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-              <% end -%>
-              <div class="sales_data_chart">
-                <%= render :partial => "/svrs/bar", :locals => {:brands => @brands, :reports => @reports, :type => "sales_data"} %>
-              </div>
-            </div>
-            <div class="tab-pane active" id="category-sales-data">
-              <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search", "data-unit"=> "sales_data"}, :method => :post do |f| %>
-                <%= f.hidden_field :type, :value => "sales_data" %>
-                <%= hidden_field_tag "shop_id", @shop.id %>
-                <select name=search[brand]>
-                  <option value="">All</option>
-                  <% @brands.each do |pc| %>
-                    <option value="<%= pc.id %>"><%= pc.name %></option>
-                  <% end -%>
-                </select>
-                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "span3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                <%= f.select :week , options_for_select(year_weeks),{},{:class => "span6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-              <% end -%>
-              <div class="sales_category_data_chart">
-                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "sales_data", :brand => nil} %>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    <% end -%>
-    
+      </div>  
+    </div>
   </div>
-  <%if current_user.user_employee? %>
-      <%= render :partial => 'employee_reports', :locals => {:display_report => @display_report, :sales_report => @sales_report}%>
-  <%end%>
-  <div class="row-fluid">
-    <% if can? :read, Report%>
-      <% if !@category_report_lines.blank? && !@brand_report_lines.blank? %>
-        <div class="span6">
-          <div class="box box-color box-bordered">
-            <div class="box-title">
-              <h3>
-                <i class="icon-bar-chart">
-                Display Corner Report </i>
-              </h3>
-              <div class="actions">
-                <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-              </div>
-              <ul class="tabs">
-                <li class="active">
-                  <a href="#brand-data" data-toggle="tab">Brand Data</a>
-
-                </li>
-                <li class="">
-                  <a href="#category-data" data-toggle="tab">Category Data</a>
-                </li>
-              </ul>
-            </div>
-            <%= render :partial => "shops/display_corner_report"%>
-          </div>
-        </div>
-      <% end %>
-    <% end -%>
-    <% if can? :read, Upload%>
-      <div class="span6">
-        <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-picture"></i>
-            Images
-          </h3>
-          <% if can? :create, Upload%>
+  <div class="col-md-6">
+    <div class="block">
+      <div class="block-title">
+        <h2>Images</h2>
+        <% if can? :create, Upload%>
             <div class="btn-group upload-form">
-              <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate" } do |f| %>
-                <%=f.file_field :upload , :class => "required"%>
-                <button type="submit" class="btn btn-danger" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
+              <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate col-md-12" } do |f| %>
+                <%=f.file_field :upload , :class => "required col-md-6"%>
+                <button type="submit" class="btn btn-danger col-md-6" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
               <% end -%>
             </div>
           <% end -%>
-          <div class="actions">
-            <%= link_to "View All", shop_uploads_path(@shop), :class=> "btn btn-primary" %>
-            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
-        </div>
-        <div class="box-content nopadding scrollable" data-height = "450px" data-visible="true">
-          <ul class="gallery">
-            <% count = 0%>
-            <% @shop_uploads.each do |image| %>
-              <% break if count == 9 %>
-              <li>
-                <% if image.class.to_s == "Upload"%>
-                  <a href="#">
-                    <%= image_tag image.upload.url(:small) %>
-                  </a>
-                  <div class="extras">
-                    <div class="extras-inner">
-                      <a href="<%= image.upload.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
-                    </div>
-                  </div>
-                <% else %>
-                  <a href="#">
-                    <%= image_tag image.avatar.url(:small) %>
-                  </a>
-                  <div class="extras">
-                    <div class="extras-inner">
-                      <a href="<%= image.avatar.url(:medium) %>" class='colorbox-image' rel="group-1"><i class="icon-search"></i></a>
-                    </div>
-                  </div>
-                <% end -%>
-              </li>
-              <% count = count+1 %>
-            <% end -%>
-          </ul>
-        </div>
-        </div>
       </div>
-    <% end -%>
-  </div>
-  <div class="row-fluid">
-    <%if can? :read, Owner, Manager%>
-      <div class="span6">
-        <div class="box box-color box-bordered">
-          <div class="box-title">
-            <h3>
-              <i class="icon-user">
-              People </i>
-            </h3>
-            <div class="actions">
-              <a href="#" class="btn btn-mini content-refresh"><i class="icon-refresh"></i></a>
-              <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-              <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-            </div>
-          </div>
-          <div class="box-content nopadding scrollable" data-height="500" data-visible="true"   >
-            <table class="table table-user table-nohead">
-              <tbody  remote ="true">
-                <tr>
-                  <td class ="img"><img src="/assets/demo/user-1.jpg" alt=""></td>
-                  <td class="user"><%= @shop.owner.name %></td>
-                  <td class='icon search_btn' data-id = <%= @shop.id%> data-type = "owner" ><a href="#" class='btn'><i class="icon-search"></i></a></td>
-                </tr>
-                <tr>
-                  <td class ="img"><img src="/assets/demo/user-2.jpg" alt=""></td>
-                  <td class="user"><%= @shop.manager.name %></td>
-                  <td class='icon search_btn' data-id =  <%= @shop.id%> data-type = "manager" ><a href="#" class='btn'><i class="icon-search"></i></a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="gallery" data-toggle="lightbox-gallery">
+        <div class="row">
+          <% count = 0%>
+          <% @shop_uploads.each do |image| %>
+            <% break if count == 9  %>
+            <div class="col-sm-4 gallery-image">
+              <% if image.class.to_s == "Upload"%>
+                <%= image_tag image.upload.url(:small) %>
+                <div class="gallery-image-options text-center">
+                  <div class="btn-group btn-group-sm">
+                    <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                  </div>
+                </div>      
+              <% else %>
+                <%= image_tag image.avatar.url(:small) %>
+                <div class="gallery-image-options text-center">
+                  <div class="btn-group btn-group-sm">
+                    <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                  </div> 
+                </div>  
+              <% end %>
+            </div>  
+            <% count = count+1 %>
+          <% end %>
+        </div>  
       </div>
-    <%end%>
+    </div>
   </div>
 </div>
+
+<div class="row">
+  <%if can? :read, Owner, Manager%>
+    <div class="col-md-6">
+      <div class="block block-color block-bordered">
+        <div class="block-title">
+          <h3>
+            <i class="icon-user">
+            People </i>
+          </h3>
+        </div>
+        <div class="block-content nopadding scrollable" data-height="500" data-visible="true"   >
+          <table class="table table-user table-nohead">
+            <tbody  remote ="true">
+              <tr>
+                <td class ="img"><img src="/assets/demo/user-1.jpg" alt=""></td>
+                <td class="user"><%= @shop.owner.name %></td>
+                <td class='icon search_btn' data-id = <%= @shop.id%> data-type = "owner" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
+              </tr>
+              <tr>
+                <td class ="img"><img src="/assets/demo/user-2.jpg" alt=""></td>
+                <td class="user"><%= @shop.manager.name %></td>
+                <td class='icon search_btn' data-id =  <%= @shop.id%> data-type = "manager" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <%end%>
+</div>
+
 
 <%= content_for :footer_js do %>
   <script type="text/javascript" charset="utf-8">
@@ -587,19 +488,7 @@
 
       if(lat &&  lng)
         initialize(lat,lng);
-      $('.report-search').ajaxForm({
-          success: showResponse
-        });
-      $('.report-search select').change(function(){
-        $(this).parent().submit();
-      });
-      $('.category-report-search').ajaxForm({
-          success: showCatResponse
-        });
-      $('.category-report-search select').change(function(){
-        $(this).parent().submit();
-      });
-      $('#category-display-data,#category-sales-data,#category-corner-data').removeClass('active');
+      
       
       $(".search_btn").click( function ()
         {
@@ -611,6 +500,7 @@
             success: function(data)
             {                              
               $("#modal-user").html(data);
+              $(".person-inform-link").click();
             }
           });
         });

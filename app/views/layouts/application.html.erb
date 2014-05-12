@@ -33,9 +33,7 @@
           <!-- END Header -->
           <div id="page-content" >
             
-            <% if user_signed_in? %> 
-            <%= render :partial => "/layouts/user_header" %> 
-            <% end -%>  
+            
             <%= bootstrap_flash %>
             <%= yield %>
           </div><!--/row-->
