@@ -24,7 +24,7 @@
     <% brands.uniq.each do |brand| %>
       <tr>
         <td><%= brand.name %></td>
-        <td><%= Report.brand_sales(reports, brand.id) %></td>
+        <td><%= Report.brand_display(reports, brand.id) %></td>
         <td><%= Report.brand_sales(reports,brand.id) %></td>
       </tr>
     <% end %>  

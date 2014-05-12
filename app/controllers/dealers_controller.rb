@@ -7,9 +7,9 @@ class DealersController < ApplicationController
     @shops = Shop.all
     @posts = Post.published_reports
     @reports = @posts.collect(&:reports).flatten
-    @corner_reports = @reports.select{|a| a.report_type = "display_corner"}.collect(&:report_lines).flatten
-    @brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
-    @category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
+    @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
+    @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
+    @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
     @categories= @posts.collect(&:product_category).uniq
     @brands = @categories.collect(&:brands).uniq.flatten
     @shop = @dealers.collect(&:shops).flatten
@@ -31,9 +31,9 @@ class DealersController < ApplicationController
     @shops = @parent.shops.flatten
     @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     @reports = @posts.collect(&:reports).flatten
-    @corner_reports = @reports.select{|a| a.report_type = "display_corner"}.collect(&:report_lines).flatten
-    @brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
-    @category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
+    @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
+    @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
+    @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
     @categories= @posts.collect(&:product_category).uniq
     @brands = @categories.collect(&:brands).uniq.flatten
     uploads = @shops.collect(&:uploads).flatten
