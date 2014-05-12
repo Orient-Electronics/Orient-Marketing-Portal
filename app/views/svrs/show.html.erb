@@ -133,7 +133,7 @@
   </div>
 </div>
 
-<% unless can? :read, Upload%>
+<% if can? :read, Upload%>
   <div class="span6">
     <div class="box box-color box-bordered">
     <div class="box-title">

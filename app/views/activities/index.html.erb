@@ -2,7 +2,7 @@
  	<div class="row">
  		<!-- First Column -->
     <div class="col-md-6 col-lg-7">
- 			<% unless @activities.blank? %>
+ 			<% unless @user_activities.blank? %>
 	 			<!-- Newsfeed Block -->
 	 			<div class="block">
 
@@ -15,7 +15,7 @@
 	        <!-- Newsfeed Content -->
 	        <div class="block-content-full">
 	        	<ul class="media-list media-feed media-feed-hover">
-	        		<% @activities.each do |activity| %>
+	        		<% @user_activities.each do |activity| %>
 	        			<li class="media">
                   <%=link_to raw(image_tag(@user.avatar.avatar(:thumb), :class => "img-circle")), activities_path(:user_id => @user.id),:class => "pull-left" %>
                   <div class="media-body">
