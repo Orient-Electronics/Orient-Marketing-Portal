@@ -1,43 +1,20 @@
-<div class="box box-color box-bordered">
-  <div class="box-title">
-    <h3>
-      <i class="icon-map-marker"></i>
+<div class="block" style="height: 750px;">
+  <div class="block-title">
+    <h2>
+      <i class="fa fa-map-marker"></i>
       Locations Information
-    </h3>
-    <div class="actions">
-      <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-      <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-    </div>
-    <ul class="tabs">
+    </h2>
+    <ul class="nav nav-tabs" data-toggle="tabs">
       <li class="active">
-        <a href="#" class= 'orient-dealer' data-toggle="tab" data-form ="filter-orient">Orient Dealer</a>
+        <a href="#" class= 'orient-dealer' data-toggle="tab" data-form ="filter-orient">Orient Dealer / Non-Dealer</a>
       </li>
-      <li>
-        <a href="#" class='dealer' data-toggle="tab" data-form="filter-dealer" >Dealer</a>
-      </li>
-      
+      <li><a href="#" class='dealer' data-toggle="tab" data-form="filter-dealer" >Categories </a></li>
     </ul>
   </div>
-  <div class="box-content no-padding">
-    <div class="span12" id="map_location" style="height: 500px;"></div>
+  <div class="row">
+    <div class="col-md-12" id="map_location" style="height: 600px;"></div>
   </div>  
 </div>  
-
-<div class='map-ui'>
-    <div class='filter-orient filters hide' data-name='filter-orient' data-property='orient_dealer'>
-      <form class='dealer-form'>
-        <label><input type='checkbox' class='filter' name='dealer-filter' id='yes' value='true' /> Dealer</label> 
-        <label><input type='checkbox' class='filter' name='dealer-filter' id='no' value='false' /> Not Orient Dealer</label>
-      </form>
-    </div>
-    <div class='filter-dealer filters hide' data-name='filter-dealer' data-property='category' >
-      <form class='category-form'>
-        <% @shop_categories.each do |category| %>
-          <label> <input type='checkbox' class='filter' name='filter' id='<%= category.name %>' value='<%= category.name %>' /><%= category.name %> </label>
-        <% end %>
-      </form>
-    </div>  
-</div> 
 
 <textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>
 <textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>

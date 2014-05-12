@@ -1,47 +1,37 @@
-<% if type=='display_data'  %>
-<div id="category_display_data">
-  <textarea class="hide display_data">
-    <% categories.each do |category| %>
-      <%= [category.name,Report.category_display(reports,category.id,brand)].join("|") %>
-      <%= "~" unless category == categories.last %>
-    <% end -%>
-  </textarea>
-  <div class="row-fluid">
-    <div class="span12 jchartfx" style="height: 400px; display: inline-block;" data-unit="display_data">
-    </div>
-  </div>
-</div>
-<% end -%>
-<% if type=='sales_data'  %>
-<div id="category_sales_data">
-  <textarea class="hide sales_data">
-    <% categories.each do |category| %>
-      <%= [category.name,Report.category_sales(reports,category.id,brand)].join("|") %>
-      <%= "~" unless category == categories.last %>
-    <% end -%>
-  </textarea>
-  <div class="row-fluid">
-    <div class="span12 jchartfx" style="height: 400px; display: inline-block;" data-unit="sales_data">
-    </div>
-  </div>
-</div>
-<% end -%>
-<% if type=='corner_data'  %>
-<div id="category_corner_data">
-  <textarea class="hide corner_data">
-    <% categories.each do |category| %>
-      <%= [category.name,Report.category_corner(reports,category.id,brand)].join("|") %>
-      <%= "~" unless category == categories.last %>
-    <% end -%>
-  </textarea>
-  <div class="row-fluid">
-    <div class="span12 jchartfx" style="height: 400px; display: inline-block;" data-unit="corner_data">
-    </div>
-  </div>
-</div>
-<% end -%>
+<textarea class="hide dispaly_category_data">
+  <% categories.each do |category| %>
+    <%= [category.name,Report.category_display(reports,category.id,brand)].join("|") %>
+    <%= "~" unless category == categories.last %>
+  <% end -%>
+</textarea>
+<textarea class="hide sale_category_data">
+  <% categories.each do |category| %>
+    <%= [category.name,Report.category_sales(reports,category.id,brand)].join("|") %>
+    <%= "~" unless category == categories.last %>
+  <% end -%>
+</textarea>
+<div id='category_data_chart' class="jFax-chart"></div>
+<table class="table table-striped table-condensed" style="margin-bottom: 0; margin-top: 20px;">
+  <thead>
+    <tr>
+      <th>Category Name</th>
+      <th>Dispaly Data</th>
+      <th>Sales Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% categories.uniq.each do |category| %>
+      <tr>
+        <td><%= category.name %></td>
+        <td><%= Report.category_display(reports,category.id,brand) %></td>
+        <td><%= Report.category_sales(reports,category.id,brand) %></td>
+      </tr>
+    <% end %>  
+  </tbody>
+</table>
+
 <script type="text/javascript">
   $('document').ready(function(){
-    onLoadDoc($("#category_<%= type %> .jchartfx"),"<%= type %>","Category");  
+    loadCategoryChart();  
   });
 </script>

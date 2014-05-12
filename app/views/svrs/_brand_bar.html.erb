@@ -1,0 +1,38 @@
+<textarea class="hide dispaly_brand_data">
+  <% brands.uniq.each do |brand| %>
+    <%= [brand.name,Report.brand_display(reports,brand.id)].join("|") %>
+    <%= "~" unless brand == brands.last %>
+  <% end -%>
+</textarea>
+<textarea class="hide sale_brand_data">
+  <% brands.uniq.each do |brand| %>
+    <%= [brand.name,Report.brand_sales(reports,brand.id)].join("|") %>
+    <%= "~" unless brand == brands.last %>
+  <% end -%>
+</textarea>
+
+<div id='brand_data_chart' class="jFax-chart"></div>
+<table class="table table-striped table-condensed" style="margin-bottom: 0; margin-top: 20px;">
+  <thead>
+    <tr>
+      <th>Brand Name</th>
+      <th>Dispaly Data</th>
+      <th>Sales Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% brands.uniq.each do |brand| %>
+      <tr>
+        <td><%= brand.name %></td>
+        <td><%= Report.brand_sales(reports, brand.id) %></td>
+        <td><%= Report.brand_sales(reports,brand.id) %></td>
+      </tr>
+    <% end %>  
+  </tbody>
+</table>
+
+<script type="text/javascript">
+  $('document').ready(function(){
+    loadBrandChart();  
+  });
+</script>

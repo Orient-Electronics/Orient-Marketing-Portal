@@ -3527,6 +3527,12 @@ p, .table, .alert, .carousel {
   color: #b94a48;
   width: 600px;
 }
+
+.jFax-chart{
+  width:1050px;
+  height:400px;
+}
+
 /* Large devices, Desktops (>1199px) */
 @media screen and (min-width: 1200px) {
 
