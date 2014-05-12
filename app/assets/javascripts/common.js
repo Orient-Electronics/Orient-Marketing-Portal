@@ -233,7 +233,7 @@ function PopulateBrandData(brand_chart)
 {
   display_brand_data = $('.dispaly_brand_data').val().replace(/\s/g, "").split('~');
   sales_brand_data = $('.sale_brand_data').val().replace(/\s/g, "").split('~');
-  var items = [];
+  var brands = [];
   for(i = 0; i < display_brand_data.length; i++) {
     temp = display_brand_data[i].trim().split("|");
     temp1 = sales_brand_data[i].trim().split("|");
@@ -241,9 +241,9 @@ function PopulateBrandData(brand_chart)
       item['Display'] = parseInt(temp[1]);
       item['Sales'] = parseInt(temp1[1]);
       item['Brands'] = temp[0];
-    items.push(item);
+    brands.push(item);
   }
-  brand_chart.setDataSource(items);
+  brand_chart.setDataSource(brands);
 }  
 
 
@@ -252,7 +252,7 @@ function PopulateCategoryData(category_chart)
 {
   display_category_data = $('.dispaly_category_data').val().replace(/\s/g, "").split('~');
   sales_category_data = $('.sale_category_data').val().replace(/\s/g, "").split('~');
-  var items = [];
+  var categories = [];
   for(i = 0; i < display_category_data.length; i++) {
     temp = display_category_data[i].trim().split("|");
     temp1 = sales_category_data[i].trim().split("|");
@@ -260,9 +260,9 @@ function PopulateCategoryData(category_chart)
       item['Display'] = parseInt(temp[1]);
       item['Sales'] = parseInt(temp1[1]);
       item['Categories'] = temp[0];
-    items.push(item);
+    categories.push(item);
   }
-  category_chart.setDataSource(items);
+  category_chart.setDataSource(categories);
 }
 
 function showResponse(responseText, statusText, xhr, $form)  {
