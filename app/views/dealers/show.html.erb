@@ -25,7 +25,7 @@
 </div>
 <a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-6 dealers-map">
     <%= render :partial => "/shared/map"%>
   </div>
   <% if can? :read, Shop%>
@@ -36,17 +36,17 @@
             Shops
           </h3>
         </div>
-        <div class="block-content nopadding scrollable" style="overflow: hidden;height:500px;">
+        <div class="block-content dearlers-list scroll-dealer">
           <table class="table table-hover table-nomargin" id="shop-data">
             <thead>
               <tr class='thefilter row'>
-                <th class="col-md-6"><input type="text" name="search_shop" placeholder="Shop" class="search_init col-md-12" /></th>
+                <th class="col-md-3"><input type="text" name="search_shop" placeholder="Shop" class="search_init col-md-12" /></th>
                 <th class="col-md-3"><input type="text" name="search_orient_dealer" placeholder="Orient Dealer" class="search_init col-md-12" /></th>
                 <th class="col-md-3"><input type="text" name="search_city" placeholder="City" class="search_init col-md-12" /></th>
                 <th class="col-md-3"><span class="col-md-12">&nbsp;</span></th>
               </tr>
               <tr class="row">
-                <th class="col-md-6"> Dealer Name </th>
+                <th class="col-md-3"> Dealer Name </th>
                 <th class="col-md-3"> Orient Dealer </th>
                 <th class="col-md-3"> City </th>
                 <th class="col-md-3"> Actions</th>
@@ -56,19 +56,21 @@
               <% @shops.each do |shop| %>
                 <% if can? :read, shop%>
                   <tr class="row">
-                  <td class"span2"><%= link_to shop.dealer_name, shop_path(shop) %></td>
-                  <td class"span1"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non dealer</span>".html_safe %></td>
-                  <td class"span1"><%= shop.location.city.name %></td>
-                  <td class"span2">
-                    <%= link_to "<i class='icon-search'></i>".html_safe,
-                                shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>
-                    <%= link_to "<i class='icon-edit'></i>".html_safe,
-                                edit_shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"Edit" %>
-                    <%= link_to "<i class='icon-remove'></i>".html_safe,
-                                shop_path(shop),
-                                :method => :delete,
-                                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                                :class => 'btn', :rel=>"tooltip", :title=>"Delete" %>
+                  <td class"col-md-3"><%= link_to shop.dealer_name, shop_path(shop) %></td>
+                  <td class"col-md-3"><%= shop.orient_dealer? ? "Dealer" : "Non dealer" %></td>
+                  <td class"col-md-3"><%= shop.location.city.name %></td>
+                  <td class"col-md-3">
+                    <div class="button-group">
+                      <%= link_to "<i class='fa fa-search'></i>".html_safe,
+                                  shop_path(shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"View" %>
+                      <%= link_to "<i class='fa fa-edit'></i>".html_safe,
+                                  edit_shop_path(shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"Edit" %>
+                      <%= link_to "<i class='hi hi-off'></i>".html_safe,
+                                  shop_path(shop),
+                                  :method => :delete,
+                                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                                  :class => 'btn btn-sm', :rel=>"tooltip", :title=>"Delete" %>
+                    </div>              
                   </td>
                   </tr>
                 <% end %>  
@@ -255,11 +257,6 @@
             <i class="icon-user">
             People </i>
           </h3>
-          <div class="actions">
-            <a href="#" class="btn btn-mini content-refresh"><i class="icon-refresh"></i></a>
-            <a href="#" class="btn btn-mini content-remove"><i class="icon-remove"></i></a>
-            <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-          </div>
         </div>
         <div class="block-content nopadding scrollable" data-height="500" data-visible="true" >
           <table class="table table-user table-nohead">
@@ -294,6 +291,10 @@
     
     $(document).ready(function() {
       var oTable = $('#shop-data').dataTable();
+
+      $('#shop-data_length, #shop-data_filter, #shop-data_paginate, #shop-data_info').addClass("no-background-border");
+      $("#shop-data_length, #shop-data_info").addClass("pull-left");
+      $("#shop-data_filter, #shop-data_paginate").addClass("pull-right");
       
       $(".thefilter input").keyup( function () {
         /* Filter on the column (the index) of this element */

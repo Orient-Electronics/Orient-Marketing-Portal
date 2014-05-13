@@ -1,11 +1,25 @@
 $('document').ready(function(){
+    
+
   $('.category-tab').click();
   $('.brand-tab').click();
   $('.datepicker').datepicker();
+  
+  $('.jFax-chart').width($("#page-content").width());
+
   $('.tree-toggle').click(function () {
     $(this).parent().children('ul.tree').toggle(200);
   });
+  height =  ''+$(".scroll-dealer").height()+'px',
+  console.log(height);
+
+  $(".scroll-dealer").slimScroll({
+    height: '680px',
+    size: '5px'
+  });
+    
   $('select').selectpicker();
+
   if($('.form-validate').length > 0)
   {
     $('.form-validate').each(function(){
@@ -25,6 +39,9 @@ $('document').ready(function(){
       });
     });
   } 
+
+  
+
   $(".add_more_link").click(function(e){
     e.preventDefault();
     index = $(this).data("index");

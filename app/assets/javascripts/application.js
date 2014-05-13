@@ -23,5 +23,7 @@
 //= require_directory ./plugins/select2
 //= require_directory ./plugins/form
 //= require_directory ./plugins/multiselect
+//= require_directory ./plugins/slimscroll
+//= require_directory ./plugins/datepicker
 //= require presenter
 //= require common

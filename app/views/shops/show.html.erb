@@ -21,7 +21,7 @@
     <div class="block block-color block-bordered">
       <div class="block-title">
         <div class="btn-toolbar pull-right">
-            <div class="btn-group">
+            <div class="btn-group new-report-btn-position">
               <a href="#" data-toggle="dropdown" class="btn btn-success dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <% ProductCategory.all.each do |pc| %>
@@ -77,9 +77,9 @@
                 <% if can? :create, Task %>
                   <td>
                     <% unless post.published? %> 
-                      <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %>
+                      <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-success" %>
                     <% else %> 
-                      <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-inverse" %> </span>
+                      <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-warning" %> </span>
                     <% end %>
                   </td>
                 <% end %>   

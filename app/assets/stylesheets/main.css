@@ -3529,7 +3529,6 @@ p, .table, .alert, .carousel {
 }
 
 .jFax-chart{
-  width:900px;
   height:400px;
 }
 
@@ -3545,9 +3544,34 @@ p, .table, .alert, .carousel {
 
 .chart-data-table
 {
-  margin-bottom: 0px !important;
+  margin-bottom: 50px !important;
   margin-top: 50px !important;
 }
+.new-report-btn-position
+{
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.dealers-map .block-title{
+  margin-bottom: 8px !important;
+}
+
+#map_location
+{
+  height: 650px;
+}
+
+.no-background-border
+{
+  background-color: white !important;
+  border: none !important;
+}
+
+/*.dearlers-list
+{
+  height: 400px;
+}*/
 
 /* Large devices, Desktops (>1199px) */
 @media screen and (min-width: 1200px) {
