@@ -18,8 +18,10 @@
 //= require twitter/bootstrap
 //= require plugins
 //= require app
+//= require bootstrap-select
 //= require_directory ./plugins/jchartfx
 //= require_directory ./plugins/select2
 //= require_directory ./plugins/form
+//= require_directory ./plugins/multiselect
 //= require presenter
 //= require common

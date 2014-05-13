@@ -119,7 +119,6 @@ class SvrsController < ApplicationController
     else   
       @posts = Post.published_reports.where(:shop_id => params[:shop_id].to_i)
     end
-    @posts =  Post.published_reports
     unless params[:search][:product].blank?
       @parent = Product.find_by_name params[:search][:product]
       @pc = ProductCategory.find_by_name params[:search][:product] if @parent.blank?

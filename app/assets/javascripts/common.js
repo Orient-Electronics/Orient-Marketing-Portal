@@ -5,7 +5,7 @@ $('document').ready(function(){
   $('.tree-toggle').click(function () {
     $(this).parent().children('ul.tree').toggle(200);
   });
-  //$('select').selectpicker();
+  $('select').selectpicker();
   if($('.form-validate').length > 0)
   {
     $('.form-validate').each(function(){

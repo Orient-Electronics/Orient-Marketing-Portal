@@ -94,10 +94,44 @@
         <div class="block-content">
           <div class="tab-content">
            <div class="tab-pane active" id="brand-display-data">
-              <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
+              <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
+                <%= hidden_field_tag "dealer_id", @parent.id %>
+                <select name=search[product]>
+                  <option value="">All</option>
+                  <% @categories.each do |pc| %>
+                    <% if pc.products.blank? %>
+                      <option value="<%= pc.name %>"><%= pc.name %></option>
+                    <% else %>
+                      <optgroup label="<%= pc.name %>">
+                        <% pc.products.each do |product| %>
+                          <option value="<%= product.name %>"><%= product.name %></option>
+                        <% end -%>
+                      </optgroup>
+                    <% end -%>
+                  <% end -%>
+                </select>
+                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+              <% end -%>
+              <div class="brand-chart-data">
+                <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
+              </div>  
            </div>
            <div class="tab-pane active" id="category-display-data">
-              <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => "display_data", :brand => nil} %>
+              <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
+                <%= hidden_field_tag "dealer_id", @parent.id %>
+                <select name=search[brand]>
+                  <option value="">All</option>
+                  <% @brands.each do |pc| %>
+                    <option value="<%= pc.id %>"><%= pc.name %></option>
+                  <% end -%>
+                </select>
+                <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ), {} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+              <% end -%>
+              <div class="category-chart-data">
+                <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
+              </div>
            </div> 
           </div>
         </div>  
@@ -293,19 +327,32 @@
       } );
      
       $(".search_btn").click( function ()
-        {
-          id = $(this).data("id");
-          type = $(this).data("type")
-          $.ajax ({
-            url:  '/dealers/' + id + '/showmodal',
-            data: {type: type},
-            success: function(data)
-            {                              
-              $("#modal-user").html(data);
-              $(".person-inform-link").click();
-            }
-          });
-        });  
+      {
+        id = $(this).data("id");
+        type = $(this).data("type")
+        $.ajax ({
+          url:  '/dealers/' + id + '/showmodal',
+          data: {type: type},
+          success: function(data)
+          {                              
+            $("#modal-user").html(data);
+            $(".person-inform-link").click();
+          }
+        });
+      });  
+
+      $('.report-search').ajaxForm({
+        success: showResponse
+      });
+      $('.report-search select').change(function(){
+        $(this).parent().submit();
+      });
+      $('.category-report-search').ajaxForm({
+          success: showCatResponse
+        });
+      $('.category-report-search select').change(function(){
+        $(this).parent().submit();
+      });
     });
   </script>
 <% end -%>
