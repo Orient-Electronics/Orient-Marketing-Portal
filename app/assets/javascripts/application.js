@@ -19,5 +19,7 @@
 //= require plugins
 //= require app
 //= require_directory ./plugins/jchartfx
+//= require_directory ./plugins/select2
+//= require_directory ./plugins/form
 //= require presenter
 //= require common
