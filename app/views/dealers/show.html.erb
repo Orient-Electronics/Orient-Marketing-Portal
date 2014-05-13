@@ -151,7 +151,7 @@
           <li><a href="#corner_category">Categories</a></li>
         </ul>
       </div>  
-      <div class="tab-content">
+      <div class="tab-content scroll-dealer">
         <div class="tab-pane active" id="corner_brand">
           <div class="gallery" data-toggle="lightbox-gallery">
             <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
@@ -218,7 +218,7 @@
       <div class="block-title">
         <h2>Images</h2>
       </div>
-      <div class="gallery" data-toggle="lightbox-gallery">
+      <div class="gallery scroll-dealer" data-toggle="lightbox-gallery">
         <div class="row">
           <% count = 0%>
           <% @uploads.each do |image| %>
@@ -258,7 +258,7 @@
             People </i>
           </h3>
         </div>
-        <div class="block-content nopadding scrollable" data-height="500" data-visible="true" >
+        <div class="block-content scroll-dealer" >
           <table class="table table-user table-nohead">
             <tbody  remote ="true">
               <% @parent.shops.each do |shop| %>
