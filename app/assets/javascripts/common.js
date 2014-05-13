@@ -10,8 +10,6 @@ $('document').ready(function(){
   $('.tree-toggle').click(function () {
     $(this).parent().children('ul.tree').toggle(200);
   });
-  height =  ''+$(".scroll-dealer").height()+'px',
-  console.log(height);
 
   $(".scroll-dealer").slimScroll({
     height: '680px',
@@ -77,7 +75,7 @@ $('document').ready(function(){
         success: function(data)
         {
           parent.append(data);
-          avatar_link.show();
+          avatar_link.removeClass("hide");
         }
       });
     }
@@ -85,7 +83,7 @@ $('document').ready(function(){
     if(text == 0)
     {
       parent.html("");
-      avatar_link.hide();
+      avatar_link.addClass("hide");
     }
 
   });
@@ -103,15 +101,16 @@ $('document').ready(function(){
         data: {length: length },
         success: function(data)
         {
+          console.log(data);
           parent.append(data);
-          avatar_link.show();
+          avatar_link.removeClass("hide");
         }
       });
     }
     else
     {
       parent.html("");
-      avatar_link.hide();
+      avatar_link.addClass("hide");
     }
   }); 
 
