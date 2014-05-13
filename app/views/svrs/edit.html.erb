@@ -1,160 +1,164 @@
-<div class="container-fluid">
-  <div class="page-header">
-    <div class="pull-left">
-      <h1>Edit report </h1>
-    </div>
-  </div>
-  <div class="row-fluid">
-    <div class="span12">
-      <div class="box box-color box-bordered">
-        <div class="box-title">
-          <h3>
-            <i class="icon-magic"></i>
-            Edit Report
-          </h3>
-        </div>
-        <div class="box-content scrollable">
-          <%= form_for @post , :url => "/shops/#{@shop.id}/svrs/#{@post.id}" , :html => { :class => 'form-horizontal form-validate', :multipart => true } do |f| %>
-            <%= f.hidden_field :shop_id %>
-            <%= f.hidden_field :user_id %>
-            <%= f.hidden_field :product_category_id %>
-            <%= f.hidden_field :dealer_id %>
-            <div class='row-fluid'>
-              <div class= "span6" >
-                <%= f.label :year ,"Year", :class => 'control-label' %>  
-                <%= f.select :year , options_for_select( (2000..2020).to_a , @post.reports.first.year) %>
-              </div>
-              <div class ="span6">
-                <%= f.label :week ,"Week number", :class => 'control-label' %> 
-                <%= f.select :week , options_for_select(year_weeks, @post.reports.first.week) %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="block block-color block-bordered">
+      <div class="block-title">
+        <h3>
+          <i class="icon-magic"></i>
+          Edit Report
+        </h3>
+      </div>
+      <div class="block-content scrollable">
+        <%= form_for @post , :url => "/shops/#{@shop.id}/svrs/#{@post.id}" , :html => { :class => 'form-horizontal form-bordered form-validate', :multipart => true } do |f| %>
+          <%= f.hidden_field :shop_id %>
+          <%= f.hidden_field :user_id %>
+          <%= f.hidden_field :product_category_id %>
+          <%= f.hidden_field :dealer_id %>
+          
+          <div class='row'>
+            <div class= "col-md-6" >
+              <div class="row form-group">
+                <%= f.label :year ,"Year", :class => 'control-label col-md-2' %>  
+                <div class="col-md-4">
+                  <%= f.select :year , options_for_select((2000..2020).to_a , Date.today.strftime('%Y')) , :value => Date.today.strftime('%Y'), :class => "form-control" %>
+                </div>
               </div>
             </div>
-            <%= f.fields_for :reports do |report| %>
-              <% if report.object.report_type == 'display' or report.object.report_type == 'sales' %>
-                <% type=report.object.report_type %>
-                <div class="step">
-                  <div class="single-step">
-                    <span class="circle">
-                      <span class="active"></span>
-                    </span>
-                    <span class="description">
-                      <h3> <%= report.object.report_type.capitalize %> Information </h3> <hr />
-                    </span>
-                  </div>
+
+            <div class ="col-md-6">
+              <div class="row form-group">
+                <%= f.label :week ,"Week number", :class => 'control-label col-md-2' %> 
+                <%= f.select :week , options_for_select(year_weeks, Date.today.cweek), :class => " col-md-4  form-control", :value => Date.today.cweek  %>
+              </div>
+            </div>  
+          </div>
+
+          <%= f.fields_for :reports do |report| %>
+            <% if report.object.report_type == 'display' or report.object.report_type == 'sales' %>
+              <% type=report.object.report_type %>
+              <div class="step">
+                <div class="single-step">
+                  <span class="circle">
+                    <span class="active"></span>
+                  </span>
+                  <span class="description">
+                    <h3 class="form-portion-head"> <%= report.object.report_type.capitalize %> Information </h3> <hr />
+                  </span>
                 </div>
+              </div>
+              <div class="step-forms ">
+                <%= report.hidden_field :report_type %>
+                <%= report.hidden_field :shop_id %>
+                <%= report.hidden_field :user_id %>
                 <div class="step-forms ">
-                  <%= report.hidden_field :report_type %>
-                  <%= report.hidden_field :shop_id %>
-                  <%= report.hidden_field :user_id %>
-                  <div class="step-forms ">
-                    <%= report.fields_for :report_lines do |report_line| %>
-                      <div class="control-group">
-                        <% brand= Brand.find report_line.object.brand_id %>
-                        <%= report_line.hidden_field :product_category_id %>
-                        <%= report_line.hidden_field :product_id %>
-                        <%= report_line.hidden_field :brand_id %>
-                        <%= report_line.label :data,"#{brand.name} #{type}", :class => 'control-label' %>
-                        <%= report_line.text_field :data , :class => "input-xlarge required number"%>
-                      </div>
-                    <% end -%>
-                  </div>
-                </div>
-              <% else %>
-                <% type=report.object.report_type %>
-                <div class="step">
-                  <div class="single-step">
-                    <span class="circle">
-                      <span class="active"></span>
-                    </span>
-                    <span class="description">
-                      <h3> <%= report.object.report_type.capitalize %> Information </h3> <hr />
-                    </span>
-                  </div>
-                </div>
-                <div class="step-forms ">
-                  <%= report.hidden_field :report_type %>
-                  <%= report.hidden_field :shop_id %>
-                  <%= report.hidden_field :user_id %>
-                  <div class="step-forms ">
-                    <%  index = 0 %>
-                    <%= report.fields_for :report_lines do |report_line| %>
-                      
+                  <%= report.fields_for :report_lines do |report_line| %>
+                    <div class="form-group">
                       <% brand= Brand.find report_line.object.brand_id %>
                       <%= report_line.hidden_field :product_category_id %>
                       <%= report_line.hidden_field :product_id %>
                       <%= report_line.hidden_field :brand_id %>
-                      <div class="control-group">
-                        <%= report_line.label :data,"#{brand.name.capitalize} #{type.capitalize}", :class => 'control-label' %>
-                        <div class="controls">
-                          <div class = "radio-controls-edit required" remote ="true">
-                            <label class="radio" data-index= "<%= index %>">
-                              <%= report_line.radio_button :data, "1" ,:checked => "checked" %>Yes
-                            </label>
-                            <label class="radio" data-index= "<%= index %>" data-id = "<%= report_line.object.id%>">
-                              <%= report_line.radio_button :data, "0" %>No
-                            </label>
-                            
-                            <div class="parent-avatar-field">
-                              <%= report_line.fields_for :avatars do |avatar| %>
-                                  <div class="image-field">      
-                                    <%= image_tag(avatar.object.avatar(:thumb)) %>
-                                    <%= avatar.label "Change Image"  %>
-                                    <div class="avatar-fields">
-                                      <%= avatar.file_field :avatar  %>
-                                    </div>
-                                  </div>  
-                              <% end %>
-                              <div class="add-more-avatar"></div>
-
-                              <%= link_to "Add More", "#", :remote => :true , :class => "edit_add_more_link #{"hide" unless !report_line.object.avatars.blank?} ", :data => {:index => index }  %> 
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                      <% index += 1 %>
-                    <% end -%>
-                  </div>
+                      <%= report_line.label :data,"#{brand.name} #{type}", :class => 'control-label col-md-2' %>
+                      <div class="col-md-5">
+                        <%= report_line.text_field :data, :class => "form-control input-xlarge required number" %>
+                      </div>  
+                    </div>
+                  <% end -%>
                 </div>
-              <% end -%>
-            <% end -%>
-            <div class="step">
-              <div class="single-step">
-                <span class="circle">
-                  <span class="active"></span>
-                </span>
-                <span class="description">
-                  <h3> Upload Extra Images </h3> <hr />
-                </span>
               </div>
-            </div>
-            <div class="step-forms ">
-              <div class="control-group">
-                <label> Do you want to upload images </label>
-                <div class="upload-radio-controls controls">
-                  <label class="radio"><%= radio_button_tag :upload,  '1',:checked => "checked" %> Yes</label>
-                  <label class="radio"><%= radio_button_tag :upload,  '0'%> No </label>
+            <% else %>
+              <% type=report.object.report_type %>
+              <div class="step">
+                <div class="single-step">
+                  <span class="circle">
+                    <span class="active"></span>
+                  </span>
+                  <span class="description">
+                    <h3 class="form-portion-head"> <%= report.object.report_type.capitalize %> Information </h3> <hr />
+                  </span>
                 </div>
-                <div class="parent-upload-field controls">
-                  <%= f.fields_for :uploads do |upload| %>
-                    <div class="image-field">      
-                      <%= image_tag(upload.object.upload(:thumb)) %>
-                      <%= upload.label "Change Image"  %>
-                      <div class="avatar-fields">
-                        <%= upload.file_field :upload  %>
+              </div>
+              <div class="step-forms ">
+                <%= report.hidden_field :report_type %>
+                <%= report.hidden_field :shop_id %>
+                <%= report.hidden_field :user_id %>
+                <div class="step-forms ">
+                  <%  index = 0 %>
+                  <%= report.fields_for :report_lines do |report_line| %>
+                    
+                    <% brand= Brand.find report_line.object.brand_id %>
+                    <%= report_line.hidden_field :product_category_id %>
+                    <%= report_line.hidden_field :product_id %>
+                    <%= report_line.hidden_field :brand_id %>
+                    <div class="form-group">
+                      <%= report_line.label :data,"#{brand.name.capitalize} #{type.capitalize}", :class => 'control-label col-md-2' %>
+                      <div class="controls">
+                        <div class = "radio-controls-edit  col-md-5 required" remote ="true">
+                          <label class="radio" data-index= "<%= index %>">
+                            <%= report_line.radio_button :data, "1" ,:checked => "checked" %>Yes
+                          </label>
+                          <label class="radio" data-index= "<%= index %>" data-id = "<%= report_line.object.id%>">
+                            <%= report_line.radio_button :data, "0" %>No
+                          </label>
+                          
+                          <div class="parent-avatar-field">
+                            <%= report_line.fields_for :avatars do |avatar| %>
+                                <div class="image-field">      
+                                  <%= image_tag(avatar.object.avatar(:thumb)) %>
+                                  <%= avatar.label "Change Image"  %>
+                                  <div class="avatar-fields">
+                                    <%= avatar.file_field :avatar  %>
+                                  </div>
+                                </div>  
+                            <% end %>
+                            <div class="add-more-avatar"></div>
+
+                            <%= link_to "Add More", "#", :remote => :true , :class => "edit_add_more_link #{"hide" unless !report_line.object.avatars.blank?} ", :data => {:index => index }  %> 
+                          </div>
+                        </div>
+
                       </div>
-                    </div>  
-                  <% end %>
+                    </div>
+                    <% index += 1 %>
+                  <% end -%>
                 </div>
-                <%= link_to "Add More", "#", :remote => :true , :class => " #{"hide" unless !f.object.uploads.blank?}  add_more_upload_link controls"%>
-              </div>  
-            </div>
-            <div class="form-actions">
-              <input type="reset" class="btn" value="Back" id="back">
-              <input type="submit" class="btn btn-primary" value="Submit" id="next">
-            </div>
+              </div>
+            <% end -%>
           <% end -%>
-        </div>
+          <div class="step">
+            <div class="single-step">
+              <span class="circle">
+                <span class="active"></span>
+              </span>
+              <span class="description">
+                <h3 class="form-portion-head" > Upload Extra Images </h3> <hr />
+              </span>
+            </div>
+          </div>
+          <div class="step-forms ">
+            <div class="form-group">
+              <label class="control-label col-md-2"> Do you want to upload images </label>
+              <div class="upload-radio-controls controls col-md-5">
+                <label class="radio"><%= radio_button_tag :upload,  '1',:checked => "checked" %> Yes</label>
+                <label class="radio"><%= radio_button_tag :upload,  '0'%> No </label>
+              </div>
+              <div class="parent-upload-field controls col-md-12">
+                <%= f.fields_for :uploads do |upload| %>
+                  <div class="image-field">      
+                    <%= image_tag(upload.object.upload(:thumb)) %>
+                    <%= upload.label "Change Image"  %>
+                    <div class="avatar-fields">
+                      <%= upload.file_field :upload  %>
+                    </div>
+                  </div>  
+                <% end %>
+              </div>
+              <%= link_to "Add More", "#", :remote => :true , :class => " #{"hide" unless !f.object.uploads.blank?}  add_more_upload_link controls"%>
+            </div>  
+          </div>
+          <div class="form-actions">
+            <input type="reset" class="btn" value="Back" id="back">
+            <input type="submit" class="btn btn-primary" value="Submit" id="next">
+          </div>
+        <% end -%>
       </div>
     </div>
   </div>

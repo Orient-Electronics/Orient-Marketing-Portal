@@ -3568,6 +3568,11 @@ p, .table, .alert, .carousel {
   border: none !important;
 }
 
+.form-portion-head
+{
+  font-weight: bold;
+  padding-left: 20px;
+}
 /*.dearlers-list
 {
   height: 400px;

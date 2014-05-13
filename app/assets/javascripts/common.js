@@ -167,7 +167,7 @@ $('document').ready(function(){
         success: function(data)
         {
           contents_2.append(data);
-          avatar_link.show();
+          avatar_link.removeClass("hide");
         }
       });
     }
@@ -183,7 +183,7 @@ $('document').ready(function(){
         {
           contents_1.html("");
           contents_2.html("");
-          avatar_link.hide();
+          avatar_link.addClass("hide");
         }
       });
       

@@ -2,7 +2,7 @@
   <div class= " form-group error-box">
     <p><%= errors_for(@shop, "").html_safe %></p>
   </div>
- 
+ <h3 class="form-portion-head"> Shop Logo </h3>
   <%= f.fields_for :avatar do |f| %>
     <div class= "form-group">
       <%= f.label "Shop Icon", :id => :avatar, :class => 'control-label col-md-1'%>
@@ -12,7 +12,7 @@
     </div>
   <%end%> 
 
-
+  <h3 class="form-portion-head"> Shop Location </h3>
   <%= f.fields_for :location do |f| %>
     <div class=" form-group">
       <%= f.label :city_id, :class => 'control-label col-md-1' %>
@@ -107,7 +107,7 @@
   </div>
 
   
-  <h3>Owner Information</h3>
+  <h3 class="form-portion-head">Owner Information</h3>
   <%= f.fields_for :owner do |f| %>
     <div class=" form-group">
       
@@ -133,7 +133,7 @@
     </div>
   <% end -%>
   
-  <h3>Manager Information</h3>
+  <h3 class="form-portion-head">Manager Information</h3>
 
   <%= f.fields_for :manager do |f| %>
     <div class=" form-group">
