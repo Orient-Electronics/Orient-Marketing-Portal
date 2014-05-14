@@ -323,9 +323,7 @@
       </div>
       <div class="gallery scroll-dealer" data-toggle="lightbox-gallery">
         <div class="row">
-          <% count = 0%>
           <% @shop_uploads.each do |image| %>
-            <% break if count == 9  %>
             <div class="col-sm-4 gallery-image">
               <% if image.class.to_s == "Upload"%>
                 <%= image_tag image.upload.url(:small) %>
@@ -333,7 +331,7 @@
                   <div class="btn-group btn-group-sm">
                     <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
                   </div>
-                </div>      
+                </div>       
               <% else %>
                 <%= image_tag image.avatar.url(:small) %>
                 <div class="gallery-image-options text-center">
@@ -343,7 +341,6 @@
                 </div>  
               <% end %>
             </div>  
-            <% count = count+1 %>
           <% end %>
         </div>  
       </div>
