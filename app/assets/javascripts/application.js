@@ -18,6 +18,7 @@
 //= require twitter/bootstrap
 //= require plugins
 //= require app
+//= require jquery.infinitescroll
 //= require bootstrap-select
 //= require_directory ./plugins/jchartfx
 //= require_directory ./plugins/select2

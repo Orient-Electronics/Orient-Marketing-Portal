@@ -3578,10 +3578,7 @@ p, .table, .alert, .carousel {
 {
   width: 140px !important;
 }
-/*.dearlers-list
-{
-  height: 400px;
-}*/
+
 
 /* Large devices, Desktops (>1199px) */
 @media screen and (min-width: 1200px) {

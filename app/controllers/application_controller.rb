@@ -27,7 +27,8 @@ class ApplicationController < ActionController::Base
 
   def fetch_activities
     if current_user
-      @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: current_user.id, owner_type: "User")
+      params[:page] = params[:page].blank? ? 1 : params[:page]
+      @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: current_user.id, owner_type: "User").page(params[:page]).per(5)
     end
   end
   def check_admin

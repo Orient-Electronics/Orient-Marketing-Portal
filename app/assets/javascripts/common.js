@@ -15,6 +15,12 @@ $('document').ready(function(){
     height: '680px',
     size: '5px'
   });
+
+  $(".scroll-my-activities").slimScroll({
+    height: '300px',
+    size: '5px'
+  });
+
     
   $('select').selectpicker();
 
