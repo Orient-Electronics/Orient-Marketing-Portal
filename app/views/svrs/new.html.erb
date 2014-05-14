@@ -136,8 +136,8 @@
             </div>  
           </div>  
           <div class="form-group form-actions text-center">
-            <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-primary' %>
-            <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>            
+            <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success' %>
+            <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), shops_path(@shop), :class => 'btn btn-sm btn-primary' %>            
           </div>
         <% end -%>
       </div>

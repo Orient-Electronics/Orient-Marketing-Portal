@@ -3,29 +3,29 @@
     <p><%= errors_for(@product, "").html_safe %></p>
   </div>
   <div class="form-group">
-    <%= f.label :product_category_id, :class => 'control-label col-md-3' %>
-    <div class="col-md-3">
+    <%= f.label :product_category_id, :class => 'control-label col-md-2' %>
+    <div class="col-md-5">
       <%= f.collection_select :product_category_id, ProductCategory.all,:id,:name, {include_blank: true} , {class: "form-control required"}  %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :name, :class => 'control-label col-md-3' %>
-    <div class="col-md-9">
-      <%= f.text_field :name, :class => 'text_field required' %>
+    <%= f.label :name, :class => 'control-label col-md-2' %>
+    <div class="col-md-5">
+      <%= f.text_field :name, :class => 'form-control text_field required' %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :info, :class => 'control-label col-md-3' %>
-    <div class="col-md-9">
-      <%= f.text_field :info, :class => 'text_field' %>
+    <%= f.label :info, :class => 'control-label col-md-2' %>
+    <div class="col-md-5">
+      <%= f.text_field :info, :class => 'form-control text_field' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= hidden_field_tag "product[brand_ids][]", nil %>
-    <label class="control-label col-md-3"> Select Brands</label>
-    <div class="col-md-9">
+    <label class="control-label col-md-2"> Select Brands</label>
+    <div class="col-md-5">
       <% Brand.all.each do |brand| %>
         <%= check_box_tag "product[brand_ids][]", brand.id, @product.brand_ids.include?(brand.id), id: dom_id(brand) %>
         <%= label_tag dom_id(brand), brand.name, :class => 'control-label' %> <br>
@@ -34,7 +34,7 @@
   </div>
 
   <div class="form-group form-actions text-center">
-    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-primary' %>
-    <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>            
+    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success' %>
+    <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), products_path, :class => 'btn btn-sm btn-primary' %>  
   </div>
 <% end %>

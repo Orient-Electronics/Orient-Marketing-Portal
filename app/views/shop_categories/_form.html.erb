@@ -3,23 +3,23 @@
     <p><%= errors_for(@shop_category, "").html_safe %></p>
   </div>
   <div class="form-group">
-    <%= f.label :name, :class => 'col-md-3 control-label'%>
-    <div class="col-md-9">
-      <%= f.text_field :name, :class => 'text_field required' %>
+    <%= f.label :name, :class => 'col-md-2 control-label'%>
+    <div class="col-md-5">
+      <%= f.text_field :name, :class => 'form-control text_field required' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.fields_for :avatar do |f| %>
       <div class= "control-group">
-        <%= f.label "Marker Pin", :id => :avatar, :class => 'col-md-3  control-label'%>
-        <div class="col-md-9">
-          <%= f.file_field :avatar ,:class => 'avatar_field required' %>
+        <%= f.label "Marker Pin", :id => :avatar, :class => 'col-md-2 control-label'%>
+        <div class="col-md-5">
+          <%= f.file_field :avatar ,:class => 'form-control avatar_field required' %>
         </div>
       </div>
     <% end -%> 
   </div>  
   <div class="form-group form-actions text-center">
-    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-primary' %>
-    <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>            
+   <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success' %>
+    <%= link_to raw("<i class='fa fa-angle-left'></i> Back"),shop_categories_path, :class => 'btn btn-sm btn-primary' %>              
   </div>
 <% end %>

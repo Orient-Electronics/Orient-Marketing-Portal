@@ -154,9 +154,9 @@
               <%= link_to "Add More", "#", :remote => :true , :class => " #{"hide" unless !f.object.uploads.blank?}  add_more_upload_link controls"%>
             </div>  
           </div>
-          <div class="form-actions">
-            <input type="reset" class="btn" value="Back" id="back">
-            <input type="submit" class="btn btn-primary" value="Submit" id="next">
+          <div class="form-group form-actions text-center">
+            <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success' %>
+            <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), shop_svr_path(@shop,@post), :class => 'btn btn-sm btn-primary' %>            
           </div>
         <% end -%>
       </div>

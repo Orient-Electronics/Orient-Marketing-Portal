@@ -3,14 +3,14 @@
     <p><%= errors_for(@announcement, "").html_safe %></p>
   </div>
   <div class="form-group">
-    <%= f.label :announcement, :class => ' col-md-3 control-label' %>
+    <%= f.label :announcement, :class => ' col-md-2 control-label' %>
     <div class="col-md-9">
-      <%= f.text_field :announcement, :class => 'text_field required' %>
+      <%= f.text_field :announcement, :class => 'form-control text_field required' %>
     </div>
   </div>
 
   <div class="form-group form-actions text-center">
-    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-primary' %>
-    <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>            
+    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success' %>
+    <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), announcements_path, :class => 'btn btn-sm btn-primary' %>              
   </div>
 <% end %>

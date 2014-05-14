@@ -3,16 +3,16 @@
     <p><%= errors_for(@product_category, "").html_safe %></p>
   </div>
   <div class="form-group">
-    <%= f.label :name, :class => 'col-md-3 control-label' %>
-    <div class="col-md-9">
-      <%= f.text_field :name, :class => 'text_field required' %>
+    <%= f.label :name, :class => 'col-md-2 control-label' %>
+    <div class="col-md-5">
+      <%= f.text_field :name, :class => 'text_field form-control required' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= hidden_field_tag "product_category[brand_ids][]", nil %>
-    <label class="control-label col-md-3"> Select Brands</label>
-    <div class="col-md-9">
+    <label class="control-label col-md-2"> Select Brands</label>
+    <div class="col-md-5">
 
       <% Brand.all.each do |brand| %>
         <%= check_box_tag "product_category[brand_ids][]", brand.id, @product_category.brand_ids.include?(brand.id), id: dom_id(brand) %>
@@ -22,7 +22,7 @@
   </div>
 
   <div class="form-group form-actions text-center">
-    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-primary' %>
-    <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>            
+    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success' %>
+    <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), product_categories_path, :class => 'btn btn-sm btn-primary' %>              
   </div>
 <% end %>
