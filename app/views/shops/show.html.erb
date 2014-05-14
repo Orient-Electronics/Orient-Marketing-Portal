@@ -238,7 +238,7 @@
 </div>
 <div class="row">
   <div class="col-md-6">
-    <div class="block block-height block-max-height">
+    <div class="block gallery-block-height">
       <div class="block-title">
         <h2><strong>Display Corner Reports</strong></h2>
         <ul class="nav nav-tabs" data-toggle="tabs">
@@ -309,7 +309,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="block block-height block-max-height">
+    <div class="block gallery-block-height">
       <div class="block-title">
         <h2>Images</h2>
         <% if can? :create, Upload%>
@@ -321,7 +321,7 @@
             </div>
           <% end -%>
       </div>
-      <div class="gallery" data-toggle="lightbox-gallery">
+      <div class="gallery scroll-dealer" data-toggle="lightbox-gallery">
         <div class="row">
           <% count = 0%>
           <% @shop_uploads.each do |image| %>

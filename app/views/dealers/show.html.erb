@@ -30,13 +30,13 @@
   </div>
   <% if can? :read, Shop%>
     <div class="col-md-6">
-      <div class="block block-color block-bordered">
+      <div class="block map-block-height block-color block-bordered">
         <div class="block-title">
           <h3>
             Shops
           </h3>
         </div>
-        <div class="block-content dearlers-list scroll-dealer">
+        <div class="block-content block-height dearlers-list scroll-dealer">
           <table class="table table-hover table-nomargin" id="shop-data">
             <thead>
               <tr class='thefilter row'>
@@ -151,7 +151,7 @@
           <li><a href="#corner_category">Categories</a></li>
         </ul>
       </div>  
-      <div class="tab-content scroll-dealer">
+      <div class="tab-content block-dealer-height block-height scroll-dealer">
         <div class="tab-pane active" id="corner_brand">
           <div class="gallery" data-toggle="lightbox-gallery">
             <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
@@ -214,7 +214,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="block">
+    <div class="block gallery-block-height">
       <div class="block-title">
         <h2>Images</h2>
       </div>
@@ -258,7 +258,7 @@
             People </i>
           </h3>
         </div>
-        <div class="block-content scroll-dealer" >
+        <div class="block-content block-height block-max-height scroll-dealer" >
           <table class="table table-user table-nohead">
             <tbody  remote ="true">
               <% @parent.shops.each do |shop| %>
