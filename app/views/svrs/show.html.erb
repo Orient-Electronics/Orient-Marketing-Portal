@@ -2,11 +2,16 @@
   <div class="header-section">
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
+        <%= link_to raw("<i class='fa fa-angle-left'></i> Go to Shop"), shop_path(@shop), :class => 'btn btn-sm  btn-primary' %>
+      </div> 
+      <div class="btn-group">
+        
       <% if @post.published? %>
         <%= link_to "Unpublish", unpublish_report_tasks_path(:post_id => @post.id), :class => "btn btn-sm btn-success" %>
       <% else %>  
         <%= link_to "Publish", publish_report_tasks_path(:post_id => @post.id), :class => "btn btn-sm btn-success" %>
       <% end %>   
+        
       </div>
       <div class="btn-group">
         <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit", :class => "btn btn-sm btn-primary" %>
