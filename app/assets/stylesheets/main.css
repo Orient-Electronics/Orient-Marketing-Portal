@@ -3579,6 +3579,25 @@ p, .table, .alert, .carousel {
   width: 140px !important;
 }
 
+.dealers .twitter-typeahead{
+  width: 100% !important;
+}
+.dealers .twitter-typeahead .tt-hint{
+  width: 100% !important;
+  margin-top: 33px !important;
+}
+.dealers .twitter-typeahead .tt-dropdown-menu{
+  width: 100% !important;
+}
+
+.twitter-typeahead .tt-dropdown-menu .tt-dataset-dealers{
+  padding-left: 7px !important; 
+}
+
+.twitter-typeahead .tt-dropdown-menu .tt-dataset-dealers .tt-suggestion:hover
+{
+  background-color: #3498db !important
+}
 
 /* Large devices, Desktops (>1199px) */
 @media screen and (min-width: 1200px) {

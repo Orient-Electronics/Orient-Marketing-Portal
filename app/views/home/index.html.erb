@@ -14,9 +14,9 @@
 
 	        <!-- Newsfeed Content -->
 	        <div class="block-content-full">
-	        	<ul class="media-list media-feed media-feed-hover">
+	        	<ul class="media-list media-feed media-feed-hover subscribe-activities subscribe-activities-scroll">
 	        		<% @subscriber_activities .each do |activity| %>
-	        			<li class="media">
+	        			<li class="media subscribe-activity">
 	        				<a href="page_ready_user_profile.html" class="pull-left">
                       <%= image_tag(User.find(activity.owner.id).avatar.avatar(:thumb), :class => "img-circle") %>
                   </a>
@@ -31,6 +31,9 @@
                   </div>    
 	        			</li>	
 	        		<% end %>
+               <div class="subscribe hide">
+                <%= paginate @subscriber_activities %>
+              </div>
 	        	</ul>	
 	        </div>	
 	        <!-- END Newsfeed Content -->
@@ -71,3 +74,13 @@
  		</div>
  		<!-- END Second Column -->
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".subscribe-activities").infinitescroll({
+      navSelector: ".subscribe nav.pagination",
+      nextSelector: ".subscribe nav.pagination a[rel=next]",
+      itemSelector: ".subscribe-activity"
+    });  
+  });
+</script>

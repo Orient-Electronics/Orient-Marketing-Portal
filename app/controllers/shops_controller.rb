@@ -79,6 +79,7 @@ class ShopsController < ApplicationController
   def edit
     authorize! :update, Shop
     @shop = Shop.find(params[:id])
+    @dealer = @shop.dealer
   end
 
   # POST /shops

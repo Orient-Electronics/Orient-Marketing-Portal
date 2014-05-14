@@ -30,7 +30,7 @@
                   </div>    
 	        			</li>	
 	        		<% end %>
-              <div class="hide">
+              <div class="activities hide">
                 <%= paginate @user_activities %>
               </div>
 	        	</ul>	
@@ -132,8 +132,8 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $(".user-activities").infinitescroll({
-      navSelector: "nav.pagination",
-      nextSelector: "nav.pagination a[rel=next]",
+      navSelector: ".activities nav.pagination",
+      nextSelector: ".activities nav.pagination a[rel=next]",
       itemSelector: ".user-activity"
     });  
   });

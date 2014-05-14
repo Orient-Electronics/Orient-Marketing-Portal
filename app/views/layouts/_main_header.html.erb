@@ -23,20 +23,19 @@
       <!-- User Dropdown -->
       <li class="dropdown">
         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-          <!-- <span class="badge pull-right notification-count"></span><i class="fa fa-angle-down"></i> -->
           <i class="gi gi-share_alt"></i>
-          <span class="label label-primary label-indicator animation-floating"><%= @notifications.count %></span>
+          <span class="label label-primary notification-count label-indicator animation-floating"><%= @notifications_count %></span>
         </a>
         <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
           <li class="dropdown-header text-center">Notifications</li>
           <li class="notification-content notification-content-scroll">
             <% @notifications.each do |notification|%>
-              <div class="alert  alert-info alert-alt notification" data-notification="<%= notification.id %>">
+              <div class="alert  alert-info alert-alt my-notification notification" data-notification="<%= notification.id %>">
                 <small><%= notification.created_at.strftime("%B, %d")%></small><br>
                 <i class="fa fa-arrow-up fa-fw"></i><%= notification.owner.name %>  <%= render_activity notification %>
               </div> 
             <% end %>
-            <div class="hide">
+            <div class="pager_notification hide">
               <%= paginate @notifications %>
             </div>
           </li>
@@ -51,9 +50,9 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $(".notification-content").infinitescroll({
-      navSelector: "nav.pagination",
-      nextSelector: "nav.pagination a[rel=next]",
-      itemSelector: ".notification"
+      navSelector: ".pager_notification nav.pagination",
+      nextSelector: ".pager_notification nav.pagination a[rel=next]",
+      itemSelector: ".my-notification"
     });  
   });
 </script>

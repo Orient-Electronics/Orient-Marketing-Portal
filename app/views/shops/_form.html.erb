@@ -47,7 +47,7 @@
       <div class="col-md-5">
         <div id="location_canvas" style="height:300px;"></div>
         <br>
-        <%= check_box_tag "", "", false, id: "confirm_pin", :class => 'pull-left required' %>
+        <%= check_box_tag "", "", false, id: "confirm_pin", :class => 'pull-left confirm-pin required' %>
         <%= label_tag "confirm_pin", " Confirm this location" %>
       </div>
     </div>
@@ -63,7 +63,7 @@
 
   <div class=" form-group">
     <%= f.label :branch_of,"Dealer Name", :class => 'control-label col-md-1' %>
-    <div class="col-md-5">
+    <div class="col-md-5 dealers">
       <%= f.text_field :branch_of, :class => 'form-control text_field typeahead required' %>
     </div>
   </div>
@@ -159,8 +159,12 @@
   <% end -%>
 
  <div class="form-group form-actions text-center">
-    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-primary' %>
-    <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-repeat"></i> Reset</button>            
+    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success submit-btn' %>
+    <% unless @dealer.blank? %>
+      <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), dealers_path(@dealer), :class => 'btn btn-sm btn-primary' %>
+    <% else %>  
+    <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), dealers_path, :class => '  btn btn-sm btn-primary' %>
+    <% end %>
   </div>
 <% end %>
 
@@ -266,7 +270,11 @@
   }
 
   $('document').ready(function () {
-    
+
+    $(".submit-btn").click(function(){
+      $(".confirm-pin").is(":checked") == false ? alert("please confirm location") : null
+    });
+
     if(($("#lat").val()=="")||($("#lng").val()==""))
       setgeolocation("Pakistan");
     else{
@@ -305,6 +313,8 @@
       local: '<%= Dealer.all.collect{|c| c.name}.join("*") %>'.split("*"),
       limit: 10                                                                   
     });
+
+    $(".dealers .twitter-typeahead .tt-dropdown-menu").addClass("dropdown-menu");
 
   });
 </script>

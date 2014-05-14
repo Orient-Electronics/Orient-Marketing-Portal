@@ -1,6 +1,6 @@
 $('document').ready(function(){
     
-
+  
   $('.category-tab').click();
   $('.brand-tab').click();
   $('.datepicker').datepicker();
@@ -24,14 +24,19 @@ $('document').ready(function(){
   $(".user-activities-scroll").slimScroll({
     height: '500px',
     size: '5px'
-  })
+  });
 
   $(".notification-content-scroll").slimScroll({
     height: '300px',
     size: '5px'
-  })
+  });
 
-    
+  $(".subscribe-activities-scroll").slimScroll({
+    height: '500px',
+    size: '5px'
+  });
+
+  
   $('select').selectpicker();
 
   if($('.form-validate').length > 0)

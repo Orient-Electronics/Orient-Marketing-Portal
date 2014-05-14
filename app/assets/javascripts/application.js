@@ -17,6 +17,7 @@
 //= require modernizr
 //= require twitter/bootstrap
 //= require plugins
+//= require typeahead
 //= require app
 //= require jquery.infinitescroll
 //= require bootstrap-select
