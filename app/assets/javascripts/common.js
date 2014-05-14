@@ -21,6 +21,11 @@ $('document').ready(function(){
     size: '5px'
   });
 
+  $(".user-activities-scroll").slimScroll({
+    height: '500px',
+    size: '5px'
+  })
+
     
   $('select').selectpicker();
 

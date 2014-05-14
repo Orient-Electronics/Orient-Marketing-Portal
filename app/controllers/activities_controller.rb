@@ -1,7 +1,8 @@
 class ActivitiesController < ApplicationController
   def index
+    params[:page] = params[:page].blank? ? 1 : params[:page]
   	@user = User.find  params[:user_id]
-    @user_activities = PublicActivity::Activity.order("created_at desc").where(owner_id: params[:user_id], owner_type: "User")
+    @user_activities = PublicActivity::Activity.order("created_at desc").where(owner_id: params[:user_id], owner_type: "User").page(params[:page]).per(5)
     @subscribers = @user.subscribers
   end
 

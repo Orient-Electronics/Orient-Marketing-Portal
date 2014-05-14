@@ -15,9 +15,9 @@
 
 	        <!-- Newsfeed Content -->
 	        <div class="block-content-full">
-	        	<ul class="media-list media-feed media-feed-hover">
+	        	<ul class="media-list media-feed media-feed-hover user-activities  user-activities-scroll">
 	        		<% @user_activities.each do |activity| %>
-	        			<li class="media">
+	        			<li class="media user-activity">
                   <%=link_to raw(image_tag(@user.avatar.avatar(:thumb), :class => "img-circle")), activities_path(:user_id => @user.id),:class => "pull-left" %>
                   <div class="media-body">
                     <p class="push-bit">
@@ -30,6 +30,9 @@
                   </div>    
 	        			</li>	
 	        		<% end %>
+              <div class="hide">
+                <%= paginate @user_activities %>
+              </div>
 	        	</ul>	
 	        </div>	
 	        <!-- END Newsfeed Content -->
@@ -124,3 +127,14 @@
 		<%= render :partial => 'subscriber', :locals => {user_id: current_user.id, subscribe_id: @user.id} %>
 	<% end %>	
 <% end -%>	
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".user-activities").infinitescroll({
+      navSelector: "nav.pagination",
+      nextSelector: "nav.pagination a[rel=next]",
+      itemSelector: ".user-activity"
+    });  
+  });
+</script>
