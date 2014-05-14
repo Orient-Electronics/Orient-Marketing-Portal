@@ -28,7 +28,7 @@
 </div>
 <a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
 <div class="row">
-  <div class="col-md-6 dealers-map">
+  <div class="col-md-6 block-dealer-height dealers-map">
     <%= render :partial => "/shared/map"%>
   </div>  
   <% if can? :read, Dealer%>
@@ -37,14 +37,9 @@
         <div class="block-title">
           <h3>Dealers</h3>
         </div>
-        <div class="block-content dearlers-list scroll-dealer">
+        <div class="block-content block-height dearlers-list scroll-dealer">
           <table class="table table-hover" id="shop-data">
             <thead>
-              <tr class='thefilter row'>
-                <th><input type="text" name="search_dealer" placeholder="Dealer" class="search_init col-md-9" />
-                </th>
-                <th><span class="col-md-3">&nbsp;</span></th>
-              </tr>
               <tr class="row">
                 <th class="col-md-9">Dealer Name </th>
                 <th class="col-md-3">Actions</th>
@@ -78,7 +73,7 @@
     <div class="col-md-12">
       <div class="block">
         <div class="block-title">
-          <h3><strong> Display &amp; Corner  Reports</strong></h3>
+          <h3><strong> Display &amp; Sales  Reports</strong></h3>
           <ul class="nav nav-tabs" data-toggle="tabs">
             <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
             <li><a class="category-tab" href="#category-display-data">Categories</a></li>
@@ -140,7 +135,7 @@
           <li><a href="#corner_category">Categories</a></li>
         </ul>
       </div>  
-      <div class="tab-content scroll-dealer">
+      <div class="tab-content block-dealer-height block-height scroll-dealer">
         <div class="tab-pane active" id="corner_brand">
           <div class="gallery" data-toggle="lightbox-gallery">
             <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
@@ -203,7 +198,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="block">
+    <div class="block gallery-block-height">
       <div class="block-title">
         <h2>Images</h2>
       </div>
@@ -244,7 +239,7 @@
             People </i>
           </h3>
         </div>
-        <div class="block-content scroll-dealer" >
+        <div class="block-content block-height block-max-height scroll-dealer" >
           <table class="table table-user table-nohead">
             <tbody  remote ="true">
               <% @shops.each do |shop| %>
@@ -280,7 +275,7 @@
       
       $('#shop-data_length, #shop-data_filter, #shop-data_paginate, #shop-data_info').addClass("no-background-border");
       $("#shop-data_length, #shop-data_info").addClass("pull-left");
-      $("#shop-data_filter, #shop-data_paginate").addClass("pull-right");
+      $(" #shop-data_paginate, #shop-data_filter").addClass("pull-right");
       
       $(".thefilter input").keyup( function () {
         /* Filter on the column (the index) of this element */

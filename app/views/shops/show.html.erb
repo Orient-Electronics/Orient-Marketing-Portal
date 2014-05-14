@@ -18,7 +18,7 @@
 <a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
 <div class="row">
   <div class="col-md-6">
-    <div class="block block-color block-bordered">
+    <div class="block block-color block-bordered block-height block-max-height">
       <div class="block-title">
         <div class="btn-toolbar pull-right">
             <div class="btn-group new-report-btn-position">
@@ -46,24 +46,20 @@
             </div>  
           </div>
         <h3>
-
-          <i class="icon-bar-chart"></i>
+          <i class="fa fa-bar-chart-o"></i>
            Shop Visit Reports
         </h3>
-        <div class="actions">
-          <a href="#" class="btn btn-mini content-slideUp"><i class="icon-angle-down"></i></a>
-        </div>
       </div>
-      <div class="block-content nonpadding scroll-dealer" >
-        <table class="table table-hover table-nomargin table-bordered dataTable-fixedcolumn dataTable-scroll-x dataTable-scroll-y">
+      <div class="block-content scroll-dealer" >
+        <table class="table table-hover table-bordered " id="shop-svr-table">
           <thead>
             <tr>
               <th> S.No. </th>
               <th> Product Category </th>
-              <th> Report Created by</th>
-              <th> Report Created at </th>
+              <th> Created by</th>
+              <th> Created at </th>
               <% if can? :create, Task %>
-                <th>Change Status</th>
+                <th>Status</th>
               <% end %>  
             <tr/>
           </thead>
@@ -91,7 +87,7 @@
     </div>
   </div>  
   <div class="col-md-6">
-    <div class="block">
+    <div class="block block-height">
       <div class="block-title">
         <h2>Basic Information</h2>
       </div> 
@@ -242,7 +238,7 @@
 </div>
 <div class="row">
   <div class="col-md-6">
-    <div class="block">
+    <div class="block block-height block-max-height">
       <div class="block-title">
         <h2><strong>Display Corner Reports</strong></h2>
         <ul class="nav nav-tabs" data-toggle="tabs">
@@ -313,7 +309,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="block">
+    <div class="block block-height block-max-height">
       <div class="block-title">
         <h2>Images</h2>
         <% if can? :create, Upload%>
@@ -358,7 +354,7 @@
 <div class="row">
   <%if can? :read, Owner, Manager%>
     <div class="col-md-6">
-      <div class="block block-color block-bordered">
+      <div class="block block-color block-bordered block-height block-max-height">
         <div class="block-title">
           <h3>
             <i class="icon-user">

@@ -12,7 +12,7 @@ $('document').ready(function(){
   });
 
   $(".scroll-dealer").slimScroll({
-    height: '680px',
+    height: 'auto',
     size: '5px'
   });
 

@@ -3538,6 +3538,7 @@ p, .table, .alert, .carousel {
   background-color: white;
   width: 50%;
   left: 20%;
+  top: 20%;
   height: 380px;
   overflow: auto;
 }
@@ -3550,7 +3551,7 @@ p, .table, .alert, .carousel {
 .new-report-btn-position
 {
   margin-right: 20px;
-  margin-top: 10px;
+  margin-top: 2px;
 }
 
 .dealers-map .block-title{
@@ -3559,7 +3560,7 @@ p, .table, .alert, .carousel {
 
 #map_location
 {
-  height: 650px;
+  height: 515px;
 }
 
 .no-background-border
@@ -3599,6 +3600,9 @@ p, .table, .alert, .carousel {
   background-color: #3498db !important
 }
 
+#shop-svr-table thead > tr > th {
+  font-size: 12px;
+}
 /* Large devices, Desktops (>1199px) */
 @media screen and (min-width: 1200px) {
 
@@ -3641,4 +3645,25 @@ only screen and (min-device-pixel-ratio: 1.5) {
   #main-container {margin: 0 !important;}
   .block, .block.full {border: none !important; padding: 0 !important;}
   .block-title {margin: 0 0 20px !important;}
+}
+
+.block-height{
+  height: 450px;
+}
+
+.block-max-height{
+  max-height: 450px;
+}
+
+.map-block-height{
+  height: 615px;
+}
+
+.block-dealer-height
+{
+  max-height: 560px;
+}
+
+.gallery-block-height{
+  height: 630px;
 }
