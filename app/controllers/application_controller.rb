@@ -21,7 +21,9 @@ class ApplicationController < ActionController::Base
 
   def fetch_notification 
     if current_user
-      @notifications = current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}
+      params[:page] = params[:page].blank? ? 1 : params[:page]
+      @notifications_count = current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}.count
+      @notifications = Kaminari.paginate_array(current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}).page(params[:page]).per(5)
     end
   end
 

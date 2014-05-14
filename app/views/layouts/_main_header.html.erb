@@ -17,51 +17,43 @@
     </div>
   </form>
   <!-- END Search Form -->
-
+  <% unless  @notifications_count <= 0 %>
   <!-- Right Header Navigation -->
-  <ul class="nav navbar-nav-custom pull-right">
-    <!-- User Dropdown -->
-    <li class="dropdown">
-      <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-        <%= image_tag(current_user.get_avatar.avatar.url(:small)) %> <i class="fa fa-angle-down"></i>
-      </a>
-      <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
-        <li class="dropdown-header text-center">Account</li>
-        <% unless  @notifications.count <= 0 %>
-          <li>
-            <a href="page_ready_pricing_tables.html"><i class="fa fa-clock-o fa-fw pull-right"></i>
-              <span class="badge pull-right notification-count"><%= @notifications.count %></span>
-                Notification
-            </a>
+    <ul class="nav navbar-nav-custom pull-right">
+      <!-- User Dropdown -->
+      <li class="dropdown">
+        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+          <!-- <span class="badge pull-right notification-count"></span><i class="fa fa-angle-down"></i> -->
+          <i class="gi gi-share_alt"></i>
+          <span class="label label-primary label-indicator animation-floating"><%= @notifications.count %></span>
+        </a>
+        <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
+          <li class="dropdown-header text-center">Notifications</li>
+          <li class="notification-content notification-content-scroll">
+            <% @notifications.each do |notification|%>
+              <div class="alert  alert-info alert-alt notification" data-notification="<%= notification.id %>">
+                <small><%= notification.created_at.strftime("%B, %d")%></small><br>
+                <i class="fa fa-arrow-up fa-fw"></i><%= notification.owner.name %>  <%= render_activity notification %>
+              </div> 
+            <% end %>
+            <div class="hide">
+              <%= paginate @notifications %>
+            </div>
           </li>
-        <% end %>
-        <li class="divider"></li>
-        <li>
-          <a href="<%= activities_path(:user_id => current_user.id) %>">
-            <i class="fa fa-user fa-fw pull-right"></i>
-            Profile
-          </a>
-          <a href="#modal-user-settings" data-toggle="modal">
-            <i class="fa fa-cog fa-fw pull-right"></i>
-            Settings
-          </a>
-        </li>
-        <li class="divider"></li>
-        <li>
-          <%= link_to  raw("<i class='fa fa-ban fa-fw pull-right'></i> Logout"), destroy_user_session_path, :method => :delete %>
-        </li>
-        <li class="dropdown-header text-center">Notifications</li>
-        <li>
-          <% @notifications.each do |notification|%>
-            <div class="alert  alert-info alert-alt notification" data-notification="<%= notification.id %>">
-              <small><%= notification.created_at.strftime("%B, %d")%></small><br>
-              <i class="fa fa-arrow-up fa-fw"></i><%= notification.owner.name %>  <%= render_activity notification %>
-            </div> 
-          <% end %>
-        </li>
-      </ul>
-    </li>
-    <!-- END User Dropdown -->
-  </ul>
+        </ul>
+      </li>
+      <!-- END User Dropdown -->
+    </ul>
+  <% end %>  
   <!-- END Right Header Navigation -->
 </header>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".notification-content").infinitescroll({
+      navSelector: "nav.pagination",
+      nextSelector: "nav.pagination a[rel=next]",
+      itemSelector: ".notification"
+    });  
+  });
+</script>

@@ -26,6 +26,11 @@ $('document').ready(function(){
     size: '5px'
   })
 
+  $(".notification-content-scroll").slimScroll({
+    height: '300px',
+    size: '5px'
+  })
+
     
   $('select').selectpicker();
 
