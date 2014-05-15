@@ -95,21 +95,18 @@
                       <div class="controls">
                         <div class = "radio-controls-edit  col-md-5 required" remote ="true">
                           <label class="radio" data-index= "<%= index %>">
-                            <%= report_line.radio_button :data, "1" ,:checked => "checked" %>Yes
+                            <%= report_line.radio_button :data, "1", :checked => report_line.object.avatars.blank? ? nil: "checked" %>Yes
                           </label>
                           <label class="radio" data-index= "<%= index %>" data-id = "<%= report_line.object.id%>">
-                            <%= report_line.radio_button :data, "0" %>No
+                            <%= report_line.radio_button :data, "0", :checked => report_line.object.avatars.blank? ? "checked" : nil  %>No
                           </label>
                           
                           <div class="parent-avatar-field">
                             <%= report_line.fields_for :avatars do |avatar| %>
-                                <div class="image-field">      
-                                  <%= image_tag(avatar.object.avatar(:thumb)) %>
-                                  <%= avatar.label "Change Image"  %>
-                                  <div class="avatar-fields">
-                                    <%= avatar.file_field :avatar  %>
-                                  </div>
-                                </div>  
+                              <div class="image-field">      
+                                <%= image_tag(avatar.object.avatar(:thumb)) %>
+                                <label><%= avatar.check_box '_destroy' %> remove </label>
+                              </div> <br>  
                             <% end %>
                             <div class="add-more-avatar"></div>
 
@@ -138,22 +135,22 @@
           <div class="step-forms ">
             <div class="form-group">
               <label class="control-label col-md-2"> Do you want to upload images </label>
-              <div class="upload-radio-controls controls col-md-5">
-                <label class="radio"><%= radio_button_tag :upload,  '1',:checked => "checked" %> Yes</label>
-                <label class="radio"><%= radio_button_tag :upload,  '0'%> No </label>
-              </div>
+              
               <div class="parent-upload-field controls col-md-12">
                 <%= f.fields_for :uploads do |upload| %>
-                  <div class="image-field">      
-                    <%= image_tag(upload.object.upload(:thumb)) %>
-                    <%= upload.label "Change Image"  %>
+                  <div class="image-field form-group">    
+                    <div class="uploaded-image" id="upload_<%= upload.object.id %>">  
+                      <div class="col-md-2">  
+                        <%= image_tag(upload.object.upload(:thumb)) %>
+                      </div>  
+                      <label class="col-md-2" ><%= upload.check_box '_destroy' %> remove </label>
+                    </div>  
                     <div class="avatar-fields">
-                      <%= upload.file_field :upload  %>
                     </div>
                   </div>  
                 <% end %>
               </div>
-              <%= link_to "Add More", "#", :remote => :true , :class => " #{"hide" unless !f.object.uploads.blank?}  add_more_upload_link controls"%>
+              <%= link_to raw("<i class='fa fa-plus-square'></i> add more"), "#", :remote => :true , :class => "add_more_upload_link controls btn btn-sm btn-default col-md-1"%>
             </div>  
           </div>
           <div class="form-group form-actions text-center">

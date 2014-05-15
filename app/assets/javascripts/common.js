@@ -166,7 +166,7 @@ $('document').ready(function(){
   });
 
 
-  $(".radio-controls-edit label input").change(function(e){
+  $(".radio-controls-edit label input[type=radio]").change(function(e){
     
     e.preventDefault();
 
@@ -192,24 +192,6 @@ $('document').ready(function(){
         }
       });
     }
-    else
-    if(text == 0)
-    {
-      id =$(this).parent().data("id");
-      console.log(id);
-      $.ajax ({
-        url:  '/svrs/remove_report_line',
-        data: {id: id},
-        success: function(data)
-        {
-          contents_1.html("");
-          contents_2.html("");
-          avatar_link.addClass("hide");
-        }
-      });
-      
-    }
-
   });
 
   $(".notification").click(function(){

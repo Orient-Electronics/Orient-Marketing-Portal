@@ -181,11 +181,5 @@ class SvrsController < ApplicationController
     render(:partial => "/svrs/report_upload", :locals => {:temp => params[:length]})
   end
 
-  def remove_report_line
-    report_line = ReportLine.find params[:id]
-    report_line.avatars.clear
-      render :text => "Successfully Removed"   
-  end
-
 end
   

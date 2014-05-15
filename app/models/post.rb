@@ -15,7 +15,7 @@ class Post < ActiveRecord::Base
   has_many :uploads, :as => :uploadable, :dependent => :destroy
 
   accepts_nested_attributes_for :reports
-  accepts_nested_attributes_for :uploads
+  accepts_nested_attributes_for :uploads, :allow_destroy => true
 
   scope :published_reports, where(:published => true)
 
