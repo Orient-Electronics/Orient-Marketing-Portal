@@ -63,7 +63,12 @@ class ShopsController < ApplicationController
   # GET /shops/new.json
   def new
     authorize! :create, Shop
-    @shop = Shop.new
+    unless params[:dealer_id].blank?
+      @dealer = Dealer.find(params[:dealer_id])
+      @shop = @dealer.shops.build
+    else  
+      @shop = Shop.new
+    end
     @shop.build_owner
     @shop.build_manager
     @shop.build_location
@@ -78,14 +83,23 @@ class ShopsController < ApplicationController
   # GET /shops/1/edit
   def edit
     authorize! :update, Shop
-    @shop = Shop.find(params[:id])
-    @dealer = @shop.dealer
+    unless params[:dealer_id].blank?
+      @dealer = Dealer.find(params[:dealer_id])
+      @shop = @dealer.shops.find(params[:id])
+    else  
+      @shop = Shop.find(params[:id])
+    end
   end
 
   # POST /shops
   # POST /shops.json
   def create
-    @shop = Shop.new(params[:shop])
+    unless params[:dealer_id].blank?
+      @dealer = Dealer.find(params[:dealer_id])
+      @shop = @dealer.shops.build(params[:shop])
+    else   
+      @shop = Shop.new(params[:shop])
+    end  
     @shop.build_avatar params[:shop][:avatar_attributes ]
     respond_to do |format|
       if @shop.save
@@ -103,8 +117,12 @@ class ShopsController < ApplicationController
   # PUT /shops/1
   # PUT /shops/1.json
   def update
-    @shop = Shop.find(params[:id])
-
+    unless params[:dealer_id].blank?
+      @dealer = Dealer.find(params[:dealer_id])
+      @shop = @dealer.shops.find(params[:id])
+    else   
+      @shop = Shop.find(params[:id])
+    end  
     respond_to do |format|
       if @shop.update_attributes(params[:shop])
         @shop.create_activity :update, owner: current_user

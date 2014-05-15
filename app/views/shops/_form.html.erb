@@ -1,4 +1,4 @@
-<%= form_for @shop, :html => { :class => 'form-horizontal form-bordered shop_form form-validate' , :multipart => true }  do |f| %>
+<%= form_for([@dealer, @shop], :html => { :class => 'form-horizontal form-bordered shop_form form-validate' , :multipart => true })  do |f| %>
   <div class= " form-group error-box">
     <p><%= errors_for(@shop, "").html_safe %></p>
   </div>
@@ -56,13 +56,6 @@
     <%= f.label :dealer_name,"Shop Name", :class => 'control-label col-md-1' %>
     <div class="col-md-5">
       <%= f.text_field :dealer_name, :class => 'form-control text_field required' %>
-    </div>
-  </div>
-
-  <div class=" form-group">
-    <%= f.label :branch_of,"Dealer Name", :class => 'control-label col-md-1' %>
-    <div class="col-md-5 dealers">
-      <%= f.text_field :branch_of, :class => 'form-control text_field typeahead required' %>
     </div>
   </div>
 
@@ -159,7 +152,7 @@
  <div class="form-group form-actions text-center">
     <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success submit-btn' %>
     <% unless @dealer.blank? %>
-      <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), dealers_path(@dealer), :class => 'btn btn-sm btn-primary' %>
+      <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), dealer_path(@dealer), :class => 'btn btn-sm btn-primary' %>
     <% else %>  
     <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), dealers_path, :class => '  btn btn-sm btn-primary' %>
     <% end %>

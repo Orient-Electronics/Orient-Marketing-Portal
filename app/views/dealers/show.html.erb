@@ -1,7 +1,8 @@
 <div class="content-header">
   <div class="header-section">
     <div class="button-group pull-right">
-      <a href="/shops/new" class="btn btn-large btn-primary" style="margin-top:20px;"> Add Shop </a>
+      <!-- <a href="/shops/new" class="btn btn-large btn-primary" style="margin-top:20px;"> Add Shop </a> -->
+      <%= link_to "Add Shop", new_dealer_shop_path(@parent) %>
     </div>
     <h1>
       Dealers
@@ -64,7 +65,7 @@
                       <%= link_to "<i class='fa fa-search'></i>".html_safe,
                                   shop_path(shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"View" %>
                       <%= link_to "<i class='fa fa-edit'></i>".html_safe,
-                                  edit_shop_path(shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"Edit" %>
+                                  edit_dealer_shop_path(@parent,shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"Edit" %>
                       <%= link_to "<i class='hi hi-off'></i>".html_safe,
                                   shop_path(shop),
                                   :method => :delete,
