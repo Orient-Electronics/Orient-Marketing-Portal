@@ -39,9 +39,6 @@ $('document').ready(function(){
   
   $('select').selectpicker();
 
-
-
-
   if($('.form-validate').length > 0)
   {
     $('.form-validate').each(function(){
@@ -230,7 +227,7 @@ $('document').ready(function(){
     id = $(this).val();
     area_content = $(".area-portion");
     $.ajax ({
-      url:  'area_field',
+      url:  '/shops/area_field',
       data: {id: id },
       success: function(data)
       {
@@ -238,6 +235,9 @@ $('document').ready(function(){
       }
     });
   }); 
+
+  $(".city-selector select").change();
+
 });
 
 
