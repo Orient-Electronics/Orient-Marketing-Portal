@@ -13,6 +13,11 @@ class Role < ActiveRecord::Base
   validates_presence_of :entity, :notes
   validates :name, :presence => true, :length => {:minimum => 3, :maximum => 20} 
 
+  before_destroy :remove_public_activities
+
+  def remove_public_activities
+    PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "Role").destroy_all
+  end
 
   def self.get (symbol)
     Role.find_by_symbol symbol.to_s

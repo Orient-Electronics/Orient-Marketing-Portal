@@ -1,6 +1,6 @@
 class Task < ActiveRecord::Base
   include PublicActivity::Common
-  # attr_accessible :title, :body
+
   attr_accessible :assigned_by, :assigned_to, :comment, :shop_id, :status, :deadline, :task_type, :shop_name
 
   belongs_to :shop
@@ -9,6 +9,12 @@ class Task < ActiveRecord::Base
   validates_presence_of :assigned_to, :message => "^ select the assigned to"
   validates_presence_of :shop_name, :message => "^ select the shop" 
   validates_presence_of :comment
+
+  before_destroy :remove_public_activities
+
+  def remove_public_activities
+    PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "Task").destroy_all
+  end
 
   def completed?
     status == "completed"

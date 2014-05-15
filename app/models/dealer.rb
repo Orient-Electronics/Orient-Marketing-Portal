@@ -12,5 +12,10 @@ class Dealer < ActiveRecord::Base
 
   validates :name,  :presence => true
   #validates_presence_of :avatar, :message => "^please upload the picture"
+  
+  before_destroy :remove_public_activities
 
+  def remove_public_activities
+    PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "Dealer").destroy_all
+  end
 end

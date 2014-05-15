@@ -15,7 +15,6 @@ class Report < ActiveRecord::Base
   validates_presence_of :report_type, :user_id
   validates_associated :report_lines
 
-
   def self.reports_of(value)
     Report.where(:report_type => value)
   end

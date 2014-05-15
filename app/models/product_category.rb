@@ -14,4 +14,9 @@ class ProductCategory < ActiveRecord::Base
 
   validates :name , :presence => true
   validates_presence_of :brand_ids, :presence => true, :message => "^ please select brand/s"
+  before_destroy :remove_public_activities
+
+  def remove_public_activities
+    PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "ProductCategory").destroy_all
+  end
 end

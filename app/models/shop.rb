@@ -29,6 +29,7 @@ class Shop < ActiveRecord::Base
    validates_presence_of :dealer_name, :presence => true, :message => "^Shop Name Can't be Blank"
 
   validates_presence_of :shop_category_id
+  before_destroy :remove_public_activities
   
 
   searchable do
@@ -42,6 +43,10 @@ class Shop < ActiveRecord::Base
     integer :shop_category_id do
       shop_category.id
     end
+  end
+
+  def remove_public_activities
+    PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "Shop").destroy_all
   end
 
   def branch_of

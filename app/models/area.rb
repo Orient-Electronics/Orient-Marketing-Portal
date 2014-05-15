@@ -6,6 +6,7 @@ class Area < ActiveRecord::Base
   attr_accessible :name, :city_id
 
   validates :name, :length => {:maximum => 30}, :presence => true
+  before_destroy :remove_public_activities
   validates_presence_of :city_id, :message => "^please select the city"
 
   def dealer_shops(dealer)
@@ -20,4 +21,8 @@ class Area < ActiveRecord::Base
     shops.where(id: city_shops.collect(&:id))
   end
 
+
+  def remove_public_activities
+    PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "Area").destroy_all
+  end
 end

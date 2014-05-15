@@ -20,6 +20,11 @@ class Post < ActiveRecord::Base
   scope :published_reports, where(:published => true)
 
   before_save :update_reports_attribute
+  before_destroy :remove_public_activities
+
+  def remove_public_activities
+    PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "Post").destroy_all
+  end
 
   def update_reports_attribute
     unless self.year.blank?
