@@ -10,6 +10,8 @@ Orient::Application.routes.draw do
 
   resources :home
 
+  match '/home_activities' => "home#activities", :method => :get
+
   resources :roles
 
   resources :search
