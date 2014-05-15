@@ -4,7 +4,7 @@
     <div class="col-md-6 col-lg-7">
  			<% unless @subscriber_activities.blank? %>
 	 			<!-- Newsfeed Block -->
-	 			<div class="block">
+	 			<div class="block subscriber-block-height">
 
 	 				<!-- Newsfeed Title -->
 	        <div class="block-title">
@@ -14,7 +14,7 @@
 
 	        <!-- Newsfeed Content -->
 	        <div class="block-content-full">
-	        	<ul class="media-list media-feed media-feed-hover subscribe-activities subscribe-activities-scroll">
+	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
 	        		<% @subscriber_activities .each do |activity| %>
 	        			<li class="media subscribe-activity">
 	        				<a href="page_ready_user_profile.html" class="pull-left">
@@ -32,7 +32,7 @@
 	        			</li>	
 	        		<% end %>
                <div class="subscribe hide">
-                <%= paginate @subscriber_activities %>
+                <%= paginate @subscriber_activities, :params => { :controller => 'home', :action => 'subscriber_activities', :method => :get } %>
               </div>
 	        	</ul>	
 	        </div>	

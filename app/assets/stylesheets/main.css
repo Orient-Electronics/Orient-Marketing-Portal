@@ -3680,3 +3680,21 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .activities-section{
   max-height: 300px; 
 }
+
+.notification-content
+{
+  max-height: 200px !important; 
+}
+
+.subscribe-activities
+{
+  max-height:  400px;
+}
+.notification-height
+{
+  max-height: 240px !important;  
+}
+
+.subscriber-block-height{
+  max-height: 460px;
+}

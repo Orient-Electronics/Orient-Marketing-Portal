@@ -26,9 +26,9 @@
           <i class="gi gi-share_alt"></i>
           <span class="label label-primary notification-count label-indicator animation-floating"><%= @notifications_count %></span>
         </a>
-        <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
+        <ul class="dropdown-menu dropdown-custom dropdown-menu-right notification-height">
           <li class="dropdown-header text-center">Notifications</li>
-          <li class="notification-content notification-content-scroll">
+          <li class="notification-content scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>" >
             <% @notifications.each do |notification|%>
               <div class="alert  alert-info alert-alt my-notification notification" data-notification="<%= notification.id %>">
                 <small><%= notification.created_at.strftime("%B, %d")%></small><br>
@@ -36,7 +36,7 @@
               </div> 
             <% end %>
             <div class="pager_notification hide">
-              <%= paginate @notifications %>
+              <%= paginate @notifications, :params => { :controller => 'home', :action => 'notifications', :method => :get }%>
             </div>
           </li>
         </ul>

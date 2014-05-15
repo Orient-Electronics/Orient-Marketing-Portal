@@ -22,9 +22,7 @@ $('document').ready(function(){
   {
     $('.activities-section').scroll(function(){
       domain = $('.activities-section').data("domain");
-      console.log(domain);
       var url = domain + $('.activities nav.pagination a[rel=next]').attr('href');
-      console.log(url);
       if(url &&  $('.activities-section')[0].scrollHeight) 
       {   
         if ($('.activities-section').scrollTop() < 300) 
@@ -43,20 +41,57 @@ $('document').ready(function(){
     });
     $('.activities-section').scroll();
   }
-  //$('.activities-section').scroll();
-
-  // $(".subscribe-activities").infinitescroll({
-  //   navSelector: ".subscribe nav.pagination",
-  //   nextSelector: ".subscribe nav.pagination a[rel=next]",
-  //   itemSelector: ".subscribe-activity"
-  // });
 
 
-  // $(".notification-content").infinitescroll({
-  //   navSelector: ".pager_notification nav.pagination",
-  //   nextSelector: ".pager_notification nav.pagination a[rel=next]",
-  //   itemSelector: ".my-notification"
-  // });
+  if($('.pager_notification nav.pagination').length)
+  {
+    $('.notification-content').scroll(function(){
+      domain = $('.notification-content').data("domain");
+      var url = domain + $('.pager_notification nav.pagination a[rel=next]').attr('href');
+      if(url &&  $('.notification-content')[0].scrollHeight) 
+      {   
+        if ($('.notification-content').scrollTop() < 400) 
+        {  
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.notification-content').append(data);
+              url = domain + $('.pager_notification nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }  
+      } 
+        
+    });
+    $('.notification-content').scroll();
+  }
+
+  if($('.subscribe nav.pagination').length)
+  {
+    $('.subscribe-activities').scroll(function(){
+      domain = $('.subscribe-activities').data("domain");
+      var url = domain + $('.subscribe nav.pagination a[rel=next]').attr('href');
+      console.log(url);
+      if(url &&  $('.subscribe-activities')[0].scrollHeight) 
+      {   
+        if ($('.subscribe-activities').scrollTop() < 400) 
+        {  
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.subscribe-activities').append(data);
+              url = domain + $('.subscribe nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }  
+      } 
+        
+    });
+    $('.subscribe-activities').scroll();
+  }
+
 
   $('select').selectpicker();
 
