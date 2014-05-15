@@ -1,8 +1,7 @@
 <div class="content-header">
   <div class="header-section">
     <div class="button-group pull-right">
-      <!-- <a href="/shops/new" class="btn btn-large btn-primary" style="margin-top:20px;"> Add Shop </a> -->
-      <%= link_to "Add Shop", new_dealer_shop_path(@parent) %>
+      <%= link_to "Add Shop", new_dealer_shop_path(@parent),  :class => "btn btn-large btn-primary" %>
     </div>
     <h1>
       Dealers
@@ -57,13 +56,13 @@
               <% @shops.each do |shop| %>
                 <% if can? :read, shop%>
                   <tr class="row">
-                  <td class"col-md-3"><%= link_to shop.dealer_name, shop_path(shop) %></td>
+                  <td class"col-md-3"><%= link_to shop.dealer_name, dealer_shop_path(@parent,shop) %></td>
                   <td class"col-md-3"><%= shop.orient_dealer? ? "Dealer" : "Non dealer" %></td>
                   <td class"col-md-3"><%= shop.location.city.name %></td>
                   <td class"col-md-3">
                     <div class="button-group">
                       <%= link_to "<i class='fa fa-search'></i>".html_safe,
-                                  shop_path(shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"View" %>
+                                  dealer_shop_path(@parent,shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"View" %>
                       <%= link_to "<i class='fa fa-edit'></i>".html_safe,
                                   edit_dealer_shop_path(@parent,shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"Edit" %>
                       <%= link_to "<i class='hi hi-off'></i>".html_safe,

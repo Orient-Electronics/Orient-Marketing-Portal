@@ -1,13 +1,21 @@
 <!-- Shop Profile Header -->
 <div class="content-header content-header-media">
   <div class="header-section">
+
     <% if @shop.avatar.present?  %>
       <%= image_tag(@shop.avatar.avatar.url(:thumb), :class =>"pull-right img-circle") %>
     <% else %>  
       <%= image_tag('/assets/default.png', :class => "img-circle pull-right" , :size => "65x70" )%>
     <% end %> 
     <h1><span class='name'><%= @shop.dealer_name %></span></h1>
+    
   </div>
+  <% unless @dealer.blank? %>
+      <div class="button-group pull-right dealer-back-button">
+        <%= link_to raw("<i class='fa fa-angle-left'></i> Back to Dealer"), dealer_path(@dealer), :class => 'btn btn-sm btn-primary' %>
+      </div>
+    <% end %>
+
 </div>  
 
 <div  id="modal-user" class="modal">

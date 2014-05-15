@@ -29,6 +29,9 @@ class ShopsController < ApplicationController
   # GET /shops/1.json
   def show
     authorize! :read, Shop
+    unless params[:dealer_id].blank?
+      @dealer = Dealer.find(params[:dealer_id])
+    end 
     @product_categories = ProductCategory.all
     @posts =  Post.published_reports.where(:shop_id => params[:id].to_i)
     @reports = @posts.collect(&:reports).flatten
