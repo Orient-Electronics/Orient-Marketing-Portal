@@ -290,7 +290,9 @@
     var asInitVals = new Array();
     
     $(document).ready(function() {
-      var oTable = $('#shop-data').dataTable();
+      var oTable = $('#shop-data').dataTable({
+        "bFilter": false
+      });
 
       $('#shop-data_length, #shop-data_filter, #shop-data_paginate, #shop-data_info').addClass("no-background-border");
       $("#shop-data_length, #shop-data_info").addClass("pull-left");

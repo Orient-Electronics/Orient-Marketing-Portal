@@ -3672,3 +3672,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 {
   margin-top: 180px;
 }
+
+.block-table-height{
+  height: 370px !important;
+}
