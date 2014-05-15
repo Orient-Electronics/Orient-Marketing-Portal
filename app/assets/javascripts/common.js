@@ -16,27 +16,25 @@ $('document').ready(function(){
     size: '5px'
   });
 
-  $(".scroll-my-activities").slimScroll({
-    height: '300px',
-    size: '5px'
+  $(".activities-section").infinitescroll({
+    navSelector: ".activities nav.pagination",
+    nextSelector: ".activities nav.pagination a[rel=next]",
+    itemSelector: ".my_activities"
+  }); 
+
+  $(".subscribe-activities").infinitescroll({
+    navSelector: ".subscribe nav.pagination",
+    nextSelector: ".subscribe nav.pagination a[rel=next]",
+    itemSelector: ".subscribe-activity"
   });
 
-  $(".user-activities-scroll").slimScroll({
-    height: '500px',
-    size: '5px'
+
+  $(".notification-content").infinitescroll({
+    navSelector: ".pager_notification nav.pagination",
+    nextSelector: ".pager_notification nav.pagination a[rel=next]",
+    itemSelector: ".my-notification"
   });
 
-  $(".notification-content-scroll").slimScroll({
-    height: '300px',
-    size: '5px'
-  });
-
-  $(".subscribe-activities-scroll").slimScroll({
-    height: '500px',
-    size: '5px'
-  });
-
-  
   $('select').selectpicker();
 
   if($('.form-validate').length > 0)

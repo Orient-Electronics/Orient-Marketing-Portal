@@ -3676,3 +3676,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .block-table-height{
   height: 370px !important;
 }
+
+.activities-section{
+  max-height: 300px; 
+}

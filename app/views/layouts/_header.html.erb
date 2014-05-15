@@ -137,14 +137,14 @@
         </span>
         <span class="sidebar-header-title">Activity</span>
       </div>
-      <div class="sidebar-section activities-section scroll-my-activities">
+      <div class="sidebar-section activities-section scroll-dealer">
         <% @activities.each do |activity| %>
           <div class="alert alert-info alert-alt my_activities">
             <small><%= activity.created_at.strftime("%B, %d")%></small><br>
              <i class="fa fa-arrow-up fa-fw"></i> You <%= render_activity activity %>
           </div>    
         <% end %>
-        <div class="hide">
+        <div class="activities hide">
           <%= paginate @activities %>
         </div>  
       </div>
@@ -233,13 +233,3 @@
   </div>
 </div>
 <!-- END User Settings -->
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    $(".activities-section").infinitescroll({
-      navSelector: "nav.pagination",
-      nextSelector: "nav.pagination a[rel=next]",
-      itemSelector: ".my_activities"
-    });  
-  });
-</script>
