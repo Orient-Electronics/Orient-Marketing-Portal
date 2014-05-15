@@ -140,17 +140,15 @@
           <tr>
             <td style="width: 20%;"><%= Location %></td>
             <% child_class = Location %>
-            <% if @shop.location.try(:city) %>
-              <td>
-               City :  <%= @shop.location.city.name %>
-              </td>  
-            <% end -%>
-            <% if @shop.location.try(:area) %>
-              <td>
-               Area :  <%= @shop.location.area.name %>
-              </td> 
-            <% end -%>
-
+            <td>
+              <% if @shop.location.try(:city) %>
+                <b>City: </b>  <%= @shop.location.city.name %> <br>
+              <% end -%>
+              <% if @shop.location.try(:area) %>
+                <b>Area : </b> <%= @shop.location.area.name %>
+              <% end -%>
+            </td>  
+          </tr>  
         </tbody>
       </table> 
     </div>  

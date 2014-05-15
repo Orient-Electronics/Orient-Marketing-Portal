@@ -39,6 +39,9 @@ $('document').ready(function(){
   
   $('select').selectpicker();
 
+
+
+
   if($('.form-validate').length > 0)
   {
     $('.form-validate').each(function(){
@@ -221,6 +224,20 @@ $('document').ready(function(){
       }
     });
   });
+
+
+  $(".city-selector select").change(function(e){
+    id = $(this).val();
+    area_content = $(".area-portion");
+    $.ajax ({
+      url:  'area_field',
+      data: {id: id },
+      success: function(data)
+      {
+        area_content.html(data);
+      }
+    });
+  }); 
 });
 
 

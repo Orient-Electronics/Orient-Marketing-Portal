@@ -44,6 +44,7 @@ Orient::Application.routes.draw do
     end
     collection do
       get 'showgallery'
+      get 'area_field'
     end
 
   end
@@ -73,6 +74,9 @@ Orient::Application.routes.draw do
   resources :shops do
     resources :uploads
     resources :svrs
+    collection do
+      get 'area_field'
+    end
   end
 
   resources :uploads

@@ -129,5 +129,11 @@ class ShopsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def area_field
+    @city = City.find(params[:id])
+    @areas = @city.areas
+    render(:partial => "shops/get_area_field", :locals => {:@area => @area })
+  end
   
 end
