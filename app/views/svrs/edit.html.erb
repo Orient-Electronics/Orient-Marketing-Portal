@@ -13,7 +13,9 @@
           <%= f.hidden_field :user_id %>
           <%= f.hidden_field :product_category_id %>
           <%= f.hidden_field :dealer_id %>
-          
+          <div class= " form-group error-box">
+            <p><%= errors_for(@post, "").html_safe %></p>
+          </div>
           <div class='row'>
             <div class= "col-md-6" >
               <div class="row form-group">

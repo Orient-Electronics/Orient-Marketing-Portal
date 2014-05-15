@@ -9,6 +9,10 @@
       </div>
       <div class="block-content scrollable">
         <%= form_for @post , :url => shop_svrs_path(@shop) , :html => { :class => 'form-horizontal form-bordered form-validate', :multipart => true } do |f| %>
+          <div class= " form-group error-box">
+            <p><%= errors_for(@post, "").html_safe %></p>
+          </div>
+          
           <%= f.hidden_field :shop_id %>
           <%= f.hidden_field :user_id %>
           <%= f.hidden_field :product_category_id %>
@@ -126,18 +130,14 @@
           <div class="step-forms ">
             <div class="form-group">
               <label class="control-label col-md-2"> Do you want to upload images </label>
-              <div class="upload-radio-controls controls col-md-5">
-                <label class="radio"><%= radio_button_tag :upload,  '1' %> Yes</label>
-                <label class="radio"><%= radio_button_tag :upload,  '0', :checked => "checked"  %> No </label>
+              <div class="parent-upload-field  col-md-5 controls">
               </div>
-              <div class="parent-upload-field  col-md-12 controls">
-              </div>
-              <%= link_to "Add More", "#", :remote => :true , :class => "hide add_more_upload_link controls"%>
+              <%= link_to raw("<i class='fa fa-plus-square-'></i> add more"), "#", :remote => :true , :class => "add_more_upload_link controls btn btn-sm btn-default col-md-1"%>
             </div>  
           </div>  
           <div class="form-group form-actions text-center">
             <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success' %>
-            <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), shops_path(@shop), :class => 'btn btn-sm btn-primary' %>            
+            <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), shops_path(@shop), :class => 'btn btn-sm  btn-primary' %>            
           </div>
         <% end -%>
       </div>
