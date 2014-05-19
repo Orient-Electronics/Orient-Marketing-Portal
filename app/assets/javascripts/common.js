@@ -303,7 +303,6 @@ function loadBrandChart()
   PopulateBrandData(brand_chart);
   var titles = brand_chart.getTitles();
   var title = new cfx.TitleDockable();
-  title.setText("Sale and Display Report");
   titles.add(title);
   brand_chart.create('brand_data_chart');
 }
@@ -315,7 +314,6 @@ function loadCategoryChart()
   PopulateCategoryData(category_chart);
   var titles = category_chart.getTitles();
   var title = new cfx.TitleDockable();
-  title.setText("Sale and Display Report");
   titles.add(title);
   category_chart.create('category_data_chart');
 }

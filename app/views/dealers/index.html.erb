@@ -1,26 +1,35 @@
-<div class="content-header">
+<div class="content-header content-header-media">
   <div class="header-section">
-    <div class="btn-toolbar pull-right">
-      <div class="row">
-        <div class="col-md-3">
-          <label><%= Dealer.count %> </label>
-          <div><span><i class="fa fa-thumbs-o-up"></i> Dealers</span></div>
+    <div class="row">
+      <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+      <h1><strong>Dealers</strong><br></h1>
+      </div>
+      <div class="col-md-8 col-lg-6">
+        <div class="row text-center">
+          <div class="col-xs-4 col-sm-3">
+            <h2 class="animation-hatch">
+              <strong><%= Dealer.count %></strong><br>
+              <small><i class="fa fa-calendar-o"></i>  Dealers </small>
+            </h2>
+          </div>
+          <div class="col-xs-4 col-sm-3">
+            <h2 class="animation-hatch">
+              <strong><%= Shop.count %></strong><br>
+              <small><i class="fa fa-map-marker"></i> Shops</small>
+            </h2>
+          </div>
+          <div class="col-xs-4 col-sm-3">
+            <h2 class="animation-hatch">
+              <strong><%= Post.published_reports.count %></strong><br>
+              <small><i class="fa fa-bar-chart-o"></i> SVRs</small>
+            </h2>
+          </div>
+          <div class="col-sm-3 hidden-xs"></div>
         </div>
-        <div class="col-md-3">
-          <label><%= Shop.count %> </label> 
-          <div><span><i class="fa fa-thumbs-o-up"></i>Shops</span></div>
-        </div>
-        <div class="col-md-3">
-          <label><%= Post.count %> </label>
-          <div><span><i class="fa fa-thumbs-o-up"></i>SVRs</span></div>
-        </div>
-      </div>  
-    </div>  
-    <h1>
-      Dealers
-    </h1>
+      </div>
+    </div>
   </div>
-</div>
+</div>  
 <div  id="modal-user" class="modal">
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal">Close</button>
