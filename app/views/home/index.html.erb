@@ -14,11 +14,12 @@
 
 	        <!-- Newsfeed Content -->
 	        <div class="block-content-full subscriber-block-height">
-	        	<ul class="scroll-dealer media-list media-feed media-feed-hover subscribe-activities" data-domain = "<%= APP_CONFIG["domain"] %>">
+	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
 	        		<% @subscriber_activities .each do |activity| %>
 	        			<li class="media subscribe-activity">
-	        				<a href="page_ready_user_profile.html" class="pull-left">
-                      <%= image_tag(User.find(activity.owner.id).avatar.avatar(:thumb), :class => "img-circle") %>
+                  <% user = User.find(activity.owner.id) %>
+	        				<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left">
+                      <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle") %>
                   </a>
                   <div class="media-body">
                     <p class="push-bit">

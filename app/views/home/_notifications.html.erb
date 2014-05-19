@@ -7,6 +7,23 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+
 		$('.pager_notification nav.pagination').replaceWith("<%= j paginate @notifications, :params => { :controller => 'home', :action => 'notifications', :method => :get} %>");
-	});	
+		
+		$(".notification").click(function(){
+	    id = $(this).data("notification");
+	    count = $(".notification-count").text();
+	    $(this).remove();
+	    $.ajax ({
+	      url:  '/activities/update_activity',
+	      data: {id: id },
+	      success: function(data)
+	      {
+	        
+	        if(count>0)
+	          $(".notification-count").text(count-1);
+	      }
+	    });
+		});
+	});		
 </script>

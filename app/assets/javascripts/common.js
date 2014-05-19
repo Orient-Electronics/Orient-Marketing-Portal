@@ -23,10 +23,9 @@ $('document').ready(function(){
     $('.activities-section').scroll(function(){
       domain = $('.activities-section').data("domain");
       var url = domain + $('.activities nav.pagination a[rel=next]').attr('href');
-      console.log(url);
       if(url &&  $('.activities-section')[0].scrollHeight) 
       {   
-        if ($('.activities-section').scrollTop() < 300) 
+        if ($('.activities-section').scrollTop() > -1) 
         {  
           $.ajax({
             url: url,
@@ -49,10 +48,9 @@ $('document').ready(function(){
     $('.notification-content').scroll(function(){
       domain = $('.notification-content').data("domain");
       var url = domain + $('.pager_notification nav.pagination a[rel=next]').attr('href');
-      console.log(url);
       if(url &&  $('.notification-content')[0].scrollHeight) 
       {   
-        if ($('.notification-content').scrollTop() < 400) 
+        if ($('.notification-content').scrollTop() > -1) 
         {  
           $.ajax({
             url: url,
@@ -74,10 +72,9 @@ $('document').ready(function(){
     $('.subscribe-activities').scroll(function(){
       domain = $('.subscribe-activities').data("domain");
       var url = domain + $('.subscribe nav.pagination a[rel=next]').attr('href');
-      console.log(url);
       if(url &&  $('.subscribe-activities')[0].scrollHeight) 
       {   
-        if ($('.subscribe-activities').scrollTop() < 400) 
+        if ($('.subscribe-activities').scrollTop() > -1) 
         {  
           $.ajax({
             url: url,
@@ -97,7 +94,7 @@ $('document').ready(function(){
 
   $('select').selectpicker();
 
-  if($('.form-validate').length > 0)
+  if($('.form-validate').length > -1)
   {
     $('.form-validate').each(function(){
       var id = $(this).attr('id');
