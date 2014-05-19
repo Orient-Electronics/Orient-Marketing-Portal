@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140515072840) do
+ActiveRecord::Schema.define(:version => 20140519114940) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20140515072840) do
     t.boolean  "published",           :default => false
     t.integer  "task_id"
     t.integer  "approved_id"
+    t.string   "status"
   end
 
   create_table "product_categories", :force => true do |t|

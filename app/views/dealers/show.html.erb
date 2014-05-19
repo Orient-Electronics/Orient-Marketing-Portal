@@ -12,13 +12,13 @@
 </div>
 <a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
 <div class="row">
-  <div class="col-md-6 dealers-map">
+  <div class="col-md-6">
     <%= render :partial => "/shared/map"%>
   </div>
   <% if can? :read, Shop%>
     <div class="col-md-6">
-      <div class="block map-block-height block-color block-bordered">
-        <div class="block-title">
+      <div class="block dealers-block-height">
+        <div class="block-title ">
           <div class="button-group pull-right">
             <%= link_to "Add Shop", new_dealer_shop_path(@parent),  :class => "btn btn-large btn-primary" %>
           </div>
@@ -26,7 +26,7 @@
             Shops
           </h3>
         </div>
-        <div class="block-content block-height dearlers-list scroll-dealer">
+        <div class="block-content shop-height scroll-dealer">
           <table class="table table-hover table-nomargin" id="shop-data">
             <thead>
               <tr class='thefilter row'>

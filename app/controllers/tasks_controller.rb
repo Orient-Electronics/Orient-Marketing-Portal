@@ -53,6 +53,7 @@ class TasksController < ApplicationController
   def publish_report
     post = Post.find(params[:post_id])
     post.published = true
+    post.status = "published"
     post.approved_id = current_user.id
     post.save
     post.create_activity :publish, owner: current_user
@@ -65,6 +66,7 @@ class TasksController < ApplicationController
     post = Post.find(params[:post_id])
     post.published = false
     post.approved_id = nil
+    post.status = "unpublished"
     post.save
     post.create_activity :unpublish, owner: current_user
     respond_to do |format|
@@ -72,4 +74,14 @@ class TasksController < ApplicationController
     end
   end
   
+  def draft_report
+    post = Post.find(params[:post_id])
+    post.published = false
+    post.approved_id = nil
+    post.status = "draft"
+    post.save
+    respond_to do |format|
+      format.html { redirect_to :back, notice: 'Report was status change successfully.'}
+    end
+  end
 end

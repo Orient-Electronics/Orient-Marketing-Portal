@@ -3729,3 +3729,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
 {
   max-height: 500px;
 }
+
+.shops-height
+{
+  max-height: 500px;
+}
