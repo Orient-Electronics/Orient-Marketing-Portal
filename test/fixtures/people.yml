@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  cell_number: 1
+  date_of_birth: 2014-05-19 17:48:29
+  designation: MyString
+
+two:
+  name: MyString
+  cell_number: 1
+  date_of_birth: 2014-05-19 17:48:29
+  designation: MyString

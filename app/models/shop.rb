@@ -13,6 +13,8 @@ class Shop < ActiveRecord::Base
   has_many :uploads, :as => :uploadable, :dependent => :destroy
   has_many :tasks, :dependent => :destroy
   has_many :posts, :dependent => :destroy
+  has_many :peoples, through: :people_shops
+  has_many :people_shops, :dependent => :destroy
 
   attr_accessible :address, :orient_dealer, :dealer_name, :email, :location_id, :phone, :shop_category_id, :website, :location_attributes, :owner_attributes, :manager_attributes, :dealer_id, :branch_of, :category, :avatar_attributes
 
