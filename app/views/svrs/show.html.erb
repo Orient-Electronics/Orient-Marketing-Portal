@@ -74,8 +74,8 @@
   </div>
   <% unless @post.task.blank? %>
    <div class="col-md-3">
-    <div class="widget">
-      <div class="widget-simple text-center">
+      <div class="widget">
+        <div class="widget-simple text-center">
           <h4 class="widget-content">
             <small>Assigned by</small>
           </h4>
@@ -85,8 +85,7 @@
                 <%= link_to raw("<strong> #{user.name}</strong>"), activities_path(:user_id =>user.id) %>
             </h4>
             <h6 class="text-muted"><%= @post.task.created_at.strftime('%d %B, %Y - %I:%M %p')%></h6>
-        </div>
-
+          </div>
       </div>
     </div>
   <% end %>  
@@ -103,7 +102,6 @@
             </h4>
             <h6 class="text-muted"><%= @post.updated_at.strftime('%d %B, %Y - %I:%M %p')%></h6>
         </div>
-
       </div>
     </div>
   <% end %>  

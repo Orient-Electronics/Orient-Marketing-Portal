@@ -11,6 +11,8 @@
         <tr>
           <th> S.No. </th>
           <th> Product Category </th>
+          <th> City</th>
+          <th> Shop Name </th>
           <th> Week No. </th>
           <th> Year </th>
           <th> Created by</th>
@@ -26,10 +28,12 @@
         <tr>
           <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
           <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
-          <td class="text-center"> <%= "#{post.reports.first.week}".to_i.ordinalize %> </td>
+          <td> <%= post.shop.location.city.name %></td>
+          <td> <%= link_to post.shop.dealer_name, shop_path(post.shop) %></td>
+          <td class="text-center"> <%= "#{post.reports.first.week}" %> </td>
           <td> <%= post.reports.first.year %> </td>
           <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
-          <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
+          <td> <%= post.created_at.strftime("%B %d, %Y - %I:%M %p") %> </td>
           <% if can? :create, Task %>
             <td class="text-center"> 
               <div class="btn-group btn-group-xs">
