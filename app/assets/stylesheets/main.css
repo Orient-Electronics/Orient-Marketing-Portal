@@ -3698,3 +3698,24 @@ only screen and (min-device-pixel-ratio: 1.5) {
 {
   max-height: 270px !important;  
 }
+
+.no-margin-bottom
+{
+  margin-bottom: 0px !important;
+}
+.shop-map-block
+{
+  height: 530px;
+}
+
+.corner-image-content
+{
+  height: 250px;
+}
+
+.report-block{
+  height: 450px;
+}
+.report-table{
+  max-height: 350px;
+}

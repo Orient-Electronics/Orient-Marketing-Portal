@@ -26,77 +26,11 @@
 <a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
 <div class="row">
   <div class="col-md-6">
-    <div class="block block-color block-bordered block-height block-max-height">
+    <div class="block shop-map-block">
       <div class="block-title">
-        <div class="btn-toolbar pull-right">
-            <div class="btn-group new-report-btn-position">
-              <a href="#" data-toggle="dropdown" class="btn btn-success dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <% ProductCategory.all.each do |pc| %>
-                  <% if !pc.products.blank? %>
-                    <li class='dropdown-submenu'>
-                      <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
-                      <ul class="dropdown-menu pull-left">
-                        <% pc.products.each do |product|%>
-                          <li>
-                            <%= link_to product.name, new_shop_svr_path(@shop, :product_category_id => pc.id, :product_id => product.id) %>
-                          </li>
-                        <% end -%>
-                      </ul>
-                    </li>
-                  <%else%>
-                    <li>
-                      <%= link_to pc.name, new_shop_svr_path(@shop, :product_category_id => pc.id) %>
-                    </li>
-                  <%end%>
-                <% end -%>
-              </ul>
-            </div>  
-          </div>
-        <h3>
-          <i class="fa fa-bar-chart-o"></i>
-           Shop Visit Reports
-        </h3>
-      </div>
-      <div class="block-content scroll-dealer" >
-        <table class="table table-hover table-bordered " id="shop-svr-table">
-          <thead>
-            <tr>
-              <th> S.No. </th>
-              <th> Product Category </th>
-              <th> Created by</th>
-              <th> Created at </th>
-              <% if can? :create, Task %>
-                <th>Status</th>
-              <% end %>  
-            <tr/>
-          </thead>
-          <tbody>
-            <% @posts.each_with_index do |post, index| %>
-              <tr>
-                <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
-                <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
-                <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
-                <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
-                <% if can? :create, Task %>
-                  <td>
-                    <% unless post.published? %> 
-                      <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-success" %>
-                    <% else %> 
-                      <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-warning" %> </span>
-                    <% end %>
-                  </td>
-                <% end %>   
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>  
-    </div>
-  </div>  
-  <div class="col-md-6">
-    <div class="block block-height">
-      <div class="block-title">
+        <div class="pull-right">
+          <%= link_to raw("<i class='fa fa-edit'></i>"),edit_shop_path(@shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"Edit" %>
+        </div>  
         <h2>Basic Information</h2>
       </div> 
       <table class="table table-borderless table-striped">
@@ -161,34 +95,32 @@
       </table> 
     </div>  
   </div>
-</div>    
-<div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <div class="block block-color block-bordered">
-      <div class="block-title">
+      <div class="block-title no-margin-bottom">
         <h3>
           <i class="icon-map-marker"></i>
           Location Information
         </h3>
       </div>
-      <div class="block-content no-padding" style="height:540px !important;">
+      <div class="block-content no-padding shop-map-block">
           <% child_class = Location %>
           <%= hidden_field_tag "lat", @shop.location.try(:latitude), :id => "lat" %>
           <%= hidden_field_tag "lng", @shop.location.try(:longitude), :id => "lng" %>
           <%= hidden_field_tag "shop_category", @shop.shop_category.name, :id => "shop_category" %>
           <div class="row">
-            <div class="col-md-12" id="map_location" style="height:540px;"></div>
+            <div class="col-md-12 shop-map" id="map_location"></div>
           </div>
       </div>
     </div>
   </div> 
-</div>
+</div>    
 <div class="row">
   <% if can? :read, Report %>
     <div class="col-md-12">
       <div class="block">
         <div class="block-title">
-          <h3><strong> Display &amp; Corner  Reports</strong></h3>
+          <h3><strong> Sales &amp; Display  Report</strong></h3>
           <ul class="nav nav-tabs" data-toggle="tabs">
             <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
             <li><a class="category-tab" href="#category-display-data">Categories</a></li>
@@ -244,7 +176,7 @@
 </div>
 <div class="row">
   <div class="col-md-6">
-    <div class="block gallery-block-height">
+    <div class="block">
       <div class="block-title">
         <h2><strong>Display Corner Reports</strong></h2>
         <ul class="nav nav-tabs" data-toggle="tabs">
@@ -252,7 +184,7 @@
           <li><a href="#corner_category">Categories</a></li>
         </ul>
       </div>  
-      <div class="tab-content scroll-dealer">
+      <div class="tab-content corner-image-content scroll-dealer">
         <div class="tab-pane active" id="corner_brand">
           <div class="gallery" data-toggle="lightbox-gallery">
             <% @brand_report_lines.each do |brand_id,brand_report| %>
@@ -315,7 +247,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="block gallery-block-height">
+    <div class="block">
       <div class="block-title">
         <h2>Images</h2>
         <% if can? :create, Upload%>
@@ -327,7 +259,7 @@
             </div>
           <% end -%>
       </div>
-      <div class="gallery scroll-dealer" data-toggle="lightbox-gallery">
+      <div class="gallery corner-image-content scroll-dealer" data-toggle="lightbox-gallery">
         <div class="row">
           <% @shop_uploads.each do |image| %>
             <div class="col-sm-4 gallery-image">
@@ -357,14 +289,14 @@
 <div class="row">
   <%if can? :read, Owner, Manager%>
     <div class="col-md-6">
-      <div class="block block-color block-bordered block-height block-max-height">
+      <div class="block block-color">
         <div class="block-title">
           <h3>
             <i class="icon-user">
             People </i>
           </h3>
         </div>
-        <div class="block-content nopadding scrollable" data-height="500" data-visible="true"   >
+        <div class="block-content nopadding">
           <table class="table table-user table-nohead">
             <tbody  remote ="true">
               <tr>
@@ -382,6 +314,75 @@
         </div>
       </div>
     </div>
+    <div class="col-md-6">
+    <div class="block block-color report-block">
+      <div class="block-title">
+        <div class="btn-toolbar pull-right">
+            <div class="btn-group new-report-btn-position">
+              <a href="#" data-toggle="dropdown" class="btn btn-success dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <% ProductCategory.all.each do |pc| %>
+                  <% if !pc.products.blank? %>
+                    <li class='dropdown-submenu'>
+                      <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
+                      <ul class="dropdown-menu pull-left">
+                        <% pc.products.each do |product|%>
+                          <li>
+                            <%= link_to product.name, new_shop_svr_path(@shop, :product_category_id => pc.id, :product_id => product.id) %>
+                          </li>
+                        <% end -%>
+                      </ul>
+                    </li>
+                  <%else%>
+                    <li>
+                      <%= link_to pc.name, new_shop_svr_path(@shop, :product_category_id => pc.id) %>
+                    </li>
+                  <%end%>
+                <% end -%>
+              </ul>
+            </div>  
+          </div>
+        <h3>
+          <i class="fa fa-bar-chart-o"></i>
+           Shop Visit Reports
+        </h3>
+      </div>
+      <div class="block-content report-table scroll-dealer" >
+        <table class="table table-hover table-bordered " id="shop-svr-table">
+          <thead>
+            <tr>
+              <th> S.No. </th>
+              <th> Product Category </th>
+              <th> Created by</th>
+              <th> Created at </th>
+              <% if can? :create, Task %>
+                <th>Status</th>
+              <% end %>  
+            <tr/>
+          </thead>
+          <tbody>
+            <% @posts.each_with_index do |post, index| %>
+              <tr>
+                <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
+                <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
+                <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
+                <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
+                <% if can? :create, Task %>
+                  <td>
+                    <% unless post.published? %> 
+                      <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-success" %>
+                    <% else %> 
+                      <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-warning" %> </span>
+                    <% end %>
+                  </td>
+                <% end %>   
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>  
+    </div>
+  </div> 
   <%end%>
 </div>
 

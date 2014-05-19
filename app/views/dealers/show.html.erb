@@ -1,23 +1,10 @@
 <div class="content-header">
   <div class="header-section">
-    <div class="button-group pull-right">
-      <%= link_to "Add Shop", new_dealer_shop_path(@parent),  :class => "btn btn-large btn-primary" %>
-    </div>
     <h1>
-      Dealers
+      <%= @parent.name %>
     </h1>
   </div>
 </div>
-<div class="content-header">
-  <div class="header-section">
-    <div class="btn-toolbar pull-right">
-    </div>  
-    <h1>
-      Shop
-    </h1>
-  </div>
-</div>
-
 <div id="modal-user" class="modal">
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal">Close</button>
@@ -32,6 +19,9 @@
     <div class="col-md-6">
       <div class="block map-block-height block-color block-bordered">
         <div class="block-title">
+          <div class="button-group pull-right">
+            <%= link_to "Add Shop", new_dealer_shop_path(@parent),  :class => "btn btn-large btn-primary" %>
+          </div>
           <h3>
             Shops
           </h3>
