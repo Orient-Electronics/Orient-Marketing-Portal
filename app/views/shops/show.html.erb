@@ -287,7 +287,7 @@
 </div>
 
 <div class="row">
-  <%if can? :read, Owner, Manager%>
+  <% unless can? :read, Owner, Manager%>
     <div class="col-md-6">
       <div class="block block-color">
         <div class="block-title">
