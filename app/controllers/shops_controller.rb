@@ -72,10 +72,11 @@ class ShopsController < ApplicationController
     else  
       @shop = Shop.new
     end
-    @shop.build_owner
-    @shop.build_manager
+    #@shop.build_owner
+    #@shop.build_manager
     @shop.build_location
     @shop.build_avatar
+    @shop.peoples.build
 
     respond_to do |format|
       format.html # new.html.erb
