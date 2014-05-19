@@ -4,3 +4,9 @@
     <i class="fa fa-arrow-up fa-fw"></i><%= notification.owner.name %>  <%= render_activity notification %>
   </div> 
 <% end %>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.pager_notification nav.pagination').replaceWith("<%= j paginate @notifications, :params => { :controller => 'home', :action => 'notifications', :method => :get} %>");
+	});	
+</script>

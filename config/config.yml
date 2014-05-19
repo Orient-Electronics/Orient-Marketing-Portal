@@ -1,4 +1,4 @@
 development:
-  domain: 'http://localhost:3000/'
+  domain: 'http://localhost:3000'
 production:
-  domain: 'http://orient.mashup.li/'
+  domain: 'http://orient.mashup.li'

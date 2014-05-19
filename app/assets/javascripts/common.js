@@ -23,6 +23,7 @@ $('document').ready(function(){
     $('.activities-section').scroll(function(){
       domain = $('.activities-section').data("domain");
       var url = domain + $('.activities nav.pagination a[rel=next]').attr('href');
+      console.log(url);
       if(url &&  $('.activities-section')[0].scrollHeight) 
       {   
         if ($('.activities-section').scrollTop() < 300) 
@@ -48,6 +49,7 @@ $('document').ready(function(){
     $('.notification-content').scroll(function(){
       domain = $('.notification-content').data("domain");
       var url = domain + $('.pager_notification nav.pagination a[rel=next]').attr('href');
+      console.log(url);
       if(url &&  $('.notification-content')[0].scrollHeight) 
       {   
         if ($('.notification-content').scrollTop() < 400) 

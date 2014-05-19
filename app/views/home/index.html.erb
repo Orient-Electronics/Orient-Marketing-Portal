@@ -4,7 +4,7 @@
     <div class="col-md-6 col-lg-7">
  			<% unless @subscriber_activities.blank? %>
 	 			<!-- Newsfeed Block -->
-	 			<div class="block subscriber-block-height">
+	 			<div class="block">
 
 	 				<!-- Newsfeed Title -->
 	        <div class="block-title">
@@ -13,8 +13,8 @@
 	        <!-- END Newsfeed Title -->	
 
 	        <!-- Newsfeed Content -->
-	        <div class="block-content-full">
-	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
+	        <div class="block-content-full subscriber-block-height">
+	        	<ul class="scroll-dealer media-list media-feed media-feed-hover subscribe-activities" data-domain = "<%= APP_CONFIG["domain"] %>">
 	        		<% @subscriber_activities .each do |activity| %>
 	        			<li class="media subscribe-activity">
 	        				<a href="page_ready_user_profile.html" class="pull-left">

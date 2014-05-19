@@ -14,3 +14,9 @@
     </div>    
 	</li>	
 <% end %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.subscribe nav.pagination').replaceWith("<%= j paginate @subscriber_activities, :params => { :controller => 'home', :action => 'subscriber_activities', :method => :get } %>");
+  }); 
+</script>

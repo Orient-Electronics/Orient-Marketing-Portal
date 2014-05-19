@@ -4,3 +4,9 @@
      <i class="fa fa-arrow-up fa-fw"></i> You <%= render_activity activity %>
   </div>    
 <% end %>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.activities nav.pagination').replaceWith("<%= j paginate @activities, :params => { :controller => 'home', :action => 'notifications', :method => :get } %>");
+	});	
+</script>
