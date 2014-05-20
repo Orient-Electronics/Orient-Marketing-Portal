@@ -4,7 +4,8 @@ $('document').ready(function(){
   $('.category-tab').click();
   $('.brand-tab').click();
   $('.datepicker').datepicker();
-  
+
+
   $('.jFax-chart').width($("#page-content").width());
 
   $('.tree-toggle').click(function () {

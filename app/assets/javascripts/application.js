@@ -28,4 +28,5 @@
 //= require_directory ./plugins/slimscroll
 //= require_directory ./plugins/datepicker
 //= require presenter
+//= require map
 //= require common

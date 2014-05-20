@@ -3732,6 +3732,62 @@ only screen and (min-device-pixel-ratio: 1.5) {
   max-height: 500px;
 }
 
-.shops-height {
+.shops-height
+{
   max-height: 500px;
+}
+
+.dealer-head-content
+{
+  height: 120px !important;  
+}
+
+.filter-portion
+{
+  margin-left: 0px !important;
+}
+
+.filter-portion .col-md-3 {
+  width: 21% !important;
+  padding-right: 0px !important;
+}
+
+.filter-portion .col-md-2 {
+  width: 26% !important;
+  padding-right: 0px !important;
+}
+.filter-portion .arrow-range
+{
+  border: 1px solid #ccc;
+  border-left: 0px;
+  border-right: 0px;
+  height: 34px;
+  line-height: 30px;
+}
+.filter-portion .from-picker
+{
+  border: 1px solid #ccc;
+  border-radius: 3px 0px 0px 3px;
+  height: 34px;
+  margin: 0px;
+}
+
+.filter-portion .to-picker
+{
+  border: 1px solid #ccc;
+  border-radius: 0px 3px 3px 0px;
+  height: 34px;
+  margin: 0px;
+}
+
+.filter-portion label
+{
+  margin-top: 7px;
+  float: left;
+  width: 100%;
+}
+
+.filter-portion .apply-btn input{
+  float: left;
+  margin-top: 29px;
 }

@@ -3,10 +3,14 @@ class DealersController < ApplicationController
   # GET /dealers.json
   def index
     authorize! :read, Dealer
-    @dealers = Dealer.all
-    @shops = Shop.all
+    unless params[:filter].blank?
+      @city = City.find params[:filter][:city_id] unless params[:filter][:city_id].blank?
+      @shops = @city.shops 
+    else  
+      @shops = Shop.all
+    end
+    @dealers = Dealer.all  
     @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
-    p @peoples
     @posts = Post.published_reports
     @reports = @posts.collect(&:reports).flatten
     @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
@@ -21,18 +25,54 @@ class DealersController < ApplicationController
     @shop_categories = ShopCategory.all
     respond_to do |format|
       format.html # index.html.erb
+      format.js
       format.json { render json: @dealers }
-    end
+    end  
   end
 
   # GET /dealers/1
   # GET /dealers/1.json
   def show
     authorize! :read, Dealer
-    @parent = Dealer.find params[:id]
-    @shops = @parent.shops.flatten
+    @parent = Dealer.where(id: params[:id]).first
+    if params[:filter].present?
+      if params[:filter][:city_id].present?
+        @city = City.where(id: params[:filter][:city_id]).first 
+        @shops = @city.dealer_shops(@parent)
+      end
+      if params[:filter][:area_id].present?
+        @area = Area.where(id: params[:filter][:area_id]).first 
+        unless @shops.blank?
+         @shops = @area.city_dealer_shops(@shops)
+        else
+          @shops = @area.dealer_shops(@parent)
+        end
+      end
+      if params[:filter][:shop_category_id].present?
+        @shop_category = ShopCategory.where(id: params[:filter][:shop_category_id]).first
+        unless @shops.blank?
+          @shops = @shops.where(shop_category_id: @shop_category.id)
+        else
+          @shops = @parent.shops.where(shop_category_id: @shop_category.id)
+        end
+      end
+      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
+        to  = ((params[:filter][:to]).to_date).to_time
+        from = ((params[:filter][:from]).to_date).to_time
+        unless @shops.blank?
+          @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
+        else  
+          @shops = @parent.shops.flatten
+          @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
+        end  
+
+      end
+    else
+      @shops = @parent.shops.flatten
+      @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
+    end
+
     @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
-    @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     @reports = @posts.collect(&:reports).flatten
     @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
     @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
@@ -40,11 +80,13 @@ class DealersController < ApplicationController
     @categories= @posts.collect(&:product_category).uniq
     @brands = @categories.collect(&:brands).uniq.flatten
     uploads = @shops.collect(&:uploads).flatten
+    post_uploads = @posts.collect(&:uploads).flatten
     avatars = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
-    @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    @uploads = (post_uploads + uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     @shop_categories = ShopCategory.all
     respond_to do |format|
       format.html # show.html.erb
+      format.js
       format.json { render json: @dealer }
     end
   end

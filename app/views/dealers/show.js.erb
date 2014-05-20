@@ -1,0 +1,331 @@
+$(".dealer-content").html("<%= j render :partial => 'shop_dealers' %>");
+
+var asInitVals = new Array();
+
+$(document).ready(function() {
+
+  $('.category-tab').click();
+  $('.brand-tab').click();
+  $('.datepicker').datepicker();
+  
+  $('.jFax-chart').width($("#page-content").width());
+
+  $(".scroll-dealer").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
+  $('select').selectpicker();
+
+  var oTable = $('#shop-data').dataTable({
+    "bFilter": false
+  });
+
+  $('#shop-data_length, #shop-data_filter, #shop-data_paginate, #shop-data_info').addClass("no-background-border");
+  $("#shop-data_length, #shop-data_info").addClass("pull-left");
+  $("#shop-data_filter, #shop-data_paginate").addClass("pull-right");
+  
+  $(".thefilter input").keyup( function () {
+    /* Filter on the column (the index) of this element */
+    oTable.fnFilter( this.value, $(".thefilter input").index(this) );
+  } );
+  
+  
+  
+  /*
+   * Support functions to provide a little bit of 'user friendlyness' to the textblockes in 
+   * the footer
+   */
+  $(".thefilter input").each( function (i) {
+    asInitVals[i] = this.value;
+  } );
+  
+  $(".thefilter input").focus( function () {
+    if ( this.className == "search_init" )
+    {
+      this.className = "";
+      this.value = "";
+    }
+  } );
+  
+  $(".thefilter input").blur( function (i) {
+    if ( this.value == "" )
+    {
+      this.className = "search_init";
+      this.value = asInitVals[$(".thefilter input").index(this)];
+    }
+  } );
+ 
+  $(".search_btn").click( function ()
+  {
+    id = $(this).data("id");
+    $.ajax ({
+      url:  '/dealers/' + id + '/showmodal',
+      success: function(data)
+      {                              
+        $("#modal-user").html(data);
+        $(".person-inform-link").click();
+      }
+    });
+  });  
+
+  $('.report-search').ajaxForm({
+    success: showResponse
+  });
+  $('.report-search select').change(function(){
+    $(this).parent().submit();
+  });
+  $('.category-report-search').ajaxForm({
+      success: showCatResponse
+    });
+  $('.category-report-search select').change(function(){
+    $(this).parent().submit();
+  });
+});
+
+var map;
+var markersArray = [];
+var lat_arr;
+var lng_arr;
+var category_arr;
+var type_arr;
+var marker_icon;
+var category_pin_arr;
+var shop_id_arr;
+var pins_arr = [];
+var iw = new google.maps.InfoWindow();
+
+function initialize(lat,lng){
+
+  allmarkers = []
+
+  pos = (lat + ",") + lng;
+  var mapOptions = {
+    'center': (new google.maps.LatLng(lat,lng)),
+    zoom: 4,
+    'disableDefaultUI':true,
+    'mapTypeControl': true,
+    'panControl': true,
+    'zoomControl': true,
+    "autoZoom": true
+  };
+  map = new google.maps.Map($("#map_location")[0], mapOptions);
+
+  for (var i=0;i<lat_arr.length;i++)
+  { 
+    var lat = convert(lat_arr[i]);
+    var lng = convert(lng_arr[i]);
+    var category = category_arr[i];
+    var marker_pin = category_pin_arr[i];
+    var id = shop_id_arr[i];
+    var type = type_arr[i];
+    if(lat &&  lng)
+      allmarkers =addMarker((new google.maps.LatLng(lat,lng)), map, category,type,marker_pin,id);
+  }
+
+  new_boundary = new google.maps.LatLngBounds();
+
+    for(i=0; i < markersArray.length; i++){
+      position = markersArray[i].position;
+      new_boundary.extend(position);
+    }
+
+    map.fitBounds(new_boundary);
+
+    return allmarkers;
+  }
+
+
+
+function setgeolocation(address){
+  allmarkers = []
+  geocoder = new google.maps.Geocoder();
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK)
+    {
+        lat = results[0].geometry.location.lat();
+        lng = results[0].geometry.location.lng();
+        allmarkers = initialize(lat,lng);
+        change_pin('filter-orient', allmarkers);
+    }
+  });
+}
+
+function addMarker(location,mapp,shop_category,type,marker_pin,shop_id) {
+  
+  var content =  '<div class="result">.</div>';
+  marker = new google.maps.Marker({
+    position: location,
+    map: mapp,
+    icon: marker_pin,
+    category: shop_category,
+    orient_dealer: type,
+    title: shop_id
+  });
+  marker.addListener("dragend", function(marker, ev) {
+    point = marker.latLng;
+  });
+
+  google.maps.event.addListener(marker, "click", function()  
+  {  
+    iw.setContent(content);  
+    iw.open(map, this);
+    close_btn = $('.gm-style-iw').next();
+    close_btn.width(30);
+    close_btn.height(15);
+    $.ajax({
+      url: 'dealers/' + shop_id + '/get_info', 
+      success:function(data) {
+        $(".result").html(data);
+      }
+    });
+
+  });  
+
+  markersArray.push(marker);
+  pins_arr.push(marker_pin);
+
+  return markersArray;
+}
+
+function deleteOverlays() {
+  if (markersArray) {
+    for (i in markersArray) {
+      markersArray[i].setMap(null);
+    }
+    markersArray.length = 0;
+  }
+}
+
+function isNumber(o) {
+  return !isNaN(o - 0);
+}
+
+function convert(c) {
+    if (isNumber(c))
+        return Number(c);
+
+    var match = false;
+    var points = {
+        sign: 1,
+        degree: 0,
+        min: 0,
+        sec: 0
+    };
+
+    var MinDec = /^([NWES+-])*(\d+)°(\d+).(\d+)'/i; // 067°08.601', -067°08.601', E067°08.601'
+    var DMS = /^([NWES+-])*(\d+)°(\d+)'(\d+)\.?(\d+)*"/i; // 33°36'47", -33°36'47", N33°36'47"
+
+    if (c.match(MinDec)) {
+        var arr = MinDec.exec(c);
+
+        match = true;
+        points.sign = (arr[1] == 'W' || arr[1] == 'S' || arr[1] == '-') ? -1 : 1;
+        points.degree = Number(arr[2]);
+        points.min = Number(arr[3] + '.' + arr[4]);
+    }
+    else if (c.match(DMS)) {
+        var arr = DMS.exec(c);
+
+        match = true;
+        points.sign = (arr[1] == 'W' || arr[1] == 'S' || arr[1] == '-') ? -1 : 1;
+        points.degree = Number(arr[2]);
+        points.min = Number(arr[3]);
+        points.sec = Number(arr[4] + '.' + arr[5]);
+    }
+
+    if (match) {
+        return (points.degree + ((points.min * 60 + points.sec) / 3600)) * points.sign;
+    }
+
+    return false;
+}
+
+function load_map(form_name)
+{
+  filters = [];
+  form = '.' + form_name;
+  $(form + ' form input').each(function() {
+    if ($(this).is(":checked"))
+      filters.push($(this).val());
+  });
+  if (filters.length > 0 ) {
+    $(markersArray).each(function(){
+        this.setVisible(false);
+    });
+    for(var i=0;i<filters.length;i++ ){
+      $(markersArray).each(function(){
+        if($(form).data('property')=='category'){
+          if(this.category==filters[i])
+            this.setVisible(true);
+        }
+        else{
+          if(this.orient_dealer==filters[i])
+            this.setVisible(true);
+        }
+      });
+    }
+  }    
+  else{
+    $(markersArray).each(function(){
+      this.setVisible(true);
+    });
+  }
+}
+
+function change_pin(form_name,mar)
+{
+  if(form_name == 'filter-orient')
+  {
+    $(mar).each(function(event){
+      switch(this.orient_dealer)
+      {
+        case "true":
+          this.icon = '/assets/icon/dealer-icon.png';
+          break;
+        case "false":
+          this.icon ='/assets/icon/non-dealer-icon.png';
+        break;
+      }
+      
+    });  
+  }
+  else 
+  {
+    $(mar).each(function(i){
+      this.icon = pins_arr[i];
+    });
+  } 
+}
+  
+$(document).ready(function () {
+
+  lat_arr = $("#lat").val().split("|");
+  lng_arr = $("#lng").val().split("|");
+  category_arr = $("#shop_category").val().split("|");
+  category_pin_arr = $("#shop_category_pin").val().split("|");
+  shop_id_arr = $("#shop_id").val().split("|");
+  type_arr =$("#shop_type").val().split("|");
+
+  setgeolocation("Pakistan");
+  $(".dealer-form, .category-form").slideDown();
+  $('.dealer, .orient-dealer').click(function(){
+    form_name = $(this).data('form');
+
+    $('.filters').hide();
+    
+    $('.' + form_name).show();
+    load_map(form_name);
+    change_pin(form_name, markersArray);
+    $(".dealer-form, .category-form").slideToggle();
+  }); 
+  
+  $('.filters form input').click(function(){
+    parent = $(this).closest('.filters');
+    form_name = parent.data('name');
+    load_map(form_name);
+  });
+
+  $(".orient-dealer").trigger('click');
+
+});
