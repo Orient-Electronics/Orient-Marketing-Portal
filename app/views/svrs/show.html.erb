@@ -33,7 +33,7 @@
 
 
 <div class="row">
-  <div class="<%= (@post.task.blank? and @post.published?) ? "col-md-6" : "col-md-9" %>">
+  <div class="<%= [@post.task , @post.published?].one? ? "col-md-6" : "" %> <%= (@post.task.present? && @post.published?) ? "col-md-3" : "col-md-9" %> ">
     <div class="widget">
       <table class="table table-borderless table-striped">
         <tbody>
