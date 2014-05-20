@@ -72,11 +72,10 @@ class ShopsController < ApplicationController
     else  
       @shop = Shop.new
     end
-    #@shop.build_owner
-    #@shop.build_manager
     @shop.build_location
     @shop.build_avatar
-    @shop.peoples.build
+    @people = @shop.peoples.build
+    @people.build_avatar
 
     respond_to do |format|
       format.html # new.html.erb
@@ -156,6 +155,10 @@ class ShopsController < ApplicationController
     @city = City.find(params[:id])
     @areas = @city.areas
     render(:partial => "shops/get_area_field", :locals => {:@area => @area })
+  end
+
+  def people_field
+    render(:partial => "shops/get_people_field", :locals => {:index => params[:index]})
   end
   
 end

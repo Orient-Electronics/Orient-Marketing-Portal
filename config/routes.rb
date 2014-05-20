@@ -80,6 +80,7 @@ Orient::Application.routes.draw do
     resources :svrs
     collection do
       get 'area_field'
+      get 'people_field'
     end
   end
 

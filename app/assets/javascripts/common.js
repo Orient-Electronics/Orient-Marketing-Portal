@@ -114,7 +114,18 @@ $('document').ready(function(){
     });
   } 
 
-  
+  $(".add_more_people_link").click(function(e){
+    parent  = $(".people-form-container");
+    index = parent.find("input").length / 5
+    $.ajax ({
+        url:  '/shops/people_field',
+        data: {index: index},
+        success: function(data)
+        {
+          parent.append(data);
+        }
+    });
+  });
 
   $(".add_more_link").click(function(e){
     e.preventDefault();
