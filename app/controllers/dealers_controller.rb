@@ -3,15 +3,18 @@ class DealersController < ApplicationController
   # GET /dealers.json
   def index
     authorize! :read, Dealer
-    unless params[:filter].blank?
-      @city = City.find params[:filter][:city_id] unless params[:filter][:city_id].blank?
-      @shops = @city.shops 
+    @dealers = Dealer.all
+    @shops = Shop.all
+    if params[:filter].present?
+      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
+        to  = ((params[:filter][:to]).to_date).to_time
+        from = ((params[:filter][:from]).to_date).to_time
+        @posts = Post.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
+      end   
     else  
-      @shops = Shop.all
+      @posts = Post.published_reports
     end
-    @dealers = Dealer.all  
     @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
-    @posts = Post.published_reports
     @reports = @posts.collect(&:reports).flatten
     @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
     @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }

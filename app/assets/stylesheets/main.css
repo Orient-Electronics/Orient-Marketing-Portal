@@ -3791,3 +3791,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
   float: left;
   margin-top: 29px;
 }
+
+.dealers-filter
+{
+  margin-bottom: 20px;
+}

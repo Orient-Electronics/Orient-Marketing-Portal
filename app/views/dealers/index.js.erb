@@ -1,2 +1,21 @@
-$(".dealers-content").html("<%= j render :partial => 'dealers' %>");
-<%= render :partial => "dealerjs" %>
+$(".dealer-content").html("<%= j render :partial => 'dealers' %>");
+
+var asInitVals = new Array();
+
+$(document).ready(function() {
+
+  $('.category-tab').click();
+  $('.brand-tab').click();
+  $('.datepicker').datepicker();
+  
+  $('.jFax-chart').width($("#page-content").width());
+
+  $(".scroll-dealer").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
+  $('select').selectpicker();
+
+});
+ 
