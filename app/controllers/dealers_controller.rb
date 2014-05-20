@@ -5,6 +5,8 @@ class DealersController < ApplicationController
     authorize! :read, Dealer
     @dealers = Dealer.all
     @shops = Shop.all
+    @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
+    p @peoples
     @posts = Post.published_reports
     @reports = @posts.collect(&:reports).flatten
     @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
@@ -29,6 +31,7 @@ class DealersController < ApplicationController
     authorize! :read, Dealer
     @parent = Dealer.find params[:id]
     @shops = @parent.shops.flatten
+    @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
     @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     @reports = @posts.collect(&:reports).flatten
     @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten

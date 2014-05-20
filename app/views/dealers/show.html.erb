@@ -239,7 +239,7 @@
 </div> 
   
 <div class= "row">
-  <% if can? :read, Owner, Manager %>
+  <% if can? :read, People %>
     <div class="col-md-6">
       <div class="block block-color block-bordered">
         <div class="block-title">
@@ -251,20 +251,12 @@
         <div class="block-content block-height block-max-height scroll-dealer" >
           <table class="table table-user table-nohead">
             <tbody  remote ="true">
-              <% @parent.shops.each do |shop| %>
+              <% @peoples.each do |people| %>
+
                 <tr>
-                  <% unless shop.owner.blank? %>
-                    <td class ="img"><img src="/assets/demo/user-1.jpg" alt=""></td>
-                    <td class="user"><%= shop.owner.name %></td>
-                    <td class='icon search_btn' data-id = <%= shop.id%> data-type = "owner" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
-                  <% end -%>
-                </tr>    
-                <tr>
-                  <% unless shop.manager.blank? %>
-                    <td class ="img"><img src="/assets/demo/user-2.jpg" alt=""></td>
-                    <td class="user"><%= shop.manager.name %></td>
-                    <td class='icon search_btn' data-id =  <%= shop.id%> data-type = "manager" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
-                  <% end -%>
+                  <td class ="img"><%= image_tag(people.avatar.avatar(:thumb)) %></td>
+                  <td class="user"><%= people.name %></td>
+                  <td class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
                 </tr>
               <% end -%>  
             </tbody>
@@ -322,10 +314,8 @@
       $(".search_btn").click( function ()
       {
         id = $(this).data("id");
-        type = $(this).data("type")
         $.ajax ({
           url:  '/dealers/' + id + '/showmodal',
-          data: {type: type},
           success: function(data)
           {                              
             $("#modal-user").html(data);
