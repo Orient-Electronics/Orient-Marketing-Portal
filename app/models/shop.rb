@@ -22,7 +22,7 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :manager
   accepts_nested_attributes_for :location
   accepts_nested_attributes_for :avatar
-  accepts_nested_attributes_for :peoples
+  accepts_nested_attributes_for :peoples, :allow_destroy => true
 
  
   # validates_presence_of :website

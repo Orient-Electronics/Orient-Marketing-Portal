@@ -287,7 +287,7 @@
 </div>
 
 <div class="row">
-  <% unless can? :read, Owner, Manager%>
+  <% if can? :read, People%>
     <div class="col-md-6">
       <div class="block block-color">
         <div class="block-title">
@@ -299,16 +299,13 @@
         <div class="block-content nopadding">
           <table class="table table-user table-nohead">
             <tbody  remote ="true">
-              <tr>
-                <td class ="img"><img src="/assets/demo/user-1.jpg" alt=""></td>
-                <td class="user"><%= @shop.owner.name %></td>
-                <td class='icon search_btn' data-id = <%= @shop.id%> data-type = "owner" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
-              </tr>
-              <tr>
-                <td class ="img"><img src="/assets/demo/user-2.jpg" alt=""></td>
-                <td class="user"><%= @shop.manager.name %></td>
-                <td class='icon search_btn' data-id =  <%= @shop.id%> data-type = "manager" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
-              </tr>
+              <% @shop.peoples.each do |people| %>
+                <tr>
+                  <td class ="img"><%= image_tag(people.avatar.avatar(:thumb)) %></td>
+                  <td class="user"><%= people.name %></td>
+                  <td class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
+                </tr>
+              <% end %>
             </tbody>
           </table>
         </div>
@@ -527,10 +524,8 @@
       $(".search_btn").click( function ()
       {
         id = $(this).data("id");
-        type = $(this).data("type")
         $.ajax ({
           url:  '/dealers/' + id + '/showmodal',
-          data: {type: type},
           success: function(data)
           {                              
             $("#modal-user").html(data);

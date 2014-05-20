@@ -134,9 +134,8 @@ class DealersController < ApplicationController
 
   def showmodal
     
-    @shop = Shop.find(params[:id])
-    params[:type]=="owner" ? @parent=@shop.owner : @parent=@shop.manager
-    render :partial =>"/dealers/show_modal" , :locals => {:person => @parent, :shop => @shop}
+    @people = People.find(params[:id])
+    render :partial =>"/dealers/show_modal" , :locals => {:person => @people}
   end
 
   def get_info

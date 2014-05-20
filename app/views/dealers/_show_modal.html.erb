@@ -5,22 +5,18 @@
 <div class="modal-body">
   <div class="row-fluid">
     <div class="span2">
-      <img src="/assets/demo/user-1.jpg" alt="">
+      <%= image_tag(person.avatar.avatar(:thumb) ) %>
     </div>
     <div class="span10">
       <dl class="dl-horizontal" style="margin-top:0;">
         <dt>Full name:</dt>
         <dd><%= person.name%></dd>
         <dt>D.O.B:</dt>
-        <dd><%= person.dob%></dd>
-        <dt>Address:</dt>
-        <dd>
-
-          <address> <strong><%= shop.address%></strong>
-            <br> <abbr title="Phone">P:
-            <%= person.cell_number%></abbr>
-          </address>
-        </dd>
+        <dd><%= person.date_of_birth %></dd>
+        <dt>Designation:</dt>
+        <dd><%= person.designation %></dd>
+        <dt>Phone:</dt>
+        <dd><%= person.cell_number%></dd>
         <dt>Social:</dt>
         <dd>
           <a href="#" class='btn'><i class="fa fa-facebook"></i></a>

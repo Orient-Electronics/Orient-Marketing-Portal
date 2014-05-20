@@ -74,8 +74,7 @@ class ShopsController < ApplicationController
     end
     @shop.build_location
     @shop.build_avatar
-    @people = @shop.peoples.build
-    @people.build_avatar
+    
 
     respond_to do |format|
       format.html # new.html.erb

@@ -7,7 +7,11 @@
     <div class= "form-group">
       <%= f.label "Shop Icon", :id => :avatar, :class => 'control-label col-md-1'%>
       <div class="col-md-5">
-        <%= f.file_field :avatar ,:class => 'avatar_field required form-control' %>
+        <% unless @shop.avatar.avatar.blank? %>
+          <%= image_tag(@shop.avatar.avatar(:small)) %>
+
+        <% end %>
+        <%= f.file_field :avatar ,:class => 'avatar_field form-control' %>
       </div>
     </div>
   <%end%> 
@@ -97,13 +101,53 @@
     </div>
   </div>
 
-<h3 class="form-portion-head pull-right"> <%= link_to raw("<i class='fa fa-plus-square'></i> Add More People"), "javascript:;", :remote => :true , :class => "add_more_people_link  btn btn-sm btn-default"%> </h3>
   <div class="people-form-container">
 
+    <%= f.fields_for :peoples do |f| %>
+      <h3 class="form-portion-head"> People Information </h3>
+      <div class=" form-group">   
+        <label class="control-label pull-right col-md-5"><%= f.check_box '_destroy' %> Remove Information </label>
+      </div>
+      <%= f.fields_for :avatar do |people| %>
+        <div class=" form-group">
+          <%= people.label :avatar, "Image", :class => 'control-label col-md-1' %>
+          <div class="col-md-5">
+            <%= image_tag(people.object.avatar(:small)) %>
+          </div>
+        </div>  
+      <% end %>      
+      <div class=" form-group">
+        <%= f.label :name, :class => 'control-label col-md-1' %>
+        <div class="col-md-5">
+          <%= f.text_field :name, :readonly => true, :class => 'form-control text_field' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.label :cell_number, :class => 'control-label col-md-1' %>
+        <div class="col-md-5">
+          <%= f.text_field :cell_number, :readonly => true, :class => 'form-control text_field' %>
+        </div>
+      </div>
+
+    <div class="form-group">
+      <%= f.label :designation, :class => 'control-label col-md-1' %>
+      <div class="col-md-5">
+        <%= f.text_field :designation, :readonly => true, :class => 'form-control text_field' %>
+      </div>
+    </div>
+
+    <div class=" form-group">
+      <%= f.label :date_of_birth,"Date of Birth", :class => 'control-label col-md-1' %>
+      <div class="col-md-5">
+        <%= f.text_field :date_of_birth, :readonly => true, :class => "form-control date" ,"data-date-format" => "dd-mm-yyyy" %><span class="add-on"><i class="icon-th"></i></span>
+      </div>
+    </div>
+    <% end %>
   </div>
 
 
  <div class="form-group form-actions text-center">
+    <%= link_to raw("<i class='fa fa-plus-square'></i> Add More People"), "javascript:;", :remote => :true , :class => "add_more_people_link  btn btn-sm btn-default"%>
     <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success submit-btn' %>
     <% unless @dealer.blank? %>
       <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), dealer_path(@dealer), :class => 'btn btn-sm btn-primary' %>
