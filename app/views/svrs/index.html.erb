@@ -16,9 +16,9 @@
           <th> Week No. </th>
           <th> Year </th>
           <th> Current status </th>
+          <th> Created by</th>
+          <th> Created at </th>
           <% if current_user.user_admin? or current_user.user_manager? %>
-            <th> Created by</th>
-            <th> Created at </th>
             <th> Action </th>
             <th>Change Status</th>
           <% end %>  
