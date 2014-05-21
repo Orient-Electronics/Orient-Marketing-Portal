@@ -2,25 +2,65 @@ class ShopsController < ApplicationController
   # GET /shops
   # GET /shops.json
   def index
-    if params[:dealer_id].present?
-      @parent = Dealer.find params[:dealer_id]
-      @shops = @parent.shops
-    else
-      if params[:shop_category_id].present?
-        @parent = ShopCategory.find params[:shop_category_id]
-        @shops = @parent.shops
-      else
-        if params[:city_id].present?
-          @parent = City.find params[:city_id]
-          @shops = @parent.locations.collect(&:shop).flatten.reject {|r| r.nil? }
+    if params[:filter].present?
+      if params[:filter][:city_id].present?
+        @city = City.where(id: params[:filter][:city_id]).first 
+        @shops = @city.shops
+      end
+      if params[:filter][:area_id].present?
+        @area = Area.where(id: params[:filter][:area_id]).first 
+        unless @shops.blank?
+         @shops = @area.city_shops(@shops)
         else
-          @shops = Shop.all 
+          @shops = @area.shops
         end
-      end  
+      end
+      if params[:filter][:shop_category_id].present?
+        @shop_category = ShopCategory.where(id: params[:filter][:shop_category_id]).first
+        unless @shops.blank?
+          @shops = @shops.where(shop_category_id: @shop_category.id)
+        else
+          @shops = @parent.shops.where(shop_category_id: @shop_category.id)
+        end
+      else 
+        @shop_categories = ShopCategory.all  
+      end
+      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
+        to  = ((params[:filter][:to]).to_date).to_time
+        from = ((params[:filter][:from]).to_date).to_time
+        unless @shops.blank?
+          @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
+        else 
+          @shops = Shop.all    
+          @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
+        end 
+      else 
+        @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }  
+      end
+    else
+      @shops = Shop.all
+      @shop_categories = ShopCategory.all
+      @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     end
-    @shop_categories = ShopCategory.all
+    if @posts.present?
+
+      @reports = @posts.collect(&:reports).flatten
+      @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
+      @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
+      @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
+      @categories= @posts.collect(&:product_category).uniq
+      @brands = @categories.collect(&:brands).uniq.flatten
+      post_uploads = @posts.collect(&:uploads).flatten
+      avatars = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+      uploads = @shops.collect(&:uploads).flatten    
+      @uploads = (post_uploads + uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    else  
+      @uploads = @shops.collect(&:uploads).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    end
+    @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
     respond_to do |format|
       format.html # index.html.erb
+      format.js
       format.json { render json: @shops }
     end
   end

@@ -3818,3 +3818,13 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .user-cover-image{
   width: 10%;
 }
+
+.label-satgreen
+{
+  background:#56af45;
+}
+
+.label-lightred
+{
+  background:#e63a3a;
+}

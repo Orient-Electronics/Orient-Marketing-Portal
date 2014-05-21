@@ -1,89 +1,320 @@
-<%- model_class = Shop -%>
-<div class="page-header">
-  <h1><%= "#{@parent.name} - " if @parent.present? %><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
-</div>
-<%= render :partial => "/shared/map" %>
-<div class="row-fluid">
-  <% if can? :read, Shop%>
-    <div class="span12">
-    <div class="box box-color box-bordered">
-      <div class="box-title">
-        <h3>
-          Shops
-        </h3>
+<div class="content-header content-header-media dealer-head-content">
+  <div class="header-section">
+    <div class="row">
+      <div class="col-md-4 col-lg-6 hidden-xs hidden-sm">
+      <h1><strong>Shops</strong><br></h1>
       </div>
-      <div class="box-content nopadding scrollable">
-        <table class="table table-hover table-nomargin" id="shop-data">
-          <thead>
-            <tr class='thefilter row-fluid'>
-              <th class="span2"><input type="text" name="search_shop" placeholder="Shop" class="search_init span12" /></th>
-              <th class="span1"><input type="text" name="search_phone" placeholder="Phone" class="search_init span12" /></th>
-              <th class="span1"><input type="text" name="search_address" placeholder="Address" class="search_init span12" /></th>
-              <th class="span1"><input type="text" name="search_city" placeholder="City" class="search_init span12" /></th>
-              <th class="span1"><input type="text" name="search_dealer" placeholder="Dealer" class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="search_category" placeholder="Category" class="search_init span12" /></th>
-              <th class="span2"><input type="text" name="search_location" placeholder="Location" class="search_init span12" /></th>
-              <th class="span1"><input type="text" name="search_orient_dealer" placeholder="Orient Dealer" class="search_init span12" /></th>
-              <th class="span2"><span class="span12">&nbsp;</span></th>
-            </tr>
-            <tr class="row-fluid">
-              <th class="span2"><%= model_class.human_attribute_name(:dealer_name) %></th>
-              <th class="span1"><%= model_class.human_attribute_name(:phone) %></th>
-              <th class="span1"><%= model_class.human_attribute_name(:address) %></th>
-              <th class="span1"><%= model_class.human_attribute_name(:city) %></th>
-              <th class="span1"><%= model_class.human_attribute_name(:dealer) %></th>
-              <th class="span2"><%= model_class.human_attribute_name(:shop_category_id) %></th>
-              <th class="span2"><%= model_class.human_attribute_name(:location_id) %></th>
-              <th class="span1"><%= model_class.human_attribute_name(:orient_dealer) %></th>
-              <th class="span2"><%=t '.actions', :default => t("helpers.actions") %></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @shops.each do |shop| %>
-              <tr class="row-fluid">
-                <td class"span2"><%= link_to shop.dealer_name, shop_path(shop) %></td>
-                <td class"span1"><%= shop.phone %></td>
-                <td class"span1"><%= shop.address %></td>
-                <td class"span1"><%= shop.location.city.name %></td>
-                <td class"span1"><%= link_to shop.dealer.try(:name), dealer_shops_path(shop.dealer) if shop.dealer.present? %></td>
-                <td class"span2"><%= link_to shop.shop_category.try(:name), shop_category_shops_path(shop.shop_category) %></td>
-                <td class"span2"><%= shop.location.try(:complete_location) %></td>
-                <td class"span1"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non Dealer</span>".html_safe %></td>
-                <td class"span2">
-                  <%= link_to "<i class='icon-search'></i>".html_safe,
-                              shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>
-                  <%= link_to "<i class='icon-edit'></i>".html_safe,
-                              edit_shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"Edit" %>
-                  <%= link_to "<i class='icon-remove'></i>".html_safe,
-                              shop_path(shop),
-                              :method => :delete,
-                              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                              :class => 'btn', :rel=>"tooltip", :title=>"Delete" %>
-                </td>
-              </tr>
+      <div class="col-md-8 col-lg-6">
+        <div class="row text-center">
+          <div class="col-xs-4 col-sm-3">
+            <h2 class="animation-hatch">
+              <strong><%= Shop.count %></strong><br>
+              <small><i class="fa fa-map-marker"></i> Shops</small>
+            </h2>
+          </div>
+          <div class="col-xs-4 col-sm-3">
+            <h2 class="animation-hatch">
+              <strong><%= Post.published_reports.count %></strong><br>
+              <small><i class="fa fa-bar-chart-o"></i> SVRs</small>
+            </h2>
+          </div>
+          <div class="col-sm-3 hidden-xs"></div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div> 
+<div class="content-header">
+  <div class="row filter-portion">
+    <%= form_for :filter, :url => shops_path, :method => :get, :remote => true do |f| %>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="control-label"> City </label>
+          <%= f.collection_select :city_id, City.all,:id,:name, include_blank: true, :class => "form-control" %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="control-label"> Area </label>
+          <%= f.collection_select :area_id, Area.all,:id,:name, include_blank: true, :class => "form-control" %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="control-label"> Shop Category </label>
+          <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, include_blank: true, :class => "form-control" %>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="control-label">Date Range</label>
+            <%= f.text_field :from, :readonly => true, :class => " col-md-5 datepicker from-picker", "data-date-format" => "dd/mm/yyyy",:placeholder => "From"%><span class="col-md-1 arrow-range"><i class="fa fa-angle-right"></i></span>
+            <%= f.text_field :to, :readonly => true, :class => "col-md-5 datepicker to-picker", "data-date-format" => "dd/mm/yyyy", :placeholder => "To" %>
+          </div>
+      </div>  
+      <div class="col-md-1 apply-btn">
+        <%= f.submit "Apply", :class=>"btn btn-primary" %>
+      </div>  
+    <% end %>  
+  </div>
+</div>
+<div  id="modal-user" class="modal">
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">Close</button>
+  </div>
+</div>
+<a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
+<div class="shops-content">
+  <div class="row">
+    <div class="col-md-6">
+      <%= render :partial => "/shared/map"%>
+    </div>
+    <% if can? :read, Shop%>
+      <div class="col-md-6">
+        <div class="block dealers-block-height">
+          <div class="block-title">
+            <div class="button-group pull-right">
+              <%= link_to "Add Shop", new_shop_path,  :class => "btn btn-large btn-primary" %>
+            </div>
+            <h3>
+              Shops
+            </h3>
+          </div>
+          <div class="block-content dealers-height dearlers-list scroll-dealer">
+            <table class="table table-hover" id="shop-data">
+              <thead>
+                <tr class="row">
+                  <th class="col-md-4">Shop Name </th>
+                  <th class="col-md-3">Orient Dealer</th>
+                  <th class="col-md-5">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @shops.each do |shop| %>
+                  <tr class="row">
+                    <td class"col-md-4"><%= link_to shop.dealer_name, shop_path(shop) %></td>
+                    
+                    <td class"col-md-3"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non Dealer</span>".html_safe %>
+                    </td>
+                    <td class"col-md-5">
+                      <%= link_to raw("<i class='fa fa-search'></i>"),
+                                  shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>
+                      <%= link_to raw("<i class='fa fa-edit'></i>"),
+                                  edit_shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"Edit" %>
+                      <%= link_to raw("<i class='hi hi-off'></i>"),
+                                  shop_path(shop),
+                                  :method => :delete,
+                                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                                  :class => 'btn', :rel=>"tooltip", :title=>"Delete" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% end -%> 
+  </div>  
+  <div class="row">
+    <% if can? :read, Report %>
+      <div class="col-md-12">
+        <div class="block">
+          <div class="block-title">
+            <h3><strong> Sales &amp; Display  Report</strong></h3>
+            <ul class="nav nav-tabs" data-toggle="tabs">
+              <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
+              <li><a class="category-tab" href="#category-display-data">Categories</a></li>
+            </ul>
+          </div>  
+          <div class="block-content">
+            <div class="tab-content">
+             <div class="tab-pane active" id="brand-display-data">
+                <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
+                  <select name=search[product] class="selectpicker">
+                    <option value="">All</option>
+                    <% @categories.each do |pc| %>
+                      <% if pc.products.blank? %>
+                        <option value="<%= pc.name %>"><%= pc.name %></option>
+                      <% else %>
+                        <optgroup label="<%= pc.name %>">
+                          <% pc.products.each do |product| %>
+                            <option value="<%= product.name %>"><%= product.name %></option>
+                          <% end -%>
+                        </optgroup>
+                      <% end -%>
+                    <% end -%>
+                  </select>
+                  <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                  <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                <% end -%>
+                <div class="brand-chart-data">
+                  <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
+                </div>  
+             </div>
+             <div class="tab-pane active" id="category-display-data">
+                <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
+                  <select name=search[brand] class="selectpicker">
+                    <option value="">All</option>
+                    <% @brands.each do |pc| %>
+                      <option value="<%= pc.id %>"><%= pc.name %></option>
+                    <% end -%>
+                  </select>
+                  <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ), {} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                  <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                <% end -%>
+                <div class="category-chart-data">
+                  <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
+                </div>
+             </div> 
+            </div>
+          </div>  
+        </div>  
+      </div>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="block dealers-block-height">
+        <div class="block-title">
+          <h2><strong>Display Corner Reports</strong></h2>
+          <ul class="nav nav-tabs" data-toggle="tabs">
+            <li class="active"><a href="#corner_brand">Brands</a></li>
+            <li><a href="#corner_category">Categories</a></li>
+          </ul>
+        </div>  
+        <div class="tab-content corner-image-content scroll-dealer">
+          <div class="tab-pane active" id="corner_brand">
+            <div class="gallery" data-toggle="lightbox-gallery">
+              <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
+                <div class="row">
+                  <% brand_report.each do |line| %>
+                    <% line.avatars.each do |upload| %>
+                      <div class="col-sm-4 gallery-image">
+                        <% if upload.avatar %>
+                          <%= image_tag upload.avatar.url %>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% else %>
+                          <%= image_tag "/assets/default.png"%>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% end%>
+                      </div>  
+                    <% end %>  
+                  <% end %>  
+                </div>  
+              <% end %>
+            </div>  
+          </div>
+          <div class="tab-pane" id="corner_category">
+            <div class="gallery" data-toggle="lightbox-gallery">
+              <% @corner_category_report_lines.each do |category,cat_report| %>
+                <div class="row">
+                  <% cat_report.each do |line| %>
+                    <% line.avatars.each do |upload| %>
+                      <div class="col-sm-4 gallery-image">
+                        <% if upload.avatar %>
+                          <%= image_tag upload.avatar.url %>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% else %>
+                          <%= image_tag "/assets/default.png"%>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% end%>
+                      </div>  
+                    <% end %>  
+                  <% end %>  
+                </div>  
+              <% end %>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="block dealers-block-height">
+        <div class="block-title">
+          <h2>Images</h2>
+        </div>
+        <div class="gallery corner-image-content scroll-dealer" data-toggle="lightbox-gallery">
+          <div class="row">
+            <% @uploads.each do |image| %>
+              <div class="col-sm-4 gallery-image">
+                <% if image.class.to_s == "Upload"%>
+                  <%= image_tag image.upload.url(:small) %>
+                  <div class="gallery-image-options text-center">
+                    <div class="btn-group btn-group-sm">
+                      <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                    </div>
+                  </div>      
+                <% else %>
+                  <%= image_tag image.avatar.url(:small) %>
+                  <div class="gallery-image-options text-center">
+                    <div class="btn-group btn-group-sm">
+                      <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                    </div> 
+                  </div>  
+                <% end %>
+              </div>  
             <% end %>
-          </tbody>
-        </table>
+          </div>  
+        </div>
       </div>
     </div>
-    </div>
-  <% end -%> 
+  </div>  
+  <div class = "row">
+    <% if can? :read, People%>
+      <div class="col-md-6">
+        <div class="block dealers-block-height">
+          <div class="block-title">
+            <h3>
+              <i class="icon-user">
+              People </i>
+            </h3>
+          </div>
+          <div class="block-content corner-image-content scroll-dealer" >
+            <table class="table table-user table-nohead">
+              <tbody  remote ="true">
+                <% @peoples.each do |people| %>
+                  <tr>
+                    <td class ="img"><%= image_tag(people.avatar.avatar(:thumb)) %></td>
+                    <td class="user"><%= people.name %></td>
+                    <td class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
+                  </tr>
+                <% end -%>  
+              </tbody>
+            </table>    
+          </div>
+        </div>
+      </div>
+    <%end -%>
+  </div> 
 </div>
-<% if can? :create, Shop %>
-  <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_shop_path,
-            :class => 'btn btn-primary' %>
-<% end-%>
+
 <%= content_for :footer_js do %>
 <script type="text/javascript" charset="utf-8">
   var asInitVals = new Array();
   
   $(document).ready(function() {
-    var oTable = $('#shop-data').dataTable( {
-      "oLanguage": {
-        "sSearch": "Search all columns:"
-      }
-    } );
+    var oTable = $('#shop-data').dataTable();
+
+    $('#shop-data_length, #shop-data_filter, #shop-data_paginate, #shop-data_info').addClass("no-background-border");
+    $("#shop-data_length, #shop-data_info").addClass("pull-left");
+    $(" #shop-data_paginate, #shop-data_filter").addClass("pull-right");
     
     $(".thefilter input").keyup( function () {
       /* Filter on the column (the index) of this element */
@@ -91,7 +322,18 @@
     } );
     
     
-    
+    $(".search_btn").click( function ()
+      {
+        id = $(this).data("id");
+        $.ajax ({
+          url:  '/dealers/' + id + '/showmodal',
+          success: function(data)
+          {                              
+            $("#modal-user").html(data);
+            $(".person-inform-link").click();
+          }
+        });
+      });
     /*
      * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
      * the footer

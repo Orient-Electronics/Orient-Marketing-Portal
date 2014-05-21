@@ -15,4 +15,9 @@ class Area < ActiveRecord::Base
   def city_dealer_shops(dealer_shops)
   	shops.where(id: dealer_shops.collect(&:id))
   end
+
+  def city_shops(city_shops)
+    shops.where(id: city_shops.collect(&:id))
+  end
+
 end
