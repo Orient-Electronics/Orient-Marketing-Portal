@@ -67,8 +67,9 @@ class DealersController < ApplicationController
         else  
           @shops = @parent.shops.flatten
           @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
-        end  
-
+        end 
+      else 
+        @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }  
       end
     else
       @shops = @parent.shops.flatten
@@ -76,16 +77,21 @@ class DealersController < ApplicationController
     end
 
     @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
-    @reports = @posts.collect(&:reports).flatten
-    @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
-    @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
-    @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
-    @categories= @posts.collect(&:product_category).uniq
-    @brands = @categories.collect(&:brands).uniq.flatten
-    uploads = @shops.collect(&:uploads).flatten
-    post_uploads = @posts.collect(&:uploads).flatten
-    avatars = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
-    @uploads = (post_uploads + uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    if @posts.present?
+      @reports = @posts.collect(&:reports).flatten
+      @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
+      @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
+      @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
+      @categories= @posts.collect(&:product_category).uniq
+      @brands = @categories.collect(&:brands).uniq.flatten
+      post_uploads = @posts.collect(&:uploads).flatten
+      avatars = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
+      uploads = @shops.collect(&:uploads).flatten    
+      @uploads = (post_uploads + uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    else  
+      @uploads = @shops.collect(&:uploads).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    end
+    
     @shop_categories = ShopCategory.all
     respond_to do |format|
       format.html # show.html.erb

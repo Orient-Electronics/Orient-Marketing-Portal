@@ -52,9 +52,9 @@ class SvrsController < ApplicationController
       @brands = @category.brands
     end
     unless params[:task_id].blank?
-      @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id, :task_id => params[:task_id].to_i
+      @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id, :task_id => params[:task_id].to_i, :status => "draft"
     else
-      @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id
+      @post = Post.new :shop_id => @shop.id, :dealer_id => @shop.dealer.id, :product_category_id => @category.id, :user_id => current_user.id, :status => "draft"
     end
     report_one = @post.reports.build :shop_id => @shop.id, :report_type => 'display', :user_id => current_user.id
     @brands.each do |brand|
@@ -74,10 +74,6 @@ class SvrsController < ApplicationController
     authorize! :update, Post
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
-    unless can? :create, Task 
-      redirect_to :back, notice: 'access denied to edit this report'
-    end 
-    
   end
 
   def create
