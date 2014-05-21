@@ -1,49 +1,155 @@
-<div id="navigation">
-  <div class="container-fluid">
-    <a href="#" id="brand">ORIENT</a>
-    <ul class='main-nav'>
-      <li>
-        <a href="/">
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li>
-        <a href="/tasks">
-          <span>Tasks</span>
-        </a>
-      </li>
-      <li>
-        <a href="/shops">
-          <span>Shops</span>
-        </a>
-      </li>
-      <li>
-        <a href="/svrs">
-          <span>Shop visit reports</span>
-        </a>
-      </li>
-      <li>
-        <a href="/announcements">
-          <span>Announcements</span>
-        </a>
-      </li>
-    </ul>
-    <div class="user">
-      <div class="dropdown">
-        <a href="#" class='dropdown-toggle' data-toggle="dropdown"><%= current_user.name %> <%= image_tag current_user.get_avatar.avatar.url(:small_thumb), :size => "27x27" %></a>
-        <ul class="dropdown-menu pull-right">
-          <li>
-            <%= link_to "View Profile", activities_path(:user_id => current_user.id)%>
-          </li>
-          <li>
-            <%= link_to "Edit Profile", edit_user_registration_path %>
-          </li>
-          <li>
-            <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
-          </li>
-        </ul>
+<div id="sidebar">
+  <!-- Wrapper for scrolling functionality -->
+  <div class="sidebar-scroll">
+    <!-- Sidebar Content -->
+    <div class="sidebar-content">
+      <!-- Brand -->
+      <a href="/" class="sidebar-brand">
+        <i class="gi gi-flash"></i><strong>ORIENT</strong>
+      </a>
+      <!-- END Brand -->
+
+      <!-- User Info -->
+      <div class="sidebar-section sidebar-user clearfix">
+        <div class="sidebar-user-avatar">
+          <a href="<%= activities_path(:user_id => current_user.id) %>">
+            <%= image_tag(current_user.get_avatar.avatar.url(:thumb)) %>
+          </a>
+        </div>
+        <div class="sidebar-user-name"><%= current_user.name %></div>
+        <div class="sidebar-user-links">
+          <a href="<%= activities_path(:user_id => current_user.id) %>" data-toggle="tooltip" data-placement="bottom" title="Profile"><i class="gi gi-user"></i></a>
+         <a href="#modal-user-settings" data-toggle="modal" class="enable-tooltip" data-placement="bottom" title="Settings"><i class="gi gi-cogwheel"></i></a>
+          <%= link_to  raw("<i class='gi gi-exit'></i>"), destroy_user_session_path, :method => :delete, "data-toggle"=>"tooltip",  "data-placement"=>"bottom", :title=> "Logout" %>
+        </div>
       </div>
+      <!-- END User Info -->
+
+      <!-- Sidebar Navigation -->
+      <ul class="sidebar-nav">
+        <li>
+          <a href="/" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
+        </li>
+        <li>
+          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Task</a>
+          <ul>
+            <li>
+              <a href="/tasks">View All</a>
+            </li>
+            <li>
+              <a href="/tasks/new">Add New</a>
+            </li>
+          </ul>
+        </li> 
+        <li>
+          <a href="/svrs"><i class="gi gi-charts sidebar-nav-icon"></i>Shop Visit Reports</a>
+        </li>
+        <li>
+          <a href="/announcements"><i class="gi gi-share_alt sidebar-nav-icon"></i>Announcements</a>
+        </li>
+      </ul>  
+      <!-- END Sidebar Navigation -->
+      
+      <!-- Sidebar Notifications -->
+      <div class="sidebar-header">
+        <span class="sidebar-header-options clearfix">
+          <a href="javascript:void(0)" data-toggle="tooltip" title="Refresh"><i class="gi gi-refresh"></i></a>
+        </span>
+        <span class="sidebar-header-title">Activity</span>
+      </div>
+      <div class="sidebar-section activities-section scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
+        <% @activities.each do |activity| %>
+          <div class="alert alert-info alert-alt my_activities">
+            <small><%= activity.created_at.strftime("%B, %d")%></small><br>
+             <i class="fa fa-arrow-up fa-fw"></i> You <%= render_activity activity %>
+          </div>    
+        <% end %>
+        <div class="hide activities">
+          <%= paginate @activities, :params => { :controller => 'home', :action => 'notifications', :method => :get } %>
+        </div>  
+      </div>
+      
     </div>
-    <%= render :partial => 'search/search' %>
+    <!-- END Sidebar Content -->
   </div>
-</div>        
+  <!-- END Wrapper for scrolling functionality -->
+</div>      
+<!-- END Main Sidebar -->
+
+
+<!-- User Settings, modal which opens from Settings link (found in top right user menu) and the Cog link (found in sidebar user info) -->
+<div id="modal-user-settings" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+          <h2 class="modal-title"><i class="fa fa-pencil"></i> Settings</h2>
+      </div>
+      <!-- END Modal Header -->
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <%= form_for(current_user, :as => current_user, :url => registration_path(current_user), :html => { :method => :put, :multipart => true, :class => "form-horizontal form-bordered" }) do |f| %>
+          
+          <fieldset>
+            <%= f.fields_for :avatar do |form| %>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="user-settings-email">Change Profile Image</label>
+                <div class="col-md-8">
+                  <%= form.file_field :avatar %>
+                </div>
+              </div>
+            <% end -%>  
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="user-settings-email">First Name </label>
+              <div class="col-md-8">
+                <%= f.text_field :first_name, :autofocus => true, :class => 'form-control' %>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="user-settings-email">Last Name</label>
+              <div class="col-md-8">
+                <%= f.text_field :last_name, :autofocus => true, :class => 'form-control' %>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="user-settings-email">Email</label>
+              <div class="col-md-8">
+                <%= f.text_field :email, :autofocus => true, :class => 'form-control' %>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Password Update</legend>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="user-settings-password">Current Password</label>
+                <div class="col-md-8">
+                  <%= f.password_field :current_password, :class => 'form-control' %>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="user-settings-password">New Password</label>
+                <div class="col-md-8">
+                  <%= f.password_field :password, :autocomplete => "off", :placeholder => 'Please choose a complex one..', :class => 'form-control' %>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="user-settings-repassword">Confirm New Password</label>
+                <div class="col-md-8">
+                  <%= f.password_field :password_confirmation, :class => 'form-control', :placeholder => '..and confirm it!' %>
+                </div>
+              </div>
+          </fieldset>
+          <div class="form-group form-actions">
+            <div class="col-xs-12 text-right">
+              <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+            </div>
+          </div>
+        <% end %>  
+      </div>
+      <!-- END Modal Body -->
+    </div>
+  </div>
+</div>
+<!-- END User Settings -->

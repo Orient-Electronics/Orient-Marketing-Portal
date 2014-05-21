@@ -1,4 +1,5 @@
 <%= render :partial => "/layouts/user_header" %> 
+<% unless current_user.user_employee? %>
 <div class="row">
 	<!-- First Column -->
     <div class="col-md-6 col-lg-7">
@@ -75,3 +76,4 @@
  		</div>
  		<!-- END Second Column -->
 </div>
+<% end %>

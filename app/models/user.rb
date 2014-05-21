@@ -62,6 +62,10 @@ class User < ActiveRecord::Base
     user_type.try(:name) == "employee"
   end
 
+  def user_manager?
+    user_type.try(:name) == "manager"
+  end  
+
   def already_subscribe?(user)
     self.subscribers.find_by_subscribe_id(user.id).blank? ? false : true
   end 
