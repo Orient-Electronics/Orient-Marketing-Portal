@@ -19,8 +19,8 @@
 	        		<% @subscriber_activities .each do |activity| %>
 	        			<li class="media subscribe-activity">
                   <% user = User.find(activity.owner.id) %>
-	        				<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left">
-                      <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle") %>
+	        				<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left user-link-small">
+                      <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small") %>
                   </a>
                   <div class="media-body">
                     <p class="push-bit">
@@ -62,9 +62,7 @@
             <div class="col-xs-4 col-sm-3 col-lg-2 block-section">
               <a href="<%= activities_path(:user_id => user.id) %>">
               	<% unless user.avatar.blank? %>
-                	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name )%>
-                <% else %>	
-                	<%= image_tag('/assets/default.png', :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name, :size => "65x70" )%>
+                	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle subscribed-image" , "data-toggle" => "tooltip", :title => user.name )%>
                 <% end %>	
               </a>
             </div>

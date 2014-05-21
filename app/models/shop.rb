@@ -25,29 +25,23 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :peoples, :allow_destroy => true
 
  
-  # validates_presence_of :website
-  # validates_presence_of :avatar, :presence => true, :message => "^please upload shop logo" 
    validates :address, :presence => true, :length => { :maximum => 250 }
    validates_presence_of :dealer_name, :presence => true, :message => "^Shop Name Can't be Blank"
-  # validates_numericality_of :phone, :presence => true
-  # validates :email, :presence => true, 
-  #                   :length => {:minimum => 3, :maximum => 25},
-  #                   :uniqueness => true,
-  #                   :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
-  # validates :orient_dealer, :presence => true
+
   validates_presence_of :shop_category_id
   
 
   searchable do
     text :dealer_name, :stored => true
-      
-  #  text :address
-  #  text :owner do
-  #    owner.try(:name)
-  #  end
-  #  text :manager do
-  #    manager.try(:name)
-  #  end
+    integer :city_id do 
+      location.city_id
+    end
+    integer :area_id do 
+      location.city_id
+    end
+    integer :shop_category_id do
+      shop_category.id
+    end
   end
 
   def branch_of

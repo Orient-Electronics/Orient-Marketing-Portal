@@ -3,40 +3,13 @@ class ShopsController < ApplicationController
   # GET /shops.json
   def index
     if params[:filter].present?
-      if params[:filter][:city_id].present?
-        @city = City.where(id: params[:filter][:city_id]).first 
-        @shops = @city.shops
+      search = Sunspot.search (Shop) do
+        with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
+        with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
+        with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
       end
-      if params[:filter][:area_id].present?
-        @area = Area.where(id: params[:filter][:area_id]).first 
-        unless @shops.blank?
-         @shops = @area.city_shops(@shops)
-        else
-          @shops = @area.shops
-        end
-      end
-      if params[:filter][:shop_category_id].present?
-        @shop_category = ShopCategory.where(id: params[:filter][:shop_category_id]).first
-        unless @shops.blank?
-          @shops = @shops.where(shop_category_id: @shop_category.id)
-        else
-          @shops = @parent.shops.where(shop_category_id: @shop_category.id)
-        end
-      else 
-        @shop_categories = ShopCategory.all  
-      end
-      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
-        to  = ((params[:filter][:to]).to_date).to_time
-        from = ((params[:filter][:from]).to_date).to_time
-        unless @shops.blank?
-          @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
-        else 
-          @shops = Shop.all    
-          @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
-        end 
-      else 
-        @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }  
-      end
+      @shops = search.results
+      @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     else
       @shops = Shop.all
       @shop_categories = ShopCategory.all
