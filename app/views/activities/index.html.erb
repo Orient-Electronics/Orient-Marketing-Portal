@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/user_header" %> 
+<%= render :partial => "/layouts/user_header", :locals => {:user => @user} %> 
  <!-- User Profile Content -->
  	<div class="row">
  		<!-- First Column -->
@@ -18,7 +18,7 @@
 	        	<ul class="media-list media-feed media-feed-hover user-activities  user-activities-scroll">
 	        		<% @user_activities.each do |activity| %>
 	        			<li class="media user-activity">
-                  <%=link_to raw(image_tag(@user.avatar.avatar(:thumb), :class => "img-circle")), activities_path(:user_id => @user.id),:class => "pull-left" %>
+                  <%=link_to raw(image_tag(@user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => @user.id),:class => "pull-left user-link-small" %>
                   <div class="media-body">
                     <p class="push-bit">
                       <span class="text-muted pull-right">
@@ -49,15 +49,17 @@
       <div class="block">
       	<!-- Info Title -->
         <div class="block-title">
-          <div class="block-options pull-right">
-          	<% unless current_user == @user %>
-          		<% unless current_user.already_subscribe?(@user) %>
-            		<a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="modal" data-target = "#subscriber_modal" title="Subscribe"><i class="fa fa-plus"></i></a>
-            	<% else %>	
-            		<a href="<%= destroy_subscriber_activity_path(:id => @user.id) %>" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="Un-Subscribe"><i class="fa fa-plus"></i></a>
-            	<% end %>
-            <% end %>	
-          </div>
+          <% unless current_user.user_employee? %>
+            <div class="block-options pull-right">
+            	<% unless current_user == @user %>
+            		<% unless current_user.already_subscribe?(@user) %>
+              		<a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="modal" data-target = "#subscriber_modal" title="Subscribe"><i class="fa fa-plus"></i></a>
+              	<% else %>	
+              		<a href="<%= destroy_subscriber_activity_path(:id => @user.id) %>" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="Un-Subscribe"><i class="fa fa-plus"></i></a>
+              	<% end %>
+              <% end %>	
+            </div>
+          <% end %>  
           <h2>About <strong><%= @user.name %></strong></h2>
         </div>
         <!-- END Info Title -->
@@ -106,9 +108,7 @@
 		            <div class="col-xs-4 col-sm-3 col-lg-2 block-section">
 		              <a href="<%= activities_path(:user_id => user.id) %>">
 		              	<% unless user.avatar.blank? %>
-		                	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name )%>
-		                <% else %>	
-		                	<%= image_tag('/assets/default.png', :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name, :size => "65x70" )%>
+		                	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name, :size => "65x70" )%>
 		                <% end %>	
 		              </a>
 		            </div>
@@ -122,19 +122,8 @@
  		<!-- END Second Column -->
  	</div>	
  <!-- END User Profile Content -->
-<% unless current_user == @user %>
+<% unless current_user == @user and current_user.user_employee? %>
 	<% unless current_user.already_subscribe?(@user) %>
 		<%= render :partial => 'subscriber', :locals => {user_id: current_user.id, subscribe_id: @user.id} %>
 	<% end %>	
-<% end -%>	
-
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    $(".user-activities").infinitescroll({
-      navSelector: ".activities nav.pagination",
-      nextSelector: ".activities nav.pagination a[rel=next]",
-      itemSelector: ".user-activity"
-    });  
-  });
-</script>
+<% end -%>

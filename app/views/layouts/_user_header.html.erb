@@ -1,12 +1,11 @@
 <!-- User Profile Header -->
 <div class="content-header content-header-media">
 	<div class="header-section">
-		<% unless current_user.avatar.blank? %>
-			<%= image_tag(current_user.avatar.avatar(:thumb), :class =>"pull-right img-circle") %>
-		<% else %>	
-    	<%= image_tag('/assets/default.png', :class => "img-circle pull-right" , :size => "65x70" )%>
+		<% user =  user.present? ? user : current_user %>
+		<% unless user.avatar.blank? %>
+			<%= image_tag(user.avatar.avatar(:thumb), :class =>"pull-right img-circle user-cover-image") %>
 		<% end %>	
-    <h1><%= current_user.name %>  <br><small><%= current_user.user_type.try(:name) %> </small></h1>
+    <h1><%= user.name %>  <br><small><%= user.user_type.try(:name) %> </small></h1>
 	</div>
 </div>	
  <!-- END User Profile Header -->
