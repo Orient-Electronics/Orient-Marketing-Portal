@@ -10,6 +10,8 @@ class DealersController < ApplicationController
         to  = ((params[:filter][:to]).to_date).to_time
         from = ((params[:filter][:from]).to_date).to_time
         @posts = Post.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
+      else
+        @posts = Post.published_reports  
       end   
     else  
       @posts = Post.published_reports
