@@ -34,121 +34,69 @@
           <span class="sidebar-header-title">Dealers Network</span>
         </li>
         <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Dealer</a>
-          <ul>
-            <li>
-              <a href="/dealers">View All</a>
-            </li>
-            <li>
-              <a href="/dealers/new">Add New</a>
-            </li>
-          </ul>
+          <%= link_to raw('<i class="gi gi-share_alt sidebar-nav-icon"></i> Dealer'),dealers_path %>
         </li>
+
         <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Shop Category</a>
-          <ul>
-            <li>
-              <a href="/shop_categories">View All</a>
-            </li>
-            <li>
-              <a href="/shop_categories/new">Add New</a>
-            </li>
-          </ul>
-        </li> 
-        <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Product Category</a>
-          <ul>
-            <li>
-              <a href="/product_categories">View All</a>
-            </li>
-            <li>
-              <a href="/product_categories/new">Add New</a>
-            </li>
-          </ul>
-        </li> 
-        <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Product</a>
-          <ul>
-            <li>
-              <a href="/products">View All</a>
-            </li>
-            <li>
-              <a href="/products/new">Add New</a>
-            </li>
-          </ul>
-        </li> 
-        <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>City</a>
-          <ul>
-            <li>
-              <a href="/cities">View All</a>
-            </li>
-            <li>
-              <a href="/cities/new">Add New</a>
-            </li>
-          </ul>
+          <%= link_to raw('<i class="gi gi-charts sidebar-nav-icon"></i> SVR'),svrs_path %>
         </li>
+
         <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Area</a>
+          <%= link_to raw('<i class="gi gi-calendar sidebar-nav-icon"></i> Task'),tasks_path %>
+        </li>
+
+        <li>
+          <%= link_to raw('<i class="gi gi-film sidebar-nav-icon"></i> Announcement'),announcements_path %>
+        </li>
+
+        <li>
+          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Menu</a>
           <ul>
             <li>
-              <a href="/areas">View All</a>
+              <%= link_to "Shop Category", shop_categories_path %>
             </li>
             <li>
-              <a href="/areas/new">Add New</a>
+              <%= link_to "Shop", shops_path %>
+            </li>
+            <li>
+              <%= link_to "Product Category", product_categories_path %>
+            </li>
+            <li>
+              <%= link_to "Product", products_path %>
+            </li>
+            <li>
+              <%= link_to "Brand", brands_path %>
+            </li>
+            <li>
+              <%= link_to "City", cities_path %>
+            </li>
+             <li>
+              <%= link_to "Area", areas_path %>
             </li>
           </ul>
-        </li>
-        <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Brand</a>
-          <ul>
-            <li>
-              <a href="/brands">View All</a>
-            </li>
-            <li>
-              <a href="/brands/new">Add New</a>
-            </li>
-          </ul>
-        </li> 
-        <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Task</a>
-          <ul>
-            <li>
-              <a href="/tasks">View All</a>
-            </li>
-            <li>
-              <a href="/tasks/new">Add New</a>
-            </li>
-          </ul>
-        </li> 
-        <li>
-          <a href="/svrs"><i class="gi gi-charts sidebar-nav-icon"></i>Shop Visit Reports</a>
-        </li>
-        <li>
-          <a href="/announcements"><i class="gi gi-share_alt sidebar-nav-icon"></i>Announcements</a>
-        </li>
+        </li>  
       </ul>  
       <!-- END Sidebar Navigation -->
-      
+      <div class="sidebar-activities">
       <!-- Sidebar Notifications -->
-      <div class="sidebar-header">
-        <span class="sidebar-header-options clearfix">
-          <a href="javascript:void(0)" data-toggle="tooltip" title="Refresh"><i class="gi gi-refresh"></i></a>
-        </span>
-        <span class="sidebar-header-title">Activity</span>
+        <div class="sidebar-header">
+          <span class="sidebar-header-options clearfix">
+            <a href="javascript:void(0)" data-toggle="tooltip" title="Refresh"><i class="gi gi-refresh"></i></a>
+          </span>
+          <span class="sidebar-header-title">Activity</span>
+        </div>
+        <div class="sidebar-section activities-section scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
+          <% @activities.each do |activity| %>
+            <div class="alert alert-info alert-alt my_activities">
+              <small><%= activity.created_at.strftime("%B, %d")%></small><br>
+               <i class="fa fa-arrow-up fa-fw"></i> You <%= render_activity activity %>
+            </div>    
+          <% end %>
+          <div class="hide activities">
+            <%= paginate @activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>
+          </div>  
+        </div>
       </div>
-      <div class="sidebar-section activities-section scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
-        <% @activities.each do |activity| %>
-          <div class="alert alert-info alert-alt my_activities">
-            <small><%= activity.created_at.strftime("%B, %d")%></small><br>
-             <i class="fa fa-arrow-up fa-fw"></i> You <%= render_activity activity %>
-          </div>    
-        <% end %>
-        <div class="hide activities">
-          <%= paginate @activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>
-        </div>  
-      </div>
-      
     </div>
     <!-- END Sidebar Content -->
   </div>

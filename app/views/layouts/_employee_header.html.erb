@@ -28,21 +28,13 @@
       <!-- Sidebar Navigation -->
       <ul class="sidebar-nav">
         <li>
-          <a href="/" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
+          <a href="/" class="active"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
         </li>
         <li>
-          <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator"></i><i class="gi gi-certificate sidebar-nav-icon"></i>Task</a>
-          <ul>
-            <li>
-              <a href="/tasks">View All</a>
-            </li>
-            <li>
-              <a href="/tasks/new">Add New</a>
-            </li>
-          </ul>
-        </li> 
+          <%= link_to raw('<i class="gi gi-calendar sidebar-nav-icon"></i> Task'),tasks_path %>
+        </li>
         <li>
-          <a href="/svrs"><i class="gi gi-charts sidebar-nav-icon"></i>Shop Visit Reports</a>
+          <%= link_to raw('<i class="gi gi-charts sidebar-nav-icon"></i> SVR'),svrs_path %>
         </li>
       </ul>  
       <!-- END Sidebar Navigation -->
