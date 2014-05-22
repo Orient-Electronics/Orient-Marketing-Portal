@@ -2,11 +2,12 @@ class SvrsController < ApplicationController
 
   def index
     authorize! :read, Post
+    params[:page] = params[:page].blank? ? 1 : params[:page]
     @categories = ProductCategory.all
     unless params[:shop_id].blank?
       @parent = Shop.find params[:shop_id]
       @brands = Brand.all
-      if current_user.user_type.name == "employee"
+      if current_user.user_employee?
         @posts =  Post.where(:shop_id => params[:shop_id].to_i, :user_id => current_user.id).sort_by{ |a| a.published ? 0 : 1 }
         @reports = @posts.collect(&:reports).flatten
       else   
@@ -14,13 +15,14 @@ class SvrsController < ApplicationController
         @reports = @posts.collect(&:reports).flatten
       end
     else
-      if current_user.user_type.name == "employee"
+      if current_user.user_employee?
         @posts =  Post.where(:user_id => current_user.id).sort_by{ |a| a.published ? 1 : 0 }
       else 
         @posts =  Post.all.sort_by{ |a| a.published ? 1 : 0 }
       end  
       @reports = @posts.collect(&:reports).flatten
     end  
+    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
   end
 
   def show

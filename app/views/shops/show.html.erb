@@ -28,9 +28,11 @@
   <div class="col-md-6">
     <div class="block shop-map-block">
       <div class="block-title">
-        <div class="pull-right">
-          <%= link_to raw("<i class='fa fa-edit'></i>"),edit_shop_path(@shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"Edit" %>
-        </div>  
+        <% if can? :update, Shop %>
+          <div class="pull-right">
+            <%= link_to raw("<i class='fa fa-edit'></i>"),edit_shop_path(@shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"Edit" %>
+          </div>
+        <% end %> 
         <h2>Basic Information</h2>
       </div> 
       <table class="table table-borderless table-striped">

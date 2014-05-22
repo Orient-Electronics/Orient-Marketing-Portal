@@ -1,7 +1,7 @@
 Orient::Application.routes.draw do
   
 
-  resources :areas
+  
 
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
@@ -17,6 +17,8 @@ Orient::Application.routes.draw do
   resources :roles
 
   resources :search
+
+  resources :areas
 
   resources :announcements do 
     collection do 

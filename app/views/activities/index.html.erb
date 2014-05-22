@@ -18,7 +18,7 @@
 	        	<ul class="media-list media-feed media-feed-hover user-activities  user-activities-scroll">
 	        		<% @user_activities.each do |activity| %>
 	        			<li class="media user-activity">
-                  <%=link_to raw(image_tag(@user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => @user.id),:class => "pull-left user-link-small" %>
+                  <%=link_to raw(image_tag(current_user.avatar.avatar(:thumb), :class => "img-circle")), activities_path(:user_id => current_user.id),:class => "pull-left" %>
                   <div class="media-body">
                     <p class="push-bit">
                       <span class="text-muted pull-right">
@@ -28,10 +28,10 @@
                       <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>
                     </p>
                   </div>    
-	        			</li>	
+                </li> 
 	        		<% end %>
               <div class="activities hide">
-                <%= paginate @user_activities %>
+                <%= paginate @user_activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>
               </div>
 	        	</ul>	
 	        </div>	

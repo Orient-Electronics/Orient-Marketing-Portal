@@ -3,8 +3,8 @@ class BrandsController < ApplicationController
   # GET /brands.json
   def index
     authorize! :read, Brand
-    @brands = Brand.all
-
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @brands = Brand.page(params[:page]).per(10)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @brands }

@@ -3,7 +3,8 @@ class CitiesController < ApplicationController
   # GET /cities.json
   def index
     authorize! :read, City
-    @cities = City.all
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @cities = City.page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb

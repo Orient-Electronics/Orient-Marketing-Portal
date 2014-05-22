@@ -3,7 +3,8 @@ class ProductsController < ApplicationController
   # GET /products.json
   def index
     authorize! :read, Product
-    @products = Product.all
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @products = Product.page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb

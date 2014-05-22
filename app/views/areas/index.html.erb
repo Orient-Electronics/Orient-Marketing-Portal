@@ -19,7 +19,7 @@
             <td>
               <%= link_to area.name, area_path(area) %>
             </td>
-            <td> <%= link_to area.city.try(:name), city_path(area.city) %></td>
+            <td> <%= area.city.try(:name) %></td>
             <td class="text-center">
               <div class="btn-group btn-group-xs">
                 <%= link_to raw("<i class='fa fa-pencil'></i>"),edit_area_path(area), :class => 'btn btn-default', "data-toggle" => "tooltip", :title=> "Edit" %>
@@ -30,5 +30,10 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+  <div class="block-section clearfix">
+    <div class="remove-margin pull-right">
+      <%= paginate @areas %>
+    </div>  
   </div>
 </div>

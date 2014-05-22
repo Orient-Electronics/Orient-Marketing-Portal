@@ -1,79 +1,79 @@
 <%= render :partial => "/layouts/user_header" %> 
 <% unless current_user.user_employee? %>
-<div class="row">
-	<!-- First Column -->
-    <div class="col-md-6 col-lg-7">
- 			<% unless @subscriber_activities.blank? %>
-	 			<!-- Newsfeed Block -->
-	 			<div class="block">
+  <div class="row">
+  	<!-- First Column -->
+      <div class="col-md-6 col-lg-7">
+   			<% unless @subscriber_activities.blank? %>
+  	 			<!-- Newsfeed Block -->
+  	 			<div class="block">
 
-	 				<!-- Newsfeed Title -->
-	        <div class="block-title">
-	          <h2><strong>Subscribers Actiivities</strong></h2>
-	        </div>
-	        <!-- END Newsfeed Title -->	
+  	 				<!-- Newsfeed Title -->
+  	        <div class="block-title">
+  	          <h2><strong>Subscribers Actiivities</strong></h2>
+  	        </div>
+  	        <!-- END Newsfeed Title -->	
 
-	        <!-- Newsfeed Content -->
-	        <div class="block-content-full subscriber-block-height">
-	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
-	        		<% @subscriber_activities .each do |activity| %>
-	        			<li class="media subscribe-activity">
-                  <% user = User.find(activity.owner.id) %>
-	        				<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left user-link-small">
-                      <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small") %>
-                  </a>
-                  <div class="media-body">
-                    <p class="push-bit">
-                      <span class="text-muted pull-right">
-                        <small><%= activity.created_at.strftime("%B, %d")%></small>
-                        <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
-                      </span>
-                      <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>
-                    </p>
-                  </div>    
-	        			</li>	
-	        		<% end %>
-               <div class="subscribe hide">
-                <%= paginate @subscriber_activities, :params => { :controller => 'home', :action => 'subscriber_activities', :method => :get } %>
+  	        <!-- Newsfeed Content -->
+  	        <div class="block-content-full subscriber-block-height">
+  	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
+  	        		<% @subscriber_activities .each do |activity| %>
+  	        			<li class="media subscribe-activity">
+                    <% user = User.find(activity.owner.id) %>
+  	        				<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left user-link-small">
+                        <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small") %>
+                    </a>
+                    <div class="media-body">
+                      <p class="push-bit">
+                        <span class="text-muted pull-right">
+                          <small><%= activity.created_at.strftime("%B, %d")%></small>
+                          <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
+                        </span>
+                        <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>
+                      </p>
+                    </div>    
+  	        			</li>	
+  	        		<% end %>
+                 <div class="subscribe hide">
+                  <%= paginate @subscriber_activities, :params => { :controller => 'home', :action => 'subscriber_activities', :method => :get } %>
+                </div>
+  	        	</ul>	
+  	        </div>	
+  	        <!-- END Newsfeed Content -->
+  	 			</div>
+  	 			<!-- END feed Block -->
+  	 		<% end %>	
+   		</div>	
+   		<!-- END First Column -->
+
+   		<!-- Second Column -->
+   		<div class="col-md-6 col-lg-5">
+   			<!-- Friends Block -->
+   			<div class="block">
+          <!-- Friends Title -->
+          <div class="block-title">
+            <h2><strong>Subscribers </strong> <small> <a href="javascript:void(0)">(<%= current_user.subscribers.count %>)</a></small></h2>
+          </div>
+          <!-- END Friends Title -->
+
+          <!-- Friends Content -->
+          <div class="row text-center">
+            <% current_user.subscribers.each do |sub| %>
+            	<% user = User.find(sub.subscribe_id) %>
+              <div class="col-xs-4 col-sm-3 col-lg-2 block-section">
+                <a href="<%= activities_path(:user_id => user.id) %>">
+                	<% unless user.avatar.blank? %>
+                  	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle subscribed-image" , "data-toggle" => "tooltip", :title => user.name )%>
+                  <% end %>	
+                </a>
               </div>
-	        	</ul>	
-	        </div>	
-	        <!-- END Newsfeed Content -->
-	 			</div>
-	 			<!-- END feed Block -->
-	 		<% end %>	
- 		</div>	
- 		<!-- END First Column -->
-
- 		<!-- Second Column -->
- 		<div class="col-md-6 col-lg-5">
- 			<!-- Friends Block -->
- 			<div class="block">
-        <!-- Friends Title -->
-        <div class="block-title">
-          <h2><strong>Subscribers </strong> <small> <a href="javascript:void(0)">(<%= current_user.subscribers.count %>)</a></small></h2>
+            <% end %>  
+          </div>
+        <!-- END Friends Content -->
         </div>
-        <!-- END Friends Title -->
-
-        <!-- Friends Content -->
-        <div class="row text-center">
-          <% current_user.subscribers.each do |sub| %>
-          	<% user = User.find(sub.subscribe_id) %>
-            <div class="col-xs-4 col-sm-3 col-lg-2 block-section">
-              <a href="<%= activities_path(:user_id => user.id) %>">
-              	<% unless user.avatar.blank? %>
-                	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle subscribed-image" , "data-toggle" => "tooltip", :title => user.name )%>
-                <% end %>	
-              </a>
-            </div>
-          <% end %>  
-        </div>
-      <!-- END Friends Content -->
-      </div>
-	    <!-- END Friends Block -->
- 		</div>
- 		<!-- END Second Column -->
-</div>
+  	    <!-- END Friends Block -->
+   		</div>
+   		<!-- END Second Column -->
+  </div>
 <% else %>
   <div class="row">
     <!-- First Column -->
@@ -106,7 +106,7 @@
                 </li> 
               <% end %>
               <div class="activities hide">
-                <%= paginate @activities %>
+                <%= paginate @activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>
               </div>
             </ul> 
           </div>  

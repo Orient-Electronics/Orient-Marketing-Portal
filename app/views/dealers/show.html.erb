@@ -73,9 +73,11 @@
       <div class="col-md-6">
         <div class="block dealers-block-height">
           <div class="block-title ">
-            <div class="button-group pull-right">
-              <%= link_to "Add Shop", new_dealer_shop_path(@parent),  :class => "btn btn-large btn-primary" %>
-            </div>
+            <% if can? :create, Shop %>
+              <div class="button-group pull-right">
+                <%= link_to "Add Shop", new_dealer_shop_path(@parent),  :class => "btn btn-large btn-primary" %>
+              </div>
+            <% end %>  
             <h3>
               Shops
             </h3>

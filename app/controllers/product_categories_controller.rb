@@ -3,7 +3,8 @@ class ProductCategoriesController < ApplicationController
   # GET /product_categories.json
   def index
     authorize! :read, ProductCategory
-    @product_categories = ProductCategory.all
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @product_categories = ProductCategory.page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb

@@ -3,8 +3,8 @@ class AreasController < ApplicationController
   # GET /areas.json
   def index
     authorize! :read, Area
-    @areas = Area.all
-
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @areas = Area.page(params[:page]).per(10)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @areas }

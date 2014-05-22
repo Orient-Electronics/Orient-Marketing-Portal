@@ -1,7 +1,8 @@
 <% @subscriber_activities .each do |activity| %>
 	<li class="media subscribe-activity">
-		<a href="page_ready_user_profile.html" class="pull-left">
-        <%= image_tag(User.find(activity.owner.id).avatar.avatar(:thumb), :class => "img-circle") %>
+    <% user = User.find(activity.owner.id) %>
+		<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left user-link-small">
+      <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small") %>
     </a>
     <div class="media-body">
       <p class="push-bit">
@@ -11,7 +12,7 @@
         </span>
         <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>
       </p>
-    </div>    
+    </div>
 	</li>	
 <% end %>
 
