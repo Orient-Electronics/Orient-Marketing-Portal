@@ -19,7 +19,7 @@
 	        		<% @user_activities.each do |activity| %>
 	        			<li class="media user-activity">
                   <% user = User.find(activity.owner.id) %>    
-                  <%=link_to raw(image_tag(current_user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => user.id),:class => "pull-left user-link-small" %>
+                  <%=link_to raw(image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => user.id),:class => "pull-left user-link-small" %>
                   <div class="media-body">
                     <p class="push-bit">
                       <span class="text-muted pull-right">
