@@ -61,9 +61,11 @@
     <div class="col-md-6">
       <div class="block dealers-block-height">
         <div class="block-title">
-          <div class="button-group pull-right">
-            <%= link_to "Add Dealer", new_dealer_path,  :class => "btn btn-large btn-primary" %>
-          </div>
+          <% if can? :create, Dealer %>
+            <div class="new-button pull-right">
+              <%= link_to raw("<i class='gi gi-new_window_alt'></i> Add Dealer"), new_dealer_path,  :class => "btn btn-large btn-default" %>
+            </div>
+          <% end %>  
           <h3>Dealers</h3>
         </div>
         <div class="block-content dealers-height dearlers-list scroll-dealer">

@@ -29,8 +29,8 @@
     <div class="block shop-map-block">
       <div class="block-title">
         <% if can? :update, Shop %>
-          <div class="pull-right">
-            <%= link_to raw("<i class='fa fa-edit'></i>"),edit_shop_path(@shop), :class => 'btn btn-sm', :rel=> "tooltip", :title =>"Edit" %>
+          <div class="new-button pull-right">
+            <%= link_to raw("<i class='gi gi-edit'></i> Edit Shop"), edit_shop_path(@shop),  :class => "btn btn-large btn-default" %>
           </div>
         <% end %> 
         <h2>Basic Information</h2>

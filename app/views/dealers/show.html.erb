@@ -74,8 +74,8 @@
         <div class="block dealers-block-height">
           <div class="block-title ">
             <% if can? :create, Shop %>
-              <div class="button-group pull-right">
-                <%= link_to "Add Shop", new_dealer_shop_path(@parent),  :class => "btn btn-large btn-primary" %>
+              <div class="new-button pull-right">
+                <%= link_to raw("<i class='gi gi-new_window_alt'></i> Add Shop"), new_dealer_shop_path(@parent),  :class => "btn btn-large btn-default" %>
               </div>
             <% end %>  
             <h3>
