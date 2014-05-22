@@ -89,8 +89,8 @@
           <!-- END Newsfeed Title --> 
 
           <!-- Newsfeed Content -->
-          <div class="block-content-full">
-            <ul class="media-list media-feed media-feed-hover user-activities  user-activities-scroll">
+          <div class="block-content-full user-activities-height">
+            <ul class="media-list media-feed media-feed-hover user-activities-section scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
               <% @activities.each do |activity| %>
                 <li class="media user-activity">
                   <%=link_to raw(image_tag(current_user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => current_user.id),:class => "pull-left user-link-small" %>
@@ -105,8 +105,8 @@
                   </div>    
                 </li> 
               <% end %>
-              <div class="activities hide">
-                <%= paginate @activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>
+              <div class="user-activities hide">
+                <%= paginate @activities, :params => { :controller => 'home', :action => 'user_activities', :method => :get, :user_id => current_user.id } %>
               </div>
             </ul> 
           </div>  
