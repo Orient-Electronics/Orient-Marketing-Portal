@@ -13,6 +13,7 @@ Orient::Application.routes.draw do
   match '/home_activities' => "home#activities", :method => :get
   match '/subscriber_activities' => "home#subscriber_activities", :method => :get
   match '/notifications' => "home#notifications", :method => :get
+  match '/user_activities' => "home#user_activities", :method => :get
 
   resources :roles
 

@@ -7,6 +7,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('.activities nav.pagination').replaceWith("<%= j paginate @activities, :params => { :controller => 'home', :action => 'notifications', :method => :get } %>");
+		$('.activities nav.pagination').replaceWith("<%= j paginate @activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>");
 	});	
 </script>

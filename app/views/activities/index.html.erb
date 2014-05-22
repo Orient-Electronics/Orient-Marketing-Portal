@@ -14,8 +14,8 @@
 	        <!-- END Newsfeed Title -->	
 
 	        <!-- Newsfeed Content -->
-	        <div class="block-content-full">
-	        	<ul class="media-list media-feed media-feed-hover user-activities  user-activities-scroll">
+	        <div class="block-content-full user-activities-height">
+	        	<ul class="media-list media-feed media-feed-hover user-activities-section scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
 	        		<% @user_activities.each do |activity| %>
 	        			<li class="media user-activity">
                   <% user = User.find(activity.owner.id) %>    
@@ -31,8 +31,8 @@
                   </div>    
                 </li> 
 	        		<% end %>
-              <div class="activities hide">
-                <%= paginate @user_activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>
+              <div class="user-activities hide">
+                <%= paginate @user_activities, :params => { :controller => 'home', :action => 'user_activities', :method => :get, :user_id => @user_activities.first.owner.id } %>
               </div>
 	        	</ul>	
 	        </div>	
