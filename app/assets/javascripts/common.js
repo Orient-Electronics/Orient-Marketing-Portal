@@ -17,7 +17,7 @@ $('document').ready(function(){
     size: '5px'
   });
 
-
+  
 
   if($('.activities nav.pagination').length)
   {

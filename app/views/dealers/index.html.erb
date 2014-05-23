@@ -291,9 +291,9 @@
 </div>
 <%= content_for :footer_js do %>
   <script type="text/javascript" charset="utf-8">
-     var asInitVals = new Array();
-    
-     $(document).ready(function() {
+    var asInitVals = new Array();
+  
+    $(document).ready(function() {
       var oTable = $('#shop-data').dataTable();
       
       $('#shop-data_length, #shop-data_filter, #shop-data_paginate, #shop-data_info').addClass("no-background-border");
@@ -330,7 +330,6 @@
       $('.category-report-search select').change(function(){
         $(this).parent().submit();
       });
-
     });
-  </script
-><% end -%>
+  </script>
+<% end -%>

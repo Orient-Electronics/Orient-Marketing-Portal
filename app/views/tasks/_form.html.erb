@@ -1,53 +1,53 @@
-<%= form_for @task,:html => { :class => 'form-horizontal task_form form-validate' } do |f| %>
+<%= form_for @task,:html => { :class => 'form-horizontal form-bordered' } do |f| %>
   
-  <div class= "error-box">
+  <div class= "form-group error-box">
     <p><%= errors_for(@task, "").html_safe %></p>
   </div>
-  <div class="control-group">
-    <div class="controls">
-      <%= f.hidden_field :assigned_by, :value=> current_user.id  %>
+  <%= f.hidden_field :assigned_by, :value=> current_user.id  %>
+  <div class="form-group">
+    <%= f.label :assigned_to,"Assigned to", :class => 'col-md-3 control-label' %>
+    <div class="col-md-6 users">
+      <%= f.collection_select :assigned_to, User.all,:id,:name, include_blank: false, :class=> "form-control" %>
     </div>
   </div>
-  <div class="control-group">
-      <%= f.label :assigned_to,"Assigned to", :class => 'control-label' %>
-      <div class="controls">
-        <%= f.collection_select :assigned_to, User.all,:id,:name, include_blank: true %>
-      </div>
-  </div>
-  <div class="control-group">
-      <%= f.label :comment,"Comment", :class => 'control-label' %>
-      <div class="controls">
-          <%= f.text_area :comment, :class => 'text_area required' %>
-      </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :shop_id,"Shop", :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :shop_name, :class => 'text_field typeahead required shop-name-field' %>
+  <div class="form-group">
+    <%= f.label :comment,"Comment", :class => 'col-md-3 control-label' %>
+    <div class="col-md-6">
+      <%= f.text_field :comment, :class => 'form-control text_area' %>
     </div>
   </div>
-  <div class="control-group">
-    <%= f.label :deadline,"Dead line", :class => 'control-label' %>
-    <div class="controls">
-      <div class="input-append date datepicker" data-date-format="dd-mm-yyyy">
-        <%= f.text_field :deadline, :readonly => true  %><span class="add-on"><i class="icon-th"></i></span>
-      </div>
+  <div class="form-group">
+    <%= f.label :shop_id,"Shop", :class => 'col-md-3 control-label' %>
+    <div class="col-md-6  tasks">
+      <%= f.text_field :shop_name, :class => 'text_field shop-typeahead required form-control' %>
     </div>
   </div>
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                  tasks_path, :class => 'btn' %>
+  <div class="form-group">
+    <%= f.label :deadline,"Dead line", :class => 'col-md-3 control-label' %>
+    <div class="col-md-6">
+      <%= f.text_field :deadline, :readonly => true , :class =>'form-control datepicker required' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :status,"Status", :class => 'col-md-3 control-label' %>
+    <div class="col-md-6">
+      <%= f.select :status, options_for_select(status) , include_blank: false, :class => "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group form-actions text-center">
+    <%= f.button raw("<i class='fa fa-angle-right'></i> Submit"), :class => 'btn btn-sm btn-success' %>
+    <%= link_to raw("<i class='fa fa-angle-left'></i> Back"), tasks_path, :class => 'btn btn-sm btn-primary' %>              
   </div>
 <% end %>
 <script type="text/javascript" charset="utf-8">
 
   $('document').ready(function () {
-    $('.typeahead').typeahead({                                
+    $('.shop-typeahead').typeahead({                                
       name: 'shops',
       local: '<%= Shop.all.collect{|c| c.dealer_name}.join("*") %>'.split("*"),
-      limit: 10                                                                   
+      limit: 10
     });
   });
-
 </script>

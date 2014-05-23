@@ -3579,22 +3579,32 @@ p, .table, .alert, .carousel {
   width: 140px !important;
 }
 
-.dealers .twitter-typeahead{
+.tasks .twitter-typeahead{
   width: 100% !important;
 }
-.dealers .twitter-typeahead .tt-hint{
+.tasks .twitter-typeahead .tt-hint{
   width: 100% !important;
   margin-top: 33px !important;
 }
-.dealers .twitter-typeahead .tt-dropdown-menu{
+.tasks .twitter-typeahead .tt-dropdown-menu{
   width: 100% !important;
 }
 
-.twitter-typeahead .tt-dropdown-menu .tt-dataset-dealers{
-  padding-left: 7px !important; 
+.tasks .twitter-typeahead .tt-dropdown-menu .tt-dataset-shops{
+  background-color: white;
+  border: 1px solid #dbe1e8;
+  border-radius: 4px;
+  max-height: 145px;
+  overflow-y: scroll;
 }
 
-.twitter-typeahead .tt-dropdown-menu .tt-dataset-dealers .tt-suggestion:hover
+.tasks .twitter-typeahead .tt-dropdown-menu .tt-dataset-shops .tt-suggestion
+{
+  background-color: white;
+  padding-left: 10px;
+}
+
+.twitter-typeahead .tt-dropdown-menu .tt-dataset-shops .tt-suggestion:hover
 {
   background-color: #3498db !important
 }
@@ -3864,4 +3874,14 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .new-button
 {
   margin: 2px 10px;
+}
+
+.task-modal
+{
+  overflow: visible !important;
+}
+
+.datepicker
+{
+  z-index: 11500 !important;
 }
