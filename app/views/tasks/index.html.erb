@@ -97,7 +97,7 @@
                             <% if t.post.published? %>
                               <span> Published </span>
                             <% else %>
-                              <%= link_to "Publish Report", publish_report_tasks_path(:post_id => t.post.id), :class => "btn btn-inverse" %> 
+                              <%= link_to "Publish Report", publish_report_tasks_path(:post_id => t.post.id), :class => "btn btn-default" %> 
                             <% end %>  
                           <% end -%>
                         </td>
@@ -221,7 +221,7 @@
                         <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
                         <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
                         <% if can? :update, Task %>
-                          <td> 
+                          <td class="update-task-form-td"> 
                             <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal task-status-form' } do |f| %>
                               <%= f.select :status, options_for_select(status) , include_blank: false %>
                               <%= f.submit "update task", :class => 'btn btn-primary' %>
