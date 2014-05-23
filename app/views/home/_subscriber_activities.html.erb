@@ -1,5 +1,5 @@
 <% @subscriber_activities .each do |activity| %>
-	<li class="media subscribe-activity">
+	<li class="media user-activity subscribe-activity">
     <% user = User.find(activity.owner.id) %>
 		<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left user-link-small">
       <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small") %>

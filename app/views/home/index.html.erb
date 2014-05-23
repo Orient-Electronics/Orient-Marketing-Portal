@@ -18,7 +18,7 @@
               <% unless @subscriber_activities.blank? %>
     	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
     	        		<% @subscriber_activities .each do |activity| %>
-    	        			<li class="media subscribe-activity">
+    	        			<li class="media user-activity subscribe-activity">
                       <% user = User.find(activity.owner.id) %>
     	        				<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left user-link-small">
                           <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small") %>

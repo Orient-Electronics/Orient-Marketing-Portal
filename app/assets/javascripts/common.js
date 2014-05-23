@@ -122,7 +122,7 @@ $('document').ready(function(){
     $('.subscribe-activities').scroll();
   }
 
-  $(".scroll-dealer").slimScroll({
+  $(".scroll-dealer, .scroll-subscribe").slimScroll({
     height: 'auto',
     size: '5px'
   });

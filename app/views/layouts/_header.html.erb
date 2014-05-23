@@ -86,7 +86,7 @@
           <span class="sidebar-header-title">Activity</span>
         </div>
         <% unless @activities.blank? %>
-          <div class="sidebar-section activities-section scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
+          <div class="sidebar-section activities-section scroll-subscribe" data-domain = "<%= APP_CONFIG["domain"] %>">
             <% @activities.each do |activity| %>
               <div class="alert alert-info alert-alt my_activities">
                 <small><%= activity.created_at.strftime("%B, %d")%></small><br>
