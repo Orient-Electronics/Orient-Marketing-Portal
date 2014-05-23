@@ -80,6 +80,7 @@ class TasksController < ApplicationController
     post.approved_id = nil
     post.status = "draft"
     post.save
+    post.create_activity :unpublish, owner: current_user
     respond_to do |format|
       format.html { redirect_to :back, notice: 'Report was status change successfully.'}
     end

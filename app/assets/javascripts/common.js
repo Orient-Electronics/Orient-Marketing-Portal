@@ -45,7 +45,6 @@ $('document').ready(function(){
           });
         }  
       } 
-        
     });
     $('.activities-section').scroll();
   }
@@ -127,7 +126,7 @@ $('document').ready(function(){
     height: 'auto',
     size: '5px'
   });
-  
+
   $('select').selectpicker();
 
   if($('.form-validate').length > -1)
