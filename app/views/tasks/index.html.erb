@@ -171,7 +171,7 @@
                             </ul>    
                           </td>
                           <td class="update-task-form-td"> 
-                            <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal' } do |f| %>
+                            <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal task-status-form' } do |f| %>
                               <%= f.select :status, options_for_select(status) , include_blank: false %>
                               <%= f.submit "update task", :class => 'btn btn-primary' %>
                             <% end -%>

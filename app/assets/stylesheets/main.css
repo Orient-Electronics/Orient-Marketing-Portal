@@ -3898,3 +3898,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
   float: left !important;
   margin-right: 5px !important;
 }
+
+.subscriber-form .select-activity
+{
+  padding-left: 20px !important;
+}

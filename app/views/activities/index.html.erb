@@ -56,7 +56,7 @@
             		<% unless current_user.already_subscribe?(@user) %>
               		<a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="modal" data-target = "#subscriber_modal" title="Subscribe"><i class="fa fa-plus"></i></a>
               	<% else %>	
-              		<a href="<%= destroy_subscriber_activity_path(:id => @user.id) %>" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="Un-Subscribe"><i class="fa fa-plus"></i></a>
+              		<a href="<%= destroy_subscriber_activity_path(:id => @user.id) %>" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="Un-Subscribe"><i class="fa fa-minus"></i></a>
               	<% end %>
               <% end %>	
             </div>
@@ -69,12 +69,8 @@
         <table class="table table-borderless table-striped">
           <tbody>
             <tr>
-              <td style="width: 20%;"><strong>Info</strong></td>
-              <td>Proin ac nibh rutrum lectus rhoncus eleifend. Sed porttitor pretium venenatis. Suspendisse potenti. Aliquam quis ligula elit. Aliquam at orci ac neque semper dictum. Sed tincidunt scelerisque ligula, et facilisis nulla hendrerit non.</td>
-            </tr>
-            <tr>
-              <td><strong><%= @user.user_type.try(:name) %></strong></td>
-              <td><a href="javascript:void(0)">Orient</a></td>
+              <td><strong>Designation</strong></td>
+              <td><%= @user.user_type.try(:name).capitalize %></td>
             </tr>
             <tr>
               <td><strong>Email Address</strong></td>

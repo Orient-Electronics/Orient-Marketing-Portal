@@ -17,6 +17,18 @@ $('document').ready(function(){
     size: '5px'
   });
 
+  $(".check-all-option input[type=checkbox]").click(function(){
+    if($(this).is(':checked')){
+      $(".subscriber-form input").each(function(){
+        $(this).prop("checked", true);
+      });
+    } 
+    else{
+      $(".subscriber-form input").each(function(){
+        $(this).prop("checked", false);
+      });
+    } 
+  });
   
 
   if($('.activities nav.pagination').length)
