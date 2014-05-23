@@ -34,7 +34,7 @@
               <div class="form-group">
                 <%= f.label :deadline,"Dead line", :class => 'col-md-3 control-label' %>
                 <div class="col-md-6">
-                  <%= f.text_field :deadline, :readonly => true , :class =>'form-control datepicker' %>
+                  <%= f.text_field :deadline, :readonly => true , :class =>'form-control datepicker', 'data-date-format' => "dd-mm-yyyy"%>
                 </div>
               </div>
 
@@ -143,9 +143,11 @@
                           <td> <%=t.parent %> </td>
                           <td> <%= t.created_at.strftime('%d-%m-%Y')%> </td>
                           <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
-                          <td> <div class="btn-group">
-                                <a href="#" data-toggle="dropdown" class="btn dropdown-toggle"><i class="icon-align-left"></i> Generate Report <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
+                          <td> 
+                            <ul class="nav nav-bar">
+                              <li class="dropdown">
+                                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"> Generate Repor</a>
+                                <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
                                   <% ProductCategory.all.each do |pc| %>
                                     <% if !pc.products.blank? %>
                                       <li class='dropdown-submenu'>
@@ -165,9 +167,11 @@
                                     <%end%>
                                   <% end -%>
                                 </ul>
-                              </div>  </td>
-                          <td> 
-                            <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal form-bordered' } do |f| %>
+                              </li>
+                            </ul>    
+                          </td>
+                          <td class="update-task-form-td"> 
+                            <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal' } do |f| %>
                               <%= f.select :status, options_for_select(status) , include_blank: false %>
                               <%= f.submit "update task", :class => 'btn btn-primary' %>
                             <% end -%>
@@ -218,7 +222,7 @@
                         <td> <%= t.deadline.strftime('%d-%m-%Y') %>  </td>
                         <% if can? :update, Task %>
                           <td> 
-                            <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal form-bordered' } do |f| %>
+                            <%= form_for @task, :url => change_status_task_path(t) , :html => { :class => 'form-horizontal task-status-form' } do |f| %>
                               <%= f.select :status, options_for_select(status) , include_blank: false %>
                               <%= f.submit "update task", :class => 'btn btn-primary' %>
                             <% end -%>

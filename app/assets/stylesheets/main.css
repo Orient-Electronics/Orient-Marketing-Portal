@@ -3883,5 +3883,18 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .datepicker
 {
-  z-index: 11500 !important;
+  z-index: 1151 !important;
+}
+
+.update-task-form-td
+{
+  width: 258px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.update-task-form-td .btn-group.bootstrap-select{
+  width: 50% !important;
+  float: left !important;
+  margin-right: 5px !important;
 }
