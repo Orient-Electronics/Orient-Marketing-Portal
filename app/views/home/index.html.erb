@@ -16,7 +16,7 @@
   	        <!-- Newsfeed Content -->
   	        <div class="block-content-full subscriber-block-height">
               <% unless @subscriber_activities.blank? %>
-    	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
+    	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-subscribe" data-domain = "<%= APP_CONFIG["domain"] %>">
     	        		<% @subscriber_activities .each do |activity| %>
     	        			<li class="media user-activity subscribe-activity">
                       <% user = User.find(activity.owner.id) %>
@@ -92,7 +92,7 @@
 
           <!-- Newsfeed Content -->
           <div class="block-content-full user-activities-height">
-            <ul class="media-list media-feed media-feed-hover user-activities-section scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
+            <ul class="media-list media-feed media-feed-hover user-activities-section user-activity-scroll" data-domain = "<%= APP_CONFIG["domain"] %>">
               <% @activities.each do |activity| %>
                 <li class="media user-activity">
                   <%=link_to raw(image_tag(current_user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => current_user.id),:class => "pull-left user-link-small" %>

@@ -3,7 +3,7 @@ $('document').ready(function(){
   
   $('.category-tab').click();
   $('.brand-tab').click();
-  $('.datepicker').datepicker();
+  $('.datepicker, .filter-datepicker').datepicker();
 
 
   $('.jFax-chart').width($("#page-content").width());
@@ -122,7 +122,7 @@ $('document').ready(function(){
     $('.subscribe-activities').scroll();
   }
 
-  $(".scroll-dealer, .scroll-subscribe").slimScroll({
+  $(".scroll-dealer, .scroll-subscribe, .activity-scroll, .notification-scroll, .user-activity-scroll").slimScroll({
     height: 'auto',
     size: '5px'
   });
