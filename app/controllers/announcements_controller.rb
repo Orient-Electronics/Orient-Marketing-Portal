@@ -37,7 +37,7 @@ class AnnouncementsController < ApplicationController
 	def update
 		@announcement =  Announcement.find(params[:id])
 		respond_to do |format|
-      if @announcement.update_attributes(params[:city])
+      if @announcement.update_attributes(params[:announcement])
         @announcement.create_activity :update, owner: current_user
         format.html { redirect_to @announcement, notice: 'Announcement was successfully updated.' }
         format.json { head :no_content }
