@@ -127,6 +127,11 @@ $('document').ready(function(){
     size: '5px'
   });
 
+  $(".scroll-dealers-data").slimScroll({
+    height: '520px',
+    size: '5px'
+  });
+
   $('select').selectpicker();
 
   if($('.form-validate').length > -1)
