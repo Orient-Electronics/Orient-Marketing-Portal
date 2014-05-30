@@ -3740,6 +3740,10 @@ only screen and (min-device-pixel-ratio: 1.5) {
   height: 615px;
 }
 
+.dealers-image-block-height
+{
+  height: 500px; 
+}
 .dealers-height
 {
   height: 100%;

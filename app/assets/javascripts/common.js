@@ -132,6 +132,11 @@ $('document').ready(function(){
     size: '5px'
   });
 
+  $(".scroll-dealer-report").slimScroll({
+    height: '420px',
+    size: '5px'
+  })
+
   $('select').selectpicker();
 
   if($('.form-validate').length > -1)
