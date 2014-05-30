@@ -3742,7 +3742,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .dealers-height
 {
-  max-height: 500px;
+  height: 100%;
 }
 
 .shops-height
@@ -3903,4 +3903,59 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .subscriber-form .select-activity
 {
   padding-left: 20px !important;
+}
+.people ul 
+{
+  padding:0px;
+}
+.people ul li
+{
+  list-style: none;
+  float: left;
+  width: 100%;
+}
+.people ul li span.people-image
+{
+  width: 20%;
+  float: left;
+  margin: 10px 0;
+}
+.people ul li span.people-image img
+{
+  width: 100%;
+}
+.people ul li label
+{
+  width: 70%;
+  float: left;
+  text-align: center;
+  padding-top: 46px;
+}
+.people ul li span.search_btn
+{
+  width: 10%;
+  float: left;
+  padding-top: 37px;
+}
+
+.modal-user-image{
+  width: 100% !important;
+}
+
+.subscribe-modal{
+  overflow: visible !important; 
+}
+
+
+.map-pin-info-body
+{
+  height: 85px !important; 
+  width: 180px !important;
+  line-height:1.35 !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+}
+
+.map-pin-info-body .body p{
+  margin-bottom: 10px !important;
 }

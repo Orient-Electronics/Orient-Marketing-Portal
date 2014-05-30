@@ -302,17 +302,17 @@
         </h3>
       </div>
       <div class="block-content nopadding">
-        <table class="table table-user table-nohead">
-          <tbody  remote ="true">
+        <div class="people">
+          <ul>
             <% @shop.peoples.each do |people| %>
-              <tr>
-                <td class ="img"><%= image_tag(people.avatar.avatar(:thumb)) %></td>
-                <td class="user"><%= people.name %></td>
-                <td class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+              <li> 
+                <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+                <label class="people-name"><%= people.name %> </label>
+                 <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+              </li>
+            <% end%>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -320,30 +320,30 @@
     <div class="block block-color report-block">
       <div class="block-title">
         <div class="btn-toolbar pull-right">
-            <div class="btn-group new-report-btn-position">
-              <a href="#" data-toggle="dropdown" class="btn btn-success dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <% ProductCategory.all.each do |pc| %>
-                  <% if !pc.products.blank? %>
-                    <li class='dropdown-submenu'>
-                      <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
-                      <ul class="dropdown-menu pull-left">
-                        <% pc.products.each do |product|%>
-                          <li>
-                            <%= link_to product.name, new_shop_svr_path(@shop, :product_category_id => pc.id, :product_id => product.id) %>
-                          </li>
-                        <% end -%>
-                      </ul>
-                    </li>
-                  <%else%>
-                    <li>
-                      <%= link_to pc.name, new_shop_svr_path(@shop, :product_category_id => pc.id) %>
-                    </li>
-                  <%end%>
-                <% end -%>
-              </ul>
-            </div>  
-          </div>
+          <div class="btn-group new-report-btn-position">
+            <a href="#" data-toggle="dropdown" class="btn btn-success dropdown-toggle"><i class="icon-align-left"></i> Add Report <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <% ProductCategory.all.each do |pc| %>
+                <% if !pc.products.blank? %>
+                  <li class='dropdown-submenu'>
+                    <a href="#" data-toggle="dropdown" class='dropdown-toggle'><%= pc.name%></a>
+                    <ul class="dropdown-menu pull-left">
+                      <% pc.products.each do |product|%>
+                        <li>
+                          <%= link_to product.name, new_shop_svr_path(@shop, :product_category_id => pc.id, :product_id => product.id) %>
+                        </li>
+                      <% end -%>
+                    </ul>
+                  </li>
+                <%else%>
+                  <li>
+                    <%= link_to pc.name, new_shop_svr_path(@shop, :product_category_id => pc.id) %>
+                  </li>
+                <%end%>
+              <% end -%>
+            </ul>
+          </div>  
+        </div>
         <h3>
           <i class="fa fa-bar-chart-o"></i>
            Shop Visit Reports
@@ -372,7 +372,7 @@
                 <% if can? :create, Task %>
                   <td>
                     <% unless post.published? %> 
-                      <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-success" %>
+                     <span> <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-success" %> </span>
                     <% else %> 
                       <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-warning" %> </span>
                     <% end %>
@@ -384,7 +384,7 @@
         </table>
       </div>  
     </div>
-  </div>
+  </div>  
 </div>
 
 

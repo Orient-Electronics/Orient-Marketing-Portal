@@ -100,7 +100,7 @@ function setgeolocation(address){
 
 function addMarker(location,mapp,shop_category,type,marker_pin,shop_id) {
   
-  var content =  '<div class="result">.</div>';
+  var content =  '<div class="map-pin-info-body">.</div>';
   marker = new google.maps.Marker({
     position: location,
     map: mapp,
@@ -123,7 +123,7 @@ function addMarker(location,mapp,shop_category,type,marker_pin,shop_id) {
     $.ajax({
       url: 'dealers/' + shop_id + '/get_info', 
       success:function(data) {
-        $(".result").html(data);
+        $(".map-pin-info-body").html(data);
       }
     });
 

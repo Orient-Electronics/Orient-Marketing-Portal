@@ -273,17 +273,17 @@
           </h3>
         </div>
         <div class="block-content corner-image-content scroll-dealer" >
-          <table class="table table-user table-nohead">
-            <tbody  remote ="true">
+          <div class="people">
+            <ul>
               <% @peoples.each do |people| %>
-                <tr>
-                  <td class ="img"><%= image_tag(people.avatar.avatar(:thumb)) %></td>
-                  <td class="user"><%= people.name %></td>
-                  <td class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></td>
-                </tr>
-              <% end -%>  
-            </tbody>
-          </table>    
+                <li> 
+                  <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+                  <label class="people-name"><%= people.name %> </label>
+                   <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+                </li>
+              <% end%>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
