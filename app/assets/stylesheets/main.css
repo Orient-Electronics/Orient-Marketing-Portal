@@ -3455,7 +3455,8 @@ p, .table, .alert, .carousel {
   }
 }
 
-.pagination>span{
+.pagination>span.current,
+.pagination>span a{
   color: #999 !important;
   border-color: #ddd !important;
   cursor: not-allowed !important;
@@ -3470,6 +3471,7 @@ p, .table, .alert, .carousel {
   border: 1px solid #ddd !important;
   margin-left: -1px !important;
   border-radius: 25px !important;
+  cursor: pointer !important;
 }
 
 .pagination span.current
