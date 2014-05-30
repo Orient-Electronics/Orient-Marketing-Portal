@@ -89,4 +89,12 @@ class AreasController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def search
+    city = City.where(id: params[:id].to_i).first
+    @areas = city.areas
+    respond_to do |format|
+      format.json { render :json => @areas.map {|a| a.name }}  
+    end                          
+  end
 end

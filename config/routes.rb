@@ -19,7 +19,11 @@ Orient::Application.routes.draw do
 
   resources :search
 
-  resources :areas
+  resources :areas do 
+    collection do 
+      get "search"
+    end  
+  end  
 
   resources :announcements do 
     collection do 

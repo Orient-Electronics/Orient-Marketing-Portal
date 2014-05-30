@@ -7,7 +7,6 @@ class Area < ActiveRecord::Base
 
   validates :name, :length => {:maximum => 30}, :presence => true
   before_destroy :remove_public_activities
-  validates_presence_of :city_id, :message => "^please select the city"
 
   def dealer_shops(dealer)
   	shops.where(dealer_id: dealer.id)

@@ -3963,3 +3963,43 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .map-pin-info-body .body p{
   margin-bottom: 10px !important;
 }
+
+
+
+.areas .twitter-typeahead{
+  width: 100% !important;
+}
+.areas .twitter-typeahead .tt-hint{
+  width: 100% !important;
+  margin-top: 33px !important;
+}
+.areas .twitter-typeahead .tt-dropdown-menu{
+  width: 100% !important;
+}
+
+.areas .twitter-typeahead .tt-dropdown-menu .tt-dataset-Areas{
+  background-color: white;
+  border: 1px solid #dbe1e8;
+  border-radius: 4px;
+  max-height: 145px;
+  overflow-y: scroll;
+}
+
+.areas .twitter-typeahead .tt-dropdown-menu .tt-dataset-Areas .tt-suggestion
+{
+  background-color: white;
+  padding-left: 10px;
+}
+
+.twitter-typeahead .tt-dropdown-menu .tt-dataset-Areas .tt-suggestion:hover
+{
+  background-color: #3498db !important
+}
+
+.people-image{
+  width: 20% !important;
+  float: left;
+}
+.people-image img{
+  width: 100% !important;
+}

@@ -2,8 +2,9 @@
   <div class= " form-group error-box">
     <p><%= errors_for(@shop, "").html_safe %></p>
   </div>
- <h3 class="form-portion-head"> Shop Logo </h3>
+ 
   <%= f.fields_for :avatar do |f| %>
+    <h3 class="form-portion-head"> Shop Logo </h3>
     <div class= "form-group">
       <%= f.label "Shop Icon", :id => :avatar, :class => 'control-label col-md-1'%>
       <div class="col-md-5">
@@ -24,10 +25,12 @@
       </div>
     </div>
   
-    <div class=" form-group">    
-      <%= f.label :area_id, :class => 'control-label col-md-1' %>
-        <div class="col-md-5 area-portion"></div>
-    </div>  
+    <div class="form-group area-portion hide">
+      <%= f.label :area_name, :class => 'control-label col-md-1' %>
+      <div class="col-md-5 areas">
+        <%= f.text_field :area_name, :class => "form-control shop-area-field"%>
+      </div>  
+    </div>
 
     <div class=" form-group">
       <%= f.label :longitude, :class => 'control-label col-md-1' %>
@@ -90,7 +93,7 @@
   <div class=" form-group">
     <%= f.label :orient_dealer, :class => 'control-label col-md-1' %>
     <div class="col-md-1">
-      <%= f.check_box :orient_dealer, :class => 'form-control check_box required' %>
+      <%= f.check_box :orient_dealer, :class => 'form-control check_box' %>
     </div>
   </div>
   <div class=" form-group">
@@ -104,40 +107,47 @@
 
     <%= f.fields_for :peoples do |f| %>
       <h3 class="form-portion-head"> People Information </h3>
-      <div class=" form-group">   
-        <label class="control-label pull-right col-md-5"><%= f.check_box '_destroy' %> Remove Information </label>
-      </div>
+      
       <%= f.fields_for :avatar do |people| %>
         <div class=" form-group">
           <%= people.label :avatar, "Image", :class => 'control-label col-md-1' %>
-          <div class="col-md-5">
+          <div class="col-md-5 people-image">
             <%= image_tag(people.object.avatar(:small)) %>
           </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-1"> Change Image</label>
+          <div class="col-md-5">
+            <%= people.file_field :avatar, :class => "form-control" %>
+          </div>  
         </div>  
       <% end %>      
       <div class=" form-group">
         <%= f.label :name, :class => 'control-label col-md-1' %>
         <div class="col-md-5">
-          <%= f.text_field :name, :readonly => true, :class => 'form-control text_field' %>
+          <%= f.text_field :name, :class => 'form-control text_field' %>
         </div>
       </div>
       <div class="form-group">
         <%= f.label :cell_number, :class => 'control-label col-md-1' %>
         <div class="col-md-5">
-          <%= f.text_field :cell_number, :readonly => true, :class => 'form-control text_field' %>
+          <%= f.text_field :cell_number, :class => 'form-control text_field' %>
         </div>
       </div>
       <div class="form-group">
         <%= f.label :designation, :class => 'control-label col-md-1' %>
         <div class="col-md-5">
-          <%= f.text_field :designation, :readonly => true, :class => 'form-control text_field' %>
+          <%= f.text_field :designation, :class => 'form-control text_field' %>
         </div>
       </div>
       <div class=" form-group">
         <%= f.label :date_of_birth,"Date of Birth", :class => 'control-label col-md-1' %>
         <div class="col-md-5">
-          <%= f.text_field :date_of_birth, :readonly => true, :class => "form-control date" ,"data-date-format" => "dd-mm-yyyy" %><span class="add-on"><i class="icon-th"></i></span>
+          <%= f.text_field :date_of_birth, :class => "form-control datepicker" ,"data-date-format" => "dd-mm-yyyy" %><span class="add-on"><i class="icon-th"></i></span>
         </div>
+      </div>
+      <div class=" form-group">   
+        <label class="control-label col-offset-md-3 col-md-6"><span class="icon" title="Delete user"><%= f.check_box '_destroy' %> <i class="hi hi-trash fa-2x"></i> </span></label>
       </div>
     <% end %>
   </div>
@@ -255,7 +265,7 @@
       return false;
   }
 
-  $('document').ready(function () {
+  $(document).ready(function () {
 
     $(".submit-btn").click(function(){
       $(".confirm-pin").is(":checked") == false ? alert("please confirm location") : null

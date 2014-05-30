@@ -333,18 +333,28 @@ $('document').ready(function(){
     });
   });
 
-
   $(".city-selector select").change(function(e){
-    id = $(this).val();
-    area_content = $(".area-portion");
-    $.ajax ({
-      url:  '/shops/area_field',
-      data: {id: id },
-      success: function(data)
-      {
-        area_content.html(data);
-      }
-    });
+    city_id = $(this).val();
+    if(city_id){
+      $(".area-portion").removeClass("hide");
+      $('.shop-area-field').typeahead([
+        {
+          name: 'Areas',
+          remote: {
+            url: '/areas/search.json?keyword=',
+            replace: function () {
+              var q = '/areas/search.json?keyword='+ $(".shop-area-field").val();
+              if ($(".city-selector select").val()){
+                return q+=  "&id=" + encodeURIComponent($('.city-selector select').val());;  
+              }
+              return q;
+            }
+          }
+        }  
+      ]);  
+    }
+    else
+      $(".area-portion").addClass("hide");
   }); 
 
   $(".city-selector select").change();
