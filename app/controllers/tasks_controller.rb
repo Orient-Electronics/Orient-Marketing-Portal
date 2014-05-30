@@ -41,11 +41,11 @@ class TasksController < ApplicationController
     if @task.save
       @task.create_activity :update, owner: current_user
       respond_to do |format|
-        format.html {redirect_to '/'}
+        format.html {redirect_to tasks_path}
         format.json { render json: @tasks }
       end
     else
-      format.html { redirect_to '/' }
+      format.html { redirect_to tasks_path }
       format.json { render json: @task.errors, status: :unprocessable_entity }
     end
   end

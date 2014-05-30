@@ -359,6 +359,19 @@
         this.value = asInitVals[$(".thefilter input").index(this)];
       }
     } );
-  } );
+
+    $('.report-search').ajaxForm({
+      success: showResponse
+    });
+    $('.report-search select').change(function(){
+      $(this).parent().submit();
+    });
+    $('.category-report-search').ajaxForm({
+        success: showCatResponse
+      });
+    $('.category-report-search select').change(function(){
+      $(this).parent().submit();
+    });
+  });
 </script>
 <% end -%>
