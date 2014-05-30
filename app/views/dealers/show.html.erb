@@ -82,7 +82,7 @@
               Shops
             </h3>
           </div>
-          <div class="block-content shop-height scroll-dealer">
+          <div class="block-content dealers-data-height dearlers-list scroll-dealers-data">
             <table class="table table-hover table-nomargin" id="shop-data">
               <thead>
                 <tr class='thefilter row'>
@@ -189,86 +189,85 @@
       <% end %>
     <% end %>  
   </div>
+  <% if @posts.present? %>
   <div class="row">
-    <% if @posts.present? %>
-      <div class="col-md-6">
-        <div class="block gallery-block-height">
-          <div class="block-title">
-            <h2><strong>Display Corner Report</strong></h2>
-            <ul class="nav nav-tabs" data-toggle="tabs">
-              <li class="active"><a href="#corner_brand">Brands</a></li>
-              <li><a href="#corner_category">Categories</a></li>
-            </ul>
-          </div>  
-          <div class="tab-content block-dealer-height block-height scroll-dealer">
-            <div class="tab-pane active" id="corner_brand">
-              <div class="gallery" data-toggle="lightbox-gallery">
-                <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
-                  <div class="row">
-                    <% brand_report.each do |line| %>
-                      <% line.avatars.each do |upload| %>
-                        <div class="col-sm-4 gallery-image">
-                          <% if upload.avatar %>
-                            <%= image_tag upload.avatar.url %>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% else %>
-                            <%= image_tag "/assets/default.png"%>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% end%>
-                        </div>  
-                      <% end %>  
-                    <% end %>  
-                  </div>  
-                <% end %>
-              </div>  
-            </div>
-            <div class="tab-pane" id="corner_category">
-              <div class="gallery" data-toggle="lightbox-gallery">
-                <% @corner_category_report_lines.each do |category,cat_report| %>
-                  <div class="row">
-                    <% cat_report.each do |line| %>
-                      <% line.avatars.each do |upload| %>
-                        <div class="col-sm-4 gallery-image">
-                          <% if upload.avatar %>
-                            <%= image_tag upload.avatar.url %>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% else %>
-                            <%= image_tag "/assets/default.png"%>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% end%>
-                        </div>  
-                      <% end %>  
-                    <% end %>  
-                  </div>  
-                <% end %>
-              </div>
-            </div>
-          </div>  
-        </div>
-      </div>
-    <% end %>  
     <div class="col-md-6">
-      <div class="block gallery-block-height">
+      <div class="block dealers-image-block-height">
+        <div class="block-title">
+          <h2><strong>Display Corner Report</strong></h2>
+          <ul class="nav nav-tabs" data-toggle="tabs">
+            <li class="active"><a href="#corner_brand">Brands</a></li>
+            <li><a href="#corner_category">Categories</a></li>
+          </ul>
+        </div>  
+        <div class="tab-content scroll-dealer-report">
+          <div class="tab-pane active" id="corner_brand">
+            <div class="gallery" data-toggle="lightbox-gallery">
+              <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
+                <div class="row">
+                  <% brand_report.each do |line| %>
+                    <% line.avatars.each do |upload| %>
+                      <div class="col-sm-4 gallery-image">
+                        <% if upload.avatar %>
+                          <%= image_tag upload.avatar.url %>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% else %>
+                          <%= image_tag "/assets/default.png"%>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% end%>
+                      </div>  
+                    <% end %>  
+                  <% end %>  
+                </div>  
+              <% end %>
+            </div>  
+          </div>
+          <div class="tab-pane" id="corner_category">
+            <div class="gallery" data-toggle="lightbox-gallery">
+              <% @corner_category_report_lines.each do |category,cat_report| %>
+                <div class="row">
+                  <% cat_report.each do |line| %>
+                    <% line.avatars.each do |upload| %>
+                      <div class="col-sm-4 gallery-image">
+                        <% if upload.avatar %>
+                          <%= image_tag upload.avatar.url %>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% else %>
+                          <%= image_tag "/assets/default.png"%>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% end%>
+                      </div>  
+                    <% end %>  
+                  <% end %>  
+                </div>  
+              <% end %>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div> 
+    <div class="col-md-6">
+      <div class="block dealers-image-block-height">
         <div class="block-title">
           <h2>Images</h2>
         </div>
-        <div class="gallery scroll-dealer" data-toggle="lightbox-gallery">
+        <div class="gallery scroll-dealer-report" data-toggle="lightbox-gallery">
           <div class="row">
             <% count = 0%>
             <% @uploads.each do |image| %>
@@ -297,36 +296,96 @@
       </div>
     </div>
   </div> 
-    
-  <div class= "row">
-    <% if can? :read, People %>
+  <% else %>
+    <div class= "row">
       <div class="col-md-6">
-        <div class="block block-color block-bordered">
+        <div class="block dealers-image-block-height">
           <div class="block-title">
-            <h3>
-              <i class="icon-user">
-              People </i>
-            </h3>
+            <h2>Images</h2>
           </div>
-          <div class="block-content block-height block-max-height scroll-dealer" >
-            <div class="people">
-              <ul>
-                <% @peoples.each do |people| %>
-                  <li> 
-                    <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
-                    <label class="people-name"><%= people.name %> </label>
-                     <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
-                  </li>
-                <% end%>
-              </ul>
-          </div>  
+          <div class="gallery scroll-dealer-report" data-toggle="lightbox-gallery">
+            <div class="row">
+              <% count = 0%>
+              <% @uploads.each do |image| %>
+                <% break if count == 9  %>
+                <div class="col-sm-4 gallery-image">
+                  <% if image.class.to_s == "Upload"%>
+                    <%= image_tag image.upload.url(:small) %>
+                    <div class="gallery-image-options text-center">
+                      <div class="btn-group btn-group-sm">
+                        <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                      </div>
+                    </div>      
+                  <% else %>
+                    <%= image_tag image.avatar.url(:small) %>
+                    <div class="gallery-image-options text-center">
+                      <div class="btn-group btn-group-sm">
+                        <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                      </div> 
+                    </div>  
+                  <% end %>
+                </div>  
+                <% count = count+1 %>
+              <% end %>
+            </div>  
           </div>
         </div>
       </div>
-    <% end -%>
-  </div>
+      <% if can? :read, People %>
+        <div class="col-md-6">
+          <div class="block dealers-image-block-height ">
+            <div class="block-title">
+              <h3>
+                <i class="icon-user">
+                People </i>
+              </h3>
+            </div>
+            <div class="block-content scroll-dealer-report" >
+              <div class="people">
+                <ul>
+                  <% @peoples.each do |people| %>
+                    <li> 
+                      <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+                      <label class="people-name"><%= people.name %> </label>
+                       <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+                    </li>
+                  <% end%>
+                </ul>
+            </div>  
+            </div>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+  <% end %>  
 </div>  
- 
+<div class= "row">
+  <% if can? :read, People %>
+    <div class="col-md-6">
+      <div class="block dealers-image-block-height ">
+        <div class="block-title">
+          <h3>
+            <i class="icon-user">
+            People </i>
+          </h3>
+        </div>
+        <div class="block-content scroll-dealer-report" >
+          <div class="people">
+            <ul>
+              <% @peoples.each do |people| %>
+                <li> 
+                  <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+                  <label class="people-name"><%= people.name %> </label>
+                   <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+                </li>
+              <% end%>
+            </ul>
+        </div>  
+        </div>
+      </div>
+    </div>
+  <% end -%>
+</div> 
 <%= content_for :footer_js do %>
   <script type="text/javascript" charset="utf-8">
     var asInitVals = new Array();

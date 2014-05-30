@@ -82,7 +82,7 @@
               Shops
             </h3>
           </div>
-          <div class="block-content dealers-height dearlers-list scroll-dealer">
+          <div class="block-content dealers-data-height dearlers-list scroll-dealers-data">
             <table class="table table-hover" id="shop-data">
               <thead>
                 <tr class="row">
@@ -177,7 +177,7 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <div class="block dealers-block-height">
+      <div class="block dealers-image-block-height">
         <div class="block-title">
           <h2><strong>Display Corner Reports</strong></h2>
           <ul class="nav nav-tabs" data-toggle="tabs">
@@ -185,7 +185,7 @@
             <li><a href="#corner_category">Categories</a></li>
           </ul>
         </div>  
-        <div class="tab-content corner-image-content scroll-dealer">
+        <div class="tab-content scroll-dealer-report">
           <div class="tab-pane active" id="corner_brand">
             <div class="gallery" data-toggle="lightbox-gallery">
               <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
@@ -248,11 +248,11 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="block dealers-block-height">
+      <div class="block dealers-image-block-height">
         <div class="block-title">
           <h2>Images</h2>
         </div>
-        <div class="gallery corner-image-content scroll-dealer" data-toggle="lightbox-gallery">
+        <div class="gallery scroll-dealer-report" data-toggle="lightbox-gallery">
           <div class="row">
             <% @uploads.each do |image| %>
               <div class="col-sm-4 gallery-image">
@@ -281,14 +281,14 @@
   <div class = "row">
     <% if can? :read, People%>
       <div class="col-md-6">
-        <div class="block dealers-block-height">
+        <div class="block dealers-image-block-height">
           <div class="block-title">
             <h3>
               <i class="icon-user">
               People </i>
             </h3>
           </div>
-          <div class="block-content corner-image-content scroll-dealer" >
+          <div class="block-content scroll-dealer-report" >
             <div class="people">
               <ul>
                 <% @peoples.each do |people| %>
