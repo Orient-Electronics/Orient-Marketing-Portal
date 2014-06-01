@@ -3173,8 +3173,7 @@ p, .table, .alert, .carousel {
   border-bottom-color: #dbe1e8;
 }
 
-.style-alt .content-header + .breadcrumb-top,,
-
+.style-alt .content-header + .breadcrumb-top,
 .style-alt .breadcrumb-top + .content-header,
 .style-alt #page-content + footer {
   background-color: #f9fafc;
