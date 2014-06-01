@@ -3610,7 +3610,7 @@ p, .table, .alert, .carousel {
 
 .twitter-typeahead .tt-dropdown-menu .tt-dataset-shops .tt-suggestion:hover
 {
-  background-color: #3498db !important
+  background-color: #3498db !important;
 }
 
 #shop-svr-table thead > tr > th {
@@ -3968,8 +3968,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
   margin-bottom: 10px !important;
 }
 
-
-
 .areas .twitter-typeahead{
   width: 100% !important;
 }
@@ -3997,7 +3995,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .twitter-typeahead .tt-dropdown-menu .tt-dataset-Areas .tt-suggestion:hover
 {
-  background-color: #3498db !important
+  background-color: #3498db !important;
 }
 
 .people-image{
