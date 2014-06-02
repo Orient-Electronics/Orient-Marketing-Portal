@@ -358,36 +358,36 @@
       <% end -%>
     </div>
   <% end %>  
-</div>  
-<% if @posts.present? %>
-  <div class= "row">
-    <% if can? :read, People %>
-      <div class="col-md-6">
-        <div class="block dealers-image-block-height ">
-          <div class="block-title">
-            <h3>
-              <i class="icon-user">
-              People </i>
-            </h3>
-          </div>
-          <div class="block-content scroll-dealer-report" >
-            <div class="people">
-              <ul>
-                <% @peoples.each do |people| %>
-                  <li> 
-                    <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
-                    <label class="people-name"><%= people.name %> </label>
-                     <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
-                  </li>
-                <% end%>
-              </ul>
-          </div>  
+  <% if @posts.present? %>
+    <div class= "row">
+      <% if can? :read, People %>
+        <div class="col-md-6">
+          <div class="block dealers-image-block-height ">
+            <div class="block-title">
+              <h3>
+                <i class="icon-user">
+                People </i>
+              </h3>
+            </div>
+            <div class="block-content scroll-dealer-report" >
+              <div class="people">
+                <ul>
+                  <% @peoples.each do |people| %>
+                    <li> 
+                      <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+                      <label class="people-name"><%= people.name %> </label>
+                       <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+                    </li>
+                  <% end%>
+                </ul>
+            </div>  
+            </div>
           </div>
         </div>
-      </div>
-    <% end -%>
-  </div> 
-<% end %>  
+      <% end -%>
+    </div> 
+  <% end %>  
+</div>  
 
 <%= content_for :footer_js do %>
   <script type="text/javascript" charset="utf-8">

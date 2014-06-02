@@ -40,41 +40,24 @@ class DealersController < ApplicationController
   def show
     authorize! :read, Dealer
     @parent = Dealer.where(id: params[:id]).first
+
     if params[:filter].present?
-      if params[:filter][:city_id].present?
-        @city = City.where(id: params[:filter][:city_id]).first 
-        @shops = @city.dealer_shops(@parent)
-      end
-      if params[:filter][:area_id].present?
-        @area = Area.where(id: params[:filter][:area_id]).first 
-        unless @shops.blank?
-         @shops = @area.city_dealer_shops(@shops)
-        else
-          @shops = @area.dealer_shops(@parent)
+      search = Sunspot.search (Shop) do
+        with(:dealer_id, params[:id])
+        with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
+        with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
+        with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
+        unless params[:filter][:from].blank? or params[:filter][:to].blank?
+          to  = ((params[:filter][:to]).to_date).to_time
+          from = ((params[:filter][:from]).to_date).to_time
+          with(:svr_created_at, from..to)
         end
       end
-      if params[:filter][:shop_category_id].present?
-        @shop_category = ShopCategory.where(id: params[:filter][:shop_category_id]).first
-        unless @shops.blank?
-          @shops = @shops.where(shop_category_id: @shop_category.id)
-        else
-          @shops = @parent.shops.where(shop_category_id: @shop_category.id)
-        end
-      end
-      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
-        to  = ((params[:filter][:to]).to_date).to_time
-        from = ((params[:filter][:from]).to_date).to_time
-        unless @shops.blank?
-          @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
-        else  
-          @shops = @parent.shops.flatten
-          @posts = @shops.collect(&:posts).flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten.select{|a| a.published == true }
-        end 
-      else 
-        @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }  
-      end
+      @shops = search.results
+      @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     else
       @shops = @parent.shops.flatten
+
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     end
 

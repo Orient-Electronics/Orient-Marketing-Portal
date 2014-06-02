@@ -34,11 +34,12 @@ class Shop < ActiveRecord::Base
 
   searchable do
     text :dealer_name, :stored => true
+    integer :dealer_id
     integer :city_id do 
       location.city_id
     end
     integer :area_id do 
-      location.city_id
+      location.area_id
     end
     integer :shop_category_id do
       shop_category.id

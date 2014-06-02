@@ -18,4 +18,5 @@ class Dealer < ActiveRecord::Base
   def remove_public_activities
     PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "Dealer").destroy_all
   end
+  
 end
