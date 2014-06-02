@@ -7,6 +7,9 @@ class ShopsController < ApplicationController
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
+        unless params[:from].blank? or params[:to].blank?
+          with(:svr_created_at, params[:from]..params[:to])
+        end
       end
       @shops = search.results
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
