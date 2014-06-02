@@ -135,7 +135,7 @@ $('document').ready(function(){
   $(".scroll-dealer-report").slimScroll({
     height: '420px',
     size: '5px'
-  })
+  });
 
   $('select').selectpicker();
 

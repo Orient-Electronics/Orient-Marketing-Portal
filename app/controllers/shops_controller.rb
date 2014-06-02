@@ -7,8 +7,10 @@ class ShopsController < ApplicationController
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
-        unless params[:from].blank? or params[:to].blank?
-          with(:svr_created_at, params[:from]..params[:to])
+        unless params[:filter][:from].blank? or params[:filter][:to].blank?
+          to  = ((params[:filter][:to]).to_date).to_time
+          from = ((params[:filter][:from]).to_date).to_time
+          with(:svr_created_at, from..to)
         end
       end
       @shops = search.results
@@ -19,7 +21,6 @@ class ShopsController < ApplicationController
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     end
     if @posts.present?
-
       @reports = @posts.collect(&:reports).flatten
       @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
       @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
