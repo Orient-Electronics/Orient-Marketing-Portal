@@ -7,14 +7,14 @@ class ShopsController < ApplicationController
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
-        unless params[:filter][:from].blank? or params[:filter][:to].blank?
-          to  = ((params[:filter][:to]).to_date).to_time
-          from = ((params[:filter][:from]).to_date).to_time
-          with(:svr_created_at, from..to)
-        end
       end
       @shops = search.results
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
+      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
+        to  = ((params[:filter][:to]).to_date).to_time
+        from = ((params[:filter][:from]).to_date).to_time
+        @posts = @posts.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
+      end
     else
       @shops = Shop.all
       @shop_categories = ShopCategory.all

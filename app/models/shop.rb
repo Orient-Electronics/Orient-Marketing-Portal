@@ -44,9 +44,6 @@ class Shop < ActiveRecord::Base
     integer :shop_category_id do
       shop_category.id
     end
-    time :svr_created_at, :multiple => true do
-      posts.map{|a| a.created_at}
-    end
   end
 
   def remove_public_activities
