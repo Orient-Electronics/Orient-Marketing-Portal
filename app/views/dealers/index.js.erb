@@ -1,4 +1,4 @@
-$(".dealer-content").html("<%= j render :partial => 'dealers' %>");
+$(".dealers-content").html("<%= j render :partial => 'dealers' %>");
 
 var asInitVals = new Array();
 
@@ -20,23 +20,6 @@ $(document).ready(function() {
     size: '5px'
   });
 
-  $('select').selectpicker();
-
-  var oTable = $('#shop-data').dataTable({
-    "bFilter": false
-  });
-
-  $('#shop-data_length, #shop-data_filter, #shop-data_paginate, #shop-data_info').addClass("no-background-border");
-  $("#shop-data_length, #shop-data_info").addClass("pull-left");
-  $("#shop-data_filter, #shop-data_paginate").addClass("pull-right");
-  
-  $(".thefilter input").keyup( function () {
-    /* Filter on the column (the index) of this element */
-    oTable.fnFilter( this.value, $(".thefilter input").index(this) );
-  } );
-  
-  
-  
   /*
    * Support functions to provide a little bit of 'user friendlyness' to the textblockes in 
    * the footer

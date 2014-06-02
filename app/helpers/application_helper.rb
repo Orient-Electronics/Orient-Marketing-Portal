@@ -4,7 +4,7 @@ module ApplicationHelper
     t = Date.today
     b = t.beginning_of_year
     beginning = b.beginning_of_week
-    ending = t.end_of_year
+    ending = t - 1.week
     a = []
     i = 1
     until beginning > ending
