@@ -76,6 +76,11 @@ class SvrsController < ApplicationController
     authorize! :update, Post
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
+    if current_user.user_employee?
+      unless @post.user_id == current_user.id
+        redirect_to :back, notice: 'access denied to edit this report'
+      end  
+    end 
   end
 
   def create
@@ -101,14 +106,19 @@ class SvrsController < ApplicationController
   end   
 
   def destroy
-    authorize! :delete, Post
     @post = Post.find params[:id]
     @shop = Shop.find params[:shop_id]
-    unless can? :create, Task
-      redirect_to shop_svrs_path(@shop), notice: 'access denied to edit this report'
-    end
-    @post.destroy
+    if current_user.user_employee?
+      unless @post.user_id == current_user.id
+        redirect_to :back, notice: 'access denied to edit this report'
+      else
+        @post.destroy
+        redirect_to shop_svrs_path(@shop)
+      end  
+    else
+      @post.destroy
       redirect_to shop_svrs_path(@shop)
+    end
   end
 
   def brand_search
