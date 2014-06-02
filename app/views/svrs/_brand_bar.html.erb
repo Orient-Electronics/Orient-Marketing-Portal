@@ -21,13 +21,24 @@
     </tr>
   </thead>
   <tbody>
-    <% brands.uniq.each do |brand| %>
+    <% display_sum = sale_sum = count = 0   %>
+    <% brands.uniq.each_with_index do |brand,index| %>
       <tr>
         <td><%= brand.name %></td>
         <td><%= Report.brand_display(reports, brand.id) %></td>
+        <% display_sum += Report.brand_display(reports, brand.id) %>
         <td><%= Report.brand_sales(reports,brand.id) %></td>
+        <% sale_sum += Report.brand_sales(reports, brand.id) %>
+        <% count = index+1 %>
       </tr>
-    <% end %>  
+    <% end %> 
+    <tr>
+      <td class="form-portion-head"> Net Result</td>
+      <td class="form-portion-head"> <%= display_sum/count %></td>
+      <td class="form-portion-head"> <%= sale_sum %></td>
+    </tr>
+
+
   </tbody>
 </table>
 

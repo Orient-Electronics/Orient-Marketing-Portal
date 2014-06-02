@@ -20,13 +20,22 @@
     </tr>
   </thead>
   <tbody>
-    <% categories.uniq.each do |category| %>
+    <% cat_display_sum = cat_sale_sum = counter = 0   %>
+    <% categories.uniq.each_with_index do |category, index| %>
       <tr>
         <td><%= category.name %></td>
         <td><%= Report.category_display(reports,category.id,brand) %></td>
+        <% cat_display_sum += Report.category_display(reports, category.id, brand ) %>
         <td><%= Report.category_sales(reports,category.id,brand) %></td>
+        <% cat_sale_sum += Report.category_sales(reports, category.id, brand) %>
+        <% counter = index + 1%>
       </tr>
-    <% end %>  
+    <% end %> 
+    <tr>
+      <td class="form-portion-head"> Net Result</td>
+      <td class="form-portion-head"> <%= cat_display_sum/counter %></td>
+      <td class="form-portion-head"> <%= cat_sale_sum %></td>
+    </tr> 
   </tbody>
 </table>
 
