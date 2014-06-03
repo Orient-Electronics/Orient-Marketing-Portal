@@ -8,7 +8,6 @@ class ShopsController < ApplicationController
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
       end
-      @shops = search.results
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
       if (params[:filter][:to].present?) and (params[:filter][:from].present?)
         to  = ((params[:filter][:to]).to_date).to_time

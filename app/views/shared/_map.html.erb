@@ -121,7 +121,7 @@ function addMarker(location,mapp,shop_category,type,marker_pin,shop_id) {
     close_btn.width(30);
     close_btn.height(15);
     $.ajax({
-      url: 'dealers/' + shop_id + '/get_info', 
+      url: '/dealers/' + shop_id + '/get_info', 
       success:function(data) {
         $(".map-pin-info-body").html(data);
       }
