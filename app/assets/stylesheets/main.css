@@ -4003,3 +4003,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .people-image img{
   width: 100% !important;
 }
+
+.shops-table thead tr th{
+  width: 33.333% !important;
+}
