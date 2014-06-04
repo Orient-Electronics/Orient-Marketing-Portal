@@ -6,8 +6,8 @@ class User < ActiveRecord::Base
 
   has_many :reports, :dependent => :destroy
 
-  has_many :created_tasks, :foreign_key => 'assigned_by', :class_name => "Task"
-  has_many :assigned_tasks, :foreign_key => 'assigned_to', :class_name => "Task"
+  has_many :created_tasks, :foreign_key => 'assigned_by', :class_name => "Task", :dependent => :destroy
+  has_many :assigned_tasks, :foreign_key => 'assigned_to', :class_name => "Task", :dependent => :destroy
 
   has_many :posts, :dependent => :destroy
   has_many :subscribers, :dependent => :destroy
