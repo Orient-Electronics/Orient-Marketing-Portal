@@ -34,10 +34,10 @@
   <div class="row filter-portion dealers-filter">
     <%= form_for :filter, :url => dealers_path, :method => :get, :remote => true do |f| %>
       <div class="col-md-2">
-        <div class="form-group">
+        <div class="form-group week-picker">
           <label class="control-label">Date Range</label>
-          <%= f.text_field :from, :readonly => true, :class => " col-md-5 filter-datepicker from-picker", "data-date-format" => "dd/mm/yyyy",:placeholder => "From"%><span class="col-md-1 arrow-range"><i class="fa fa-angle-right"></i></span>
-          <%= f.text_field :to, :readonly => true, :class => "col-md-5 filter-datepicker to-picker", "data-date-format" => "dd/mm/yyyy", :placeholder => "To" %>
+          <%= f.text_field :from, :readonly => true, :class => " col-md-5 filter-datepicker from-picker",:placeholder => "From"%><span class="col-md-1 arrow-range"><i class="fa fa-angle-right"></i></span>
+          <%= f.text_field :to, :readonly => true, :class => "col-md-5 filter-datepicker to-picker", :placeholder => "To" %>
           </div>
       </div>  
       <div class="col-md-1 apply-btn">

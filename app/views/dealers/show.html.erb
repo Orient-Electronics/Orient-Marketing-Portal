@@ -30,28 +30,28 @@
       <div class="col-md-3">
         <div class="form-group">
           <label class="control-label"> City </label>
-          <%= f.collection_select :city_id, City.all,:id,:name, include_blank: true, :class => "form-control" %>
+          <%= f.collection_select :city_id, City.all,:id,:name, :class => "form-control", :prompt => 'All Cities'%>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label class="control-label"> Area </label>
-          <%= f.collection_select :area_id, Area.all,:id,:name, include_blank: true, :class => "form-control" %>
+          <%= f.collection_select :area_id, Area.all,:id,:name, :class => "form-control", :prompt => 'All Areas' %>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label class="control-label"> Shop Category </label>
-          <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, include_blank: true, :class => "form-control" %>
+          <%= f.collection_select :shop_category_id, ShopCategory.all,:id,:name, :prompt => 'All Shop Categoroies', :class => "form-control" %>
         </div>
       </div>
       <div class="col-md-2">
-        <div class="form-group">
+        <div class="form-group week-picker">
           <label class="control-label">Date Range</label>
-            <%= f.text_field :from, :readonly => true, :class => " col-md-5 filter-datepicker from-picker", "data-date-format" => "dd/mm/yyyy",:placeholder => "From"%><span class="col-md-1 arrow-range"><i class="fa fa-angle-right"></i></span>
-            <%= f.text_field :to, :readonly => true, :class => "col-md-5 filter-datepicker to-picker", "data-date-format" => "dd/mm/yyyy", :placeholder => "To" %>
-          </div>
-      </div>  
+          <%= f.text_field :from, :readonly => true, :class => " col-md-5 filter-datepicker from-picker",:placeholder => "From"%><span class="col-md-1 arrow-range"><i class="fa fa-angle-right"></i></span>
+            <%= f.text_field :to, :readonly => true, :class => "col-md-5 filter-datepicker to-picker", :placeholder => "To" %>
+        </div>
+      </div>    
       <div class="col-md-1 apply-btn">
         <%= f.submit "Apply", :class=>"btn btn-primary" %>
       </div>  
