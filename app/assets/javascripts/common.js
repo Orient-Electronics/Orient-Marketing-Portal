@@ -22,7 +22,7 @@ $('document').ready(function(){
             var date = $(this).datepicker('getDate');
             startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
             endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
-            var dateFormat = 'dd/mm/yyyy';
+            var dateFormat = 'dd/mm/yy';
             $('.from-picker').val($.datepicker.formatDate( dateFormat, startDate, inst.settings ));
             $('.to-picker').val($.datepicker.formatDate( dateFormat, endDate, inst.settings ));
             
