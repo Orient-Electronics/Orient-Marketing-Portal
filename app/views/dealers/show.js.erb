@@ -4,9 +4,17 @@ var asInitVals = new Array();
 
 $(document).ready(function() {
 
+  $('.nav-tabs a').each(function() {
+    var $this = $(this);
+    $this.click(function (e) {
+        e.preventDefault();
+        $this.tab('show');
+    });
+  });
+  
   $('.category-tab').click();
   $('.brand-tab').click();
-  $('.datepicker').datepicker();
+  $('select').selectpicker();
   
   $('.jFax-chart').width($("#page-content").width());
 
