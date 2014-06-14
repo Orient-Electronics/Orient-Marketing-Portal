@@ -43,78 +43,6 @@
 <a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
 <div class="row">
   <div class="col-md-6">
-    <div class="block shop-map-block">
-      <div class="block-title">
-        <% if can? :update, Shop %>
-          <div class="new-button pull-right">
-            <%= link_to raw("<i class='gi gi-edit'></i> Edit Shop"), edit_shop_path(@shop),  :class => "btn btn-large btn-default" %>
-          </div>
-        <% end %> 
-        <h2>Basic Information</h2>
-      </div> 
-      <table class="table table-borderless table-striped">
-        <tbody>
-          <tr>
-            <td style="width: 20%;"><strong>Dealer Name </strong></td>
-            <td><%= @shop.dealer_name %></td>
-          </tr>
-          <tr>
-            <td style="width: 20%;"><strong>Branch Of </strong></td>
-            <td><%= @shop.branch_of %></td>
-          </tr>
-          <tr>
-            <td style="width: 20%;"><strong>Phone </strong></td>
-            <td><%= @shop.phone %></td>
-          </tr>
-          <% if @shop.website != 'N/A' %>
-            <tr>
-              <td style="width: 20%;"><strong>Website </strong></td>
-              <td><%= @shop.website %></td>
-            </tr>
-          <% end %>
-          <% if @shop.email != 'N/A' %>
-            <tr>
-              <td style="width: 20%;"><strong>Email</strong></td>
-              <td><%= @shop.email %></td>
-            </tr>
-          <% end -%>
-          <% if @shop.address %>
-            <tr>
-              <td style="width: 20%;"><strong>Address</strong></td>
-              <td><%= @shop.address %></td>
-            </tr>
-          <% end %>
-          <tr>
-            <td>Orient Dealer</td>
-            <% if @shop.orient_dealer %>
-              <td>Yes</td>
-            <% else %>
-              <td>No</td>
-            <% end %>
-          </tr>
-          <% if @shop.shop_category.try(:name)%>
-            <tr>
-              <td>Shop Category</td>
-              <td><%= @shop.shop_category.name %></td>
-            </tr>
-          <% end %>
-          <tr>
-            <td style="width: 20%;"><%= Location %></td>
-            <% child_class = Location %>
-            <td>
-              <% if @shop.location.try(:city) %>
-                <b>City: </b>  <%= @shop.location.city.name %> <br>
-              <% end -%>
-              <% if @shop.location.try(:area) %>
-                <b>Area : </b> <%= @shop.location.area.name %>
-              <% end -%>
-            </td>  
-          </tr>  
-        </tbody>
-      </table> 
-    </div>  
-  </div>
-  <div class="col-md-6">
     <div class="block block-color block-bordered">
       <div class="block-title no-margin-bottom">
         <h3>
@@ -133,6 +61,75 @@
       </div>
     </div>
   </div> 
+  <div class="col-md-6">
+    <div class="block">
+      <div class="block-title">
+        <% if can? :update, Shop %>
+          <div class="new-button pull-right">
+            <%= link_to raw("<i class='gi gi-edit'></i> Edit Shop"), edit_shop_path(@shop),  :class => "btn btn-large btn-default" %>
+          </div>
+        <% end %> 
+        <h2>Basic Information</h2>
+      </div> 
+      <table class="table table-borderless table-striped">
+        <tbody>
+          <tr>
+            <td style="width: 20%;"><strong>Dealer Name </strong></td>
+            <td><%= link_to @shop.dealer.name, dealer_path(@shop.dealer)  %></td>
+          </tr>
+          <% if @shop.shop_category.try(:name)%>
+            <tr>
+              <td><strong>Shop Category</strong></td>
+              <td><%= @shop.shop_category.name %></td>
+            </tr>
+          <% end %>
+          <tr>
+            <td><strong>Orient Dealer</strong></td>
+            <% if @shop.orient_dealer %>
+              <td>Yes</td>
+            <% else %>
+              <td>No</td>
+            <% end %>
+          </tr>
+          <% if @shop.address %>
+            <tr>
+              <td style="width: 20%;"><strong>Address</strong></td>
+              <td><%= @shop.address %></td>
+            </tr>
+          <% end %>
+          <% if @shop.location.try(:area) %>
+            <tr>
+              <td style="width: 20%;"><strong>Area</strong></td>
+              <td> <%= @shop.location.area.name %></td>
+            </tr>  
+          <% end -%>
+          <% if @shop.location.try(:city) %>
+            <tr>
+              <td style="width: 20%;"><strong>Area</strong></td>
+              <td> <%= @shop.location.city.name %></td>
+            </tr>  
+          <% end -%>
+          <tr>
+            <td style="width: 20%;"><strong>Phone </strong></td>
+            <td><%= @shop.phone %></td>
+          </tr>
+          <% if @shop.email != 'N/A' %>
+            <tr>
+              <td style="width: 20%;"><strong>Email</strong></td>
+              <td><%= @shop.email %></td>
+            </tr>
+          <% end -%>
+          <% if @shop.website != 'N/A' %>
+            <tr>
+              <td style="width: 20%;"><strong>Website </strong></td>
+              <td><%= @shop.website %></td>
+            </tr>
+          <% end %>
+          
+        </tbody>
+      </table> 
+    </div>  
+  </div>
 </div>
 <div class="shop-report-content">
   <div class="row">

@@ -3888,6 +3888,11 @@ only screen and (min-device-pixel-ratio: 1.5) {
 {
   margin: 2px 10px;
 }
+.new-button a
+{
+  border-radius: 20px !important;
+  background: #fff; 
+}
 
 .task-modal
 {

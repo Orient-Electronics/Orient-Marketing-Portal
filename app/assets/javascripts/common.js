@@ -370,7 +370,10 @@ function loadBrandChart()
   var titles = brand_chart.getTitles();
   var title = new cfx.TitleDockable();
   titles.add(title);
+  brand_chart.getDataGrid().setVisible(true); 
+  brand_chart.getLegendBox().setVisible(false);
   brand_chart.create('brand_data_chart');
+  
 }
 
 function loadCategoryChart()
@@ -381,6 +384,8 @@ function loadCategoryChart()
   var titles = category_chart.getTitles();
   var title = new cfx.TitleDockable();
   titles.add(title);
+  category_chart.getDataGrid().setVisible(true);
+  category_chart.getLegendBox().setVisible(false);
   category_chart.create('category_data_chart');
 }
 
