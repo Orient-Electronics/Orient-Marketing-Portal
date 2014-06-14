@@ -10,11 +10,9 @@ class ShopsController < ApplicationController
       end
       @shops = search.results
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
-      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
-        to  = ((params[:filter][:to]).to_date).to_time
-        from = ((params[:filter][:from]).to_date).to_time
-        @posts = @posts.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
-      end
+      from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+      to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+      @posts = @posts.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
     else
       @shops = Shop.all
       @shop_categories = ShopCategory.all
@@ -53,14 +51,11 @@ class ShopsController < ApplicationController
     @shop = Shop.where(id: params[:id]).first
   
     if params[:filter].present?
-      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
-        to  = ((params[:filter][:to]).to_date).to_time
-        from = ((params[:filter][:from]).to_date).to_time
-        @posts = @shop.posts.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
-        p @posts
-      else
-        @posts = @shop.posts.published_reports.flatten
-      end
+      from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+      to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+      p  from
+      p to
+      @posts = @shop.posts.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
     else 
       @posts = @shop.posts.published_reports.flatten
     end  

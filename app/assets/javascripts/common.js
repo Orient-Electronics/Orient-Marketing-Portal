@@ -4,40 +4,7 @@ $('document').ready(function(){
   $('.category-tab').click();
   $('.brand-tab').click();
   $('.datepicker').datepicker();
-
-  var startDate;
-  var endDate;
-
-
-    var selectCurrentWeek = function() {
-        window.setTimeout(function () {
-            $('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active')
-        }, 1);
-    }
-    
-    $('.filter-datepicker').datepicker( {
-        showOtherMonths: true,
-        selectOtherMonths: true,
-        onSelect: function(dateText, inst) { 
-            var date = $(this).datepicker('getDate');
-            startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
-            endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
-            var dateFormat = 'dd/mm/yy';
-            $('.from-picker').val($.datepicker.formatDate( dateFormat, startDate, inst.settings ));
-            $('.to-picker').val($.datepicker.formatDate( dateFormat, endDate, inst.settings ));
-            
-            selectCurrentWeek();
-        },
-        beforeShowDay: function(date) {
-            var cssClass = '';
-            if(date >= startDate && date <= endDate)
-                cssClass = 'ui-datepicker-current-day';
-            return [true, cssClass];
-        },
-        onChangeMonthYear: function(year, month, inst) {
-            selectCurrentWeek();
-        }
-    });
+  $('.filter-datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
 
   $('.jFax-chart').width($("#page-content").width());
 

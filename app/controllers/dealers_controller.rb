@@ -6,13 +6,9 @@ class DealersController < ApplicationController
     @dealers = Dealer.all
     @shops = Shop.all
     if params[:filter].present?
-      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
-        to  = ((params[:filter][:to]).to_date).to_time
-        from = ((params[:filter][:from]).to_date).to_time
-        @posts = Post.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
-      else
-        @posts = Post.published_reports  
-      end
+      from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+      to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+      @posts = Post.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
     else 
       @posts = Post.published_reports
     end
@@ -50,14 +46,11 @@ class DealersController < ApplicationController
       end
       @shops = search.results
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
-      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
-        to  = ((params[:filter][:to]).to_date).to_time
-        from = ((params[:filter][:from]).to_date).to_time
-        @posts = @posts.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
-      end
+      from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+      to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+      @posts = @posts.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
     else
       @shops = @parent.shops.flatten
-
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     end
 
