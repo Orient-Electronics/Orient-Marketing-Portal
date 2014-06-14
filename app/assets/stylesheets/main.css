@@ -4017,3 +4017,17 @@ only screen and (min-device-pixel-ratio: 1.5) {
 #ajax-loading{
   margin-top: 30px !important;
 }
+.svr 
+{
+  width: 200px !important;
+}
+.svr .user-image-link
+{
+  width: 19%;
+  float: left;
+}
+.svr .user-image
+{
+  width: 100%;
+  float: left;
+}
