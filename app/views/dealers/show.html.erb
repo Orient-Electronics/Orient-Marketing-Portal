@@ -26,7 +26,7 @@
 </div>
 <div class="content-header">
   <div class="row filter-portion">
-    <%= form_for :filter, :url => dealer_path(@parent), :method => :get, :remote => true do |f| %>
+    <%= form_for :filter, :url => dealer_path(@parent), :method => :get, :remote => true, :html => {:class => "dealer-filter-form"} do |f| %>
       <div class="col-md-3">
         <div class="form-group">
           <label class="control-label"> City </label>
@@ -53,9 +53,10 @@
         </div>
       </div>    
       <div class="col-md-1 apply-btn">
-        <%= f.submit "Apply", :class=>"btn btn-primary" %>
-      </div>  
-    <% end %>  
+        <%= link_to "Apply", '#', :class=>"btn btn-primary ajax-submit-btn" %>
+      </div> 
+    <% end %>
+    <div id="ajax-loading" class="display-none"><%= image_tag '/assets/ajax_loader_google.gif' %></div>  
   </div>
 </div>
 <div id="modal-user" class="modal">
@@ -399,12 +400,16 @@
         "sPaginationType": "full_numbers"
       });
 
+
       $(".thefilter input").keyup( function () {
         /* Filter on the column (the index) of this element */
         oTable.fnFilter( this.value, $(".thefilter input").index(this) );
       } );
       
-      
+      $(".ajax-submit-btn").click(function(){
+        $('#ajax-loading').removeClass("display-none");
+        $(".dealer-filter-form").submit();
+      });
       
       /*
        * Support functions to provide a little bit of 'user friendlyness' to the textblockes in 

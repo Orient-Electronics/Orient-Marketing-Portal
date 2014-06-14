@@ -32,7 +32,7 @@
 </div> 
 <div class="content-header">
   <div class="row filter-portion dealers-filter">
-    <%= form_for :filter, :url => dealers_path, :method => :get, :remote => true do |f| %>
+    <%= form_for :filter, :url => dealers_path, :method => :get, :remote => true, :html => {:class => "dealers-filter-form"} do |f| %>
       <div class="col-md-2">
         <div class="form-group week-picker">
           <label class="control-label">Date Range</label>
@@ -41,9 +41,10 @@
           </div>
       </div>  
       <div class="col-md-1 apply-btn">
-        <%= f.submit "Apply", :class=>"btn btn-primary" %>
-      </div>  
+        <%= link_to "Apply", '#', :class=>"btn btn-primary ajax-submit-btn" %>
+      </div>   
     <% end %>  
+    <div id="ajax-loading" class="display-none"><%= image_tag '/assets/ajax_loader_google.gif' %></div>
   </div>
 </div>
 <div  id="modal-user" class="modal">
@@ -335,6 +336,11 @@
       $(".thefilter input").keyup( function () {
         /* Filter on the column (the index) of this element */
         oTable.fnFilter( this.value, $(".thefilter input").index(this) );
+      });
+
+      $(".ajax-submit-btn").click(function(){
+        $('#ajax-loading').removeClass("display-none");
+        $(".dealers-filter-form").submit();
       });
 
       $(".search_btn").click( function ()

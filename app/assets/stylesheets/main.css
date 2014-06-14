@@ -3115,7 +3115,7 @@ p, .table, .alert, .carousel {
 }
 
 .display-none {
-  display: none;
+  display: none !important;
 }
 
 .remove-margin {
@@ -3813,6 +3813,12 @@ only screen and (min-device-pixel-ratio: 1.5) {
   margin-top: 29px;
 }
 
+.filter-portion .apply-btn a
+{
+  float: left;
+  margin-top: 29px;
+}
+
 .dealers-filter
 {
   margin-bottom: 20px;
@@ -4006,4 +4012,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .shops-table thead tr th{
   width: 33.333% !important;
+}
+
+#ajax-loading{
+  margin-top: 30px !important;
 }

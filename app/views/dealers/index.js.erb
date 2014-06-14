@@ -6,7 +6,8 @@ $(document).ready(function() {
 
   $('select').selectpicker();
   
-
+  $('#ajax-loading').addClass("display-none");
+  
   $('.nav-tabs a').each(function() {
     var $this = $(this);
     $this.click(function (e) {

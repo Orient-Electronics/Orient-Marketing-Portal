@@ -26,7 +26,7 @@
 </div> 
 <div class="content-header">
   <div class="row filter-portion">
-    <%= form_for :filter, :url => shops_path, :method => :get, :remote => true do |f| %>
+    <%= form_for :filter, :url => shops_path, :method => :get, :remote => true, :html => {:class => "shops-filter-form"} do |f| %>
       <div class="col-md-3">
         <div class="form-group">
           <label class="control-label"> City </label>
@@ -52,10 +52,12 @@
           <%= f.text_field :to, :readonly => true, :class => "col-md-5 filter-datepicker to-picker", :placeholder => "To" %>
         </div>
       </div>  
-      <div class="col-md-1 apply-btn">
-        <%= f.submit "Apply", :class=>"btn btn-primary" %>
-      </div>  
-    <% end %>  
+     <div class="col-md-1 apply-btn">
+        <%= link_to "Apply", '#', :class=>"btn btn-primary ajax-submit-btn" %>
+      </div>   
+    <% end %>
+    <div id="ajax-loading" class="display-none"><%= image_tag '/assets/ajax_loader_google.gif' %>
+    </div>  
   </div>
 </div>
 <div  id="modal-user" class="modal">
@@ -355,6 +357,10 @@
       oTable.fnFilter( this.value, $(".thefilter input").index(this) );
     } );
     
+    $(".ajax-submit-btn").click(function(){
+      $('#ajax-loading').removeClass("display-none");
+      $(".shops-filter-form").submit();
+    });
     
     $(".search_btn").click( function ()
       {
