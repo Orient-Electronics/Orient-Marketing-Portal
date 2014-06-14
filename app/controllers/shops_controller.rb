@@ -50,7 +50,22 @@ class ShopsController < ApplicationController
       @dealer = Dealer.find(params[:dealer_id])
     end 
     @product_categories = ProductCategory.all
-    @posts =  Post.published_reports.where(:shop_id => params[:id].to_i)
+    @shop = Shop.where(id: params[:id]).first
+  
+    if params[:filter].present?
+      if (params[:filter][:to].present?) and (params[:filter][:from].present?)
+        to  = ((params[:filter][:to]).to_date).to_time
+        from = ((params[:filter][:from]).to_date).to_time
+        @posts = @shop.posts.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
+        p @posts
+      else
+        @posts = @shop.posts.published_reports.flatten
+      end
+    else 
+      @posts = @shop.posts.published_reports.flatten
+    end  
+    
+    
     @reports = @posts.collect(&:reports).flatten
     shop_report_lines = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
     @brand_report_lines = shop_report_lines.group_by {|d| d[:brand_id] }
@@ -73,7 +88,8 @@ class ShopsController < ApplicationController
       @categories = @posts.collect(&:product_category).uniq
       @brands = @categories.collect(&:brands).uniq.flatten  
       respond_to do |format|
-        format.html # show.html.erb
+        format.html # index.html.erb
+        format.js
         format.json { render json: @shop }
       end  
     end
