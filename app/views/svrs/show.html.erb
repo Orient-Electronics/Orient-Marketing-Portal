@@ -4,25 +4,47 @@
       <div class="btn-group">
         <%= link_to raw("<i class='fa fa-angle-left'></i> Go to Shop"), shop_path(@shop), :class => 'btn btn-sm  btn-primary' %>
       </div> 
-      <% if current_user.user_admin? or current_user.user_manager? %>
-        <div class="btn-group open">
-          <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Published <span class="caret"></span></a>
+      <% unless @post.submit? %>
+        <% unless @post.published? %>
+          <% if current_user.post_owner?(@post) %>
+            <div class="btn-group open">
+              <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Published <span class="caret"></span></a>
 
-          <ul class="dropdown-menu text-left">
-            <li class="disabled"><a href="javascript:void(0)">Publish</a></li>
-            <li><%= link_to "Submit for Approval", publish_report_tasks_path(:post_id => @post.id) %></li>
-            <li><%= link_to "Draft", draft_report_tasks_path(:post_id => @post.id)%></li>
-          </ul>    
-        </div>
-      <% end %> 
-
-      <% unless @post.published? %> 
-        <div class="btn-group">
-          <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit", :class => "btn btn-sm btn-primary" %>
-          <%= link_to raw("<i class='fa fa-times'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}", :method => :delete, :confirm => "are you sure? ", :class => "btn btn-sm btn-danger" %>
-        </div>
+              <ul class="dropdown-menu text-left">
+                <li class="disabled"><a href="javascript:void(0)">Publish</a></li>
+                <li><%= link_to "Submit for Approval", submit_report_tasks_path(:post_id => @post.id) %></li>
+                <li><%= link_to "Draft", draft_report_tasks_path(:post_id => @post.id)%></li>
+              </ul>    
+            </div>
+            <div class="btn-group">
+              <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit", :class => "btn btn-sm btn-primary" %>
+              <%= link_to raw("<i class='fa fa-times'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}", :method => :delete, :confirm => "are you sure? ", :class => "btn btn-sm btn-danger" %>
+            </div>
+          <% end -%>
+        <% else @post.published? %>
+          <% unless current_user.user_employee? %>
+            <div class="btn-group open">
+              <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Published <span class="caret"></span></a>
+              <ul class="dropdown-menu text-left">
+                <li class="<%= 'active' if @post.status =='published' %>"><%= link_to "Publish", publish_report_tasks_path(:post_id => @post.id) %></li>
+                <li class="<%= 'active' if @post.status =='draft' %>"><%= link_to "Un Publish", draft_report_tasks_path(:post_id => @post.id)%></li>
+              </ul>
+            </div> 
+            <div class="btn-group">
+              <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit", :class => "btn btn-sm btn-primary" %>
+              <%= link_to raw("<i class='fa fa-times'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}", :method => :delete, :confirm => "are you sure? ", :class => "btn btn-sm btn-danger" %>
+            </div>
+          <% end %>
+        <% end -%>
       <% else %>
-        <% if current_user.user_admin? or current_user.user_manager? %>
+        <% unless current_user.user_employee? %>
+          <div class="btn-group open">
+            <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Published <span class="caret"></span></a>
+            <ul class="dropdown-menu text-left">
+              <li class="<%= 'active' if @post.status =='published' %>"><%= link_to "Publish", publish_report_tasks_path(:post_id => @post.id) %></li>
+              <li class="<%= 'active' if @post.status =='draft' %>"><%= link_to "Un Publish", draft_report_tasks_path(:post_id => @post.id)%></li>
+            </ul>
+          </div> 
           <div class="btn-group">
             <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}/edit", :class => "btn btn-sm btn-primary" %>
             <%= link_to raw("<i class='fa fa-times'></i>"),  "/shops/#{@post.shop_id}/svrs/#{@post.id}", :method => :delete, :confirm => "are you sure? ", :class => "btn btn-sm btn-danger" %>

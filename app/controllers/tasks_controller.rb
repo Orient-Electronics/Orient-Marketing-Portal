@@ -73,6 +73,17 @@ class TasksController < ApplicationController
       format.html { redirect_to :back, notice: 'Report was successfully unpublished.'}
     end
   end
+
+  def submit_report
+    post = Post.find(params[:post_id])
+    post.published = false
+    post.approved_id = nil
+    post.status = "submit"
+    post.save
+    respond_to do |format|
+      format.html { redirect_to :back, notice: 'Report was successfully sumbitted.'}
+    end
+  end
   
   def draft_report
     post = Post.find(params[:post_id])

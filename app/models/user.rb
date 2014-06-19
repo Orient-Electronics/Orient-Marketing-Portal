@@ -75,4 +75,7 @@ class User < ActiveRecord::Base
     self.view_announcement
   end
   
+  def post_owner?(post)
+    self == post.user
+  end
 end  

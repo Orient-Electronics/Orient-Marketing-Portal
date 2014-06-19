@@ -33,5 +33,10 @@ class Post < ActiveRecord::Base
         report.week = self.week
       end
     end
-  end   
+  end 
+
+  def submit?
+    self.status == "submit"
+  end
+
 end

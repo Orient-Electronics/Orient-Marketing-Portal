@@ -101,6 +101,7 @@ Orient::Application.routes.draw do
       get 'publish_report'
       get 'unpublish_report'
       get 'draft_report'
+      get 'submit_report'
     end
   end
 
