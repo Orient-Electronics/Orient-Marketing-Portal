@@ -14,11 +14,12 @@ class SvrsController < ApplicationController
         @posts =  Post.where(:shop_id => params[:shop_id].to_i).sort_by{ |a| a.published ? 1 : 0 }
         @reports = @posts.collect(&:reports).flatten
       end
+
     else
       if current_user.user_employee?
         @posts =  Post.where(:user_id => current_user.id).sort_by{ |a| a.published ? 1 : 0 }
       else 
-        @posts =  Post.all.sort_by{ |a| a.published ? 1 : 0 }
+        @posts =  Post.where('status !=?', 'draft').sort_by{ |a| a.published ? 1 : 0 } + Post.where(:user_id => current_user.id)
       end  
       @reports = @posts.collect(&:reports).flatten
     end  

@@ -36,28 +36,25 @@
           <td class="text-center svr">
             <%=link_to raw(image_tag(post.user.avatar.avatar(:thumb), :class => "img-circle user-image")), activities_path(:user_id => post.user.id),:class => "user-image-link" %>
           </td>
-         
-            <% if current_user.user_admin? or current_user.user_manager? %>
-              <td class="text-center"> 
-                <div class="btn-group btn-group-xs">
-                  <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{post.shop_id}/svrs/#{post.id}/edit", :class => 'btn btn-default', "data-toggle" => "tooltip", :title=> "Update" %>
-                 <%= link_to raw("<i class='fa fa-times'></i>"),  "/shops/#{post.shop_id}/svrs/#{post.id}", :method => :delete, :confirm => "are you sure? ", "data-toggle"=>"tooltip" ,:title=>"Delete", :class => 'btn btn-danger'  %> 
-                </div> 
-              </td>
-               <% if post.published? %>
-                <td>
-                  <ul class="nav nav-bar">  
-                    <li class="dropdown">
-                      <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
-                        <li class="<%= 'active' if post.status =='published' %>"><%= link_to "Publish", publish_report_tasks_path(:post_id => post.id) %></li>
-                        <li class="<%= 'active' if post.status =='draft' %>"><%= link_to "Unpublish", draft_report_tasks_path(:post_id => post.id)%></li>
-                      </ul>  
-                    </li>  
-                  </ul> 
-                </td>  
-               <% end %> 
-            <% end %> 
+          <% if current_user.user_admin? or current_user.user_manager? %>
+            <td class="text-center"> 
+              <div class="btn-group btn-group-xs">
+                <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{post.shop_id}/svrs/#{post.id}/edit", :class => 'btn btn-default', "data-toggle" => "tooltip", :title=> "Update" %>
+               <%= link_to raw("<i class='fa fa-times'></i>"),  "/shops/#{post.shop_id}/svrs/#{post.id}", :method => :delete, :confirm => "are you sure? ", "data-toggle"=>"tooltip" ,:title=>"Delete", :class => 'btn btn-danger'  %> 
+              </div> 
+            </td>
+            <td>
+              <ul class="nav nav-bar">  
+                <li class="dropdown">
+                  <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wrench"></i></a>
+                  <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
+                    <li class="<%= 'active' if post.status =='published' %>"><%= link_to "Publish", publish_report_tasks_path(:post_id => post.id) %></li>
+                    <li class="<%= 'active' if post.status =='draft' %>"><%= link_to "Unpublish", draft_report_tasks_path(:post_id => post.id)%></li>
+                  </ul>  
+                </li>  
+              </ul> 
+            </td>
+          <% end %>    
         </tr>
       <% end %>
       </tbody>
