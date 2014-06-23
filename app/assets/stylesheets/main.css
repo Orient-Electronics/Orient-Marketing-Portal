@@ -4066,3 +4066,19 @@ only screen and (min-device-pixel-ratio: 1.5) {
   padding: 0px !important;
   margin: 0px !important;
 }
+
+.shop-map-block{
+  padding: 0px !important;
+  margin: 0px !important;
+  margin-bottom: 20px !important;
+}
+
+.shop-map-block .block-title{
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.shop-map
+{
+  height: 488px !important;
+}

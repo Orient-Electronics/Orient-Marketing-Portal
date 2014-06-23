@@ -39,7 +39,7 @@
 <a href="#modal-user" data-toggle="modal" class="person-inform-link"></a>
 <div class="row">
   <div class="col-md-6">
-    <div class="block block-color block-bordered">
+    <div class="block block-color block-bordered shop-map-block">
       <div class="block-title no-margin-bottom">
         <h3>
           <i class="icon-map-marker"></i>
@@ -51,9 +51,7 @@
           <%= hidden_field_tag "lat", @shop.location.try(:latitude), :id => "lat" %>
           <%= hidden_field_tag "lng", @shop.location.try(:longitude), :id => "lng" %>
           <%= hidden_field_tag "shop_category", @shop.shop_category.name, :id => "shop_category" %>
-          <div class="row">
-            <div class="col-md-12 shop-map" id="map_location"></div>
-          </div>
+          <div class="col-md-12 shop-map" id="map_location"></div>
       </div>
     </div>
   </div> 
