@@ -191,141 +191,164 @@
     <% end -%>  
   </div>
   <% if @posts.present? %>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="block dealers-image-block-height">
-        <div class="block-title">
-          <h2><strong>Display Corner Reports</strong></h2>
-          <ul class="nav nav-tabs" data-toggle="tabs">
-            <li class="active"><a href="#corner_brand">Brands</a></li>
-            <li><a href="#corner_category">Categories</a></li>
-          </ul>
-        </div>  
-        <div class="tab-content scroll-dealer-report coner-report">
-          <div class="tab-pane active" id="corner_brand">
-            <div class="gallery" data-toggle="lightbox-gallery">
-              <% @brand_report_lines.each do |brand_id,brand_report| %>
-                <% unless brand_report.collect(&:avatars).flatten.blank? %>
-                  <div class="row">
-                    <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
-                   </div> 
-                <% end -%>   
-                 <div class="row"> 
-                  <% brand_report.each do |line| %>
-                    <% line.avatars.each do |upload| %>
-                      <div class="col-sm-4 gallery-image">
-                        <% if upload.avatar %>
-                          <%= image_tag upload.avatar.url %>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                            </div>
-                          </div>
-                        <% else %>
-                          <%= image_tag "/assets/default.png"%>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                            </div>
-                          </div>
-                        <% end%>
-                      </div>  
+    <div class="row">
+      <div class="col-md-6">
+        <div class="block">
+          <div class="block-title">
+            <h2><strong>Display Corner Reports</strong></h2>
+            <ul class="nav nav-tabs" data-toggle="tabs">
+              <li class="active"><a href="#corner_brand">Brands</a></li>
+              <li><a href="#corner_category">Categories</a></li>
+            </ul>
+          </div>  
+          <div class="tab-content scroll-shop-report coner-report">
+            <div class="tab-pane active" id="corner_brand">
+              <div class="gallery" data-toggle="lightbox-gallery">
+                <% count = 0 %>
+                <% @brand_report_lines.each do |brand_id,brand_report| %>
+                  <% unless brand_report.collect(&:avatars).flatten.blank? %>
+                    
+                    <div class="row">
+                      <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
+                     </div> 
+                  <% else %>
+                    <% if count == 0%>
+                      <div class="alert alert-info">
+                        <h4><i class="fa fa-info-circle"></i> Brands</h4> Not avaible!
+                      </div>   
                     <% end %>  
-                  <% end %>  
-                </div>   
-              <% end %>
-            </div>  
-          </div>
-          <div class="tab-pane" id="corner_category">
-            <div class="gallery" data-toggle="lightbox-gallery">
-              <% @category_report_lines.each do |category,cat_report| %>
-                <% unless cat_report.collect(&:avatars).flatten.blank? %>
-                  <div class="row">
-                    <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
-                   </div>
-                <% end %>   
-                 <div class="row">
-                  <% cat_report.each do |line| %>
-                    <% line.avatars.each_with_index do |upload, index| %>
-                      <div class="col-sm-4 gallery-image">
-                        <% if upload.avatar %>
-                          <%= image_tag upload.avatar.url %>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                  <% end -%>   
+                   <div class="row"> 
+                    <% brand_report.each do |line| %>
+                      <% line.avatars.each do |upload| %>
+                        <div class="col-sm-4 gallery-image">
+                          <% if upload.avatar %>
+                            <%= image_tag upload.avatar.url %>
+                            <div class="gallery-image-options text-center">
+                              <div class="btn-group btn-group-sm">
+                                <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                              </div>
                             </div>
-                          </div>
-                        <% else %>
-                          <%= image_tag "/assets/default.png"%>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          <% else %>
+                            <%= image_tag "/assets/default.png"%>
+                            <div class="gallery-image-options text-center">
+                              <div class="btn-group btn-group-sm">
+                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                              </div>
                             </div>
-                          </div>
-                        <% end%>
-                      </div>  
+                          <% end%>
+                        </div>  
+                      <% end %>  
                     <% end %>  
-                  <% end %>  
-                </div>  
-              <% end %>
-            </div>
-          </div>
-        </div>  
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="block dealers-image-block-height">
-        <div class="block-title">
-          <h2>Images</h2>
-          <% if can? :create, Upload%>
-              <div class="btn-group upload-form">
-                <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate col-md-12" } do |f| %>
-                  <%=f.file_field :upload , :class => " upload fileUpload required col-md-6"%>
-                  <button type="submit" class="btn btn-danger col-md-6" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
-                <% end -%>
-              </div>
-            <% end -%>
-        </div>
-        <div class="gallery scroll-dealer-report" data-toggle="lightbox-gallery">
-          <div class="row">
-            <% @shop_uploads.each do |image| %>
-              <div class="col-sm-4 gallery-image">
-                <% if image.class.to_s == "Upload"%>
-                  <%= image_tag image.upload.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div>
-                  </div>       
-                <% else %>
-                  <%= image_tag image.avatar.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div> 
                   </div>  
+                  <% count += 1%> 
                 <% end %>
               </div>  
-            <% end %>
+            </div>
+            <div class="tab-pane" id="corner_category">
+              <div class="gallery" data-toggle="lightbox-gallery">
+                <% count = 0 %>
+                <% @category_report_lines.each do |category,cat_report| %>
+                  <% unless cat_report.collect(&:avatars).flatten.blank? %>
+                    <div class="row">
+                      <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
+                    </div>
+                    <% else %>
+                      <% if count == 0%>
+                        <div class="alert alert-info">
+                          <h4><i class="fa fa-info-circle"></i> Product Category</h4> Not avaible!
+                        </div>   
+                      <% end %>
+                  <% end %>   
+                   <div class="row">
+                    <% cat_report.each do |line| %>
+                      <% line.avatars.each_with_index do |upload, index| %>
+                        <div class="col-sm-4 gallery-image">
+                          <% if upload.avatar %>
+                            <%= image_tag upload.avatar.url %>
+                            <div class="gallery-image-options text-center">
+                              <div class="btn-group btn-group-sm">
+                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                              </div>
+                            </div>
+                          <% else %>
+                            <%= image_tag "/assets/default.png"%>
+                            <div class="gallery-image-options text-center">
+                              <div class="btn-group btn-group-sm">
+                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                              </div>
+                            </div>
+                          <% end%>
+                        </div>  
+                      <% end %>  
+                    <% end %>  
+                  </div>  
+                  <% count += 1%> 
+                <% end %>
+              </div>
+            </div>
           </div>  
         </div>
       </div>
+      <div class="col-md-6">
+        <div class="block">
+          <div class="block-title">
+            <h2>Images</h2>
+            <% if can? :create, Upload%>
+                <div class="btn-group upload-form">
+                  <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate col-md-12" } do |f| %>
+                    <%=f.file_field :upload , :class => " upload fileUpload required col-md-6"%>
+                    <button type="submit" class="btn btn-danger col-md-6" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
+                  <% end -%>
+                </div>
+              <% end -%>
+          </div>
+          <div class="gallery scroll-shop-image" data-toggle="lightbox-gallery">
+            <div class="row">
+              <% unless @shop_uploads.blank? %>
+                <% @shop_uploads.each do |image| %>
+                  <div class="col-sm-4 gallery-image">
+                    <% if image.class.to_s == "Upload"%>
+                      <%= image_tag image.upload.url(:small) %>
+                      <div class="gallery-image-options text-center">
+                        <div class="btn-group btn-group-sm">
+                          <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                        </div>
+                      </div>       
+                    <% else %>
+                      <%= image_tag image.avatar.url(:small) %>
+                      <div class="gallery-image-options text-center">
+                        <div class="btn-group btn-group-sm">
+                          <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                        </div> 
+                      </div>  
+                    <% end %>
+                  </div>  
+                <% end %>
+              <% else %>  
+                <div class="alert alert-info">
+                  <h4><i class="fa fa-info-circle"></i> Shop </h4> Not avaible!
+                </div>
+              <% end %>
+            </div>  
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
   <% end %>
 </div>
 
 <div class="row">
   <div class="col-md-6">
-    <div class="block dealers-image-block-height">
+    <div class="block">
       <div class="block-title">
         <h3>
           <i class="icon-user">
           People </i>
         </h3>
       </div>
-      <div class="block-content scroll-dealer-report">
-        <div class="people">
+      <div class="block-content scroll-shop-report">
+        <div class="people ">
           <ul>
             <% @shop.peoples.each do |people| %>
               <li> 
@@ -340,7 +363,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="block dealers-image-block-height">
+    <div class="block">
       <div class="block-title">
         <div class="btn-toolbar pull-right">
           <div class="btn-group new-report-btn-position">
@@ -372,7 +395,7 @@
            Shop Visit Reports
         </h3>
       </div>
-      <div class="block-content scroll-dealer-report" >
+      <div class="block-content scroll-shop-report" >
         <table class="table table-hover table-bordered " id="shop-svr-table">
           <thead>
             <tr>

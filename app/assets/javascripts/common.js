@@ -137,6 +137,21 @@ $('document').ready(function(){
     size: '5px'
   });
 
+  $(".scroll-shop-report").slimScroll({
+    height: 'auto',
+    size : '5px'
+  });
+
+  $(".scroll-shop-image").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
+  $(".scroll-shop-people").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
   $('select').selectpicker();
 
   if($('.form-validate').length > -1)

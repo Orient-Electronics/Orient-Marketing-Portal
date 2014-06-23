@@ -4094,3 +4094,17 @@ only screen and (min-device-pixel-ratio: 1.5) {
   background-color: rgb(26, 188, 156);
   text-align: center;
 }
+
+.scroll-shop-report{
+  max-height: 350px !important; 
+}
+
+.scroll-shop-image
+{
+  max-height: 350px !important;  
+}
+
+.scroll-shop-people
+{
+  max-height: 350px !important;  
+}
