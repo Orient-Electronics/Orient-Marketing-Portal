@@ -275,7 +275,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="block">
+        <div class="block shop-images-block">
           <div class="block-title">
             <h2>Images</h2>
             <% if can? :create, Upload%>
@@ -324,14 +324,14 @@
 
 <div class="row">
   <div class="col-md-6">
-    <div class="block">
+    <div class="block shop-peoples-block">
       <div class="block-title">
         <h3>
           <i class="icon-user">
           People </i>
         </h3>
       </div>
-      <div class="block-content scroll-shop-report">
+      <div class="block-content scroll-shop-people">
         <% unless  @shop.peoples.blank? %>
           <div class="people ">
             <ul>
@@ -353,7 +353,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="block">
+    <div class="block shop-svrs-block">
       <div class="block-title">
         <div class="btn-toolbar pull-right">
           <div class="btn-group new-report-btn-position">
@@ -385,7 +385,7 @@
            Shop Visit Reports
         </h3>
       </div>
-      <div class="block-content scroll-shop-report" >
+      <div class="block-content scroll-shop-svr" >
         <table class="table table-hover table-bordered " id="shop-svr-table">
           <thead>
             <tr>

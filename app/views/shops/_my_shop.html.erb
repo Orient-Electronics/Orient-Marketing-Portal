@@ -1,191 +1,191 @@
 <div class="row">
-    <% if @posts.present? %>
-      <% if can? :read, Report %>
-        <div class="col-md-12">
-          <div class="block">
-            <div class="block-title">
-              <h3><strong> Sales &amp; Display  Report</strong></h3>
-              <ul class="nav nav-tabs" data-toggle="tabs">
-                <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
-                <li><a class="category-tab" href="#category-display-data">Categories</a></li>
-              </ul>
-            </div>  
-            <div class="block-content">
-              <div class="tab-content">
-               <div class="tab-pane active" id="brand-display-data">
-                  <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
-                    <%= hidden_field_tag "shop_id", @shop.id %>
-                    <select name=search[product]>
-                      <option value="">All</option>
-                      <% @categories.each do |pc| %>
-                        <% if pc.products.blank? %>
-                          <option value="<%= pc.name %>"><%= pc.name %></option>
-                        <% else %>
-                          <optgroup label="<%= pc.name %>">
-                            <% pc.products.each do |product| %>
-                              <option value="<%= product.name %>"><%= product.name %></option>
-                            <% end -%>
-                          </optgroup>
-                        <% end -%>
-                      <% end -%>
-                    </select>
-                    <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                    <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-                  <% end -%>
-                  <div class="brand-chart-data">
-                    <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
-                  </div>  
-               </div>
-               <div class="tab-pane active" id="category-display-data">
-                  <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
-                    <%= hidden_field_tag "shop_id", @shop.id %>
-                    <select name=search[brand]>
-                      <option value="">All</option>
-                      <% @brands.each do |pc| %>
-                        <option value="<%= pc.id %>"><%= pc.name %></option>
-                      <% end -%>
-                    </select>
-                    <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ), {} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                    <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-                  <% end -%>
-                  <div class="category-chart-data">
-                    <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
-                  </div>
-               </div> 
-              </div>
-            </div>  
-          </div>  
-        </div>
-      <% end %>
-    <% end -%>  
-  </div>
   <% if @posts.present? %>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="block shop-corner-report">
-          <div class="block-title">
-            <h2><strong>Display Corner Reports</strong></h2>
-            <ul class="nav nav-tabs" data-toggle="tabs">
-              <li class="active"><a href="#corner_brand">Brands</a></li>
-              <li><a href="#corner_category">Categories</a></li>
-            </ul>
-          </div>  
-          <div class="tab-content scroll-shop-report coner-report">
-            <div class="tab-pane active" id="corner_brand">
-              <div class="gallery" data-toggle="lightbox-gallery">
-                <% @brand_report_lines.each do |brand_id,brand_report| %>
-                  <% unless brand_report.collect(&:avatars).flatten.blank? %>
-                    <div class="row">
-                      <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
-                    </div> 
-                  <% end -%>   
-                   <div class="row"> 
-                    <% brand_report.each do |line| %>
-                      <% line.avatars.each do |upload| %>
-                        <div class="col-sm-4 gallery-image">
-                          <% if upload.avatar %>
-                            <%= image_tag upload.avatar.url %>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% else %>
-                            <%= image_tag "/assets/default.png"%>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% end%>
-                        </div>  
-                      <% end %>  
-                    <% end %>  
-                  </div>  
-                <% end %>
-              </div>  
-            </div>
-            <div class="tab-pane" id="corner_category">
-              <div class="gallery" data-toggle="lightbox-gallery">
-                <% count = 0 %>
-                <% @category_report_lines.each do |category,cat_report| %>
-                  <% unless cat_report.collect(&:avatars).flatten.blank? %>
-                    <div class="row">
-                      <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
-                    </div>
-                  <% end %>   
-                   <div class="row">
-                    <% cat_report.each do |line| %>
-                      <% line.avatars.each_with_index do |upload, index| %>
-                        <div class="col-sm-4 gallery-image">
-                          <% if upload.avatar %>
-                            <%= image_tag upload.avatar.url %>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% else %>
-                            <%= image_tag "/assets/default.png"%>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% end%>
-                        </div>  
-                      <% end %>  
-                    <% end %>  
-                  </div>  
-                <% end %>
-              </div>
-            </div>
-          </div>  
-        </div>
-      </div>
-      <div class="col-md-6">
+    <% if can? :read, Report %>
+      <div class="col-md-12">
         <div class="block">
           <div class="block-title">
-            <h2>Images</h2>
-            <% if can? :create, Upload%>
-                <div class="btn-group upload-form">
-                  <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate col-md-12" } do |f| %>
-                    <%=f.file_field :upload , :class => " upload fileUpload required col-md-6"%>
-                    <button type="submit" class="btn btn-danger col-md-6" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
-                  <% end -%>
+            <h3><strong> Sales &amp; Display  Report</strong></h3>
+            <ul class="nav nav-tabs" data-toggle="tabs">
+              <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
+              <li><a class="category-tab" href="#category-display-data">Categories</a></li>
+            </ul>
+          </div>  
+          <div class="block-content">
+            <div class="tab-content">
+             <div class="tab-pane active" id="brand-display-data">
+                <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
+                  <%= hidden_field_tag "shop_id", @shop.id %>
+                  <select name=search[product]>
+                    <option value="">All</option>
+                    <% @categories.each do |pc| %>
+                      <% if pc.products.blank? %>
+                        <option value="<%= pc.name %>"><%= pc.name %></option>
+                      <% else %>
+                        <optgroup label="<%= pc.name %>">
+                          <% pc.products.each do |product| %>
+                            <option value="<%= product.name %>"><%= product.name %></option>
+                          <% end -%>
+                        </optgroup>
+                      <% end -%>
+                    <% end -%>
+                  </select>
+                  <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                  <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                <% end -%>
+                <div class="brand-chart-data">
+                  <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
+                </div>  
+             </div>
+             <div class="tab-pane active" id="category-display-data">
+                <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
+                  <%= hidden_field_tag "shop_id", @shop.id %>
+                  <select name=search[brand]>
+                    <option value="">All</option>
+                    <% @brands.each do |pc| %>
+                      <option value="<%= pc.id %>"><%= pc.name %></option>
+                    <% end -%>
+                  </select>
+                  <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ), {} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                  <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                <% end -%>
+                <div class="category-chart-data">
+                  <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
                 </div>
-              <% end -%>
-          </div>
-          <div class="gallery scroll-shop-image" data-toggle="lightbox-gallery">
-            <div class="row">
-              <% unless @shop_uploads.blank? %>
-                <% @shop_uploads.each do |image| %>
-                  <div class="col-sm-4 gallery-image">
-                    <% if image.class.to_s == "Upload"%>
-                      <%= image_tag image.upload.url(:small) %>
-                      <div class="gallery-image-options text-center">
-                        <div class="btn-group btn-group-sm">
-                          <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                        </div>
-                      </div>       
-                    <% else %>
-                      <%= image_tag image.avatar.url(:small) %>
-                      <div class="gallery-image-options text-center">
-                        <div class="btn-group btn-group-sm">
-                          <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                        </div> 
+             </div> 
+            </div>
+          </div>  
+        </div>  
+      </div>
+    <% end %>
+  <% end -%>  
+</div>
+<% if @posts.present? %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="block shop-corner-report">
+        <div class="block-title">
+          <h2><strong>Display Corner Reports</strong></h2>
+          <ul class="nav nav-tabs" data-toggle="tabs">
+            <li class="active"><a href="#corner_brand">Brands</a></li>
+            <li><a href="#corner_category">Categories</a></li>
+          </ul>
+        </div>  
+        <div class="tab-content scroll-shop-report coner-report">
+          <div class="tab-pane active" id="corner_brand">
+            <div class="gallery" data-toggle="lightbox-gallery">
+              <% @brand_report_lines.each do |brand_id,brand_report| %>
+                <% unless brand_report.collect(&:avatars).flatten.blank? %>
+                  <div class="row">
+                    <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
+                  </div> 
+                <% end -%>   
+                 <div class="row"> 
+                  <% brand_report.each do |line| %>
+                    <% line.avatars.each do |upload| %>
+                      <div class="col-sm-4 gallery-image">
+                        <% if upload.avatar %>
+                          <%= image_tag upload.avatar.url %>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% else %>
+                          <%= image_tag "/assets/default.png"%>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% end%>
                       </div>  
-                    <% end %>
-                  </div>  
-                <% end %>
-              <% else %>  
-                <div class="alert alert-info">
-                  <h4><i class="fa fa-info-circle"></i> Shop Images </h4> Not avaible!
-                </div>
+                    <% end %>  
+                  <% end %>  
+                </div>  
               <% end %>
             </div>  
           </div>
+          <div class="tab-pane" id="corner_category">
+            <div class="gallery" data-toggle="lightbox-gallery">
+              <% count = 0 %>
+              <% @category_report_lines.each do |category,cat_report| %>
+                <% unless cat_report.collect(&:avatars).flatten.blank? %>
+                  <div class="row">
+                    <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
+                  </div>
+                <% end %>   
+                 <div class="row">
+                  <% cat_report.each do |line| %>
+                    <% line.avatars.each_with_index do |upload, index| %>
+                      <div class="col-sm-4 gallery-image">
+                        <% if upload.avatar %>
+                          <%= image_tag upload.avatar.url %>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% else %>
+                          <%= image_tag "/assets/default.png"%>
+                          <div class="gallery-image-options text-center">
+                            <div class="btn-group btn-group-sm">
+                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            </div>
+                          </div>
+                        <% end%>
+                      </div>  
+                    <% end %>  
+                  <% end %>  
+                </div>  
+              <% end %>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="block shop-images-block">
+        <div class="block-title">
+          <h2>Images</h2>
+          <% if can? :create, Upload%>
+              <div class="btn-group upload-form">
+                <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate col-md-12" } do |f| %>
+                  <%=f.file_field :upload , :class => " upload fileUpload required col-md-6"%>
+                  <button type="submit" class="btn btn-danger col-md-6" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
+                <% end -%>
+              </div>
+            <% end -%>
+        </div>
+        <div class="gallery scroll-shop-image" data-toggle="lightbox-gallery">
+          <div class="row">
+            <% unless @shop_uploads.blank? %>
+              <% @shop_uploads.each do |image| %>
+                <div class="col-sm-4 gallery-image">
+                  <% if image.class.to_s == "Upload"%>
+                    <%= image_tag image.upload.url(:small) %>
+                    <div class="gallery-image-options text-center">
+                      <div class="btn-group btn-group-sm">
+                        <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                      </div>
+                    </div>       
+                  <% else %>
+                    <%= image_tag image.avatar.url(:small) %>
+                    <div class="gallery-image-options text-center">
+                      <div class="btn-group btn-group-sm">
+                        <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                      </div> 
+                    </div>  
+                  <% end %>
+                </div>  
+              <% end %>
+            <% else %>  
+              <div class="alert alert-info">
+                <h4><i class="fa fa-info-circle"></i> Shop Images </h4> Not avaible!
+              </div>
+            <% end %>
+          </div>  
         </div>
       </div>
     </div>
-  <% end %>
+  </div>
+<% end %>

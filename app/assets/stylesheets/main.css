@@ -4102,7 +4102,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .scroll-shop-image
 {
-  max-height: 350px !important;
+  max-height: 385px !important;
   height: auto !important;
 }
 
@@ -4112,7 +4112,30 @@ only screen and (min-device-pixel-ratio: 1.5) {
   height: auto !important;
 }
 
+.scroll-shop-svr
+{
+  max-height: 350px !important;  
+  height: auto !important; 
+}
 .shop-corner-report .slimScrollDiv
+{
+  max-height: 350px !important;
+  height: auto !important; 
+}
+
+.shop-images-block .slimScrollDiv
+{
+  max-height: 385px !important;
+  height: auto !important;  
+}
+
+.shop-peoples-block .slimScrollDiv
+{
+  max-height: 350px !important;
+  height: auto !important;
+}
+
+.shop-svrs-block .slimScrollDiv
 {
   max-height: 350px !important;
   height: auto !important; 

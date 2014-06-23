@@ -147,6 +147,11 @@ $('document').ready(function(){
     size: '5px'
   });
 
+  $(".scroll-shop-svr").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
   $(".scroll-shop-people").slimScroll({
     height: 'auto',
     size: '5px'
