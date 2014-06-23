@@ -4045,9 +4045,24 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 .shop-head-content .breadcrumb-top {
-  margin: -40px -2px 20px !important;
+  margin: -36px -2px 20px !important;
 }
 .shop-header
 {
   height: 150px;
+}
+
+.shop-heading
+{
+  margin-top: 20px !important;
+  float: left;
+  padding-left: 20px;
+}
+.shop-info-block{
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.shop-info-block .block-title {
+  padding: 0px !important;
+  margin: 0px !important;
 }
