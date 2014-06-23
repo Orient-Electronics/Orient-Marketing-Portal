@@ -193,7 +193,7 @@
   <% if @posts.present? %>
     <div class="row">
       <div class="col-md-6">
-        <div class="block">
+        <div class="block shop-corner-report">
           <div class="block-title">
             <h2><strong>Display Corner Reports</strong></h2>
             <ul class="nav nav-tabs" data-toggle="tabs">
@@ -204,19 +204,11 @@
           <div class="tab-content scroll-shop-report coner-report">
             <div class="tab-pane active" id="corner_brand">
               <div class="gallery" data-toggle="lightbox-gallery">
-                <% count = 0 %>
                 <% @brand_report_lines.each do |brand_id,brand_report| %>
                   <% unless brand_report.collect(&:avatars).flatten.blank? %>
-                    
                     <div class="row">
                       <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
-                     </div> 
-                  <% else %>
-                    <% if count == 0%>
-                      <div class="alert alert-info">
-                        <h4><i class="fa fa-info-circle"></i> Brands</h4> Not avaible!
-                      </div>   
-                    <% end %>  
+                    </div> 
                   <% end -%>   
                    <div class="row"> 
                     <% brand_report.each do |line| %>
@@ -241,7 +233,6 @@
                       <% end %>  
                     <% end %>  
                   </div>  
-                  <% count += 1%> 
                 <% end %>
               </div>  
             </div>
@@ -253,12 +244,6 @@
                     <div class="row">
                       <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
                     </div>
-                    <% else %>
-                      <% if count == 0%>
-                        <div class="alert alert-info">
-                          <h4><i class="fa fa-info-circle"></i> Product Category</h4> Not avaible!
-                        </div>   
-                      <% end %>
                   <% end %>   
                    <div class="row">
                     <% cat_report.each do |line| %>
@@ -283,7 +268,6 @@
                       <% end %>  
                     <% end %>  
                   </div>  
-                  <% count += 1%> 
                 <% end %>
               </div>
             </div>

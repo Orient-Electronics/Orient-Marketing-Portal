@@ -4097,14 +4097,23 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .scroll-shop-report{
   max-height: 350px !important; 
+  height: auto !important;
 }
 
 .scroll-shop-image
 {
-  max-height: 350px !important;  
+  max-height: 350px !important;
+  height: auto !important;
 }
 
 .scroll-shop-people
 {
   max-height: 350px !important;  
+  height: auto !important;
+}
+
+.shop-corner-report .slimScrollDiv
+{
+  max-height: 350px !important;
+  height: auto !important; 
 }
