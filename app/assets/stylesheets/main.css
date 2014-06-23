@@ -4036,3 +4036,18 @@ only screen and (min-device-pixel-ratio: 1.5) {
   width: 100%;
   float: left;
 }
+
+
+.shop-head-content
+{
+  margin: -40px -20px 20px !important;
+  height: 145px !important;
+}
+
+.shop-head-content .breadcrumb-top {
+  margin: -40px -2px 20px !important;
+}
+.shop-header
+{
+  height: 150px;
+}
