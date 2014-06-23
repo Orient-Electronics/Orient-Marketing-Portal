@@ -327,7 +327,7 @@
                 <% end %>
               <% else %>  
                 <div class="alert alert-info">
-                  <h4><i class="fa fa-info-circle"></i> Shop </h4> Not avaible!
+                  <h4><i class="fa fa-info-circle"></i> Shop Images </h4> Not avaible!
                 </div>
               <% end %>
             </div>  
@@ -348,17 +348,23 @@
         </h3>
       </div>
       <div class="block-content scroll-shop-report">
-        <div class="people ">
-          <ul>
-            <% @shop.peoples.each do |people| %>
-              <li> 
-                <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
-                <label class="people-name"><%= people.name %> </label>
-                 <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
-              </li>
-            <% end%>
-          </ul>
-        </div>
+        <% unless  @shop.peoples.blank? %>
+          <div class="people ">
+            <ul>
+              <% @shop.peoples.each do |people| %>
+                <li> 
+                  <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+                  <label class="people-name"><%= people.name %> </label>
+                   <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+                </li>
+              <% end%>
+            </ul>
+          </div>
+        <% else %>
+          <div class="alert alert-info">
+            <h4><i class="fa fa-info-circle"></i> People </h4> Not avaible!
+          </div>
+        <% end %>  
       </div>
     </div>
   </div>
