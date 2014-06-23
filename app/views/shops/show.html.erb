@@ -8,6 +8,7 @@
     <h1 class="shop-heading"><%= @shop.dealer_name %></h1> 
   </div>
   <ul class="breadcrumb breadcrumb-top">
+    <li><a href="/"><i class="fa fa-home"></i></a></li>
     <li><%= link_to "Shops", shops_path %></li>
     <li><%= link_to @shop.dealer_name, @shop %></a></li>
   </ul>
@@ -200,11 +201,16 @@
             <li><a href="#corner_category">Categories</a></li>
           </ul>
         </div>  
-        <div class="tab-content scroll-dealer-report">
+        <div class="tab-content scroll-dealer-report coner-report">
           <div class="tab-pane active" id="corner_brand">
             <div class="gallery" data-toggle="lightbox-gallery">
               <% @brand_report_lines.each do |brand_id,brand_report| %>
-                <div class="row">
+                <% unless brand_report.collect(&:avatars).flatten.blank? %>
+                  <div class="row">
+                    <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
+                   </div> 
+                <% end -%>   
+                 <div class="row"> 
                   <% brand_report.each do |line| %>
                     <% line.avatars.each do |upload| %>
                       <div class="col-sm-4 gallery-image">
@@ -226,16 +232,21 @@
                       </div>  
                     <% end %>  
                   <% end %>  
-                </div>  
+                </div>   
               <% end %>
             </div>  
           </div>
           <div class="tab-pane" id="corner_category">
             <div class="gallery" data-toggle="lightbox-gallery">
               <% @category_report_lines.each do |category,cat_report| %>
-                <div class="row">
+                <% unless cat_report.collect(&:avatars).flatten.blank? %>
+                  <div class="row">
+                    <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
+                   </div>
+                <% end %>   
+                 <div class="row">
                   <% cat_report.each do |line| %>
-                    <% line.avatars.each do |upload| %>
+                    <% line.avatars.each_with_index do |upload, index| %>
                       <div class="col-sm-4 gallery-image">
                         <% if upload.avatar %>
                           <%= image_tag upload.avatar.url %>

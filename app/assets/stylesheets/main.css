@@ -4082,3 +4082,15 @@ only screen and (min-device-pixel-ratio: 1.5) {
 {
   height: 488px !important;
 }
+
+.coner-report .brand-name
+{
+  color: #ffffff;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background-color: #555555;
+  opacity: 0.85;
+  background-color: rgb(26, 188, 156);
+  text-align: center;
+}
