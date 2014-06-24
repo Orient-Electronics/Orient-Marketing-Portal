@@ -33,7 +33,7 @@ class DealersController < ApplicationController
 
   def load_more_peoples
     params[:page] = params[:page].blank? ? 1 : params[:page]
-    @peoples = People.page(params[:page]).per(5);
+    @peoples = People.page(params[:page]).per(5)
     render :partial => '/shops/more_peoples', :layout => false
   end
 

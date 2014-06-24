@@ -1,221 +1,132 @@
 <% unless @posts.blank? %>
-  <div class="row">
-    <% if can? :read, Report %>
-      <div class="col-md-12">
-        <div class="block">
+    <div class="row">
+      <% if can? :read, Report %>
+        <div class="col-md-12">
+          <div class="block">
+            <div class="block-title">
+              <h3><strong> Sales &amp; Display  Report</strong></h3>
+              <ul class="nav nav-tabs" data-toggle="tabs">
+                <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
+                <li><a class="category-tab" href="#category-display-data">Categories</a></li>
+              </ul>
+            </div>  
+            <div class="block-content">
+              <div class="tab-content">
+               <div class="tab-pane active" id="brand-display-data">
+                  <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
+                    <select name=search[product] class="selectpicker">
+                      <option value="">All</option>
+                      <% @categories.each do |pc| %>
+                        <% if pc.products.blank? %>
+                          <option value="<%= pc.name %>"><%= pc.name %></option>
+                        <% else %>
+                          <optgroup label="<%= pc.name %>">
+                            <% pc.products.each do |product| %>
+                              <option value="<%= product.name %>"><%= product.name %></option>
+                            <% end -%>
+                          </optgroup>
+                        <% end -%>
+                      <% end -%>
+                    </select>
+                    <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                    <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                  <% end -%>
+                  <div class="brand-chart-data">
+                    <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
+                  </div>  
+               </div>
+               <div class="tab-pane active" id="category-display-data">
+                  <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
+                    <select name=search[brand] class="selectpicker">
+                      <option value="">All</option>
+                      <% @brands.each do |pc| %>
+                        <option value="<%= pc.id %>"><%= pc.name %></option>
+                      <% end -%>
+                    </select>
+                    <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ), {} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                    <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                  <% end -%>
+                  <div class="category-chart-data">
+                    <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
+                  </div>
+               </div> 
+              </div>
+            </div>  
+          </div>  
+        </div>
+      <% end %>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="block dealers-image-block-height">
           <div class="block-title">
-            <h3><strong> Sales &amp; Display  Report</strong></h3>
+            <h2><strong>Display Corner Reports</strong></h2>
             <ul class="nav nav-tabs" data-toggle="tabs">
-              <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
-              <li><a class="category-tab" href="#category-display-data">Categories</a></li>
+              <li class="active"><a href="#corner_brand">Brands</a></li>
+              <li><a href="#corner_category">Categories</a></li>
             </ul>
           </div>  
-          <div class="block-content">
-            <div class="tab-content">
-             <div class="tab-pane active" id="brand-display-data">
-                <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
-                  <select name=search[product] class="selectpicker">
-                    <option value="">All</option>
-                    <% @categories.each do |pc| %>
-                      <% if pc.products.blank? %>
-                        <option value="<%= pc.name %>"><%= pc.name %></option>
-                      <% else %>
-                        <optgroup label="<%= pc.name %>">
-                          <% pc.products.each do |product| %>
-                            <option value="<%= product.name %>"><%= product.name %></option>
-                          <% end -%>
-                        </optgroup>
-                      <% end -%>
-                    <% end -%>
-                  </select>
-                  <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                  <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-                <% end -%>
-                <div class="brand-chart-data">
-                  <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
-                </div>  
-             </div>
-             <div class="tab-pane active" id="category-display-data">
-                <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
-                  <select name=search[brand] class="selectpicker">
-                    <option value="">All</option>
-                    <% @brands.each do |pc| %>
-                      <option value="<%= pc.id %>"><%= pc.name %></option>
-                    <% end -%>
-                  </select>
-                  <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ), {} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                  <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-                <% end -%>
-                <div class="category-chart-data">
-                  <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
-                </div>
-             </div> 
-            </div>
-          </div>  
-        </div>  
-      </div>
-    <% end %>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="block dealers-image-block-height">
-        <div class="block-title">
-          <h2><strong>Display Corner Reports</strong></h2>
-          <ul class="nav nav-tabs" data-toggle="tabs">
-            <li class="active"><a href="#corner_brand">Brands</a></li>
-            <li><a href="#corner_category">Categories</a></li>
-          </ul>
-        </div>  
-        <div class="tab-content scroll-dealer-report">
-          <div class="tab-pane active" id="corner_brand">
-            <div class="gallery" data-toggle="lightbox-gallery">
-              <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
-                <div class="row">
-                  <% brand_report.each do |line| %>
-                    <% line.avatars.each do |upload| %>
-                      <div class="col-sm-4 gallery-image">
-                        <% if upload.avatar %>
-                          <%= image_tag upload.avatar.url %>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+          <div class="tab-content scroll-dealer-report">
+            <div class="tab-pane active" id="corner_brand">
+              <div class="gallery" data-toggle="lightbox-gallery">
+                <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
+                  <div class="row">
+                    <% brand_report.each do |line| %>
+                      <% line.avatars.each do |upload| %>
+                        <div class="col-sm-4 gallery-image">
+                          <% if upload.avatar %>
+                            <%= image_tag upload.avatar.url %>
+                            <div class="gallery-image-options text-center">
+                              <div class="btn-group btn-group-sm">
+                                <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                              </div>
                             </div>
-                          </div>
-                        <% else %>
-                          <%= image_tag "/assets/default.png"%>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                          <% else %>
+                            <%= image_tag "/assets/default.png"%>
+                            <div class="gallery-image-options text-center">
+                              <div class="btn-group btn-group-sm">
+                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                              </div>
                             </div>
-                          </div>
-                        <% end%>
-                      </div>  
+                          <% end%>
+                        </div>  
+                      <% end %>  
                     <% end %>  
-                  <% end %>  
-                </div>  
-              <% end %>
-            </div>  
-          </div>
-          <div class="tab-pane" id="corner_category">
-            <div class="gallery" data-toggle="lightbox-gallery">
-              <% @corner_category_report_lines.each do |category,cat_report| %>
-                <div class="row">
-                  <% cat_report.each do |line| %>
-                    <% line.avatars.each do |upload| %>
-                      <div class="col-sm-4 gallery-image">
-                        <% if upload.avatar %>
-                          <%= image_tag upload.avatar.url %>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                            </div>
-                          </div>
-                        <% else %>
-                          <%= image_tag "/assets/default.png"%>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                            </div>
-                          </div>
-                        <% end%>
-                      </div>  
-                    <% end %>  
-                  <% end %>  
-                </div>  
-              <% end %>
-            </div>
-          </div>
-        </div>  
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="block dealers-image-block-height">
-        <div class="block-title">
-          <h2>Images</h2>
-        </div>
-        <div class="gallery scroll-dealer-report" data-toggle="lightbox-gallery">
-          <div class="row">
-            <% @uploads.each do |image| %>
-              <div class="col-sm-4 gallery-image">
-                <% if image.class.to_s == "Upload"%>
-                  <%= image_tag image.upload.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div>
-                  </div>      
-                <% else %>
-                  <%= image_tag image.avatar.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div> 
                   </div>  
                 <% end %>
               </div>  
-            <% end %>
-          </div>  
-        </div>
-      </div>
-    </div>
-  </div>
-<% end %>
-<div class="row">
-  <% if @posts.blank? %>
-    <div class="col-md-6">
-      <div class="block dealers-image-block-height">
-        <div class="block-title">
-          <h2>Images</h2>
-        </div>
-        <div class="gallery scroll-dealer-report" data-toggle="lightbox-gallery">
-          <div class="row">
-            <% @uploads.each do |image| %>
-              <div class="col-sm-4 gallery-image">
-                <% if image.class.to_s == "Upload"%>
-                  <%= image_tag image.upload.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div>
-                  </div>      
-                <% else %>
-                  <%= image_tag image.avatar.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div> 
+            </div>
+            <div class="tab-pane" id="corner_category">
+              <div class="gallery" data-toggle="lightbox-gallery">
+                <% @corner_category_report_lines.each do |category,cat_report| %>
+                  <div class="row">
+                    <% cat_report.each do |line| %>
+                      <% line.avatars.each do |upload| %>
+                        <div class="col-sm-4 gallery-image">
+                          <% if upload.avatar %>
+                            <%= image_tag upload.avatar.url %>
+                            <div class="gallery-image-options text-center">
+                              <div class="btn-group btn-group-sm">
+                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                              </div>
+                            </div>
+                          <% else %>
+                            <%= image_tag "/assets/default.png"%>
+                            <div class="gallery-image-options text-center">
+                              <div class="btn-group btn-group-sm">
+                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                              </div>
+                            </div>
+                          <% end%>
+                        </div>  
+                      <% end %>  
+                    <% end %>  
                   </div>  
                 <% end %>
-              </div>  
-            <% end %>
+              </div>
+            </div>
           </div>  
         </div>
       </div>
     </div>
   <% end %>
-  <% if can? :read, People%>
-    <div class="col-md-6">
-      <div class="block dealers-image-block-height">
-        <div class="block-title">
-          <h3>
-            <i class="icon-user">
-            People </i>
-          </h3>
-        </div>
-        <div class="block-content scroll-dealer-report" >
-          <div class="people">
-            <ul>
-              <% @peoples.each do |people| %>
-                <li> 
-                  <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
-                  <label class="people-name"><%= people.name %> </label>
-                   <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
-                </li>
-              <% end%>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end -%>
-</div>

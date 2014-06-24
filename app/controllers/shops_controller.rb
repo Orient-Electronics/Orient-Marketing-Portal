@@ -54,7 +54,7 @@ class ShopsController < ApplicationController
     end
     unless @shops.blank?
       params[:page] = params[:page].blank? ? 1 : params[:page]
-      @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
+      @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(params[:page]).per(5)
     else
       @peoples = []
     end  
