@@ -33,7 +33,23 @@ class DealersController < ApplicationController
 
   def load_more_peoples
     params[:page] = params[:page].blank? ? 1 : params[:page]
-    @peoples = People.page(params[:page]).per(5)
+    if params[:id].present?
+      @parent = Dealer.where(id: params[:id]).first
+      if params[:filter].present?
+        search = Sunspot.search (Shop) do
+          with(:dealer_id, params[:id])
+          with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
+          with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
+          with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
+        end
+        @shops = search.results
+      else
+        @shops = @parent.shops.flatten
+      end  
+      @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
+    else  
+      @peoples = People.page(params[:page]).per(5)
+    end  
     render :partial => '/shops/more_peoples', :layout => false
   end
 
@@ -60,7 +76,7 @@ class DealersController < ApplicationController
       @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
     end
 
-    @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
+    @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
     if @posts.present?
       @reports = @posts.collect(&:reports).flatten
       @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten

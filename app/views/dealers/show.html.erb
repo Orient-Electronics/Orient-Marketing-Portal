@@ -341,9 +341,9 @@
                 People </i>
               </h3>
             </div>
-            <div class="block-content scroll-dealer-report" >
+            <div class="block-content shop-peoples-content scroll-dealer-report" >
               <div class="people">
-                <ul>
+                <ul class="shop-peoples">
                   <% @peoples.each do |people| %>
                     <li> 
                       <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
@@ -351,9 +351,12 @@
                        <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
                     </li>
                   <% end%>
+                  <div class="hide shop_people_paginator">
+                    <%= paginate @peoples, :params => { :controller => 'dealers', :action => 'load_more_peoples', :id => @parent.id, :method => :get } %>
+                  </div>
                 </ul>
+              </div>    
             </div>  
-            </div>
           </div>
         </div>
       <% end -%>
