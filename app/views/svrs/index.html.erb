@@ -35,6 +35,7 @@
             <td> <%= post.created_at.strftime("%B %d, %Y - %I:%M %p") %> </td>
             <td class="text-center svr">
               <%=link_to raw(image_tag(post.user.avatar.avatar(:thumb), :class => "img-circle user-image")), activities_path(:user_id => post.user.id),:class => "user-image-link" %>
+              <span><%= post.user.name %></span>
             </td>
             <% if current_user.user_admin? or current_user.user_manager? %>
               <td class="text-center"> 
@@ -44,15 +45,13 @@
                 </div> 
               </td>
               <td>
-                <ul class="nav nav-bar">  
-                  <li class="dropdown">
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wrench"></i></a>
-                    <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
-                      <li class="<%= 'active' if post.status =='published' %>"><%= link_to "Publish", publish_report_tasks_path(:post_id => post.id) %></li>
-                      <li class="<%= 'active' if post.status =='draft' %>"><%= link_to "Unpublish", draft_report_tasks_path(:post_id => post.id)%></li>
-                    </ul>  
-                  </li>  
-                </ul> 
+                <div class="btn-group">
+                  <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Change <span class="caret"></span></a>
+                  <ul class="dropdown-menu text-left">
+                    <li class="<%= 'active' if post.status == 'published'%>"><%= link_to "Publish", publish_report_tasks_path(:post_id => post.id)  %></li>
+                    <li class="<%= 'active' if post.status == 'submit'%>"><%= link_to "Un Publish", draft_report_tasks_path(:post_id => post.id)  %></li>
+                  </ul>
+                </div> 
               </td>
             <% end %>    
           </tr>
