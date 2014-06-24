@@ -24,7 +24,13 @@ class Report < ActiveRecord::Base
   end
 
   def self.brand_display(reports,brand_id)
-    reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.brand_id == brand_id }.collect(&:data).reject {|r|r.nil?}.sum
+    count = reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.brand_id == brand_id }.collect(&:data).reject {|r|r.nil?}.count
+    sum = reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.brand_id == brand_id }.collect(&:data).reject {|r|r.nil?}.sum
+    if sum == 0
+      0
+    else  
+      (sum/count)
+    end  
   end
 
   def self.brand_corner(reports,brand_id)
@@ -33,9 +39,16 @@ class Report < ActiveRecord::Base
 
   def self.category_sales(reports,category_id,brand)
     if brand.nil?
-      reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
+      sum = reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
+      count = reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.count
     else
-      reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.sum
+      sum = reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.sum
+      count = reports.select{|key| key.report_type=="sales"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.count
+    end
+    if sum == 0
+      0
+    else  
+      (sum/count)
     end
   end
 

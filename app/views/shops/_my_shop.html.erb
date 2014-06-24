@@ -147,14 +147,6 @@
       <div class="block shop-images-block">
         <div class="block-title">
           <h2>Images</h2>
-          <% if can? :create, Upload%>
-              <div class="btn-group upload-form">
-                <%= form_for [@shop, Upload.new], :html => { :multipart => true, :id => "fileupload", :class => "form-validate col-md-12" } do |f| %>
-                  <%=f.file_field :upload , :class => " upload fileUpload required col-md-6"%>
-                  <button type="submit" class="btn btn-danger col-md-6" rel="tooltip" title="Upload new image" ><i class="icon-cloud-upload"></i> Upload image</button>
-                <% end -%>
-              </div>
-            <% end -%>
         </div>
         <div class="gallery scroll-shop-image" data-toggle="lightbox-gallery">
           <div class="row">
