@@ -16,22 +16,22 @@
             </h3>
           </div>
           <div class="block-content dealers-data-height dearlers-list scroll-dealers-data">
-            <table class="table table-hover" id="shop-data">
+            <table class="table table-hover shops-table" id="shop-data">
               <thead>
                 <tr class="row">
-                  <th class="col-md-4">Shop Name </th>
+                  <th class="col-md-3 shop-name">Shop Name </th>
                   <th class="col-md-3">Orient Dealer</th>
-                  <th class="col-md-5">Action</th>
+                  <th class="col-md-6">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <% @shops.each do |shop| %>
                   <tr class="row">
-                    <td class"col-md-4"><%= link_to shop.dealer_name, shop_path(shop) %></td>
+                    <td class"col-md-3"><%= link_to shop.dealer_name, shop_path(shop) %></td>
                     
                     <td class"col-md-3"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non Dealer</span>".html_safe %>
                     </td>
-                    <td class"col-md-5">
+                    <td class"col-md-6">
                       <%= link_to raw("<i class='fa fa-search'></i>"),
                                   shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>
                       <%= link_to raw("<i class='fa fa-edit'></i>"),
@@ -255,9 +255,9 @@
               People </i>
             </h3>
           </div>
-          <div class="block-content scroll-dealer-report" >
+          <div class="block-content shop-peoples-content scroll-dealer-report" >
             <div class="people">
-              <ul>
+              <ul class="shop-peoples">
                 <% @peoples.each do |people| %>
                   <li> 
                     <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
@@ -265,10 +265,13 @@
                      <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
                   </li>
                 <% end%>
+                <div class="hide shop_people_paginator">
+                  <%= paginate @peoples, :params => { :controller => 'dealers', :action => 'load_more_peoples', :method => :get } %>
+                </div>
               </ul>
             </div>    
           </div>
         </div>
       </div>
     <%end -%>
-  </div> 
+  </div>

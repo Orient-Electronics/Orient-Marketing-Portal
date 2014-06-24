@@ -104,6 +104,30 @@ $('document').ready(function(){
     $('.notification-content').scroll();
   }
 
+  if($(".shop_people_paginator nav.pagination").length)
+  {
+    $(".shop-peoples-content").scroll(function(){
+      domain = $('.notification-content').data("domain");
+      var url = domain + $('.shop_people_paginator nav.pagination a[rel=next]').attr('href');
+      console.log(url);
+      if(url &&  $('.shop-peoples-content')[0].scrollHeight) 
+      {   
+        if ($('.shop-peoples-content').scrollTop() > -1) 
+        {  
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.shop-peoples').append(data);
+              url = domain + $('.shop_people_paginator nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }  
+      } 
+    });
+    $(".shop-peoples-content").scroll();
+  }
+
   if($('.subscribe nav.pagination').length)
   {
     $('.subscribe-activities').scroll(function(){

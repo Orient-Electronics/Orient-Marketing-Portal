@@ -33,12 +33,18 @@ class ShopsController < ApplicationController
     else  
       @uploads = @shops.collect(&:uploads).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     end
-    @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
+    @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
     respond_to do |format|
       format.html # index.html.erb
       format.js
       format.json { render json: @shops }
     end
+  end
+
+  def load_more_peoples
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @peoples = People.page(params[:page]).per(5);
+    render :partial => '/shops/more_peoples', :layout => false
   end
 
   # GET /shops/1

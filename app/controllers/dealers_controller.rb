@@ -12,7 +12,7 @@ class DealersController < ApplicationController
     else 
       @posts = Post.published_reports
     end
-    @peoples = @shops.collect(&:peoples).flatten.reject{|a| a.blank?}
+    @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
     @reports = @posts.collect(&:reports).flatten
     @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
     @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
@@ -29,6 +29,12 @@ class DealersController < ApplicationController
       format.js
       format.json { render json: @dealers }
     end  
+  end
+
+  def load_more_peoples
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @peoples = People.page(params[:page]).per(5);
+    render :partial => '/shops/more_peoples', :layout => false
   end
 
   # GET /dealers/1

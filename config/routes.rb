@@ -15,6 +15,8 @@ Orient::Application.routes.draw do
   match '/notifications' => "home#notifications", :method => :get
   match '/user_activities' => "home#user_activities", :method => :get
 
+
+
   resources :roles
 
   resources :search
@@ -56,6 +58,7 @@ Orient::Application.routes.draw do
     collection do
       get 'showgallery'
       get 'area_field'
+      get 'load_more_peoples'
     end
 
   end
@@ -88,6 +91,7 @@ Orient::Application.routes.draw do
     collection do
       get 'area_field'
       get 'people_field'
+      get 'load_more_peoples'
     end
   end
 
