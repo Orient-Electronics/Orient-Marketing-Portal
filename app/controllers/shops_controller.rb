@@ -1,43 +1,61 @@
 class ShopsController < ApplicationController
-  # GET /shops
-  # GET /shops.json
+  
+
   def index
+    page = params[:draw].nil? ? 1 : params[:draw].to_i
+    limit = params[:length].to_i
+    offset = params[:start].to_i
+    
+    
     if params[:filter].present?
       search = Sunspot.search (Shop) do
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
       end
+      
       @shops = search.results
-      @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
+      shop_ids = @shops.collect(&:id)
+      @posts = Post.shop_posts(shop_ids)
       
       from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
       to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
       @posts = @posts.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
     else
       @shops = Shop.all
+      shop_ids = @shops.collect(&:id)
+      @shop_results = Shop.offset(offset).limit(limit)
       @shop_categories = ShopCategory.all
-      @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
+      @posts = Post.shop_posts(shop_ids)
     end
+
     if @posts.present?
-      @reports = @posts.collect(&:reports).flatten
-      @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
+      post_ids = @posts.collect(&:id)
+      @reports = Report.post_reports(post_ids).flatten
+      report_ids = @reports.collect(&:id)
+      corner_reports = Report.corner_reports(report_ids)
+      @corner_reports = ReportLine.report_lines(corner_reports.collect(&:id)).flatten
       @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
       @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
       @categories= @posts.collect(&:product_category).uniq
       @brands = @categories.collect(&:brands).uniq.flatten
-      post_uploads = @posts.collect(&:uploads).flatten
-      avatars = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
-      uploads = @shops.collect(&:uploads).flatten    
+      post_uploads =  Upload.post_uploads(post_ids).flatten
+      report_lines = ReportLine.report_lines(report_ids)
+      report_lines_ids = report_lines.collect(&:id)
+      avatars = Avatar.report_line_avatars(report_lines_ids)
+      uploads = Upload.shop_uploads(shop_ids).flatten    
       @uploads = (post_uploads + uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     else  
-      @uploads = @shops.collect(&:uploads).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+      @uploads = Upload.shop_uploads(shop_ids).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     end
+    
     @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.json { render json: @shops }
+      format.json do
+        return render :json =>  {draw: page,  recordsTotal: Shop.count,  recordsFiltered: Shop.count , :data => @shop_results.collect{|a| ["<a src=#{shop_path(a)}>#{a.dealer_name}</a>", a.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non Dealer</span>".html_safe, "<a src=#{edit_shop_path(a)} class='btn'><i class='fa fa-edit' title ='edit'></i></a> <a src=#{delete_shop_path(a)} class='btn'><i class='hi hi-off' title='delete' data-confirm='are you sure?'></i></a>"]} }
+      end
     end
   end
 
@@ -187,6 +205,17 @@ class ShopsController < ApplicationController
   # DELETE /shops/1
   # DELETE /shops/1.json
   def destroy
+    authorize! :destroy, Shop
+    @shop = Shop.find(params[:id])
+    @shop.destroy
+    @dealer.create_activity :destroy, owner: current_user
+    respond_to do |format|
+      format.html { redirect_to shops_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def delete
     authorize! :destroy, Shop
     @shop = Shop.find(params[:id])
     @shop.destroy

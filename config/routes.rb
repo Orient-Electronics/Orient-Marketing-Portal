@@ -88,6 +88,9 @@ Orient::Application.routes.draw do
   resources :shops do
     resources :uploads
     resources :svrs
+    member do
+      get 'delete'
+    end
     collection do
       get 'area_field'
       get 'people_field'

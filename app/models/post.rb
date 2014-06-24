@@ -19,6 +19,8 @@ class Post < ActiveRecord::Base
 
   scope :published_reports, where(:published => true)
 
+  scope :shop_posts,lambda { |id | where(:shop_id => id, :published => true) }
+
   before_save :update_reports_attribute
   before_destroy :remove_public_activities
 

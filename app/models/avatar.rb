@@ -11,6 +11,7 @@ class Avatar < ActiveRecord::Base
                         :medium => "500x500>"
                     },
                     :default_url => '/assets/noimage.jpg'
+  scope :report_line_avatars, lambda {|id| where(:avatarable_type => "ReportLine", :avatarable_id => id)}
   validates_attachment_size :avatar, :less_than => 5.megabytes, :message => "^ Please select image with size less than 5MB" 
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 end

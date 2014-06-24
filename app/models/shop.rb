@@ -24,9 +24,9 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :avatar
   accepts_nested_attributes_for :peoples, :allow_destroy => true
 
- 
-   validates :address, :presence => true, :length => { :maximum => 250 }
-   validates_presence_of :dealer_name, :presence => true, :message => "^Shop Name Can't be Blank"
+  
+  validates :address, :presence => true, :length => { :maximum => 250 }
+  validates_presence_of :dealer_name, :presence => true, :message => "^Shop Name Can't be Blank"
 
   validates_presence_of :shop_category_id
   before_destroy :remove_public_activities

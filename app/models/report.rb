@@ -12,6 +12,10 @@ class Report < ActiveRecord::Base
 
   accepts_nested_attributes_for :report_lines
 
+  scope :post_reports, lambda { |id | where(:post_id => id) }
+  scope :corner_reports, lambda {|id| where(:id => id, :report_type => "display_corner") } 
+
+
   validates_presence_of :report_type, :user_id
   validates_associated :report_lines
 

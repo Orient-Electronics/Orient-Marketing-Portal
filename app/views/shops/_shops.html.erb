@@ -25,25 +25,6 @@
                 </tr>
               </thead>
               <tbody>
-                <% @shops.each do |shop| %>
-                  <tr class="row">
-                    <td class"col-md-3"><%= link_to shop.dealer_name, shop_path(shop) %></td>
-                    
-                    <td class"col-md-3"><%= shop.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non Dealer</span>".html_safe %>
-                    </td>
-                    <td class"col-md-6">
-                      <%= link_to raw("<i class='fa fa-search'></i>"),
-                                  shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"View" %>
-                      <%= link_to raw("<i class='fa fa-edit'></i>"),
-                                  edit_shop_path(shop), :class => 'btn', :rel=> "tooltip", :title =>"Edit" %>
-                      <%= link_to raw("<i class='hi hi-off'></i>"),
-                                  shop_path(shop),
-                                  :method => :delete,
-                                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                                  :class => 'btn', :rel=>"tooltip", :title=>"Delete" %>
-                    </td>
-                  </tr>
-                <% end %>
               </tbody>
             </table>
           </div>
