@@ -335,7 +335,7 @@
                   </li>
                 <% end%>
                 <div class="hide shop_people_paginator">
-                  <%= paginate @peoples, :params => { :controller => 'dealers', :action => 'load_more_peoples', :method => :get } %>
+                  <%= paginate @peoples, :params => { :controller => 'shops', :action => 'load_more_peoples', :method => :get } %>
                 </div>
               </ul>
             </div>    

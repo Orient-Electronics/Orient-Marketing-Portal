@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
       end  
   end
 
-  def fetch_notification 
+  def fetch_notification
     if current_user
       params[:page] = params[:page].blank? ? 1 : params[:page]
       @notifications_count = current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}.count

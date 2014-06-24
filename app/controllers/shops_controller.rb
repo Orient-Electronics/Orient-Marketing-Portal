@@ -42,8 +42,22 @@ class ShopsController < ApplicationController
   end
 
   def load_more_peoples
-    params[:page] = params[:page].blank? ? 1 : params[:page]
-    @peoples = People.page(params[:page]).per(5);
+    if params[:filter].present?
+      search = Sunspot.search (Shop) do
+        with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
+        with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
+        with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
+      end
+      @shops = search.results
+    else
+     @shops = Shop.all 
+    end
+    unless @shops.blank?
+      params[:page] = params[:page].blank? ? 1 : params[:page]
+      @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
+    else
+      @peoples = []
+    end  
     render :partial => '/shops/more_peoples', :layout => false
   end
 
