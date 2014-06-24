@@ -1,6 +1,12 @@
 
 $('document').ready(function(){
   
+  $("#sidebar").hover(function(){
+    $("#page-container").addClass("sidebar-visible-lg");
+  });
+  
+  $(".sidebar-nav-menu.active").parent().find('ul').show();
+
   $('.category-tab').click();
   $('.brand-tab').click();
   $('.datepicker').datepicker();
