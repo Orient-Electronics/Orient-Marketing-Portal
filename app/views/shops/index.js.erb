@@ -19,7 +19,6 @@ $(document).ready(function() {
     $(".shop-peoples-content").scroll(function(){
       domain = $('.notification-content').data("domain");
       var url = domain + $('.shop_people_paginator nav.pagination a[rel=next]').attr('href');
-      console.log(url);
       if(url &&  $('.shop-peoples-content')[0].scrollHeight) 
       {   
         if ($('.shop-peoples-content').scrollTop() > -1) 
