@@ -20,6 +20,25 @@ module ApplicationHelper
     return a
   end
 
+  def present_year(reports)
+    reports.group_by(&:year).keys
+  end
+
+  def present_week(reports)
+    a = []
+    reports.group_by(&:week).keys.each do |week_num|
+      a.push(["#{week_num.ordinalize + ' week - ' + week_dates(week_num) }", week_num ])
+    end
+    return a
+  end
+
+  def week_dates( week_num )
+    year = Time.now.year
+    week_start = Date.commercial( year, week_num, 1 )
+    week_end = Date.commercial( year, week_num, 7 )
+    week_start.strftime("%d%b") + '-' + week_end.strftime("%d%b")
+  end
+
   def get_brand_name(id)
       brand = Brand.find(id)
       name  = brand.name 

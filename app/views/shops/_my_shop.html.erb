@@ -29,8 +29,8 @@
                       <% end -%>
                     <% end -%>
                   </select>
-                  <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                  <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                  <%= f.select :year , options_for_select(present_year(@reports) , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                    <%= f.select :week , options_for_select(present_week (@reports)),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
                 <% end -%>
                 <div class="brand-chart-data">
                   <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
@@ -45,8 +45,8 @@
                       <option value="<%= pc.id %>"><%= pc.name %></option>
                     <% end -%>
                   </select>
-                  <%= f.select :year , options_for_select( (2000..2020).to_a , Date.today.strftime('%Y') ), {} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                  <%= f.select :week , options_for_select(year_weeks),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                  <%= f.select :year , options_for_select(present_year(@reports) , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                    <%= f.select :week , options_for_select(present_week (@reports)),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
                 <% end -%>
                 <div class="category-chart-data">
                   <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
