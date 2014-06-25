@@ -129,7 +129,7 @@ class SvrsController < ApplicationController
       @posts = Post.published_reports.where(:shop_id => params[:shop_id].to_i)
     end
     unless params[:search][:product].blank?
-      if params[:search][:product].size > 1
+      if params[:search][:product].size > 0
         product = params[:search][:product].reject{|p| p.blank?}.map{|p| p.to_s}
         @parent = Product.all.select{|a| product.include?(a[:name])}
         @pc = ProductCategory.all.select{|a| product.include?(a[:name])}

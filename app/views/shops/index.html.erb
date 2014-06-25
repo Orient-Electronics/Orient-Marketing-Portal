@@ -118,7 +118,7 @@
               <div class="tab-content">
                <div class="tab-pane active" id="brand-display-data">
                   <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
-                    <select name=search[product] class="selectpicker">
+                    <select name="search[product][]" multiple = "true">
                       <option value="">All</option>
                       <% @categories.each do |pc| %>
                         <% if pc.products.blank? %>
@@ -141,7 +141,7 @@
                </div>
                <div class="tab-pane active" id="category-display-data">
                   <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
-                    <select name=search[brand] class="selectpicker">
+                    <select name="search[brand][]" multiple = "true">
                       <option value="">All</option>
                       <% @brands.each do |pc| %>
                         <option value="<%= pc.id %>"><%= pc.name %></option>
