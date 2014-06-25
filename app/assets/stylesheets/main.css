@@ -4140,3 +4140,8 @@ only screen and (min-device-pixel-ratio: 1.5) {
   max-height: 350px !important;
   height: auto !important; 
 }
+
+a:hover, a:focus
+{
+  text-decoration: none !important;
+}

@@ -128,11 +128,12 @@ class SvrsController < ApplicationController
     else   
       @posts = Post.published_reports.where(:shop_id => params[:shop_id].to_i)
     end
-    unless params[:search][:product].blank?
-      @parent = Product.find_by_name params[:search][:product]
-      @pc = ProductCategory.find_by_name params[:search][:product] if @parent.blank?
-      @reports = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| a.product_id == @parent.id}.collect(&:report).uniq unless @parent.blank?
-      @reports = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| a.product_category_id == @pc.id}.collect(&:report).uniq if @parent.blank?
+    unless params[:search][:product].blank? and params[:search][:product].size > 1
+      product = params[:search][:product].reject{|p| p.blank?}.map{|p| p.to_s}
+      @parent = Product.all.select{|a| product.include?(a[:name])}
+      @pc = ProductCategory.all.select{|a| product.include?(a[:name])}
+      @reports = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| @parent.include?(a.product)}.collect(&:report).uniq
+      @reports = @reports + @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| @pc.include?(a.product_category)}.collect(&:report).uniq
     else
       @reports = @posts.collect(&:reports).flatten
     end
