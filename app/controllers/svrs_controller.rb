@@ -128,12 +128,14 @@ class SvrsController < ApplicationController
     else   
       @posts = Post.published_reports.where(:shop_id => params[:shop_id].to_i)
     end
-    unless params[:search][:product].blank? and params[:search][:product].size > 1
-      product = params[:search][:product].reject{|p| p.blank?}.map{|p| p.to_s}
-      @parent = Product.all.select{|a| product.include?(a[:name])}
-      @pc = ProductCategory.all.select{|a| product.include?(a[:name])}
-      @reports = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| @parent.include?(a.product)}.collect(&:report).uniq
-      @reports = @reports + @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| @pc.include?(a.product_category)}.collect(&:report).uniq
+    unless params[:search][:product].blank?
+      if params[:search][:product].size > 1
+        product = params[:search][:product].reject{|p| p.blank?}.map{|p| p.to_s}
+        @parent = Product.all.select{|a| product.include?(a[:name])}
+        @pc = ProductCategory.all.select{|a| product.include?(a[:name])}
+        @reports = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| @parent.include?(a.product)}.collect(&:report).uniq
+        @reports = @reports + @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| @pc.include?(a.product_category)}.collect(&:report).uniq
+      end  
     else
       @reports = @posts.collect(&:reports).flatten
     end
@@ -162,7 +164,7 @@ class SvrsController < ApplicationController
       week = params[:search][:week].reject{|w| w.blank?}.map{|w| w.to_i}
       @reports = @reports.select{|r| week.include?(r[:week])}
     end
-    if !params[:search][:year].blank? and params[:search][:year].size > 1
+    if !params[:search][:year].blank? and params[:search][:year].size > 0
       year = params[:search][:year].reject{|y| y.blank?}.map{|y| y.to_i}
       @reports = @reports.select{|r| year.include?(r[:year])}
     end
@@ -175,10 +177,10 @@ class SvrsController < ApplicationController
       @reports = @reports.select{|r| shops.include?(r.shop_id)}.flatten
     end
     unless params[:search][:brand].blank?
-      @parent = Brand.find params[:search][:brand]
+      if params[:search][:brand].size > 0
+        brand = params[:search][:brand].reject{|b| b.blank?}.map{|b| b.to_i}
+      end
     end
-    brand = nil
-    brand = @parent.id unless @parent.blank?
     @categories = @posts.collect(&:product_category).uniq
     render(:partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :type => params[:search][:type], :brand => brand })
   end

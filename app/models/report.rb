@@ -57,10 +57,10 @@ class Report < ActiveRecord::Base
   end
 
   def self.category_display(reports,category_id,brand)
-    if brand.nil?
+    if brand.blank?
       reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id }.collect(&:data).reject {|r|r.nil?}.sum
     else
-      reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && key.brand_id == brand }.collect(&:data).reject {|r|r.nil?}.sum
+      reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.product_category_id == category_id && brand.include?(key.brand_id)}.collect(&:data).reject {|r|r.nil?}.sum
     end
   end
 

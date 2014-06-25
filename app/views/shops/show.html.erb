@@ -170,7 +170,7 @@
                <div class="tab-pane active" id="category-display-data">
                   <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
                     <%= hidden_field_tag "shop_id", @shop.id %>
-                    <select name=search[brand]>
+                    <select name="search[brand][]" multiple = "true">
                       <option value="">All</option>
                       <% @brands.each do |pc| %>
                         <option value="<%= pc.id %>"><%= pc.name %></option>
