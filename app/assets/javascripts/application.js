@@ -16,7 +16,6 @@
 //= require jquery.ui.all
 //= require modernizr
 //= require twitter/bootstrap
-//= require DT_bootstrap
 //= require jquery.dataTables
 //= require datatable
 //= require plugins

@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
-  
+
   include PublicActivity::Common
-  
+
   attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id, :approved_id, :uploads_attributes, :status
 
   attr_accessor :week, :year
@@ -19,7 +19,7 @@ class Post < ActiveRecord::Base
 
   scope :published_reports, where(:published => true)
 
-  scope :shop_posts,lambda { |id | where(:shop_id => id, :published => true) }
+  scope :with_shop_id,lambda { |id | where(:shop_id => id, :published => true) }
 
   before_save :update_reports_attribute
   before_destroy :remove_public_activities
@@ -35,7 +35,7 @@ class Post < ActiveRecord::Base
         report.week = self.week
       end
     end
-  end 
+  end
 
   def submit?
     self.status == "submit"

@@ -30,6 +30,11 @@ group :assets do
   gem 'jquery-ui-rails'
 end
 
+group :development do
+  gem 'quiet_assets'
+  gem 'webrick'
+end
+
 gem 'jquery-rails'
 
 gem 'sunspot_rails'

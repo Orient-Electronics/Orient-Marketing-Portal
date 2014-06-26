@@ -1,4 +1,4 @@
-<div class="block full map-block-height">
+<div class="block shop-map-block">
   <div class="block-title no-margin-bottom">
     <h2>
       <i class="fa fa-map-marker"></i>
@@ -16,9 +16,7 @@
       </li>  
     </ul>  
   </div>
-  <div class="row">
-    <div class="col-md-12" id="map_location"></div>
-  </div>  
+  <div class="col-md-12" id="map_location"></div>
 </div>  
 
 <textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>

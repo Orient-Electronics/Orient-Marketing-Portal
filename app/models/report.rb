@@ -13,7 +13,7 @@ class Report < ActiveRecord::Base
   accepts_nested_attributes_for :report_lines
 
   scope :post_reports, lambda { |id | where(:post_id => id) }
-  scope :corner_reports, lambda {|id| where(:id => id, :report_type => "display_corner") } 
+  scope :corner_reports,  where(:report_type => "display_corner")
 
 
   validates_presence_of :report_type, :user_id
@@ -32,9 +32,9 @@ class Report < ActiveRecord::Base
     sum = reports.select{|key| key.report_type=="display"}.collect(&:report_lines).flatten.select{|key| key.brand_id == brand_id }.collect(&:data).reject {|r|r.nil?}.sum
     if sum == 0
       0
-    else  
+    else
       (sum/count)
-    end  
+    end
   end
 
   def self.brand_corner(reports,brand_id)
@@ -51,7 +51,7 @@ class Report < ActiveRecord::Base
     end
     if sum == 0
       0
-    else  
+    else
       (sum/count)
     end
   end
@@ -75,5 +75,5 @@ class Report < ActiveRecord::Base
   def report_view(brand_id)
     self.report_lines.flatten.select{|key| key.brand_id == brand_id }.collect(&:data).reject {|r|r.nil?}.sum
   end
-  
+
 end

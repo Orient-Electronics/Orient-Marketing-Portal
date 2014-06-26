@@ -1,6 +1,6 @@
 class Shop < ActiveRecord::Base
 
-  include PublicActivity::Common 
+  include PublicActivity::Common
   belongs_to :shop_category
   belongs_to :location
   belongs_to :dealer
@@ -24,21 +24,21 @@ class Shop < ActiveRecord::Base
   accepts_nested_attributes_for :avatar
   accepts_nested_attributes_for :peoples, :allow_destroy => true
 
-  
+
   validates :address, :presence => true, :length => { :maximum => 250 }
   validates_presence_of :dealer_name, :presence => true, :message => "^Shop Name Can't be Blank"
 
   validates_presence_of :shop_category_id
   before_destroy :remove_public_activities
-  
+
 
   searchable do
     text :dealer_name, :stored => true
     integer :dealer_id
-    integer :city_id do 
+    integer :city_id do
       location.city_id
     end
-    integer :area_id do 
+    integer :area_id do
       location.area_id
     end
     integer :shop_category_id do
@@ -66,4 +66,5 @@ class Shop < ActiveRecord::Base
     return false if self.shop_category.blank?
     return true
   end
+
 end

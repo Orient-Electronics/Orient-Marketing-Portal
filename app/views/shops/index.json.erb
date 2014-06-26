@@ -1,0 +1,1 @@
+{"draw": <%= @page %>, "recordsTotal": <%= @count %>, "recordsFiltered": <%= @count %>, "data": <%= raw @shops.collect{|shop| [shop_link_with_name(shop), orient_dealer(shop), shop_edit_link(shop) + shop_delete_link(shop) ]} %> }

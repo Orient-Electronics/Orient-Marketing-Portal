@@ -1,61 +1,45 @@
 class ShopsController < ApplicationController
-  
+
 
   def index
-    page = params[:draw].nil? ? 1 : params[:draw].to_i
-    limit = params[:length].to_i
-    offset = params[:start].to_i
-    
-    
+    @page = params[:draw].nil? ? 1 : params[:draw].to_i
+    @count = Shop.count
+    limit = params[:length].nil? ? 10 : params[:length].to_i
+    offset = params[:start].nil? ? 0 : params[:start].to_i
+
     if params[:filter].present?
       search = Sunspot.search (Shop) do
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
       end
-      
-      @shops = search.results
-      shop_ids = @shops.collect(&:id)
-      @posts = Post.shop_posts(shop_ids)
-      
       from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
-      to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
-      @posts = @posts.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
+      to = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+      @shops = search.results.includes([:shop_category, :uploads, :peoples, {posts: [{reports: [ {report_lines: [:avatars] } ]}, {product_category: [:brands]}, :uploads ]}])
     else
-      @shops = Shop.all
-      shop_ids = @shops.collect(&:id)
-      @shop_results = Shop.offset(offset).limit(limit)
-      @shop_categories = ShopCategory.all
-      @posts = Post.shop_posts(shop_ids)
+      @shops = Shop.offset(offset).limit(limit).includes([:shop_category, :uploads, :peoples, {posts: [{reports: [ {report_lines: [:avatars] } ]}, {product_category: [:brands]}, :uploads ]}])
     end
 
+    @shop_categories = @shops.collect(&:shop_category)
+    @peoples = flatten_data(@shops,&:peoples)
+    @posts = flatten_data(@shops,&:posts)
+
     if @posts.present?
-      post_ids = @posts.collect(&:id)
-      @reports = Report.post_reports(post_ids).flatten
-      report_ids = @reports.collect(&:id)
-      corner_reports = Report.corner_reports(report_ids)
-      @corner_reports = ReportLine.report_lines(corner_reports.collect(&:id)).flatten
+      @reports = flatten_data(@posts,&:reports)
+      @corner_reports = flatten_data(@reports.select {|a| a.report_type == 'display_corner'}, &:report_lines)
       @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
       @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
-      @categories= @posts.collect(&:product_category).uniq
-      @brands = @categories.collect(&:brands).uniq.flatten
-      post_uploads =  Upload.post_uploads(post_ids).flatten
-      report_lines = ReportLine.report_lines(report_ids)
-      report_lines_ids = report_lines.collect(&:id)
-      avatars = Avatar.report_line_avatars(report_lines_ids)
-      uploads = Upload.shop_uploads(shop_ids).flatten    
-      @uploads = (post_uploads + uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
-    else  
-      @uploads = Upload.shop_uploads(shop_ids).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+      @categories= flatten_data(@posts,&:product_category).uniq
+      @brands = flatten_data(@categories,&:brands).uniq
+      uploads = (flatten_data(@posts,&:uploads) + flatten_data(@shops,&:uploads) + flatten_data(flatten_data(@reports,&:report_lines), &:avatars))
+    else
+      uploads = flatten_data(@shops,&:uploads)
     end
-    
-    @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
+    @uploads  = sort_by(uploads, &:created_at)
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.js
-      format.json do
-        return render :json =>  {draw: page,  recordsTotal: Shop.count,  recordsFiltered: Shop.count , :data => @shop_results.collect{|a| ["<a src=#{shop_path(a)}>#{a.dealer_name}</a>", a.orient_dealer ? "<span class='label label-satgreen'>Dealer</span>".html_safe : "<span class='label label-lightred'>Non Dealer</span>".html_safe, "<a src=#{edit_shop_path(a)} class='btn'><i class='fa fa-edit' title ='edit'></i></a> <a src=#{delete_shop_path(a)} class='btn'><i class='hi hi-off' title='delete' data-confirm='are you sure?'></i></a>"]} }
-      end
+      format.json
     end
   end
 
@@ -68,14 +52,14 @@ class ShopsController < ApplicationController
       end
       @shops = search.results
     else
-     @shops = Shop.all 
+     @shops = Shop.all
     end
     unless @shops.blank?
       params[:page] = params[:page].blank? ? 1 : params[:page]
       @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(params[:page]).per(5)
     else
       @peoples = []
-    end  
+    end
     render :partial => '/shops/more_peoples', :layout => false
   end
 
@@ -85,19 +69,19 @@ class ShopsController < ApplicationController
     authorize! :read, Shop
     unless params[:dealer_id].blank?
       @dealer = Dealer.find(params[:dealer_id])
-    end 
+    end
     @product_categories = ProductCategory.all
     @shop = Shop.where(id: params[:id]).first
-  
+
     if params[:filter].present?
       from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
       to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
       @posts = @shop.posts.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
-    else 
+    else
       @posts = @shop.posts.published_reports.flatten
-    end  
-    
-    
+    end
+
+
     @reports = @posts.collect(&:reports).flatten
     shop_report_lines = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
     @brand_report_lines = shop_report_lines.group_by {|d| d[:brand_id] }
@@ -114,16 +98,16 @@ class ShopsController < ApplicationController
       @brands = @categories.collect(&:brands).uniq.flatten
       @posts =  Post.where(:shop_id => params[:id].to_i, :user_id => current_user.id).sort_by{ |a| a.published ? 1 : 0 }
       @shop = Shop.find(params[:id])
-    else 
+    else
       @posts =  Post.where(:shop_id => params[:id].to_i).sort_by{ |a| a.published ? 1 : 0 }
-      @shop = Shop.find(params[:id])     
+      @shop = Shop.find(params[:id])
       @categories = @posts.collect(&:product_category).uniq
-      @brands = @categories.collect(&:brands).uniq.flatten  
+      @brands = @categories.collect(&:brands).uniq.flatten
       respond_to do |format|
         format.html # index.html.erb
         format.js
         format.json { render json: @shop }
-      end  
+      end
     end
   end
 
@@ -134,12 +118,12 @@ class ShopsController < ApplicationController
     unless params[:dealer_id].blank?
       @dealer = Dealer.find(params[:dealer_id])
       @shop = @dealer.shops.build
-    else  
+    else
       @shop = Shop.new
     end
     @shop.build_location
     @shop.build_avatar
-    
+
 
     respond_to do |format|
       format.html # new.html.erb
@@ -153,7 +137,7 @@ class ShopsController < ApplicationController
     unless params[:dealer_id].blank?
       @dealer = Dealer.find(params[:dealer_id])
       @shop = @dealer.shops.find(params[:id])
-    else  
+    else
       @shop = Shop.find(params[:id])
     end
   end
@@ -164,9 +148,9 @@ class ShopsController < ApplicationController
     unless params[:dealer_id].blank?
       @dealer = Dealer.find(params[:dealer_id])
       @shop = @dealer.shops.build(params[:shop])
-    else   
+    else
       @shop = Shop.new(params[:shop])
-    end  
+    end
     @shop.build_avatar params[:shop][:avatar_attributes ]
     respond_to do |format|
       if @shop.save
@@ -187,9 +171,9 @@ class ShopsController < ApplicationController
     unless params[:dealer_id].blank?
       @dealer = Dealer.find(params[:dealer_id])
       @shop = @dealer.shops.find(params[:id])
-    else   
+    else
       @shop = Shop.find(params[:id])
-    end  
+    end
     respond_to do |format|
       if @shop.update_attributes(params[:shop])
         @shop.create_activity :update, owner: current_user
@@ -235,5 +219,15 @@ class ShopsController < ApplicationController
   def people_field
     render(:partial => "shops/get_people_field", :locals => {:index => params[:index]})
   end
-  
+
+  private
+
+  def flatten_data(data,&block)
+    data.collect(&block).flatten
+  end
+
+  def sort_by(data, &sort_on)
+    data.sort{|a,b| b[@sort_on] <=> a[@sort_on]}
+  end
+
 end
