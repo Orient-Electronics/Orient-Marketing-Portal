@@ -22,7 +22,8 @@
 <textarea class="hide" id="lat"><%= @locations.collect(&:latitude).join("|") %></textarea>
 <textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>
 <textarea class="hide" id="shop_category"><%= @shop_categories.collect(&:name).join("|")%></textarea>
-<textarea class="hide" id="shop_category_pin"><%= @shop_categories.collect(&:avatar).collect(&:avatar).collect(&:url).join("|")%></textarea>
+<textarea class="hide" id="shop_category_pin"><%= @shop_categories.collect(&:avatar).reject{|a| a.blank?}.collect(&:avatar).collect(&:url).join("|")%></textarea>
+
 <textarea class="hide" id="shop_type"><%= @shops.collect(&:orient_dealer).join("|")%></textarea>
 <textarea class="hide" id="shop_id"><%= @shops.collect(&:id).join("|")%></textarea>
 

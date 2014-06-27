@@ -18,7 +18,7 @@ class ShopsController < ApplicationController
       @locations = flatten_data(@shops, &:location)
       @shop_categories = flatten_data(@shops, &:shop_category)
       @peoples = apply_array_pagination(flatten_data(@shops, &:peoples), 1)
-      @posts = Post.with_shops(shop_ids)
+      @posts = Post.with_shops(shop_ids).where('created_at >= ? AND created_at <= ?',from, to)
       post_ids = flatten_data(@posts,&:id)
       @reports = Report.with_posts(post_ids)
       report_ids = flatten_data(@reports,&:id)
@@ -83,43 +83,83 @@ class ShopsController < ApplicationController
   end
 
   def load_more_peoples
+    @peoples = load_filter_peoples
+    render :partial => '/shops/more_peoples', :layout => false
+  end
+
+  def load_more_brand_corner_report_lines
+    @corner_brand_report_lines = load_filtered_corner_report_line.group_by {|d| d[:brand_id] }
+    render :partial => '/shops/more_brand_corner_images'
+  end
+
+  def load_more_category_corner_report_lines
+    @uploads = load_filtered_corner_report_line.group_by {|d| d[:product_category_id]}
+    render :partial => '/shops/more_category_corner_images'
+  end
+
+  def load_more_uploads
+    @peoples = load_filter_uploads
+    render :partial => '/shops/load_more_upload_images'
+  end
+
+
+  def load_filtered_corner_report_line
+    params[:page] = params[:page].blank? ? 1 : params[:page]
     if params[:filter].present?
       search = Sunspot.search (Shop) do
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
       end
+      from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+      to = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
       @shops = search.results
+      shop_ids = flatten_data(@shops, &:id)
+      @posts = Post.with_shops(shop_ids).where('created_at >= ? AND created_at <= ?',from, to)
+      post_ids = flatten_data(@posts,&:id)
+      @reports = Report.with_posts(post_ids)
+      report_ids = flatten_data(@reports,&:id)
+      @corner_reports  = apply_array_pagination(ReportLine.with_reports(report_ids), params[:page])
     else
-     @shops = Shop.all
+      @corner_reports =  apply_array_pagination(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten, params[:page])
     end
-    unless @shops.blank?
-      params[:page] = params[:page].blank? ? 1 : params[:page]
-      @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(params[:page]).per(5)
+  end
+
+  def load_filter_uploads
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    if params[:filter].present?
+      search = Sunspot.search (Shop) do
+        with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
+        with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
+        with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
+      end
+      from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+      to = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+      @shops = search.results
+      shop_ids = flatten_data(@shops, &:id)
+      @posts = Post.with_shops(shop_ids).where('created_at >= ? AND created_at <= ?',from, to)
+      post_ids = flatten_data(@posts,&:id)
+      apply_array_pagination((Upload.with_shops(shop_ids) + Upload.with_posts(post_ids)), params[:page])
     else
-      @peoples = []
+      Upload.page(params[:page]).per(10)
     end
-    render :partial => '/shops/more_peoples', :layout => false
   end
 
-  def load_more_brand_corner_report_lines
+  def load_filter_peoples
     params[:page] = params[:page].blank? ? 1 : params[:page]
-    @corner_reports =  Kaminari.paginate_array(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten).page(params[:page]).per(10)
-    @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
-    render :partial => '/shops/more_brand_corner_images'
-  end
-
-  def load_more_category_corner_report_lines
-    params[:page] = params[:page].blank? ? 1 : params[:page]
-    @corner_reports =  Kaminari.paginate_array(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten).page(params[:page]).per(10)
-    @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
-    render :partial => '/shops/more_category_corner_images'
-  end
-
-  def load_more_uploads
-    params[:page] = params[:page].blank? ? 1 : params[:page]
-    @uploads = Upload.page(params[:page]).per(10)
-    render :partial => '/shops/load_more_upload_images'
+    if params[:filter].present?
+      search = Sunspot.search (Shop) do
+        with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
+        with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
+        with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
+      end
+      from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+      to = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+      @shops = search.results
+      apply_array_pagination(flatten_data(@shops, &:peoples), params[:page])
+    else
+      People.page(param[:page]).per(10)
+    end
   end
 
   # GET /shops/1

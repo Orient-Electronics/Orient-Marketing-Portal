@@ -4083,7 +4083,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
   height: 488px !important;
 }
 
-.coner-report .brand-name
+.brand-name
 {
   color: #ffffff;
   margin-bottom: 5px;
@@ -4180,4 +4180,9 @@ a:hover, a:focus
 {
   margin-top: -3px !important;
   margin-left: 0px !important;
+}
+
+.corner-report .tab-content
+{
+  height: 400px !important;
 }

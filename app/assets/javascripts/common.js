@@ -180,7 +180,7 @@ $('document').ready(function(){
   {
     $(".upload-image-block").scroll(function(){
       domain = $('.notification-content').data("domain");
-      var url = domain + $('.category_corner_report_paginator nav.pagination a[rel=next]').attr('href');
+      var url = domain + $('.upload_images_paginator nav.pagination a[rel=next]').attr('href');
       console.log(url);
       if(url &&  $('.upload-image-block')[0].scrollHeight)
       {

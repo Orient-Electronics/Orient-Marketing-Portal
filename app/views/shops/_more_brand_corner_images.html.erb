@@ -1,8 +1,12 @@
 <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
+  <% unless brand_report.collect(&:avatars).flatten.blank? %>
+    <div class="row">
+      <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
+    </div>
+  <% end -%>
   <div class="row ">
-
     <% brand_report.each do |line| %>
-      <% p line %>
+
       <% line.avatars.each do |upload| %>
         <div class="col-sm-4 gallery-image">
           <% if upload.avatar %>
