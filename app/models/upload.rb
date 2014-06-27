@@ -10,11 +10,11 @@ class Upload < ActiveRecord::Base
                         :medium => "500x500>"
                     },
                     :default_url => '/assets/noimage.jpg'
-  
-  scope :shop_uploads, lambda {|id| where(:uploadable_type => "Shop", :uploadable_id => id)}
-  scope :post_uploads, lambda {|id| where(:uploadable_type => "Post", :uploadable_id => id)}
+
+  scope :with_shops, lambda {|id| where(:uploadable_type => "Shop", :uploadable_id => id)}
+  scope :with_posts, lambda {|id| where(:uploadable_type => "Post", :uploadable_id => id)}
   validates_attachment_presence :upload
-  validates_attachment_size :upload, :less_than => 5.megabytes, :message => "^ Please select image with size less than 5MB" 
+  validates_attachment_size :upload, :less_than => 5.megabytes, :message => "^ Please select image with size less than 5MB"
   validates_attachment_content_type :upload, :content_type => /\Aimage\/.*\Z/
   include Rails.application.routes.url_helpers
 end

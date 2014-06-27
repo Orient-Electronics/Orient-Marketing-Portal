@@ -97,7 +97,7 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="shop-table-body">
                 <% @limited_shops.each do |shop| %>
                   <tr>
                     <td><%= shop_link_with_name(shop) %></td>
@@ -105,10 +105,10 @@
                     <td><%= shop_edit_link(shop)  %> <%= shop_delete_link(shop) %></td>
                   </tr>
                 <% end %>
-
               </tbody>
             </table>
-            <%= paginate @limited_shops %>
+            <div class="shop-pagination">
+            <%= paginate @limited_shops, :remote => true, :params => { :controller => 'shops', :action => 'load_more_shops', :method => :get } %>
           </div>
         </div>
       </div>

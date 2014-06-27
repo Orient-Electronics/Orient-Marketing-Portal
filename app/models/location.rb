@@ -7,11 +7,13 @@ class Location < ActiveRecord::Base
 
   attr_accessible :city_id, :latitude, :longitude, :area_id, :area_name
   attr_accessor :area_name
-  validates_presence_of :longitude, :latitude, 
+  validates_presence_of :longitude, :latitude,
                         :presence =>true,
                         :format => {:with => /^[0-9]{1,5}((\.[0-9]{1,5})?)$/i }
-  
+
   accepts_nested_attributes_for :area
+
+
   before_save :update_city_to_area
 
   def update_city_to_area

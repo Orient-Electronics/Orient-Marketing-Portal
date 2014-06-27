@@ -3,11 +3,6 @@ class ShopsController < ApplicationController
 
   def index
     page = params[:page].nil? ? 1: params[:page]
-    @page = params[:draw].nil? ? 1 : params[:draw].to_i
-    @count = Shop.count
-    limit = params[:length].nil? ? 10 : params[:length].to_i
-    offset = params[:start].nil? ? 0 : params[:start].to_i
-
     if params[:filter].present?
       search = Sunspot.search (Shop) do
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
@@ -16,7 +11,24 @@ class ShopsController < ApplicationController
       end
       from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
       to = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
-      @shops = search.results.includes([:shop_category, :uploads, :peoples, {posts: [{reports: [ {report_lines: [:avatars] } ]}, {product_category: [:brands]}, :uploads ]}])
+
+      @shops = search.results
+      shop_ids = flatten_data(@shops, &:id)
+      @limited_shops =  apply_array_pagination(@shops,params[:page])
+      @locations = flatten_data(@shops, &:location)
+      @shop_categories = flatten_data(@shops, &:shop_category)
+      @peoples = flatten_data(@shops, &:peoples)
+      @posts = Post.with_shops(shop_ids).select{|a| a.created_at >= from and a.created_at <= to }.flatten
+      post_ids = flatten_data(@posts,&:id)
+      @reports = Report.with_posts(post_ids)
+      report_ids = flatten_data(@reports,&:id)
+      corner_reports = Report.corner_reports(report_ids)
+      corner_report_lines = ReportLine.with_reports(report_ids)
+      @corner_brand_report_lines = corner_report_lines.group_by {|d| d[:brand_id] }
+      @corner_category_report_lines = corner_report_lines.group_by {|d| d[:product_category_id]}
+      @categories= flatten_data(@posts,&:product_category).uniq
+      @brands = flatten_data(@categories,&:brands).uniq
+      @uploads = Upload.with_shops(shop_ids) + Upload.with_posts(post_ids)
     else
       @limited_shops = Shop.page(params[:page]).per(10)
       @shops = Shop.all
@@ -24,24 +36,36 @@ class ShopsController < ApplicationController
       @locations = Location.all
       @posts = Post.published_reports
       @peoples = People.page(1).per(10)
-    end
+      if @posts.present?
+        @reports = flatten_data(@posts,&:reports)
+        @corner_reports = apply_array_pagination(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten,1)
 
-    if @posts.present?
-      @reports = flatten_data(@posts,&:reports)
-      @corner_reports =  Kaminari.paginate_array(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten).page(1).per(10)
+        @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
+        @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
 
-      @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
-      @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
-
-      @categories= flatten_data(@posts,&:product_category).uniq
-      @brands = flatten_data(@categories,&:brands).uniq
-      @uploads = Upload.page(1).per(10)
+        @categories= flatten_data(@posts,&:product_category).uniq
+        @brands = flatten_data(@categories,&:brands).uniq
+        @uploads = Upload.page(1).per(10)
+      end
     end
 
     respond_to do |format|
       format.html
       format.js
       format.json
+    end
+  end
+
+  def load_more_shops
+    if params[:filter].present?
+      search = Sunspot.search (Shop) do
+        with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
+        with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
+        with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
+      end
+      @limited_shops = apply_array_pagination(search.results,params[:page])
+    else
+      @limited_shops = Shop.page(params[:page]).per(10)
     end
   end
 
@@ -248,8 +272,8 @@ class ShopsController < ApplicationController
     data.collect(&block).flatten
   end
 
-  def sort_by(data, &sort_on)
-    data.sort{|a,b| b[@sort_on] <=> a[@sort_on]}
+  def apply_array_pagination (data, page)
+    Kaminari.paginate_array(data).page(page).per(10)
   end
 
 end

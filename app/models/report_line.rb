@@ -11,8 +11,8 @@ class ReportLine < ActiveRecord::Base
 
   accepts_nested_attributes_for :avatars, :allow_destroy => true
 
-  scope :report_lines, lambda {|id| where(:report_id => id) }
-  scope :has_avatars, where(data: true)
+  scope :with_reports, lambda {|id| where(:report_id => id, :data => true) }
+
   validates_presence_of :data, :message => "Provide missing value in Display and Sales"
   validates_presence_of :brand_id, :message => "^please choose the brand"
   validates_presence_of :product_category_id

@@ -1,0 +1,2 @@
+$(".shop-table-body").html("<%= j render :partial => '/shops/load_more_shops', :layout => false %>");
+$('.shop-pagination nav.pagination').replaceWith("<%= j paginate @limited_shops, :remote => true, :params => { :controller => 'shops', :action => 'load_more_shops', :method => :get } %>");
