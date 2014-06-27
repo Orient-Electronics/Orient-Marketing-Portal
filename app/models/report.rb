@@ -15,7 +15,7 @@ class Report < ActiveRecord::Base
   scope :post_reports, lambda { |id | where(:post_id => id) }
   scope :with_corner_report_lines,  includes([:report_lines, :post]).where("posts.published =? AND reports.report_type =? AND report_lines.data =?", true,'display_corner',true)
   scope :with_posts, lambda { |id | where(:post_id => id) }
-  scope :corner_reports, lambda { |id | where('id =? AND type =?', id, "display_corner") }
+  scope :corner_reports, lambda { |id | where('id =? AND report_type =?', id, "display_corner") }
 
   validates_presence_of :report_type, :user_id
   validates_associated :report_lines

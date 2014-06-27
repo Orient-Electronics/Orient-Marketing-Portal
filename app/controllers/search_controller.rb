@@ -2,7 +2,7 @@ class SearchController < ApplicationController
 
   def index
     @search = Shop.search() do
-      keywords params[:search] do 
+      keywords params[:search] do
         highlight :dealer_name
       end
 

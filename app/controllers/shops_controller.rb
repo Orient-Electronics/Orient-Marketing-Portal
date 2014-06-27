@@ -17,18 +17,18 @@ class ShopsController < ApplicationController
       @limited_shops =  apply_array_pagination(@shops,params[:page])
       @locations = flatten_data(@shops, &:location)
       @shop_categories = flatten_data(@shops, &:shop_category)
-      @peoples = flatten_data(@shops, &:peoples)
-      @posts = Post.with_shops(shop_ids).select{|a| a.created_at >= from and a.created_at <= to }.flatten
+      @peoples = apply_array_pagination(flatten_data(@shops, &:peoples), 1)
+      @posts = Post.with_shops(shop_ids)
       post_ids = flatten_data(@posts,&:id)
       @reports = Report.with_posts(post_ids)
       report_ids = flatten_data(@reports,&:id)
-      corner_reports = Report.corner_reports(report_ids)
-      corner_report_lines = ReportLine.with_reports(report_ids)
-      @corner_brand_report_lines = corner_report_lines.group_by {|d| d[:brand_id] }
-      @corner_category_report_lines = corner_report_lines.group_by {|d| d[:product_category_id]}
+
+      @corner_reports  = apply_array_pagination(ReportLine.with_reports(report_ids), 1)
+      @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
+      @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
       @categories= flatten_data(@posts,&:product_category).uniq
       @brands = flatten_data(@categories,&:brands).uniq
-      @uploads = Upload.with_shops(shop_ids) + Upload.with_posts(post_ids)
+      @uploads = apply_array_pagination((Upload.with_shops(shop_ids) + Upload.with_posts(post_ids)), 1)
     else
       @limited_shops = Shop.page(params[:page]).per(10)
       @shops = Shop.all
@@ -57,15 +57,28 @@ class ShopsController < ApplicationController
   end
 
   def load_more_shops
+    page = params[:page].nil? ? 1 : params[:page]
     if params[:filter].present?
       search = Sunspot.search (Shop) do
+        keywords params[:dealer_name] do
+          fields(:dealer_name)
+        end
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
       end
       @limited_shops = apply_array_pagination(search.results,params[:page])
     else
-      @limited_shops = Shop.page(params[:page]).per(10)
+      unless params[:dealer_name].blank?
+        search = Sunspot.search (Shop) do
+          keywords params[:dealer_name] do
+            fields(:dealer_name)
+          end
+        end
+        @limited_shops = apply_array_pagination(search.results,page)
+      else
+        @limited_shops = Shop.page(page).per(10)
+      end
     end
   end
 
