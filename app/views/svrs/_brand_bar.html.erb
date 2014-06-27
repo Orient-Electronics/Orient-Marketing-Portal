@@ -1,5 +1,6 @@
 <textarea class="hide dispaly_brand_data">
   <% brands.uniq.each do |brand| %>
+
     <%= [brand.name,Report.brand_display(reports,brand.id)].join("|") %>
     <%= "~" unless brand == brands.last %>
   <% end -%>
@@ -15,6 +16,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    loadBrandChart();  
+    loadBrandChart();
   });
 </script>

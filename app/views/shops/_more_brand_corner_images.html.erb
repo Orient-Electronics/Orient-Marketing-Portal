@@ -1,0 +1,33 @@
+<% @corner_brand_report_lines.each do |brand_id,brand_report| %>
+  <div class="row ">
+
+    <% brand_report.each do |line| %>
+      <% p line %>
+      <% line.avatars.each do |upload| %>
+        <div class="col-sm-4 gallery-image">
+          <% if upload.avatar %>
+            <%= image_tag upload.avatar.url %>
+            <div class="gallery-image-options text-center">
+              <div class="btn-group btn-group-sm">
+                <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+              </div>
+            </div>
+          <% else %>
+            <%= image_tag "/assets/default.png"%>
+            <div class="gallery-image-options text-center">
+              <div class="btn-group btn-group-sm">
+                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+              </div>
+            </div>
+          <% end%>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.brand_corner_report_paginator nav.pagination').replaceWith("<%= j paginate @corner_reports, :params => { :controller => 'shops', :action => 'load_more_brand_corner_report_lines', :method => :get } %>");
+  });
+</script>

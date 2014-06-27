@@ -2,6 +2,7 @@ class ShopsController < ApplicationController
 
 
   def index
+    page = params[:page].nil? ? 1: params[:page]
     @page = params[:draw].nil? ? 1 : params[:draw].to_i
     @count = Shop.count
     limit = params[:length].nil? ? 10 : params[:length].to_i
@@ -17,25 +18,26 @@ class ShopsController < ApplicationController
       to = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
       @shops = search.results.includes([:shop_category, :uploads, :peoples, {posts: [{reports: [ {report_lines: [:avatars] } ]}, {product_category: [:brands]}, :uploads ]}])
     else
-      @shops = Shop.offset(offset).limit(limit).includes([:shop_category, :uploads, :peoples, {posts: [{reports: [ {report_lines: [:avatars] } ]}, {product_category: [:brands]}, :uploads ]}])
+      @limited_shops = Shop.page(params[:page]).per(10)
+      @shops = Shop.all
+      @shop_categories = ShopCategory.all
+      @locations = Location.all
+      @posts = Post.published_reports
+      @peoples = People.page(1).per(10)
     end
-
-    @shop_categories = @shops.collect(&:shop_category)
-    @peoples = flatten_data(@shops,&:peoples)
-    @posts = flatten_data(@shops,&:posts)
 
     if @posts.present?
       @reports = flatten_data(@posts,&:reports)
-      @corner_reports = flatten_data(@reports.select {|a| a.report_type == 'display_corner'}, &:report_lines)
+      @corner_reports =  Kaminari.paginate_array(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten).page(1).per(10)
+
       @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
-      @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
+      @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
+
       @categories= flatten_data(@posts,&:product_category).uniq
       @brands = flatten_data(@categories,&:brands).uniq
-      uploads = (flatten_data(@posts,&:uploads) + flatten_data(@shops,&:uploads) + flatten_data(flatten_data(@reports,&:report_lines), &:avatars))
-    else
-      uploads = flatten_data(@shops,&:uploads)
+      @uploads = Upload.page(1).per(10)
     end
-    @uploads  = sort_by(uploads, &:created_at)
+
     respond_to do |format|
       format.html
       format.js
@@ -61,6 +63,26 @@ class ShopsController < ApplicationController
       @peoples = []
     end
     render :partial => '/shops/more_peoples', :layout => false
+  end
+
+  def load_more_brand_corner_report_lines
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @corner_reports =  Kaminari.paginate_array(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten).page(params[:page]).per(10)
+    @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
+    render :partial => '/shops/more_brand_corner_images'
+  end
+
+  def load_more_category_corner_report_lines
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @corner_reports =  Kaminari.paginate_array(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten).page(params[:page]).per(10)
+    @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
+    render :partial => '/shops/more_category_corner_images'
+  end
+
+  def load_more_uploads
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    @uploads = Upload.page(params[:page]).per(10)
+    render :partial => '/shops/load_more_upload_images'
   end
 
   # GET /shops/1

@@ -73,7 +73,7 @@
 <div class="shops-content">
   <div class="row">
     <div class="col-md-6">
-      <%= render :partial => "/shared/map"%>
+      <%= render :partial => "/shared/shops_map"%>
     </div>
     <% if can? :read, Shop%>
       <div class="col-md-6">
@@ -89,7 +89,7 @@
             </h3>
           </div>
           <div class="block-content dealers-data-height dearlers-list scroll-dealers-data">
-            <table class="table table-hover shops-table" id="shop-data">
+            <table class="table table-hover shops-table">
               <thead>
                 <tr>
                   <th>Shop Name </th>
@@ -98,9 +98,17 @@
                 </tr>
               </thead>
               <tbody>
+                <% @limited_shops.each do |shop| %>
+                  <tr>
+                    <td><%= shop_link_with_name(shop) %></td>
+                    <td><%= orient_dealer(shop) %></td>
+                    <td><%= shop_edit_link(shop)  %> <%= shop_delete_link(shop) %></td>
+                  </tr>
+                <% end %>
 
               </tbody>
             </table>
+            <%= paginate @limited_shops %>
           </div>
         </div>
       </div>
@@ -166,7 +174,7 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <div class="block dealers-image-block-height">
+        <div class="block corner-reports">
           <div class="block-title">
             <h2><strong>Display Corner Reports</strong></h2>
             <ul class="nav nav-tabs" data-toggle="tabs">
@@ -174,11 +182,11 @@
               <li><a href="#corner_category">Categories</a></li>
             </ul>
           </div>
-          <div class="tab-content scroll-dealer-report">
+          <div class="tab-content">
             <div class="tab-pane active" id="corner_brand">
-              <div class="gallery" data-toggle="lightbox-gallery">
+              <div class="gallery brand-content scroll-brand-corner-report brand-result" data-toggle="lightbox-gallery">
                 <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
-                  <div class="row">
+                  <div class="row ">
                     <% brand_report.each do |line| %>
                       <% line.avatars.each do |upload| %>
                         <div class="col-sm-4 gallery-image">
@@ -202,10 +210,13 @@
                     <% end %>
                   </div>
                 <% end %>
+                <div class="hide brand_corner_report_paginator">
+                  <%= paginate @corner_reports, :params => { :controller => 'shops', :action => 'load_more_brand_corner_report_lines', :method => :get } %>
+                </div>
               </div>
             </div>
             <div class="tab-pane" id="corner_category">
-              <div class="gallery" data-toggle="lightbox-gallery">
+              <div class="gallery category-content scroll-category-corner-report category-result" data-toggle="lightbox-gallery">
                 <% @corner_category_report_lines.each do |category,cat_report| %>
                   <div class="row">
                     <% cat_report.each do |line| %>
@@ -231,18 +242,21 @@
                     <% end %>
                   </div>
                 <% end %>
+                <div class="hide category_corner_report_paginator">
+                  <%= paginate @corner_reports, :params => { :controller => 'shops', :action => 'load_more_category_corner_report_lines', :method => :get } %>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="block dealers-image-block-height">
+        <div class="block image-block">
           <div class="block-title">
             <h2>Images</h2>
           </div>
-          <div class="gallery scroll-dealer-report" data-toggle="lightbox-gallery">
-            <div class="row">
+          <div class="gallery upload-image-block scroll-upload-images" data-toggle="lightbox-gallery">
+            <div class="row upload-content">
               <% @uploads.each do |image| %>
                 <div class="col-sm-4 gallery-image">
                   <% if image.class.to_s == "Upload"%>
@@ -262,6 +276,9 @@
                   <% end %>
                 </div>
               <% end %>
+              <div class="hide upload_images_paginator">
+                <%= paginate @uploads, :params => { :controller => 'shops', :action => 'load_more_uploads', :method => :get } %>
+              </div>
             </div>
           </div>
         </div>
@@ -320,6 +337,9 @@
                      <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
                   </li>
                 <% end%>
+                <div class="hide shop_people_paginator">
+                  <%= paginate @peoples, :params => { :controller => 'shops', :action => 'load_more_peoples', :method => :get } %>
+                </div>
               </ul>
             </div>
           </div>

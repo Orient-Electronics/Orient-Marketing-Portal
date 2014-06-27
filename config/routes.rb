@@ -1,7 +1,7 @@
 Orient::Application.routes.draw do
-  
 
-  
+
+
 
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
@@ -21,14 +21,14 @@ Orient::Application.routes.draw do
 
   resources :search
 
-  resources :areas do 
-    collection do 
+  resources :areas do
+    collection do
       get "search"
-    end  
-  end  
+    end
+  end
 
-  resources :announcements do 
-    collection do 
+  resources :announcements do
+    collection do
       get 'update_user_status'
     end
   end
@@ -40,7 +40,7 @@ Orient::Application.routes.draw do
   resources :activities do
     member do
       get 'destroy_subscriber'
-    end 
+    end
     collection do
       get 'update_activity'
       post 'create_subscriber'
@@ -95,6 +95,9 @@ Orient::Application.routes.draw do
       get 'area_field'
       get 'people_field'
       get 'load_more_peoples'
+      get 'load_more_brand_corner_report_lines'
+      get 'load_more_category_corner_report_lines'
+      get 'load_more_uploads'
     end
   end
 
@@ -104,7 +107,7 @@ Orient::Application.routes.draw do
     member do
       post 'change_status'
     end
-    collection do 
+    collection do
       get 'publish_report'
       get 'unpublish_report'
       get 'draft_report'

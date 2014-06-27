@@ -3491,7 +3491,7 @@ p, .table, .alert, .carousel {
   padding-left: 125px !important;
 }
 .formErrors h5{
-  
+
   background-color: rgb(229, 20, 0);
   border-left-color: rgb(229, 20, 0);
   border-left-style: solid;
@@ -3521,7 +3521,7 @@ p, .table, .alert, .carousel {
   border-right-color: rgb(229, 20, 0);
   border-right-style: solid;
   border-right-width: 2px;
-  
+
   padding-bottom: 20px;
   padding-left: 40px;
   padding-top: 20px;
@@ -3690,16 +3690,16 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 .activities-section{
-  max-height: 300px; 
+  max-height: 300px;
 }
 
 .user-activities-section{
-  max-height: 400px; 
+  max-height: 400px;
 }
 
 .notification-content
 {
-  max-height: 220px !important; 
+  max-height: 220px !important;
 }
 
 .subscriber-block-height
@@ -3712,7 +3712,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 .notification-height
 {
-  max-height: 270px !important;  
+  max-height: 270px !important;
 }
 
 .no-margin-bottom
@@ -3745,7 +3745,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .dealers-image-block-height
 {
-  height: 540px; 
+  height: 540px;
 }
 .dealers-height
 {
@@ -3759,7 +3759,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .dealer-head-content
 {
-  height: 120px !important;  
+  height: 120px !important;
 }
 
 .filter-portion
@@ -3891,7 +3891,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 .new-button a
 {
   border-radius: 20px !important;
-  background: #fff; 
+  background: #fff;
 }
 
 .task-modal
@@ -3921,7 +3921,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 {
   padding-left: 20px !important;
 }
-.people ul 
+.people ul
 {
   padding:0px;
 }
@@ -3960,13 +3960,13 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 .subscribe-modal{
-  overflow: visible !important; 
+  overflow: visible !important;
 }
 
 
 .map-pin-info-body
 {
-  height: 85px !important; 
+  height: 85px !important;
   width: 180px !important;
   line-height:1.35 !important;
   overflow:hidden !important;
@@ -4022,7 +4022,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 #ajax-loading{
   margin-top: 30px !important;
 }
-.svr 
+.svr
 {
   width: 200px !important;
 }
@@ -4096,7 +4096,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
 }
 
 .scroll-shop-report{
-  max-height: 350px !important; 
+  max-height: 350px !important;
   height: auto !important;
 }
 
@@ -4108,25 +4108,25 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .scroll-shop-people
 {
-  max-height: 350px !important;  
+  max-height: 350px !important;
   height: auto !important;
 }
 
 .scroll-shop-svr
 {
-  max-height: 350px !important;  
-  height: auto !important; 
+  max-height: 350px !important;
+  height: auto !important;
 }
 .shop-corner-report .slimScrollDiv
 {
   max-height: 350px !important;
-  height: auto !important; 
+  height: auto !important;
 }
 
 .shop-images-block .slimScrollDiv
 {
   max-height: 385px !important;
-  height: auto !important;  
+  height: auto !important;
 }
 
 .shop-peoples-block .slimScrollDiv
@@ -4135,10 +4135,40 @@ only screen and (min-device-pixel-ratio: 1.5) {
   height: auto !important;
 }
 
+.corner-reports .slimScrollDiv
+{
+  max-height: 350px !important;
+  height: auto !important;
+}
+
+.scroll-brand-corner-report
+{
+  max-height: 350px !important;
+  height: auto !important;
+}
+
+.scroll-category-corner-report
+{
+  max-height: 350px !important;
+  height: auto !important;
+}
+
+.image-block .slimScrollDiv
+{
+  max-height: 350px !important;
+  height: auto !important;
+}
+
+.scroll-upload-images
+{
+  max-height: 350px !important;
+  height: auto !important;
+}
+
 .shop-svrs-block .slimScrollDiv
 {
   max-height: 350px !important;
-  height: auto !important; 
+  height: auto !important;
 }
 
 a:hover, a:focus
