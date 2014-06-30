@@ -15,7 +15,6 @@ class ShopsController < ApplicationController
       @shops = search.results
       shop_ids = flatten_data(@shops, &:id)
       @limited_shops =  apply_array_pagination(@shops,params[:page])
-      @locations = flatten_data(@shops, &:location)
       @shop_categories = flatten_data(@shops, &:shop_category)
       @peoples = apply_array_pagination(flatten_data(@shops, &:peoples), 1)
       @posts = Post.with_shops(shop_ids).where('created_at >= ? AND created_at <= ?',from, to)
@@ -33,7 +32,6 @@ class ShopsController < ApplicationController
       @limited_shops = Shop.page(params[:page]).per(10)
       @shops = Shop.all
       @shop_categories = ShopCategory.all
-      @locations = Location.all
       @posts = Post.published_reports
       @peoples = People.page(1).per(10)
       if @posts.present?
@@ -48,7 +46,6 @@ class ShopsController < ApplicationController
         @uploads = Upload.page(1).per(10)
       end
     end
-
     respond_to do |format|
       format.html
       format.js
@@ -88,17 +85,19 @@ class ShopsController < ApplicationController
   end
 
   def load_more_brand_corner_report_lines
-    @corner_brand_report_lines = load_filtered_corner_report_line.group_by {|d| d[:brand_id] }
+    @corner_reports = load_filtered_corner_report_line
+    @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
     render :partial => '/shops/more_brand_corner_images'
   end
 
   def load_more_category_corner_report_lines
-    @uploads = load_filtered_corner_report_line.group_by {|d| d[:product_category_id]}
+    @corner_reports = load_filtered_corner_report_line
+    @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
     render :partial => '/shops/more_category_corner_images'
   end
 
   def load_more_uploads
-    @peoples = load_filter_uploads
+    @uploads = load_filter_uploads
     render :partial => '/shops/load_more_upload_images'
   end
 
@@ -158,7 +157,7 @@ class ShopsController < ApplicationController
       @shops = search.results
       apply_array_pagination(flatten_data(@shops, &:peoples), params[:page])
     else
-      People.page(param[:page]).per(10)
+      People.page(params[:page]).per(10)
     end
   end
 

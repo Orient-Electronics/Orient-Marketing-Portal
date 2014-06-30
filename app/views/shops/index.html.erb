@@ -73,7 +73,7 @@
 <div class="shops-content">
   <div class="row">
     <div class="col-md-6">
-      <%= render :partial => "/shared/shops_map"%>
+      <%= render :partial => "/shared/map"%>
     </div>
     <% if can? :read, Shop%>
       <div class="col-md-6">
@@ -231,7 +231,7 @@
               </div>
             </div>
             <div class="tab-pane" id="corner_category">
-              <div class="gallery category-content scroll-category-corner-report category-result" data-toggle="lightbox-gallery">
+              <div class="gallery categroy-content scroll-category-corner-report category-result" data-toggle="lightbox-gallery">
                 <% @corner_category_report_lines.each do |category,cat_report| %>
                  <% unless cat_report.collect(&:avatars).flatten.blank? %>
                     <div class="row">
