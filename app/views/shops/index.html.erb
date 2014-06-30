@@ -117,7 +117,7 @@
                 <% end %>
               </tbody>
             </table>
-            <div class="shop-pagination">
+            <div class="shop-pagination pull-right">
             <%= paginate @limited_shops, :remote => true, :params => { :controller => 'shops', :action => 'load_more_shops', :method => :get } %>
           </div>
         </div>

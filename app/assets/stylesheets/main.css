@@ -3463,7 +3463,6 @@ p, .table, .alert, .carousel {
   cursor: not-allowed !important;
   background-color: #1bbae1 !important;
   position: relative !important;
-  float: left !important;
   padding: 6px 12px !important;
   line-height: 1.42857143;
   text-decoration: none;

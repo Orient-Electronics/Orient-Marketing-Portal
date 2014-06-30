@@ -1,23 +1,25 @@
 <div class="block shop-map-block">
   <div class="block-title no-margin-bottom">
+    <div class="pull-left">
     <h2>
       <i class="fa fa-map-marker"></i>
       Locations Information
     </h2>
+    </div>
     <ul class="nav navbar-nav-custom pull-right" data-toggle="tabs">
       <li class="dropdown">
         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-angle-down sidebar-nav-indicator"></i></a>
-        <ul class="dropdown-menu dropdown-custom dropdown-menu-right">  
+        <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
           <li class="active">
             <a href="#" class= 'orient-dealer' data-toggle="tab" data-form ="filter-orient">Orient Dealer / Non-Dealer</a>
           </li>
           <li><a href="#" class='dealer' data-toggle="tab" data-form="filter-dealer" >Categories </a></li>
         </ul>
-      </li>  
-    </ul>  
+      </li>
+    </ul>
   </div>
   <div class="col-md-12" id="map_location"></div>
-</div>  
+</div>
 
 <textarea class="hide" id="lat"><%= @shops.collect(&:location).collect(&:latitude).join("|") %></textarea>
 <textarea class="hide" id="lng"><%= @shops.collect(&:location).collect(&:longitude).join("|") %></textarea>
@@ -57,7 +59,7 @@ function initialize(lat,lng){
   map = new google.maps.Map($("#map_location")[0], mapOptions);
 
   for (var i=0;i<lat_arr.length;i++)
-  { 
+  {
     var lat = convert(lat_arr[i]);
     var lng = convert(lng_arr[i]);
     var category = category_arr[i];
@@ -97,7 +99,7 @@ function setgeolocation(address){
 }
 
 function addMarker(location,mapp,shop_category,type,marker_pin,shop_id) {
-  
+
   var content =  '<div class="map-pin-info-body">.</div>';
   marker = new google.maps.Marker({
     position: location,
@@ -111,21 +113,21 @@ function addMarker(location,mapp,shop_category,type,marker_pin,shop_id) {
     point = marker.latLng;
   });
 
-  google.maps.event.addListener(marker, "click", function()  
-  {  
-    iw.setContent(content);  
+  google.maps.event.addListener(marker, "click", function()
+  {
+    iw.setContent(content);
     iw.open(map, this);
     close_btn = $('.gm-style-iw').next();
     close_btn.width(30);
     close_btn.height(15);
     $.ajax({
-      url: '/dealers/' + shop_id + '/get_info', 
+      url: '/dealers/' + shop_id + '/get_info',
       success:function(data) {
         $(".map-pin-info-body").html(data);
       }
     });
 
-  });  
+  });
 
   markersArray.push(marker);
   pins_arr.push(marker_pin);
@@ -210,7 +212,7 @@ function load_map(form_name)
         }
       });
     }
-  }    
+  }
   else{
     $(markersArray).each(function(){
       this.setVisible(true);
@@ -232,17 +234,17 @@ function change_pin(form_name,mar)
           this.icon ='/assets/icon/non-dealer-icon.png';
         break;
       }
-      
-    });  
+
+    });
   }
-  else 
+  else
   {
     $(mar).each(function(i){
       this.icon = pins_arr[i];
     });
-  } 
+  }
 }
-  
+
 $(document).ready(function () {
 
   lat_arr = $("#lat").val().split("|");
@@ -258,13 +260,13 @@ $(document).ready(function () {
     form_name = $(this).data('form');
 
     $('.filters').hide();
-    
+
     $('.' + form_name).show();
     load_map(form_name);
     change_pin(form_name, markersArray);
     $(".dealer-form, .category-form").slideToggle();
-  }); 
-  
+  });
+
   $('.filters form input').click(function(){
     parent = $(this).closest('.filters');
     form_name = parent.data('name');
