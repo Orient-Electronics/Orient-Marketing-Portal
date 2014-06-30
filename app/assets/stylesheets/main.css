@@ -4198,3 +4198,15 @@ a:hover, a:focus
 {
   margin-top: -11px !important;
 }
+
+.shops-block .slimScrollDiv
+{
+  max-height: 540px !important;
+  height: auto !important;
+}
+
+.scroll-dealers-data
+{
+  max-height: 540px !important;
+  height: auto !important;
+}

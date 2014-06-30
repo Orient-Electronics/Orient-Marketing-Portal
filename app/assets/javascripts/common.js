@@ -228,7 +228,7 @@ $('document').ready(function(){
   });
 
   $(".scroll-dealers-data").slimScroll({
-    height: '520px',
+    height: 'auto',
     size: '5px'
   });
 
