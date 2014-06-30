@@ -47,19 +47,22 @@ class DealersController < ApplicationController
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
       end
       @shops = search.results
-      @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
+      shop_ids = flatten_data(@shops, &:id)
       from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
       to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
-      @posts = @posts.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
+      @posts = Post.with_shops(shop_ids).where('created_at >= ? AND created_at <= ?',from, to)
+      @shop_categories = flatten_data(@shops, &:shop_category)
     else
       @shops = apply_array_pagination(@parent.shops,params[:page])
-      @posts = @shops.collect(&:posts).flatten.select{|a| a.published == true }
+      shop_ids = flatten_data(@shops, &:id)
+      @posts = Post.with_shops(shop_ids).flatten
+      @shop_categories = ShopCategory.all
     end
+
     @peoples = apply_array_pagination(flatten_data(@shops, &:peoples), 1)
-    shop_ids = flatten_data(@shops, &:id)
-    post_ids = flatten_data(@posts,&:id)
-    @shop_categories = ShopCategory.all
+
     if @posts.present?
+      post_ids = flatten_data(@posts,&:id)
       @reports = Report.with_posts(post_ids)
       report_ids = flatten_data(@reports,&:id)
       @corner_reports  = apply_array_pagination(ReportLine.with_reports(report_ids), 1)

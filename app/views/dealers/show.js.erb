@@ -14,6 +14,8 @@ $(document).ready(function() {
     });
   });
 
+  $(".scroll-dealer,.scroll-subscribe, .activity-scroll, .notification-scroll, .user-activity-scroll").slimScroll({ height: 'auto', size: '5px' });
+
 
   $('.category-tab').click();
   $('.brand-tab').click();
@@ -174,10 +176,6 @@ $(document).ready(function() {
     $('.subscribe-activities').scroll();
   }
 
-  $(".scroll-dealer, .scroll-subscribe, .activity-scroll, .notification-scroll, .user-activity-scroll").slimScroll({
-    height: 'auto',
-    size: '5px'
-  });
 
   $(".scroll-dealers-data").slimScroll({
     height: '520px',
@@ -225,30 +223,36 @@ $(document).ready(function() {
     size : '5px'
   });
 
-  /*
-   * Support functions to provide a little bit of 'user friendlyness' to the textblockes in
-   * the footer
-   */
 
-  $(".thefilter input").each( function (i) {
-    asInitVals[i] = this.value;
-  } );
 
-  $(".thefilter input").focus( function () {
-    if ( this.className == "search_init" )
-    {
-      this.className = "";
-      this.value = "";
-    }
-  } );
+  $(".search_btn").click( function ()
+  {
+    id = $(this).data("id");
+    $.ajax ({
+      url:  '/dealers/' + id + '/showmodal',
+      success: function(data)
+      {
+        $("#modal-user").html(data);
+        $(".person-inform-link").click();
+      }
+    });
+  });
 
-  $(".thefilter input").blur( function (i) {
-    if ( this.value == "" )
-    {
-      this.className = "search_init";
-      this.value = asInitVals[$(".thefilter input").index(this)];
-    }
-  } );
+
+  $('.report-search').ajaxForm({
+    success: showResponse
+  });
+  $('.report-search select').change(function(){
+    $(this).parent().submit();
+  });
+  $('.category-report-search').ajaxForm({
+      success: showCatResponse
+    });
+  $('.category-report-search select').change(function(){
+    $(this).parent().submit();
+  });
+
+
 
   $(".search_btn").click( function ()
   {
@@ -275,33 +279,7 @@ $(document).ready(function() {
   $('.category-report-search select').change(function(){
     $(this).parent().submit();
   });
-});
 
-  $(".search_btn").click( function ()
-  {
-    id = $(this).data("id");
-    $.ajax ({
-      url:  '/dealers/' + id + '/showmodal',
-      success: function(data)
-      {
-        $("#modal-user").html(data);
-        $(".person-inform-link").click();
-      }
-    });
-  });
-
-  $('.report-search').ajaxForm({
-    success: showResponse
-  });
-  $('.report-search select').change(function(){
-    $(this).parent().submit();
-  });
-  $('.category-report-search').ajaxForm({
-      success: showCatResponse
-    });
-  $('.category-report-search select').change(function(){
-    $(this).parent().submit();
-  });
 });
 
 var map;

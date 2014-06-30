@@ -1,0 +1,10 @@
+<% @shops.each do |shop| %>
+  <% if can? :read, shop%>
+    <tr>
+    <td><%= shop_link_with_name(shop) %></td>
+    <td><%= orient_dealer(shop) %> </td>
+    <td><%= shop.city %> </td>
+    <td><%= shop_edit_link(shop)  %> <%= shop_delete_link(shop) %> </td>
+    </tr>
+  <% end %>
+<% end %>

@@ -1,0 +1,2 @@
+$(".dealer-table-body").html("<%= j render :partial => '/dealers/load_more_shops', :layout => false %>");
+$('.dealer-pagination').html("<%= j  paginate @shops, :remote => true, :params => { :controller => 'dealers', :action => 'load_more_shops', :method => :get } %>");

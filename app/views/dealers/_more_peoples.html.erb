@@ -1,0 +1,15 @@
+<% unless @peoples.blank? %>
+  <% @peoples.each do |people| %>
+    <li>
+      <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+      <label class="people-name"><%= people.name %> </label>
+       <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+    </li>
+  <% end%>
+<% end -%>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.shop_people_paginator nav.pagination').replaceWith("<%= j paginate @peoples, :params => { :controller => 'dealers', :action => 'load_more_peoples', :method => :get } %>");
+});
+</script>
