@@ -60,6 +60,9 @@ Orient::Application.routes.draw do
       get 'area_field'
       get 'load_more_peoples'
       get 'load_more_dealers'
+      get 'load_more_brand_corner_report_lines'
+      get 'load_more_category_corner_report_lines'
+      get 'load_more_uploads'
     end
 
   end
@@ -99,7 +102,6 @@ Orient::Application.routes.draw do
       get 'load_more_brand_corner_report_lines'
       get 'load_more_category_corner_report_lines'
       get 'load_more_uploads'
-      get 'load_more_peoples'
       get 'load_more_shops'
     end
   end

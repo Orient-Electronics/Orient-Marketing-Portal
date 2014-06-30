@@ -34,7 +34,12 @@ class DealersController < ApplicationController
   def load_more_dealers
     authorize! :read, Dealer
     page = params[:page].nil? ? 1: params[:page]
-    @dealers =  Dealer.page(params[:page]).per(10)
+    unless params[:name].blank?
+      params[:name] = ["%",params[:name],"%"].join('')
+      @dealers = apply_array_pagination(Dealer.where('name like ?', params[:name]),params[:page])
+    else
+      @dealers =  Dealer.page(params[:page]).per(10)
+    end
     respond_to do |format|
       format.js
     end
@@ -55,12 +60,47 @@ class DealersController < ApplicationController
       else
         @shops = @parent.shops.flatten
       end
-      @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
+      @peoples = apply_array_pagination(flatten_data(@shops, &:peoples), 1)
     else
-      @peoples = People.page(params[:page]).per(5)
+      @peoples = People.page(params[:page]).per(10)
     end
     render :partial => '/shops/more_peoples', :layout => false
   end
+
+  def load_more_brand_corner_report_lines
+    @corner_reports = load_filtered_corner_report_line
+    @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
+    render :partial => '/dealers/more_brand_corner_images'
+  end
+
+  def load_more_category_corner_report_lines
+    @corner_reports = load_filtered_corner_report_line
+    @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
+    render :partial => '/dealers/more_category_corner_images'
+  end
+
+  def load_filtered_corner_report_line
+    page = params[:page].nil? ? 1: params[:page]
+    if params[:filter].present?
+      from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+      to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+      @posts = Post.published_reports.where('created_at >= ? AND created_at <= ?',from, to).flatten
+    else
+      @posts = Post.published_reports.flatten
+    end
+    post_ids = flatten_data(@posts,&:id)
+    @reports = Report.with_posts(post_ids)
+    report_ids = flatten_data(@reports,&:id)
+    apply_array_pagination(ReportLine.with_reports(report_ids), params[:page])
+  end
+
+  def load_more_uploads
+    page = params[:page].nil? ? 1: params[:page]
+    @uploads = Upload.page(params[:page]).per(10)
+    render :partial => '/dealers/load_more_upload_images'
+  end
+
+
 
   # GET /dealers/1
   # GET /dealers/1.json

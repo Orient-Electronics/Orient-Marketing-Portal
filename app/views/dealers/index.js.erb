@@ -59,6 +59,200 @@ $(document).ready(function() {
     size: '5px'
   });
 
+    if($('.pager_notification nav.pagination').length)
+  {
+    $('.notification-content').scroll(function(){
+      domain = $('.notification-content').data("domain");
+      var url = domain + $('.pager_notification nav.pagination a[rel=next]').attr('href');
+      if(url &&  $('.notification-content')[0].scrollHeight)
+      {
+        if ($('.notification-content').scrollTop() > -1)
+        {
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.notification-content').append(data);
+              url = domain + $('.pager_notification nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }
+      }
+
+    });
+    $('.notification-content').scroll();
+  }
+
+  if($(".shop_people_paginator nav.pagination").length)
+  {
+    $(".shop-peoples-content").scroll(function(){
+      domain = $('.notification-content').data("domain");
+      var url = domain + $('.shop_people_paginator nav.pagination a[rel=next]').attr('href');
+
+      if(url &&  $('.shop-peoples-content')[0].scrollHeight)
+      {
+        if ($('.shop-peoples-content').scrollTop() > -1)
+        {
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.shop-peoples').append(data);
+              url = domain + $('.shop_people_paginator nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }
+      }
+    });
+    $(".shop-peoples-content").scroll();
+  }
+
+  if($(".brand_corner_report_paginator nav.pagination").length)
+  {
+    $(".brand-content").scroll(function(){
+      domain = $('.notification-content').data("domain");
+      var url = domain + $('.brand_corner_report_paginator nav.pagination a[rel=next]').attr('href');
+      if(url &&  $('.brand-content')[0].scrollHeight)
+      {
+        if ($('.brand-content').scrollTop() > -1)
+        {
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.brand-result').append(data);
+              url = domain + $('.brand_corner_report_paginator nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }
+      }
+    });
+    $(".brand-content").scroll();
+  }
+
+  if($(".category_corner_report_paginator nav.pagination").length)
+  {
+    $(".categroy-content").scroll(function(){
+      domain = $('.notification-content').data("domain");
+      var url = domain + $('.category_corner_report_paginator nav.pagination a[rel=next]').attr('href');
+      console.log(url);
+      if(url &&  $(".category-content")[0].scrollHeight)
+      {
+        if ($('.category-content').scrollTop() > -1)
+        {
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.category-result').append(data);
+              url = domain + $('.category_corner_report_paginator nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }
+      }
+    });
+    $(".category-content").scroll();
+  }
+
+
+  if($(".upload_images_paginator nav.pagination").length)
+  {
+    $(".upload-image-block").scroll(function(){
+      domain = $('.notification-content').data("domain");
+      var url = domain + $('.upload_images_paginator nav.pagination a[rel=next]').attr('href');
+      if(url &&  $('.upload-image-block')[0].scrollHeight)
+      {
+        if ($('.upload-image-block').scrollTop() > -1)
+        {
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.upload-content').append(data);
+              url = domain + $('.upload_images_paginator nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }
+      }
+    });
+    $(".upload-image-block").scroll();
+  }
+
+  if($('.subscribe nav.pagination').length)
+  {
+    $('.subscribe-activities').scroll(function(){
+      domain = $('.subscribe-activities').data("domain");
+      var url = domain + $('.subscribe nav.pagination a[rel=next]').attr('href');
+      if(url &&  $('.subscribe-activities')[0].scrollHeight)
+      {
+        if ($('.subscribe-activities').scrollTop() > -1)
+        {
+          $.ajax({
+            url: url,
+            success: function(data)
+            {
+              $('.subscribe-activities').append(data);
+              url = domain + $('.subscribe nav.pagination a[rel=next]').attr('href');
+            }
+          });
+        }
+      }
+
+    });
+    $('.subscribe-activities').scroll();
+  }
+
+  $(".scroll-dealer, .scroll-subscribe, .activity-scroll, .notification-scroll, .user-activity-scroll").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
+  $(".scroll-dealers-data").slimScroll({
+    height: '520px',
+    size: '5px'
+  });
+
+  $(".scroll-dealer-report").slimScroll({
+    height: '420px',
+    size: '5px'
+  });
+
+  $(".scroll-shop-report").slimScroll({
+    height: 'auto',
+    size : '5px'
+  });
+
+  $(".scroll-shop-image").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
+  $(".scroll-shop-svr").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
+  $(".scroll-shop-people").slimScroll({
+    height: 'auto',
+    size: '5px'
+  });
+
+  $(".scroll-brand-corner-report").slimScroll({
+    height: 'auto',
+    size : '5px'
+  });
+
+  $(".scroll-category-corner-report").slimScroll({
+    height: 'auto',
+    size : '5px'
+  });
+
+
+  $(".scroll-upload-images").slimScroll({
+    height: 'auto',
+    size : '5px'
+  });
+
   /*
    * Support functions to provide a little bit of 'user friendlyness' to the textblockes in
    * the footer
