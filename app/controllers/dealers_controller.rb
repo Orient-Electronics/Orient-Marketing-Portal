@@ -235,12 +235,15 @@ class DealersController < ApplicationController
 
   def load_filtered_corner_report_line
     page = params[:page].nil? ? 1: params[:page]
+    @parent = Dealer.where(id: params[:id]).first
+    @shops = @parent.shops.flatten
+    shop_ids = flatten_data(@shops, &:id)
     if params[:filter].present?
       from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
       to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
-      @posts = Post.published_reports.where('created_at >= ? AND created_at <= ?',from, to).flatten
+      @posts = Post.with_shops(shop_ids).where('created_at >= ? AND created_at <= ?',from, to).flatten
     else
-      @posts = Post.published_reports.flatten
+      @posts = Post.with_shops(shop_ids).flatten
     end
     post_ids = flatten_data(@posts,&:id)
     @reports = Report.with_posts(post_ids)
@@ -249,9 +252,32 @@ class DealersController < ApplicationController
   end
 
   def load_more_uploads
-    page = params[:page].nil? ? 1: params[:page]
-    @uploads = Upload.page(params[:page]).per(10)
+    @uploads = load_filter_uploads
     render :partial => '/dealers/load_more_upload_images'
+  end
+
+  def load_filter_uploads
+    params[:page] = params[:page].blank? ? 1 : params[:page]
+    if params[:id].present?
+      @parent = Dealer.where(id: params[:id]).first
+      if params[:filter].present?
+        search = Sunspot.search (Shop) do
+          with(:dealer_id, params[:id])
+          with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
+          with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
+          with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
+        end
+        @shops = search.results
+        shop_ids = flatten_data(@shops, &:id)
+        from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
+        to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
+        @posts = Post.with_shops(shop_ids).where('created_at >= ? AND created_at <= ?',from, to)
+      else
+        @shops = @parent.shops.flatten
+        post_ids = flatten_data(@posts,&:id)
+      end
+      apply_array_pagination((Upload.with_shops(shop_ids) + Upload.with_posts(post_ids)), 1)
+    end
   end
 
   def gallery

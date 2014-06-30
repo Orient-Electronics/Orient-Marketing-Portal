@@ -233,7 +233,7 @@ $('document').ready(function(){
   });
 
   $(".scroll-dealer-report").slimScroll({
-    height: '420px',
+    height: 'auto',
     size: '5px'
   });
 

@@ -3,7 +3,7 @@ $(".shop-report-content").html("<%= j render :partial => 'my_shop' %>");
 $(document).ready(function() {
 
   $('select').selectpicker();
-  
+
   $('#ajax-loading').addClass("display-none");
   $('.nav-tabs a').each(function() {
     var $this = $(this);
@@ -14,11 +14,11 @@ $(document).ready(function() {
   });
   $('.category-tab').click();
   $('.brand-tab').click();
-  
+
 
 
   $('.datepicker').datepicker();
-  
+
   $('.jFax-chart').width($("#page-content").width());
 
     $(".scroll-dealers-data").slimScroll({
@@ -27,7 +27,7 @@ $(document).ready(function() {
   });
 
   $(".scroll-dealer-report").slimScroll({
-    height: '420px',
+    height: 'auto',
     size: '5px'
   });
 
@@ -47,14 +47,14 @@ $(document).ready(function() {
   });
 
   /*
-   * Support functions to provide a little bit of 'user friendlyness' to the textblockes in 
+   * Support functions to provide a little bit of 'user friendlyness' to the textblockes in
    * the footer
    */
 
   $(".thefilter input").each( function (i) {
     asInitVals[i] = this.value;
   } );
-  
+
   $(".thefilter input").focus( function () {
     if ( this.className == "search_init" )
     {
@@ -62,7 +62,7 @@ $(document).ready(function() {
       this.value = "";
     }
   } );
-  
+
   $(".thefilter input").blur( function (i) {
     if ( this.value == "" )
     {
@@ -70,19 +70,19 @@ $(document).ready(function() {
       this.value = asInitVals[$(".thefilter input").index(this)];
     }
   } );
- 
+
   $(".search_btn").click( function ()
   {
     id = $(this).data("id");
     $.ajax ({
       url:  '/dealers/' + id + '/showmodal',
       success: function(data)
-      {                              
+      {
         $("#modal-user").html(data);
         $(".person-inform-link").click();
       }
     });
-  });  
+  });
 
   $('.report-search').ajaxForm({
     success: showResponse

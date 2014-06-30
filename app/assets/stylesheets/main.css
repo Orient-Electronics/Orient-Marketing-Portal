@@ -3742,10 +3742,6 @@ only screen and (min-device-pixel-ratio: 1.5) {
   height: 615px;
 }
 
-.dealers-image-block-height
-{
-  height: 540px;
-}
 .dealers-height
 {
   height: 100%;
@@ -4133,6 +4129,18 @@ only screen and (min-device-pixel-ratio: 1.5) {
   max-height: 350px !important;
   height: auto !important;
 }
+
+.scroll-dealer-report {
+  max-height: 350px !important;
+  height: auto !important;
+}
+
+.dealers-image-block-height .slimScrollDiv
+{
+  max-height: 350px !important;
+  height: auto !important;
+}
+
 
 .corner-reports .slimScrollDiv
 {
