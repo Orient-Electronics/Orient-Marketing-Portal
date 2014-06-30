@@ -37,7 +37,6 @@ class ShopsController < ApplicationController
       if @posts.present?
         @reports = flatten_data(@posts,&:reports)
         @corner_reports = apply_array_pagination(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten,1)
-
         @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
         @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
 

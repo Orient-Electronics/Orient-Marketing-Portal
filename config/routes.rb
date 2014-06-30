@@ -49,7 +49,7 @@ Orient::Application.routes.draw do
 
 
   resources :dealers do
-    resources :shops
+   resources :shops
     member do
       get 'gallery'
       get 'showmodal'
@@ -59,6 +59,7 @@ Orient::Application.routes.draw do
       get 'showgallery'
       get 'area_field'
       get 'load_more_peoples'
+      get 'load_more_dealers'
     end
 
   end

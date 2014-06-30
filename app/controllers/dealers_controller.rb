@@ -3,32 +3,41 @@ class DealersController < ApplicationController
   # GET /dealers.json
   def index
     authorize! :read, Dealer
-    @dealers = Dealer.all
+    page = params[:page].nil? ? 1: params[:page]
+
     @shops = Shop.all
     if params[:filter].present?
       from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
       to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
-      @posts = Post.published_reports.flatten.select{|a| a.created_at >= from and a.created_at <= to }.flatten
-    else 
-      @posts = Post.published_reports
+      @posts = Post.published_reports.where('created_at >= ? AND created_at <= ?',from, to).flatten
+    else
+      @posts = Post.published_reports.flatten
     end
-    @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
-    @reports = @posts.collect(&:reports).flatten
-    @corner_reports = @reports.select{|a| a.report_type == "display_corner"}.collect(&:report_lines).flatten
+    @dealers =  Dealer.page(params[:page]).per(10)
+    @peoples = People.page(1).per(10)
+    @reports = flatten_data(@posts,&:reports)
+    @corner_reports = apply_array_pagination(flatten_data(Report.with_corner_report_lines,&:report_lines).flatten,1)
     @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
     @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id] }
-    @categories= @posts.collect(&:product_category).uniq
-    @brands = @categories.collect(&:brands).uniq.flatten
-    @shop = @dealers.collect(&:shops).flatten
-    uploads = @shop.collect(&:uploads).flatten
-    avatars = @reports.flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
-    @uploads = (uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+    @categories= flatten_data(@posts,&:product_category).uniq
+
+    @brands = flatten_data(@categories,&:brands).uniq
+    @uploads = Upload.page(1).per(10)
     @shop_categories = ShopCategory.all
     respond_to do |format|
       format.html # index.html.erb
       format.js
       format.json { render json: @dealers }
-    end  
+    end
+  end
+
+  def load_more_dealers
+    authorize! :read, Dealer
+    page = params[:page].nil? ? 1: params[:page]
+    @dealers =  Dealer.page(params[:page]).per(10)
+    respond_to do |format|
+      format.js
+    end
   end
 
   def load_more_peoples
@@ -45,11 +54,11 @@ class DealersController < ApplicationController
         @shops = search.results
       else
         @shops = @parent.shops.flatten
-      end  
+      end
       @peoples = Kaminari.paginate_array(@shops.collect(&:peoples).flatten.reject{|a| a.blank?}).page(1).per(5)
-    else  
+    else
       @peoples = People.page(params[:page]).per(5)
-    end  
+    end
     render :partial => '/shops/more_peoples', :layout => false
   end
 
@@ -86,12 +95,12 @@ class DealersController < ApplicationController
       @brands = @categories.collect(&:brands).uniq.flatten
       post_uploads = @posts.collect(&:uploads).flatten
       avatars = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.collect(&:avatars).flatten
-      uploads = @shops.collect(&:uploads).flatten    
+      uploads = @shops.collect(&:uploads).flatten
       @uploads = (post_uploads + uploads + avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
-    else  
+    else
       @uploads = @shops.collect(&:uploads).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
     end
-    
+
     @shop_categories = ShopCategory.all
     respond_to do |format|
       format.html # show.html.erb
@@ -187,14 +196,24 @@ class DealersController < ApplicationController
   end
 
   def showmodal
-    
+
     @people = People.find(params[:id])
     render :partial =>"/dealers/show_modal" , :locals => {:person => @people}
   end
 
   def get_info
     @shop =  Shop.find(params[:id])
-    
+
     render :partial =>"/dealers/get_info" , :locals => {:@shop => @shop}
-  end  
+  end
+
+  private
+
+  def flatten_data(data,&block)
+    data.collect(&block).flatten
+  end
+
+  def apply_array_pagination (data, page)
+    Kaminari.paginate_array(data).page(page).per(10)
+  end
 end
