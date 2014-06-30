@@ -4180,3 +4180,13 @@ a:hover, a:focus
   margin-top: -3px !important;
   margin-left: 0px !important;
 }
+
+.map-icon-changer
+{
+  height: 40px !important;
+}
+
+.map-icon-changer ul
+{
+  margin-top: -11px !important;
+}

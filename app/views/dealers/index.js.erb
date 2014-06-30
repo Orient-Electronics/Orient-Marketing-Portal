@@ -22,28 +22,7 @@ $(document).ready(function() {
   $('.category-tab').click();
   $('.brand-tab').click();
 
-  if($(".shop_people_paginator nav.pagination").length)
-  {
-    $(".shop-peoples-content").scroll(function(){
-      domain = $('.notification-content').data("domain");
-      var url = domain + $('.shop_people_paginator nav.pagination a[rel=next]').attr('href');
-      if(url &&  $('.shop-peoples-content')[0].scrollHeight)
-      {
-        if ($('.shop-peoples-content').scrollTop() > -1)
-        {
-          $.ajax({
-            url: url,
-            success: function(data)
-            {
-              $('.shop-peoples').append(data);
-              url = domain + $('.shop_people_paginator nav.pagination a[rel=next]').attr('href');
-            }
-          });
-        }
-      }
-    });
-    $(".shop-peoples-content").scroll();
-  }
+
 
   $('.datepicker').datepicker();
 

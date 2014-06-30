@@ -63,6 +63,7 @@ Orient::Application.routes.draw do
       get 'load_more_brand_corner_report_lines'
       get 'load_more_category_corner_report_lines'
       get 'load_more_uploads'
+      get 'load_more_shops'
     end
 
   end

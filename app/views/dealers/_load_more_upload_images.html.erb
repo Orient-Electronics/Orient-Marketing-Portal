@@ -20,6 +20,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.upload_images_paginator nav.pagination').replaceWith("<%= j paginate @uploads, :params => { :controller => 'shops', :action => 'load_more_uploads', :method => :get } %>");
+    $('.upload_images_paginator nav.pagination').replaceWith("<%= j paginate @uploads, :params => { :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>");
   });
 </script>

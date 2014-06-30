@@ -67,4 +67,8 @@ class Shop < ActiveRecord::Base
     return true
   end
 
+  def city
+    self.location.city.name || ""
+  end
+
 end
