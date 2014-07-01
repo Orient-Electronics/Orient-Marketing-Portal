@@ -201,7 +201,7 @@
         </div>
         <div class="tab-pane" id="corner_category">
           <div class="gallery" data-toggle="lightbox-gallery">
-            <% unless @brand_report_lines.values.flatten.collect(&:avatars).flatten.blank? %>
+            <% unless @category_report_lines.values.flatten.collect(&:avatars).flatten.blank? %>
               <% @category_report_lines.each do |category,cat_report| %>
                 <div class="row">
                   <% cat_report.each do |line| %>

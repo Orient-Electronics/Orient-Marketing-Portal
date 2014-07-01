@@ -2,10 +2,10 @@
   <div class="header-section shop-header">
     <% if @shop.avatar.present?  %>
       <%= image_tag(@shop.avatar.avatar.url(:thumb), :class =>"pull-left img-circle") %>
-    <% else %>  
+    <% else %>
       <%= image_tag('/assets/default.png', :class => "img-circle pull-left" , :size => "65x70" )%>
     <% end %>
-    <h1 class="shop-heading"><%= @shop.dealer_name %></h1> 
+    <h1 class="shop-heading"><%= @shop.dealer_name %></h1>
   </div>
   <ul class="breadcrumb breadcrumb-top">
     <li><a href="/"><i class="fa fa-home"></i></a></li>
@@ -13,7 +13,7 @@
     <li><%= link_to @shop.dealer_name, @shop %></a></li>
   </ul>
 </div>
- 
+
 <div class="content-header">
   <div class="row filter-portion dealers-filter">
     <%= form_for :filter, :url => shop_path(@shop), :method => :get, :remote => true, :html => {:class => "shop-filter-form" } do |f| %>
@@ -23,11 +23,11 @@
           <%= f.text_field :from, :readonly => true, :class => " col-md-5 filter-datepicker from-picker",:placeholder => "From"%><span class="col-md-1 arrow-range"><i class="fa fa-angle-right"></i></span>
           <%= f.text_field :to, :readonly => true, :class => "col-md-5 filter-datepicker to-picker", :placeholder => "To" %>
           </div>
-      </div>  
+      </div>
       <div class="col-md-1 apply-btn">
         <%= link_to "Apply", '#', :class=>"btn btn-primary ajax-submit-btn" %>
-      </div>  
-    <% end %>  
+      </div>
+    <% end %>
     <div id="ajax-loading" class="display-none"><%= image_tag '/assets/ajax_loader_google.gif' %></div>
   </div>
 </div>
@@ -55,7 +55,7 @@
           <div class="col-md-12 shop-map" id="map_location"></div>
       </div>
     </div>
-  </div> 
+  </div>
   <div class="col-md-6">
     <div class="block shop-info-block">
       <div class="block-title">
@@ -63,9 +63,9 @@
           <div class="new-button pull-right">
             <%= link_to raw("<i class='gi gi-edit'></i> Edit Shop"), edit_shop_path(@shop),  :class => "btn btn-large btn-default" %>
           </div>
-        <% end %> 
+        <% end %>
         <h2>Basic Information</h2>
-      </div> 
+      </div>
       <div class="block-content no-padding">
         <table class="table table-borderless table-striped">
           <tbody>
@@ -97,13 +97,13 @@
               <tr>
                 <td style="width: 20%;"><strong>Area</strong></td>
                 <td><span class="label label-info"> <%= @shop.location.area.name %></span></td>
-              </tr>  
+              </tr>
             <% end -%>
             <% if @shop.location.try(:city) %>
               <tr>
                 <td style="width: 20%;"><strong>City</strong></td>
                 <td><span class="label label-primary"> <%= @shop.location.city.name %></span></td>
-              </tr>  
+              </tr>
             <% end -%>
             <tr>
               <td style="width: 20%;"><strong>Phone </strong></td>
@@ -121,11 +121,11 @@
                 <td><%= @shop.website %></td>
               </tr>
             <% end %>
-            
+
           </tbody>
         </table>
-      </div>   
-    </div>  
+      </div>
+    </div>
   </div>
 </div>
 <div class="shop-report-content">
@@ -140,7 +140,7 @@
                 <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
                 <li><a class="category-tab" href="#category-display-data">Categories</a></li>
               </ul>
-            </div>  
+            </div>
             <div class="block-content">
               <div class="tab-content">
                <div class="tab-pane active" id="brand-display-data">
@@ -165,7 +165,7 @@
                   <% end -%>
                   <div class="brand-chart-data">
                     <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
-                  </div>  
+                  </div>
                </div>
                <div class="tab-pane active" id="category-display-data">
                   <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
@@ -182,13 +182,13 @@
                   <div class="category-chart-data">
                     <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
                   </div>
-               </div> 
+               </div>
               </div>
-            </div>  
-          </div>  
+            </div>
+          </div>
         </div>
       <% end %>
-    <% end -%>  
+    <% end -%>
   </div>
   <% if @posts.present? %>
     <div class="row">
@@ -200,77 +200,90 @@
               <li class="active"><a href="#corner_brand">Brands</a></li>
               <li><a href="#corner_category">Categories</a></li>
             </ul>
-          </div>  
+          </div>
           <div class="tab-content scroll-shop-report coner-report">
             <div class="tab-pane active" id="corner_brand">
               <div class="gallery" data-toggle="lightbox-gallery">
-                <% @brand_report_lines.each do |brand_id,brand_report| %>
-                  <% unless brand_report.collect(&:avatars).flatten.blank? %>
-                    <div class="row">
-                      <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
-                    </div> 
-                  <% end -%>   
-                   <div class="row"> 
-                    <% brand_report.each do |line| %>
-                      <% line.avatars.each do |upload| %>
-                        <div class="col-sm-4 gallery-image">
-                          <% if upload.avatar %>
-                            <%= image_tag upload.avatar.url %>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                <% unless @brand_report_lines.values.flatten.collect(&:avatars).flatten.blank? %>
+                  <% @brand_report_lines.each do |brand_id,brand_report| %>
+                    <% unless brand_report.collect(&:avatars).flatten.blank? %>
+                      <div class="row">
+                        <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
+                      </div>
+                    <% end -%>
+                     <div class="row">
+                      <% brand_report.each do |line| %>
+                        <% line.avatars.each do |upload| %>
+                          <div class="col-sm-4 gallery-image">
+                            <% if upload.avatar %>
+                              <%= image_tag upload.avatar.url %>
+                              <div class="gallery-image-options text-center">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                                </div>
                               </div>
-                            </div>
-                          <% else %>
-                            <%= image_tag "/assets/default.png"%>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                            <% else %>
+                              <%= image_tag "/assets/default.png"%>
+                              <div class="gallery-image-options text-center">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                                </div>
                               </div>
-                            </div>
-                          <% end%>
-                        </div>  
-                      <% end %>  
-                    <% end %>  
-                  </div>  
-                <% end %>
-              </div>  
+                            <% end%>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                <% else %>
+                  <div class="alert alert-info">
+                      <h4><i class="fa fa-info-circle"></i> Corner Brand Images </h4> not available!
+                    </div>
+                <% end -%>
+              </div>
             </div>
             <div class="tab-pane" id="corner_category">
               <div class="gallery" data-toggle="lightbox-gallery">
-                <% @category_report_lines.each do |category,cat_report| %>
-                  <% unless cat_report.collect(&:avatars).flatten.blank? %>
-                    <div class="row">
-                      <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
+                <% p  @category_report_lines.values.flatten.collect(&:avatars) %>
+                <% unless @category_report_lines.values.flatten.collect(&:avatars).flatten.blank? %>
+                  <% @category_report_lines.each do |category,cat_report| %>
+                    <% unless cat_report.collect(&:avatars).flatten.blank? %>
+                      <div class="row">
+                        <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
+                      </div>
+                    <% end %>
+                     <div class="row">
+                      <% cat_report.each do |line| %>
+                        <% line.avatars.each_with_index do |upload, index| %>
+                          <div class="col-sm-4 gallery-image">
+                            <% if upload.avatar %>
+                              <%= image_tag upload.avatar.url %>
+                              <div class="gallery-image-options text-center">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                                </div>
+                              </div>
+                            <% else %>
+                              <%= image_tag "/assets/default.png"%>
+                              <div class="gallery-image-options text-center">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
+                                </div>
+                              </div>
+                            <% end%>
+                          </div>
+                        <% end %>
+                      <% end %>
                     </div>
-                  <% end %>   
-                   <div class="row">
-                    <% cat_report.each do |line| %>
-                      <% line.avatars.each_with_index do |upload, index| %>
-                        <div class="col-sm-4 gallery-image">
-                          <% if upload.avatar %>
-                            <%= image_tag upload.avatar.url %>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% else %>
-                            <%= image_tag "/assets/default.png"%>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
-                          <% end%>
-                        </div>  
-                      <% end %>  
-                    <% end %>  
-                  </div>  
-                <% end %>
+                  <% end %>
+                  <% else %>
+                    <div class="alert alert-info">
+                      <h4><i class="fa fa-info-circle"></i> Corner Category Images </h4> not available!
+                    </div>
+                <% end -%>
               </div>
             </div>
-          </div>  
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -289,23 +302,23 @@
                         <div class="btn-group btn-group-sm">
                           <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
                         </div>
-                      </div>       
+                      </div>
                     <% else %>
                       <%= image_tag image.avatar.url(:small) %>
                       <div class="gallery-image-options text-center">
                         <div class="btn-group btn-group-sm">
                           <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                        </div> 
-                      </div>  
+                        </div>
+                      </div>
                     <% end %>
-                  </div>  
+                  </div>
                 <% end %>
-              <% else %>  
+              <% else %>
                 <div class="alert alert-info">
-                  <h4><i class="fa fa-info-circle"></i> Shop Images </h4> Not avaible!
+                  <h4><i class="fa fa-info-circle"></i> Shop Images </h4> Not available!
                 </div>
               <% end %>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -327,7 +340,7 @@
           <div class="people ">
             <ul>
               <% @shop.peoples.each do |people| %>
-                <li> 
+                <li>
                   <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
                   <label class="people-name"><%= people.name %> </label>
                    <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
@@ -337,9 +350,9 @@
           </div>
         <% else %>
           <div class="alert alert-info">
-            <h4><i class="fa fa-info-circle"></i> People </h4> Not avaible!
+            <h4><i class="fa fa-info-circle"></i> People </h4> Not available!
           </div>
-        <% end %>  
+        <% end %>
       </div>
     </div>
   </div>
@@ -369,7 +382,7 @@
                 <%end%>
               <% end -%>
             </ul>
-          </div>  
+          </div>
         </div>
         <h3>
           <i class="fa fa-bar-chart-o"></i>
@@ -377,41 +390,47 @@
         </h3>
       </div>
       <div class="block-content scroll-shop-svr" >
-        <table class="table table-hover table-bordered " id="shop-svr-table">
-          <thead>
-            <tr>
-              <th> S.No. </th>
-              <th> Product Category </th>
-              <th> Created by</th>
-              <th> Created at </th>
-              <% if can? :create, Task %>
-                <th>Status</th>
-              <% end %>  
-            <tr/>
-          </thead>
-          <tbody>
-            <% @posts.each_with_index do |post, index| %>
+        <% unless @posts.blank? %>
+          <table class="table table-hover table-bordered " id="shop-svr-table">
+            <thead>
               <tr>
-                <td> <%= link_to  index+1, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
-                <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
-                <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
-                <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
+                <th> Id </th>
+                <th> Product Category </th>
+                <th> Created by</th>
+                <th> Created at </th>
                 <% if can? :create, Task %>
-                  <td>
-                    <% unless post.published? %> 
-                     <span> <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-success" %> </span>
-                    <% else %> 
-                      <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-warning" %> </span>
-                    <% end %>
-                  </td>
-                <% end %>   
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>  
+                  <th>Status</th>
+                <% end %>
+              <tr/>
+            </thead>
+            <tbody>
+              <% @posts.each do |post| %>
+                <tr>
+                  <td> <%= link_to  post.id, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
+                  <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
+                  <td> <%= link_to post.user.name, activities_path(:user_id => post.user_id) %></td>
+                  <td> <%= post.created_at.strftime("%B %d, %Y") %> </td>
+                  <% if can? :create, Task %>
+                    <td>
+                      <% unless post.published? %>
+                       <span> <%= link_to "Publish", publish_report_tasks_path(:post_id => post.id), :class => "btn btn-success" %> </span>
+                      <% else %>
+                        <span> <%= link_to "Unpublished", unpublish_report_tasks_path(:post_id => post.id), :class => "btn btn-warning" %> </span>
+                      <% end %>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="alert alert-info">
+            <h4><i class="fa fa-info-circle"></i> SVR  </h4> Not available!
+          </div>
+        <% end -%>
+      </div>
     </div>
-  </div>  
+  </div>
 </div>
 
 <%= content_for :footer_js do %>
@@ -447,7 +466,7 @@
           break;
         case "Orient Exclusive" :
           marker_icon = '/assets/icon/orient.png';
-          break;  
+          break;
         case "Orient Center" :
           marker_icon = '/assets/icon/orient-center.png';
           break;
@@ -462,20 +481,20 @@
           break;
         case "PEL Exclusive" :
           marker_icon = '/assets/icon/pel.png';
-          break; 
+          break;
         case "Ruba Digital" :
           marker_icon = '/assets/icon/ruba-digital.png';
-          break; 
+          break;
         case "Samsung Concept Shop" || "Samsung Brand Shop":
           marker_icon = '/assets/icon/samsung.png';
           break;
         case "Singer Plus" :
           marker_icon = '/assets/icon/singer.png';
-          break;   
+          break;
         default:
           marker_icon ='';
-        break;  
-      } 
+        break;
+      }
       marker = new google.maps.Marker({
         position: location,
         map: map,
@@ -545,25 +564,25 @@
         $('#ajax-loading').removeClass("display-none");
         $(".shop-filter-form").submit();
       });
-      
+
 
       lat = convert($("#lat").val());
       lng = convert($("#lng").val());
       category= $("#shop_category").val();
-      
-      
+
+
 
       if(lat &&  lng)
         initialize(lat,lng);
-      
-      
+
+
       $(".search_btn").click( function ()
       {
         id = $(this).data("id");
         $.ajax ({
           url:  '/dealers/' + id + '/showmodal',
           success: function(data)
-          {                              
+          {
             $("#modal-user").html(data);
             $(".person-inform-link").click();
           }
