@@ -374,22 +374,20 @@
 
 <%= content_for :footer_js do %>
 <script type="text/javascript" charset="utf-8">
-  var asInitVals = new Array();
 
   $(document).ready(function() {
 
-     $('#shop-data').dataTable( {
-
-      "processing": true,
-      "serverSide": true,
-      "ajax": {
-        "url": "/shops",
-        "type": "GET"
-      }
-    });
 
     $(".custom-shop-form input[type='text']").keydown(function(e){
-      $('.custom-shop-form').submit();
+      $.ajax( {
+        type: "GET",
+        url: $(".custom-shop-form").attr( 'action'),
+        data: $(".custom-shop-form").serialize(),
+        success: function( response ) {
+          console.log('');
+        }
+      });
+
     });
 
     $(".ajax-submit-btn").click(function(){

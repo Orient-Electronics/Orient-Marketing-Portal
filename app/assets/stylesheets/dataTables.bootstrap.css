@@ -15,6 +15,17 @@ div.dataTables_filter label {
 
 div.dataTables_filter input {
 	width: 16em;
+	font-size: 13px;
+	padding: 6px 8px;
+	max-width: 100%;
+	margin: 1px 0;
+	color: #394263;
+	border-color: #dbe1e8;
+	height: 34px;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
 
 div.dataTables_info {

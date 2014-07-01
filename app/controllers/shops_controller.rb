@@ -76,6 +76,9 @@ class ShopsController < ApplicationController
         @limited_shops = Shop.page(page).per(10)
       end
     end
+    respond_to do |format|
+      format.js
+    end
   end
 
   def load_more_peoples

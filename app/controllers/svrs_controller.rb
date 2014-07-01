@@ -21,7 +21,7 @@ class SvrsController < ApplicationController
       sorting_query = [attribute_name,order_by_type].join(' ')
       @posts = Post.sort_data(@posts, sorting_query)
     end
-    @posts = Post.apply_search_filter(@posts, search)
+    @posts = Post.apply_search_filter(@posts, search).uniq
 
     respond_to do |format|
       format.html
@@ -38,6 +38,7 @@ class SvrsController < ApplicationController
     @display_report  = @reports.where(:report_type => "display").collect(&:report_lines).flatten
     @sales_report   = @reports.where(:report_type => "sales").collect(&:report_lines).flatten
     @corner_report  = @reports.where(:report_type => "display_corner").collect(&:report_lines).flatten
+
     @brand_report_lines = @corner_report.group_by {|d| d[:brand_id] }
     @category_report_lines = @corner_report.group_by {|d| d[:product_category_id] }
     @report_lines_avatars = @corner_report.collect(&:avatars).flatten
@@ -218,21 +219,21 @@ class SvrsController < ApplicationController
 
     case column_number
     when 0
-      return "id"
+      return "posts.id"
     when 1
-      return "dealer_name"
+      return "shops.dealer_name"
     when 2
       return "product_categories.name"
     when 3
       return "cities.name"
     when 4
-      return "week"
+      return "reports.week"
     when 5
-      return "created_at"
+      return "posts.created_at"
     when 6
-      return "first_name"
+      return "users.first_name"
     else
-      return "id"
+      return "posts.id"
     end
 
   end

@@ -367,7 +367,14 @@
     $(document).ready(function() {
 
       $(".custom-dealer-form input[type='text']").keydown(function(e){
-        $('.custom-dealer-form').submit();
+        $.ajax( {
+          type: "GET",
+          url: $(".custom-dealer-form").attr( 'action'),
+          data: $(".custom-dealer-form").serialize(),
+          success: function( response ) {
+            console.log('');
+          }
+        });
       });
 
       $(".ajax-submit-btn").click(function(){

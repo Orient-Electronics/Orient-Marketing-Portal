@@ -11,6 +11,9 @@ $('document').ready(function(){
     }
   });
 
+  $("#svrs-table input[type=text]").each(function(){
+    $(this).addClass("form-control");
+  });
 
   $("#sidebar").hover(function(){
     $("#page-container").addClass("sidebar-visible-lg");
@@ -513,6 +516,8 @@ $('document').ready(function(){
 $(document).on('click', '.svrs-table tbody a', function(){
   window.location=$(this).attr('src');
 });
+
+
 
 function loadBrandChart()
 {
