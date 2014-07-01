@@ -92,7 +92,11 @@ Orient::Application.routes.draw do
 
   resources :shops do
     resources :uploads
-    resources :svrs
+    resources :svrs do
+      member do
+        get "delete"
+      end
+    end
     member do
       get 'delete'
     end

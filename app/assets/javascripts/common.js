@@ -3,13 +3,13 @@ $('document').ready(function(){
 
   $('#svrs-table').dataTable( {
 
-      "processing": true,
-      "serverSide": true,
-      "ajax": {
-        "url": "/svrs",
-        "type": "GET"
-      }
-    });
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+      "url": "/svrs",
+      "type": "GET"
+    }
+  });
 
 
   $("#sidebar").hover(function(){

@@ -4017,21 +4017,17 @@ only screen and (min-device-pixel-ratio: 1.5) {
 #ajax-loading{
   margin-top: 30px !important;
 }
-.svr
+
+.svr-user-image
 {
-  width: 200px !important;
-}
-.svr .user-image-link
-{
-  width: 19%;
-  float: left;
-}
-.svr .user-image
-{
-  width: 100%;
-  float: left;
+  width: 25% !important;
+  margin-left:  36px;
 }
 
+.user-name-link
+{
+  padding-left: 12px !important
+}
 
 .shop-head-content
 {

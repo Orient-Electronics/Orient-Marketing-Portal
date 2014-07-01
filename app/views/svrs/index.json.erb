@@ -1,1 +1,5 @@
-{"draw": <%= @page %>, "recordsTotal": <%= @count %>, "recordsFiltered": <%= @count %>, "data": <%= raw @posts.collect{|post| [ post_link_with_id(post), shop_link_with_name(post.shop), get_productcategory_name(post.product_category), post.shop.city, post.week_number, post.created_at_format  ]} %> }
+<% if current_user.user_employee? %>
+  {"draw": <%= @page %>, "recordsTotal": <%= @count %>, "recordsFiltered": <%= @count %>, "data": <%= raw @posts.collect{|post| [ post_link_with_id(post), shop_link_with_name(post.shop), get_productcategory_name(post.product_category), post.shop.city, post.week_number, post.created_at_format  ]} %> }
+<% else %>
+  {"draw": <%= @page %>, "recordsTotal": <%= @count %>, "recordsFiltered": <%= @count %>, "data": <%= raw @posts.collect{|post| [ post_link_with_id(post), shop_link_with_name(post.shop), get_productcategory_name(post.product_category), post.shop.city, post.week_number, post.created_at_format, user_link_with_image_and_name(post.user), post_action_links(post), post_status_dropdown(post)  ]} %> }
+<% end %>

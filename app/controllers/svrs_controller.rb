@@ -1,18 +1,28 @@
 class SvrsController < ApplicationController
 
   def index
-    p params
-    p '*' * 100
+
     @page = params[:draw].nil? ? 1 : params[:draw].to_i
     limit = params[:length].nil? ? 10 : params[:length].to_i
     offset = params[:start].nil? ? 0 : params[:start].to_i
+    search = params[:search].nil? ? '' : params[:search][:value]
 
     if current_user.user_employee?
       @posts = Post.with_user(current_user).limit(limit).offset(offset)
+      @count = Post.with_user(current_user).length
     else
       @posts = Post.with_admin_user.limit(limit).offset(offset)
+      @count = Post.with_admin_user.length
     end
-    @count = @posts.length
+    unless params[:order].nil?
+      col_number = params[:order]["0"]["column"].to_i
+      order_by_type  = params[:order]["0"]["dir"]
+      attribute_name = get_sort_attribute_name(col_number)
+      sorting_query = [attribute_name,order_by_type].join(' ')
+      @posts = Post.sort_data(@posts, sorting_query)
+    end
+    @posts = Post.apply_search_filter(@posts, search)
+
     respond_to do |format|
       format.html
       format.json
@@ -115,6 +125,22 @@ class SvrsController < ApplicationController
     end
   end
 
+  def delete
+    @post = Post.find params[:id]
+    @shop = Shop.find params[:shop_id]
+    if current_user.user_employee?
+      unless @post.user_id == current_user.id
+        redirect_to :back, notice: 'access denied to edit this report'
+      else
+        @post.destroy
+        redirect_to :back, notice: 'SVR successfuly deleted'
+      end
+    else
+      @post.destroy
+      redirect_to :back, notice: 'SVR successfuly deleted'
+    end
+  end
+
   def brand_search
     if params[:shop_id].blank?
       @posts = Post.published_reports
@@ -184,6 +210,31 @@ class SvrsController < ApplicationController
 
   def upload_field
     render(:partial => "/svrs/report_upload", :locals => {:temp => params[:length]})
+  end
+
+  private
+
+  def get_sort_attribute_name(column_number)
+
+    case column_number
+    when 0
+      return "id"
+    when 1
+      return "dealer_name"
+    when 2
+      return "product_categories.name"
+    when 3
+      return "cities.name"
+    when 4
+      return "week"
+    when 5
+      return "created_at"
+    when 6
+      return "first_name"
+    else
+      return "id"
+    end
+
   end
 
 end

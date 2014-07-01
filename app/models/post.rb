@@ -30,6 +30,15 @@ class Post < ActiveRecord::Base
     PublicActivity::Activity.where(trackable_id: self.id, trackable_type: "Post").destroy_all
   end
 
+  def self.sort_data(data, sort_by)
+    data.joins(:reports).joins(:product_category).joins(:user).joins(:shop).joins("LEFT OUTER JOIN locations ON shops.location_id = locations.id").joins("LEFT OUTER JOIN cities ON locations.city_id = cities.id").order(sort_by)
+  end
+
+  def self.apply_search_filter(data,key_word)
+    search_keyword = ["%",key_word,"%"].join('')
+    data.joins(:reports).joins(:product_category).joins(:user).joins(:shop).joins("LEFT OUTER JOIN locations ON shops.location_id = locations.id").joins("LEFT OUTER JOIN cities ON locations.city_id = cities.id").where('posts.id like ? OR dealer_name like ? OR product_categories.name like ? OR cities.name like ? OR week like ? OR posts.created_at like ? OR first_name like ?', search_keyword, search_keyword, search_keyword, search_keyword, search_keyword, search_keyword, search_keyword)
+  end
+
   def update_reports_attribute
     unless self.year.blank?
       self.reports.each do |report|
