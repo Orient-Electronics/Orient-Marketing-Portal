@@ -14,7 +14,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
-//= require jquery-1.10.2.min
 //= require modernizr
 //= require twitter/bootstrap
 //= require jquery.dataTables

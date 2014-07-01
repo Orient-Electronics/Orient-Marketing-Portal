@@ -258,11 +258,10 @@ class DealersController < ApplicationController
 
   def load_filter_uploads
     params[:page] = params[:page].blank? ? 1 : params[:page]
-    if params[:id].present?
-      @parent = Dealer.where(id: params[:id]).first
+
       if params[:filter].present?
         search = Sunspot.search (Shop) do
-          with(:dealer_id, params[:id])
+          with(:dealer_id, params[:id]) unless params[:id].nil?
           with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
           with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
           with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
@@ -272,12 +271,21 @@ class DealersController < ApplicationController
         from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
         to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
         @posts = Post.with_shops(shop_ids).where('created_at >= ? AND created_at <= ?',from, to)
-      else
-        @shops = @parent.shops.flatten
+        @shops =  @parent.shops.flatten
+        shop_ids = flatten_data(@shops, &:id)
         post_ids = flatten_data(@posts,&:id)
+        apply_array_pagination((Upload.with_shops(shop_ids) + Upload.with_posts(post_ids)), params[:page])
+      else
+        @parent = Dealer.where(id: params[:id]).first
+        unless @parent.nil?
+          @shops =  @parent.shops.flatten
+          shop_ids = flatten_data(@shops, &:id)
+          post_ids = flatten_data(@posts,&:id)
+          apply_array_pagination((Upload.with_shops(shop_ids) + Upload.with_posts(post_ids)), params[:page])
+        else
+          Upload.page(params[:page]).per(10)
+        end
       end
-      apply_array_pagination((Upload.with_shops(shop_ids) + Upload.with_posts(post_ids)), 1)
-    end
   end
 
   def gallery

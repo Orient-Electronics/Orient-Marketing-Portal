@@ -16,26 +16,22 @@ class ApplicationController < ActionController::Base
         current_user.user_employee? ? 'employee' : 'application'
       else
         'application'
-      end  
+      end
   end
 
   def fetch_notification
-    if request.format.html?
-      if current_user
-        params[:page] = params[:page].blank? ? 1 : params[:page]
-        @notifications_count = current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}.count
-        @notifications = Kaminari.paginate_array(current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}).page(params[:page]).per(5)
-      end
-    end  
+    if current_user
+      params[:page] = params[:page].blank? ? 1 : params[:page]
+      @notifications_count = current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}.count
+      @notifications = Kaminari.paginate_array(current_user.subscribers.collect(&:notifications).flatten.sort{|a, b| b[:created_at] <=> a[:created_at]}).page(params[:page]).per(5)
+    end
   end
 
   def fetch_activities
-    if request.format.html?
-      if current_user
-        params[:page] = params[:page].blank? ? 1 : params[:page]
-        @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: current_user.id, owner_type: "User").page(params[:page]).per(5)
-      end
-    end  
+    if current_user
+      params[:page] = params[:page].blank? ? 1 : params[:page]
+      @activities = PublicActivity::Activity.order("created_at desc").where(owner_id: current_user.id, owner_type: "User").page(params[:page]).per(5)
+    end
   end
   def check_admin
     if params[:controller] == 'rails_admin/main'
@@ -46,13 +42,13 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    resource.user_admin? ? '/admin' : session["user_return_to"]         
-  end 
+    resource.user_admin? ? '/admin' : session["user_return_to"]
+  end
 
   # def current_user
   #   @current_user ||= User.find(session[:user_id]) if session[:user_id]
   # end
   helper_method :current_user
   hide_action :current_user
-  
+
 end
