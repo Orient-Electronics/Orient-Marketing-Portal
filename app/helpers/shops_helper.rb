@@ -15,4 +15,10 @@ module ShopsHelper
   def shop_delete_link(shop)
     link_to raw("<i class='hi hi-off'></i>"), delete_shop_path(shop), :class => 'btn', :title => 'delete', 'data-confirm' => 'are you sure?'
   end
+
+  def post_link_with_id(post)
+    link_to post.id, "/shops/#{post.shop_id}/svr/#{post.id}"
+  end
+
+
 end

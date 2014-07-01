@@ -1,0 +1,1 @@
+{"draw": <%= @page %>, "recordsTotal": <%= @count %>, "recordsFiltered": <%= @count %>, "data": <%= raw @posts.collect{|post| [ post_link_with_id(post), shop_link_with_name(post.shop), get_productcategory_name(post.product_category), post.shop.city, post.week_number, post.created_at_format  ]} %> }

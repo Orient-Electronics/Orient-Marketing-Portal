@@ -1,13 +1,12 @@
 <div class="block">
   <div class="block-title">
-    
     <h2>
       <i class="fa fa-bar-chart-o"></i>
       Shop Visit Reports
     </h2>
   </div>
   <div class="table-responsive">
-    <table class="table table-striped table-vcenter svr-table">
+    <table class="table table-striped table-bordered table-hover" id="svrs-table">
       <thead>
         <tr>
           <th> Id </th>
@@ -16,52 +15,10 @@
           <th> City</th>
           <th> Week No. </th>
           <th> Created at </th>
-          <th> Created by</th>
-          <% if current_user.user_admin? or current_user.user_manager? %>
-            <th> Action </th>
-            <th>Change Status</th>
-          <% end %>  
         <tr/>
       </thead>
       <tbody>
-        <% @posts.each_with_index do |post, index| %>
-          <tr>
-            <td> <%= link_to  post.id, "/shops/#{post.shop_id}/svr/#{post.id}" %> </td>
-            <td> <%= link_to post.shop.dealer_name, shop_path(post.shop) %></td>
-            <td> <%= ProductCategory.find(post.product_category_id).name %> </td>
-            <td> <%= post.shop.location.city.name %></td>
-            
-            <td class="text-center"> <%= post.reports.first.year %> - <%= "#{post.reports.first.week}" %> </td>
-            <td> <%= post.created_at.strftime("%B %d, %Y - %I:%M %p") %> </td>
-            <td class="text-center svr">
-              <%=link_to raw(image_tag(post.user.avatar.avatar(:thumb), :class => "img-circle user-image")), activities_path(:user_id => post.user.id),:class => "user-image-link" %>
-              <span><%= post.user.name %></span>
-            </td>
-            <% if current_user.user_admin? or current_user.user_manager? %>
-              <td class="text-center"> 
-                <div class="btn-group btn-group-xs">
-                  <%= link_to raw("<i class='fa fa-pencil'></i>"),  "/shops/#{post.shop_id}/svrs/#{post.id}/edit", :class => 'btn btn-default', "data-toggle" => "tooltip", :title=> "Update" %>
-                 <%= link_to raw("<i class='fa fa-times'></i>"),  "/shops/#{post.shop_id}/svrs/#{post.id}", :method => :delete, :confirm => "are you sure? ", "data-toggle"=>"tooltip" ,:title=>"Delete", :class => 'btn btn-danger'  %> 
-                </div> 
-              </td>
-              <td>
-                <div class="btn-group">
-                  <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Change <span class="caret"></span></a>
-                  <ul class="dropdown-menu text-left">
-                    <li class="<%= 'active' if post.status == 'published'%>"><%= link_to "Publish", publish_report_tasks_path(:post_id => post.id)  %></li>
-                    <li class="<%= 'active' if post.status == 'submit'%>"><%= link_to "Un Publish", draft_report_tasks_path(:post_id => post.id)  %></li>
-                  </ul>
-                </div> 
-              </td>
-            <% end %>    
-          </tr>
-        <% end %>
       </tbody>
     </table>
   </div>
-  <div class="block-section clearfix">
-    <div class="remove-margin pull-right">
-      <%= paginate @posts %>
-    </div>  
-  </div>  
 </div>

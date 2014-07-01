@@ -21,6 +21,8 @@ class Post < ActiveRecord::Base
 
   scope :with_shops,lambda { |id | where(:shop_id => id, :published => true) }
 
+  scope :with_user, lambda {|user| where(:user_id => user.id)}
+  scope :with_admin_user, where('status !=?', 'draft')
   before_save :update_reports_attribute
   before_destroy :remove_public_activities
 
@@ -39,6 +41,14 @@ class Post < ActiveRecord::Base
 
   def submit?
     self.status == "submit"
+  end
+
+  def week_number
+    [self.reports.first.year, self.reports.first.week].join("-")
+  end
+
+  def created_at_format
+    self.created_at.strftime("%B %d, %Y - %I:%M %p")
   end
 
 end

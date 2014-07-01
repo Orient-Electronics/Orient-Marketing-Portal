@@ -1,29 +1,22 @@
 class SvrsController < ApplicationController
 
   def index
-    authorize! :read, Post
-    params[:page] = params[:page].blank? ? 1 : params[:page]
-    @categories = ProductCategory.all
-    unless params[:shop_id].blank?
-      @parent = Shop.find params[:shop_id]
-      @brands = Brand.all
-      if current_user.user_employee?
-        @posts =  Post.where(:shop_id => params[:shop_id].to_i, :user_id => current_user.id).sort_by{ |a| a.published ? 0 : 1 }
-        @reports = @posts.collect(&:reports).flatten
-      else   
-        @posts =  Post.where(:shop_id => params[:shop_id].to_i).sort_by{ |a| a.published ? 1 : 0 }
-        @reports = @posts.collect(&:reports).flatten
-      end
+    p params
+    p '*' * 100
+    @page = params[:draw].nil? ? 1 : params[:draw].to_i
+    limit = params[:length].nil? ? 10 : params[:length].to_i
+    offset = params[:start].nil? ? 0 : params[:start].to_i
 
+    if current_user.user_employee?
+      @posts = Post.with_user(current_user).limit(limit).offset(offset)
     else
-      if current_user.user_employee?
-        @posts =  Post.where(:user_id => current_user.id).sort_by{ |a| a.published ? 1 : 0 }
-      else 
-        @posts =  Post.where('status !=?', 'draft').sort_by{ |a| a.published ? 1 : 0 } + Post.where(:user_id => current_user.id)
-      end  
-      @reports = @posts.collect(&:reports).flatten
-    end  
-    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(10)
+      @posts = Post.with_admin_user.limit(limit).offset(offset)
+    end
+    @count = @posts.length
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def show
@@ -80,8 +73,8 @@ class SvrsController < ApplicationController
     if current_user.user_employee?
       unless @post.user_id == current_user.id
         redirect_to :back, notice: 'access denied to edit this report'
-      end  
-    end 
+      end
+    end
   end
 
   def create
@@ -104,7 +97,7 @@ class SvrsController < ApplicationController
     else
       render 'edit'
     end
-  end   
+  end
 
   def destroy
     @post = Post.find params[:id]
@@ -115,7 +108,7 @@ class SvrsController < ApplicationController
       else
         @post.destroy
         redirect_to shop_svrs_path(@shop)
-      end  
+      end
     else
       @post.destroy
       redirect_to shop_svrs_path(@shop)
@@ -125,7 +118,7 @@ class SvrsController < ApplicationController
   def brand_search
     if params[:shop_id].blank?
       @posts = Post.published_reports
-    else   
+    else
       @posts = Post.published_reports.where(:shop_id => params[:shop_id].to_i)
     end
     unless params[:search][:product].blank?
@@ -135,7 +128,7 @@ class SvrsController < ApplicationController
         @pc = ProductCategory.all.select{|a| product.include?(a[:name])}
         @reports = @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| @parent.include?(a.product)}.collect(&:report).uniq
         @reports = @reports + @posts.collect(&:reports).flatten.collect(&:report_lines).flatten.select{|a| @pc.include?(a.product_category)}.collect(&:report).uniq
-      end  
+      end
     else
       @reports = @posts.collect(&:reports).flatten
     end
@@ -149,14 +142,14 @@ class SvrsController < ApplicationController
     end
     @categories = @reports.collect(&:report_lines).flatten.collect(&:product_category).uniq
     @brands = @categories.collect(&:brands).uniq.flatten
-   
+
     render(:partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports, :type => params[:search][:type]})
   end
 
   def category_search
     if params[:shop_id].blank?
       @posts = Post.published_reports
-    else   
+    else
       @posts = Post.published_reports.where(:shop_id => params[:shop_id].to_i)
     end
     @reports = @posts.collect(&:reports).flatten
@@ -194,4 +187,3 @@ class SvrsController < ApplicationController
   end
 
 end
-  

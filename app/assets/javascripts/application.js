@@ -17,6 +17,8 @@
 //= require modernizr
 //= require twitter/bootstrap
 //= require jquery.dataTables
+//= requrie dataTables.bootstrap
+//= require DT_bootstrap
 //= require datatable
 //= require plugins
 //= require typeahead

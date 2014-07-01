@@ -1,9 +1,22 @@
 
 $('document').ready(function(){
 
+  $('#svrs-table').dataTable( {
+
+      "processing": true,
+      "serverSide": true,
+      "ajax": {
+        "url": "/svrs",
+        "type": "GET"
+      }
+    });
+
+
   $("#sidebar").hover(function(){
     $("#page-container").addClass("sidebar-visible-lg");
   });
+
+
 
   $(".sidebar-nav-menu.active").parent().find('ul').show();
 
@@ -497,6 +510,9 @@ $('document').ready(function(){
 
 });
 
+$(document).on('click', '.svrs-table tbody a', function(){
+  window.location=$(this).attr('src');
+});
 
 function loadBrandChart()
 {
