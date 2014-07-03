@@ -5,9 +5,10 @@ $('document').ready(function(){
 
     "processing": true,
     "serverSide": true,
+    "order": [[ 0, "desc" ]],
     "ajax": {
       "url": "/svrs",
-      "type": "GET"
+      "type": "GET",
     }
   });
 

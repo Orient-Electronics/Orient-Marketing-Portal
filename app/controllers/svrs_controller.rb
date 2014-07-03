@@ -17,6 +17,7 @@ class SvrsController < ApplicationController
     unless params[:order].nil?
       col_number = params[:order]["0"]["column"].to_i
       order_by_type  = params[:order]["0"]["dir"]
+
       attribute_name = get_sort_attribute_name(col_number)
       sorting_query = [attribute_name,order_by_type].join(' ')
       @posts = Post.sort_data(@posts, sorting_query)
@@ -219,7 +220,7 @@ class SvrsController < ApplicationController
 
     case column_number
     when 0
-      return "posts.created_at"
+      return "posts.id"
     when 1
       return "shops.dealer_name"
     when 2
