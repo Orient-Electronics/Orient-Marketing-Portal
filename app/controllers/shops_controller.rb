@@ -21,7 +21,6 @@ class ShopsController < ApplicationController
       post_ids = flatten_data(@posts,&:id)
       @reports = Report.with_posts(post_ids)
       report_ids = flatten_data(@reports,&:id)
-      p ReportLine.with_reports(report_ids).count
       @corner_reports  = apply_array_pagination(ReportLine.with_reports(report_ids), 1)
       @corner_brand_report_lines = @corner_reports.group_by {|d| d[:brand_id] }
       @corner_category_report_lines = @corner_reports.group_by {|d| d[:product_category_id]}
