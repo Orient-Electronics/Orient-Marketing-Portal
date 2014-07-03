@@ -74,8 +74,8 @@
               <%= link_to "Areas", areas_path %>
             </li>
           </ul>
-        </li>  
-      </ul>  
+        </li>
+      </ul>
       <!-- END Sidebar Navigation -->
       <div class="sidebar-activities">
       <!-- Sidebar Notifications -->
@@ -83,24 +83,24 @@
           <span class="sidebar-header-title">Activity</span>
         </div>
         <% unless @activities.blank? %>
-          <div class="sidebar-section activities-section activity-scroll" data-domain = "<%= APP_CONFIG["domain"] %>">
+          <div class="sidebar-section activities-section activity-scroll">
             <% @activities.each do |activity| %>
               <div class="alert alert-info alert-alt my_activities">
                 <small><%= activity.created_at.strftime("%B, %d")%></small><br>
                  <i class="fa fa-arrow-up fa-fw"></i> You <%= render_activity activity %>
-              </div>    
+              </div>
             <% end %>
             <div class="hide activities">
-              <%= paginate @activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>
-            </div>  
+              <%= paginate @activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'activities', :method => :get } %>
+            </div>
           </div>
-        <% end %>  
+        <% end %>
       </div>
     </div>
     <!-- END Sidebar Content -->
   </div>
   <!-- END Wrapper for scrolling functionality -->
-</div>      
+</div>
 <!-- END Main Sidebar -->
 
 
@@ -117,7 +117,7 @@
       <!-- Modal Body -->
       <div class="modal-body">
         <%= form_for(current_user, :as => current_user, :url => registration_path(current_user), :html => { :method => :put, :multipart => true, :class => "form-horizontal form-bordered" }) do |f| %>
-          
+
           <fieldset>
             <%= f.fields_for :avatar do |form| %>
               <div class="form-group">
@@ -126,7 +126,7 @@
                   <%= form.file_field :avatar %>
                 </div>
               </div>
-            <% end -%>  
+            <% end -%>
             <div class="form-group">
               <label class="col-md-4 control-label" for="user-settings-email">First Name </label>
               <div class="col-md-8">
@@ -173,7 +173,7 @@
               <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
             </div>
           </div>
-        <% end %>  
+        <% end %>
       </div>
       <!-- END Modal Body -->
     </div>

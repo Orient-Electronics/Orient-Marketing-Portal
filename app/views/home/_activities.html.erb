@@ -2,11 +2,11 @@
   <div class="alert alert-info alert-alt my_activities">
     <small><%= activity.created_at.strftime("%B, %d")%></small><br>
      <i class="fa fa-arrow-up fa-fw"></i> You <%= render_activity activity %>
-  </div>    
+  </div>
 <% end %>
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('.activities nav.pagination').replaceWith("<%= j paginate @activities, :params => { :controller => 'home', :action => 'activities', :method => :get } %>");
-	});	
+		$('.activities nav.pagination').replaceWith("<%= j paginate @activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'activities', :method => :get } %>");
+	});
 </script>

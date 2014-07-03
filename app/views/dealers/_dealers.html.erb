@@ -100,7 +100,7 @@
                 </div>
               <% end %>
               <div class="hide brand_corner_report_paginator">
-                <%= paginate @corner_reports, :params => { :controller => 'dealers', :action => 'load_more_brand_corner_report_lines', :method => :get } %>
+                <%= paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_brand_corner_report_lines', :method => :get } %>
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@
                 </div>
               <% end %>
               <div class="hide category_corner_report_paginator">
-                <%= paginate @corner_reports, :params => { :controller => 'dealers', :action => 'load_more_category_corner_report_lines', :method => :get } %>
+                <%= paginate @corner_reports, :params => { :host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_category_corner_report_lines', :method => :get } %>
               </div>
             </div>
           </div>
@@ -171,7 +171,7 @@
               </div>
             <% end %>
             <div class="hide upload_images_paginator">
-              <%= paginate @uploads, :params => { :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>
+              <%= paginate @uploads, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>
             </div>
           </div>
         </div>
@@ -208,7 +208,7 @@
               </div>
             <% end %>
             <div class="hide upload_images_paginator">
-              <%= paginate @uploads, :params => { :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>
+              <%= paginate @uploads, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>
             </div>
           </div>
         </div>
@@ -235,7 +235,7 @@
                 </li>
               <% end%>
               <div class="hide shop_people_paginator">
-                <%= paginate @peoples, :params => { :controller => 'dealers', :action => 'load_more_peoples', :method => :get } %>
+                <%= paginate @peoples, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_peoples', :method => :get } %>
               </div>
             </ul>
           </div>

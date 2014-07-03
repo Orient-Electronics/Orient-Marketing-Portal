@@ -28,21 +28,21 @@
         </a>
         <ul class="dropdown-menu dropdown-custom dropdown-menu-right notification-height">
           <li class="dropdown-header text-center">Notifications</li>
-          <li class="notification-content notification-scroll" data-domain = "<%= APP_CONFIG["domain"] %>" >
+          <li class="notification-content notification-scroll">
             <% @notifications.each do |notification|%>
               <div class="alert  alert-info alert-alt my-notification notification" data-notification="<%= notification.id %>">
                 <small><%= notification.created_at.strftime("%B, %d")%></small><br>
                 <i class="fa fa-arrow-up fa-fw"></i><%= notification.owner.name %>  <%= render_activity notification %>
-              </div> 
+              </div>
             <% end %>
             <div class="pager_notification hide">
-              <%= paginate @notifications, :params => { :controller => 'home', :action => 'notifications', :method => :get }%>
+              <%= paginate @notifications, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'notifications', :method => :get }%>
             </div>
           </li>
         </ul>
       </li>
       <!-- END User Dropdown -->
     </ul>
-  <% end %>  
+  <% end %>
   <!-- END Right Header Navigation -->
 </header>

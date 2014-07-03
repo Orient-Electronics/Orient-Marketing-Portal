@@ -45,7 +45,7 @@
             </tbody>
           </table>
           <div class="shop-pagination pull-right">
-          <%= paginate @limited_shops, :remote => true, :params => { :controller => 'shops', :action => 'load_more_shops', :method => :get } %>
+          <%= paginate @limited_shops, :remote => true, :params => { :host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_shops', :method => :get } %>
         </div>
       </div>
     </div>
@@ -153,7 +153,7 @@
                 </div>
               <% end %>
               <div class="hide brand_corner_report_paginator">
-                <%= paginate @corner_reports, :params => { :controller => 'shops', :action => 'load_more_brand_corner_report_lines', :method => :get } %>
+                <%= paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_brand_corner_report_lines', :method => :get } %>
               </div>
             </div>
           </div>
@@ -190,7 +190,7 @@
                 </div>
               <% end %>
               <div class="hide category_corner_report_paginator">
-                <%= paginate @corner_reports, :params => { :controller => 'shops', :action => 'load_more_category_corner_report_lines', :method => :get } %>
+                <%= paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_category_corner_report_lines', :method => :get } %>
               </div>
             </div>
           </div>
@@ -224,7 +224,7 @@
               </div>
             <% end %>
             <div class="hide upload_images_paginator">
-              <%= paginate @uploads, :params => { :controller => 'shops', :action => 'load_more_uploads', :method => :get } %>
+              <%= paginate @uploads, :params => {:host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_uploads', :method => :get } %>
             </div>
           </div>
         </div>
@@ -261,7 +261,7 @@
                 </div>
               <% end %>
               <div class="hide upload_images_paginator">
-                <%= paginate @uploads, :params => { :controller => 'shops', :action => 'load_more_uploads', :method => :get } %>
+                <%= paginate @uploads, :params => {:host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_uploads', :method => :get } %>
               </div>
             </div>
           </div>
@@ -288,7 +288,7 @@
                 </li>
               <% end%>
               <div class="hide shop_people_paginator">
-                <%= paginate @peoples, :params => { :controller => 'shops', :action => 'load_more_peoples', :method => :get } %>
+                <%= paginate @peoples, :params => {:host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_peoples', :method => :get } %>
               </div>
             </ul>
           </div>

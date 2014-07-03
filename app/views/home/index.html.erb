@@ -1,4 +1,4 @@
-<%= render :partial => "/layouts/user_header" %> 
+<%= render :partial => "/layouts/user_header" %>
 <% unless current_user.user_employee? %>
   <div class="row">
   	<!-- First Column -->
@@ -11,7 +11,7 @@
   	        <div class="block-title">
   	          <h2><strong>Subscribers Actiivities</strong></h2>
   	        </div>
-  	        <!-- END Newsfeed Title -->	
+  	        <!-- END Newsfeed Title -->
 
   	        <!-- Newsfeed Content -->
   	        <div class="block-content-full subscriber-block-height">
@@ -31,20 +31,20 @@
                           </span>
                           <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>
                         </p>
-                      </div>    
-    	        			</li>	
+                      </div>
+    	        			</li>
     	        		<% end %>
                    <div class="subscribe hide">
-                    <%= paginate @subscriber_activities, :params => { :controller => 'home', :action => 'subscriber_activities', :method => :get } %>
+                    <%= paginate @subscriber_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'subscriber_activities', :method => :get } %>
                   </div>
-    	        	</ul>	
-              <% end %>  
-  	        </div>	
+    	        	</ul>
+              <% end %>
+  	        </div>
   	        <!-- END Newsfeed Content -->
   	 			</div>
   	 			<!-- END feed Block -->
-  	 		<% end %>	
-   		</div>	
+  	 		<% end %>
+   		</div>
    		<!-- END First Column -->
 
    		<!-- Second Column -->
@@ -65,10 +65,10 @@
                 <a href="<%= activities_path(:user_id => user.id) %>">
                 	<% unless user.avatar.blank? %>
                   	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle subscribed-image" , "data-toggle" => "tooltip", :title => user.name )%>
-                  <% end %>	
+                  <% end %>
                 </a>
               </div>
-            <% end %>  
+            <% end %>
           </div>
         <!-- END Friends Content -->
         </div>
@@ -88,7 +88,7 @@
           <div class="block-title">
             <h2><strong>Your Activites</strong></h2>
           </div>
-          <!-- END Newsfeed Title --> 
+          <!-- END Newsfeed Title -->
 
           <!-- Newsfeed Content -->
           <div class="block-content-full user-activities-height">
@@ -104,19 +104,19 @@
                       </span>
                       <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>
                     </p>
-                  </div>    
-                </li> 
+                  </div>
+                </li>
               <% end %>
               <div class="user-activities hide">
-                <%= paginate @activities, :params => { :controller => 'home', :action => 'user_activities', :method => :get, :user_id => current_user.id } %>
+                <%= paginate @activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'user_activities', :method => :get, :user_id => current_user.id } %>
               </div>
-            </ul> 
-          </div>  
+            </ul>
+          </div>
           <!-- END Newsfeed Content -->
         </div>
         <!-- END feed Block -->
-      <% end %> 
-    </div>  
+      <% end %>
+    </div>
     <!-- END First Column -->
   </div>
 <% end %>

@@ -219,7 +219,7 @@ class SvrsController < ApplicationController
 
     case column_number
     when 0
-      return "posts.id"
+      return "posts.created_at"
     when 1
       return "shops.dealer_name"
     when 2
@@ -233,7 +233,7 @@ class SvrsController < ApplicationController
     when 6
       return "users.first_name"
     else
-      return "posts.id"
+      return "posts.created_at"
     end
 
   end

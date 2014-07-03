@@ -1,6 +1,6 @@
 <% @user_activities.each do |activity| %>
 	<li class="media user-activity">
-    <% user = User.find(activity.owner.id) %>    
+    <% user = User.find(activity.owner.id) %>
     <%=link_to raw(image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => user.id),:class => "pull-left user-link-small" %>
     <div class="media-body">
       <p class="push-bit">
@@ -10,13 +10,13 @@
         </span>
         <strong><%=link_to activity.owner.name, activities_path(:user_id => user.id) if activity.owner %> <%= render_activity activity %> </strong>
       </p>
-    </div>    
-  </li> 
+    </div>
+  </li>
 <% end %>
 
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.user_activities nav.pagination').replaceWith("<%= j paginate @user_activities, :params => { :controller => 'home', :action => 'notifications', :method => :get, :user_id => @user_activities.first.owner.id } %>");
-  }); 
+    $('.user_activities nav.pagination').replaceWith("<%= j paginate @user_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'notifications', :method => :get, :user_id => @user_activities.first.owner.id } %>");
+  });
 </script>

@@ -5,25 +5,27 @@
       Shop Visit Reports
     </h2>
   </div>
-  <div class="table-responsive">
-    <table class="table table-striped" id="svrs-table">
-      <thead>
-        <tr>
-          <th> Id </th>
-          <th> Shop Name </th>
-          <th> Product Category </th>
-          <th> City</th>
-          <th> Week No. </th>
-          <th> Created at </th>
-          <% unless current_user.user_employee? %>
-            <th> Created by</th>
-            <th> Action </th>
-            <th> Change Status </th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+  <div class="block-body">
+    <div class="table-responsive">
+      <table class="table table-striped" id="svrs-table">
+        <thead>
+          <tr>
+            <th> Id </th>
+            <th> Shop Name </th>
+            <th> Product Category </th>
+            <th> City</th>
+            <th> Week No. </th>
+            <th> Created at </th>
+            <% unless current_user.user_employee? %>
+              <th> Created by</th>
+              <th> Action </th>
+              <th> Change Status </th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
