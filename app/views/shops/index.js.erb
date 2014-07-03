@@ -53,7 +53,7 @@ $(document).ready(function() {
   if($(".shop_people_paginator nav.pagination").length)
   {
     $(".shop-peoples-content").scroll(function(){
-      domain = $('.notification-content').data("domain");
+      domain = $('.dealer-head-content').data("domain");
       var url = domain + $('.shop_people_paginator nav.pagination a[rel=next]').attr('href');
 
       if(url &&  $('.shop-peoples-content')[0].scrollHeight)
@@ -77,7 +77,7 @@ $(document).ready(function() {
   if($(".brand_corner_report_paginator nav.pagination").length)
   {
     $(".brand-content").scroll(function(){
-      domain = $('.notification-content').data("domain");
+      domain = $('.dealer-head-content').data("domain");
       var url = domain + $('.brand_corner_report_paginator nav.pagination a[rel=next]').attr('href');
       if(url &&  $('.brand-content')[0].scrollHeight)
       {
@@ -100,7 +100,7 @@ $(document).ready(function() {
   if($(".category_corner_report_paginator nav.pagination").length)
   {
     $(".categroy-content").scroll(function(){
-      domain = $('.notification-content').data("domain");
+      domain = $('.dealer-head-content').data("domain");
       var url = domain + $('.category_corner_report_paginator nav.pagination a[rel=next]').attr('href');
       console.log(url);
       if(url &&  $('.category-content')[0].scrollHeight)
@@ -125,7 +125,7 @@ $(document).ready(function() {
   if($(".upload_images_paginator nav.pagination").length)
   {
     $(".upload-image-block").scroll(function(){
-      domain = $('.notification-content').data("domain");
+      domain = $('.dealer-head-content').data("domain");
       var url = domain + $('.upload_images_paginator nav.pagination a[rel=next]').attr('href');
       console.log(url);
       if(url &&  $('.upload-image-block')[0].scrollHeight)
