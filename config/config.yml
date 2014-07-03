@@ -1,4 +1,4 @@
 development:
   domain: 'http://localhost:3000'
 production:
-  domain: 'http://http://vps-1154260-20629.manage.myhosting.com'
+  domain: 'http://vps-1154260-20629.manage.myhosting.com'
