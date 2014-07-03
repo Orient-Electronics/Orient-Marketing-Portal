@@ -66,7 +66,7 @@ class ShopsController < ApplicationController
       @limited_shops = apply_array_pagination(search.results,params[:page])
     else
       unless params[:dealer_name].blank?
-        search = Sunspot.search (Shop) do
+        search = Sunspot.search(Shop) do
           keywords params[:dealer_name] do
             fields(:dealer_name)
           end
