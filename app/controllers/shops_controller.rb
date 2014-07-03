@@ -4,7 +4,7 @@ class ShopsController < ApplicationController
   def index
     page = params[:page].nil? ? 1: params[:page]
     if params[:filter].present?
-      search = Sunspot.search (Shop) do
+      search = Sunspot.search(Shop) do
         with(:city_id, params[:filter][:city_id]) if params[:filter][:city_id].present?
         with(:area_id, params[:filter][:area_id]) if params[:filter][:area_id].present?
         with(:shop_category_id, params[:filter][:shop_category_id]) if params[:filter][:shop_category_id].present?
