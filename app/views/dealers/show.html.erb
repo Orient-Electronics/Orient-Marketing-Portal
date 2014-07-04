@@ -115,8 +115,8 @@
                 <% end %>
               </tbody>
             </table>
-            <div class="dealer-pagination pull-right">
-              <%= paginate @shops, :remote => true, :params => { :host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_shops', :method => :get } %>
+            <div class="dealer-pagination">
+              <%= paginate @shops, :remote => true, :window => 2, :left => 1, :right => 0, :params => { :host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_shops', :method => :get } %>
             </div>
           </div>
         </div>

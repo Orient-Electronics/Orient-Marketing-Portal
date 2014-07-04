@@ -1,2 +1,2 @@
 $(".shop-table-body").html("<%= j render :partial => '/shops/load_more_shops', :layout => false %>");
-$('.shop-pagination').html("<%= j  paginate @limited_shops, :remote => true, :params => { :controller => 'shops', :action => 'load_more_shops', :method => :get } %>");
+$('.shop-pagination').html("<%= j  paginate @limited_shops, :window => 2, :left => 1, :right => 0, :remote => true, :params => { :controller => 'shops', :action => 'load_more_shops', :method => :get } %>");

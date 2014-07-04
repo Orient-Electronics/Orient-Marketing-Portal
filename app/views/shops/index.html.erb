@@ -117,10 +117,11 @@
                 <% end %>
               </tbody>
             </table>
-            <div class="shop-pagination pull-right">
-            <%= paginate @limited_shops, :remote => true, :params => { :host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_shops', :method => :get } %>
-          </div>
+
         </div>
+        <div class="shop-pagination">
+            <%= paginate @limited_shops, :window => 2, :left => 1, :right => 0, :remote => true, :params => { :host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_shops', :method => :get } %>
+          </div>
       </div>
     <% end -%>
   </div>
@@ -376,7 +377,6 @@
 <script type="text/javascript" charset="utf-8">
 
   $(document).ready(function() {
-
 
     $(".custom-shop-form input[type='text']").keydown(function(e){
       $.ajax( {
