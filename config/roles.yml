@@ -26,3 +26,4 @@ entities:
   report_line: RerportLine
   post: Post
   announcement: Announcement
+  people: People
