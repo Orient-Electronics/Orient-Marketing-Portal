@@ -166,9 +166,9 @@ $('document').ready(function(){
   {
     $(".categroy-content").scroll(function(){
       var url = $('.category_corner_report_paginator nav.pagination a[rel=next]').attr('href');
-      if(url &&  $(".category-content")[0].scrollHeight)
+      if(url &&  $(".categroy-content")[0].scrollHeight)
       {
-        if ($('.category-content').scrollTop() > -1)
+        if ($('.categroy-content').scrollTop() > -1)
         {
           $.ajax({
             url: url,
