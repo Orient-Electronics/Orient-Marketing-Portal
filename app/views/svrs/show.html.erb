@@ -8,10 +8,9 @@
         <% unless @post.published? %>
           <% if current_user.post_owner?(@post) %>
             <div class="btn-group">
-              <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Published <span class="caret"></span></a>
+              <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Change Status<span class="caret"></span></a>
 
               <ul class="dropdown-menu text-left">
-                <li class="disabled"><a href="javascript:void(0)">Publish</a></li>
                 <li><%= link_to "Submit for Approval", submit_report_tasks_path(:post_id => @post.id) %></li>
                 <li><%= link_to "Draft", draft_report_tasks_path(:post_id => @post.id)%></li>
               </ul>
@@ -24,7 +23,7 @@
         <% else @post.published? %>
           <% unless current_user.user_employee? %>
             <div class="btn-group">
-              <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Published <span class="caret"></span></a>
+              <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Change Status<span class="caret"></span></a>
               <ul class="dropdown-menu text-left">
                 <li class="<%= 'active' if @post.status =='published' %>"><%= link_to "Publish", publish_report_tasks_path(:post_id => @post.id) %></li>
                 <li class="<%= 'active' if @post.status =='draft' %>"><%= link_to "Un Publish", draft_report_tasks_path(:post_id => @post.id)%></li>
@@ -39,7 +38,7 @@
       <% else %>
         <% unless current_user.user_employee? %>
           <div class="btn-group">
-            <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Published <span class="caret"></span></a>
+            <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Change Status <span class="caret"></span></a>
             <ul class="dropdown-menu text-left">
               <li class="<%= 'active' if @post.status =='published' %>"><%= link_to "Publish", publish_report_tasks_path(:post_id => @post.id) %></li>
               <li class="<%= 'active' if @post.status =='draft' %>"><%= link_to "Un Publish", draft_report_tasks_path(:post_id => @post.id)%></li>
