@@ -4222,3 +4222,26 @@ a:hover, a:focus
   max-height: 540px !important;
   height: auto !important;
 }
+
+.bottom-margin
+{
+  margin-bottom: 20px;
+}
+
+.upload-image .comment-portion,
+.upload-image .new-comment-portion
+{
+  margin: 0px auto;
+  width: 50%;
+}
+
+.upload-image .comment-user-image img
+{
+  width: 100%;
+}
+
+.upload-image .comment label,
+.upload-image .comment label h4
+{
+  margin: 0px;
+}

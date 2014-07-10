@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col-md-2 comment-user-image">
+    <%= image_tag current_user.get_avatar.avatar(:small_thumb) %>
+  </div>
+  <div class="col-md-10 comment">
+    <label><h4><%= comment.user.name %></h4></label>
+    <p><%= text_field_tag :comment, comment.comment, :class => "form-control", :readOnly => true  %></p>
+  </div>
+</div>

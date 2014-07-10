@@ -17,7 +17,7 @@ class UploadsController < ApplicationController
   # GET /uploads/1.json
   def show
     @upload = Upload.find(params[:id])
-
+    @comments = @upload.comments.last(10)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @upload }
@@ -84,6 +84,21 @@ class UploadsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back }
       format.json { head :no_content }
+    end
+  end
+
+  def create_comment
+    upload = Upload.find(params[:id])
+    @comment = upload.comments.create
+    @comment.comment = params[:comment][:comment]
+    @comment.user = current_user
+    if @comment.save
+      flash[:notice] = "successfully commented"
+    else
+      flash[:warning] = "Failed commented"
+    end
+    respond_to do |format|
+      format.js
     end
   end
 

@@ -111,7 +111,11 @@ Orient::Application.routes.draw do
     end
   end
 
-  resources :uploads
+  resources :uploads do
+   member do
+    post 'create_comment'
+   end
+  end
 
   resources :tasks do
     member do

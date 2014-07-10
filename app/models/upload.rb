@@ -1,7 +1,7 @@
 class Upload < ActiveRecord::Base
 
   belongs_to :uploadable, :polymorphic => true
-
+  acts_as_commentable
   attr_accessible :upload, :uploadable_id, :uploadable_type
   has_attached_file :upload,
                     :styles => {
