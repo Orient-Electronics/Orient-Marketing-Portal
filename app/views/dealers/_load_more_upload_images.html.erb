@@ -1,19 +1,9 @@
 <% @uploads.each do |image| %>
   <div class="col-sm-4 gallery-image">
     <% if image.class.to_s == "Upload"%>
-      <%= image_tag image.upload.url(:small) %>
-      <div class="gallery-image-options text-center">
-        <div class="btn-group btn-group-sm">
-          <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-        </div>
-      </div>
+      <%= link_to raw(image_tag image.upload.url(:small)), image_path(image, :type => "upload", :class => "dealers") %>
     <% else %>
-      <%= image_tag image.avatar.url(:small) %>
-      <div class="gallery-image-options text-center">
-        <div class="btn-group btn-group-sm">
-          <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-        </div>
-      </div>
+      <%= link_to raw(image_tag img.avatar.url(:small)), image_path(image, :type => "avatar", :class => "dealers") %>
     <% end %>
   </div>
 <% end %>

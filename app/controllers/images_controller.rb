@@ -21,9 +21,9 @@ class ImagesController < ApplicationController
     comment = @image.comments.build(params[:comment])
     comment.user_id = current_user.id
     if comment.save
-      flash[:notice] = "Successfully comment posted"
+      flash[:notice] = "Successfully comment created"
     else
-      flash[:warning] = "Failed comment posting"
+      flash[:warning] = "Failed comment creation"
     end
     redirect_to :back
   end

@@ -194,7 +194,6 @@
                       <% line.avatars.each do |upload| %>
                         <div class="col-sm-4 gallery-image">
                           <% if upload.avatar %>
-                            <%= image_tag upload.avatar.url %>
                             <%= link_to raw(image_tag upload.avatar.url(:small)), image_path(upload, :type => "avatar", :class => "dealers") %>
                           <% else %>
                             <%= image_tag "/assets/default.png"%>
