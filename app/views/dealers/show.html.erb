@@ -208,18 +208,8 @@
                         <div class="col-sm-4 gallery-image">
                           <% if upload.avatar %>
                             <%= image_tag upload.avatar.url %>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
                           <% else %>
                             <%= image_tag "/assets/default.png"%>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
                           <% end%>
                         </div>
                       <% end %>
@@ -245,18 +235,9 @@
                         <div class="col-sm-4 gallery-image">
                           <% if upload.avatar %>
                             <%= image_tag upload.avatar.url %>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
+                            <%= link_to raw(image_tag upload.avatar.url(:small)), dealer_image_path(@parent,upload, :type => "avatar") %>
                           <% else %>
                             <%= image_tag "/assets/default.png"%>
-                            <div class="gallery-image-options text-center">
-                              <div class="btn-group btn-group-sm">
-                                <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                              </div>
-                            </div>
                           <% end%>
                         </div>
                       <% end %>
@@ -309,19 +290,9 @@
               <% @uploads.each do |image| %>
                 <div class="col-sm-4 gallery-image">
                   <% if image.class.to_s == "Upload"%>
-                    <%= image_tag image.upload.url(:small) %>
-                    <div class="gallery-image-options text-center">
-                      <div class="btn-group btn-group-sm">
-                        <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                      </div>
-                    </div>
+                    <%= link_to raw(image_tag image.upload.url(:small)), dealer_image_path(@parent,image, :type => "upload") %>
                   <% else %>
-                    <%= image_tag image.avatar.url(:small) %>
-                    <div class="gallery-image-options text-center">
-                      <div class="btn-group btn-group-sm">
-                        <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                      </div>
-                    </div>
+                    <%= link_to raw(image_tag image.avatar.url(:small)), dealer_image_path(@parent,image,:type => "avatar" )%>
                   <% end %>
                 </div>
               <% end %>

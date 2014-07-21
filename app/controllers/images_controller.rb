@@ -1,17 +1,15 @@
 class ImagesController < ApplicationController
 
   def show
-
-      @shop = Shop.where(id: params[:shop_id]).first if params[:shop_id].present?
-      @dealer = Dealer.where(id: params[:dealer_id]).first if params[:dealer_id].present?
-
-      if params[:type] == 'upload'
-        @image = Upload.where(id: params[:id]).first
-      else
-        @image = Avatar.where(id: params[:id]).first
-      end
-      @length = @image.comments.length
-      @comments = @image.comments.last(10)
+    @shop = Shop.where(id: params[:shop_id]).first if params[:shop_id].present?
+    @dealer = Dealer.where(id: params[:dealer_id]).first if params[:dealer_id].present?
+    if params[:type] == 'upload'
+      @image = Upload.where(id: params[:id]).first
+    else
+      @image = Avatar.where(id: params[:id]).first
+    end
+    @length = @image.comments.length
+    @comments = @image.comments.last(10)
   end
 
   def create_comment

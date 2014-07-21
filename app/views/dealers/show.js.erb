@@ -14,6 +14,19 @@ $(document).ready(function() {
     });
   });
 
+  $(".view_all_link").click(function(){
+    id = $(this).data("image");
+    type = $(this).data("type");
+    $.ajax ({
+      url:  '/images/'+ id + '/view_more_comments',
+      data: {type: type },
+      success: function(data)
+      {
+        $(".view_more").remove();
+      }
+    });
+  });
+
   $(".scroll-dealer,.scroll-subscribe, .activity-scroll, .notification-scroll, .user-activity-scroll").slimScroll({ height: 'auto', size: '5px' });
 
 

@@ -1,336 +1,299 @@
-<div class="row">
-  <div class="col-md-6">
-    <%= render :partial => "/shared/map"%>
-  </div>
-  <% if can? :read, Shop%>
-    <div class="col-md-6">
-      <div class="block shops-block">
-        <div class="block-title ">
-          <% if can? :create, Shop %>
-            <div class="new-button pull-right">
-              <%= link_to raw("<i class='gi gi-new_window_alt'></i> Add Shop"), new_dealer_shop_path(@parent),  :class => "btn btn-large btn-default" %>
-            </div>
-          <% end %>
-          <h3>
-            Shops
-          </h3>
-        </div>
-        <div class="block-content dealers-data-height dearlers-list scroll-dealers-data">
-          <%= form_for(:shop, :url => load_more_shops_dealers_path, :html => {:method => :get, :remote => true, :class => "custom-dealer-form"}) do  %>
-            <div class="col-md-3">
-              <label> Search  </label>
-            </div>
-            <div class="col-md-9">
-              <%= text_field_tag "dealer_name" %>
-              <%= hidden_field_tag "id", @parent.id %>
-            </div>
-          <% end %>
-          <table class="table table-hover table-nomargin dealer-table">
-            <thead>
-              <tr>
-                <th> Dealer Name </th>
-                <th> Orient Dealer </th>
-                <th> City </th>
-                <th> Actions</th>
-              </tr>
-            </thead>
-            <tbody class="dealer-table-body">
-              <% @shops.each do |shop| %>
-                <% if can? :read, shop%>
-                  <tr>
-                  <td><%= shop_link_with_name(shop) %></td>
-                  <td><%= orient_dealer(shop) %> </td>
-                  <td><%= shop.city %> </td>
-                  <td><%= shop_edit_link(shop)  %> <%= shop_delete_link(shop) %> </td>
-                  </tr>
-                <% end %>
-              <% end %>
-            </tbody>
-          </table>
-          <div class="dealer-pagination pull-right">
-            <%= paginate @shops, :remote => true, :params => { :host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_shops', :method => :get } %>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end -%>
-</div>
-<div class="row">
-  <% if @posts.present? %>
-    <% if can? :read, Report %>
-      <div class="col-md-12">
-        <div class="block">
-          <div class="block-title">
-            <h3><strong> Sales &amp; Display  Report</strong></h3>
-            <ul class="nav nav-tabs" data-toggle="tabs">
-              <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
-              <li><a class="category-tab" href="#category-display-data">Categories</a></li>
-            </ul>
-          </div>
-          <div class="block-content">
-            <div class="tab-content">
-             <div class="tab-pane active" id="brand-display-data">
-                <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
-                  <select name="search[product][]" multiple = "true">
-                    <option value="">All</option>
-                    <% @categories.each do |pc| %>
-                      <% if pc.products.blank? %>
-                        <option value="<%= pc.name %>"><%= pc.name %></option>
-                      <% else %>
-                        <optgroup label="<%= pc.name %>">
-                          <% pc.products.each do |product| %>
-                            <option value="<%= product.name %>"><%= product.name %></option>
-                          <% end -%>
-                        </optgroup>
-                      <% end -%>
-                    <% end -%>
-                  </select>
-                 <%= f.select :year , options_for_select(present_year(@reports) , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                  <%= f.select :week , options_for_select(present_week (@reports)),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-                <% end -%>
-                <div class="brand-chart-data">
-                  <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
-                </div>
-             </div>
-             <div class="tab-pane active" id="category-display-data">
-                <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
-                  <select name="search[brand][]" multiple = "true">
-                    <option value="">All</option>
-                    <% @brands.each do |pc| %>
-                      <option value="<%= pc.id %>"><%= pc.name %></option>
-                    <% end -%>
-                  </select>
-                  <%= f.select :year , options_for_select(present_year(@reports) , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
-                  <%= f.select :week , options_for_select(present_week (@reports)),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
-                <% end -%>
-                <div class="category-chart-data">
-                  <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
-                </div>
-             </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
-</div>
-<% if @posts.present? %>
   <div class="row">
     <div class="col-md-6">
-      <div class="block corner-report">
-        <div class="block-title">
-          <h2><strong>Display Corner Reports</strong></h2>
-          <ul class="nav nav-tabs" data-toggle="tabs">
-            <li class="active"><a href="#corner_brand">Brands</a></li>
-            <li><a href="#corner_category">Categories</a></li>
-          </ul>
-        </div>
-        <div class="tab-content">
-          <div class="tab-pane active" id="corner_brand">
-            <div class="gallery brand-content scroll-brand-corner-report brand-result" data-toggle="lightbox-gallery">
-              <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
-                <% unless brand_report.collect(&:avatars).flatten.blank? %>
-                  <div class="row">
-                    <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
-                  </div>
-                <% end -%>
-                <div class="row ">
-                  <% brand_report.each do |line| %>
-                    <% line.avatars.each do |upload| %>
-                      <div class="col-sm-4 gallery-image">
-                        <% if upload.avatar %>
-                          <%= image_tag upload.avatar.url %>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url(:medium) %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                            </div>
-                          </div>
-                        <% else %>
-                          <%= image_tag "/assets/default.png"%>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                            </div>
-                          </div>
-                        <% end%>
-                      </div>
-                    <% end %>
-                  <% end %>
-                </div>
-              <% end %>
-              <div class="hide brand_corner_report_paginator">
-                <%= paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_brand_corner_report_lines', :method => :get } %>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane" id="corner_category">
-            <div class="gallery categroy-content scroll-category-corner-report category-result" data-toggle="lightbox-gallery">
-              <% @corner_category_report_lines.each do |category,cat_report| %>
-               <% unless cat_report.collect(&:avatars).flatten.blank? %>
-                  <div class="row">
-                    <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
-                  </div>
-                <% end %>
-                <div class="row">
-                  <% cat_report.each do |line| %>
-                    <% line.avatars.each do |upload| %>
-                      <div class="col-sm-4 gallery-image">
-                        <% if upload.avatar %>
-                          <%= image_tag upload.avatar.url %>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                            </div>
-                          </div>
-                        <% else %>
-                          <%= image_tag "/assets/default.png"%>
-                          <div class="gallery-image-options text-center">
-                            <div class="btn-group btn-group-sm">
-                              <a href="<%= upload.avatar.url %>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                            </div>
-                          </div>
-                        <% end%>
-                      </div>
-                    <% end %>
-                  <% end %>
-                </div>
-              <% end %>
-              <div class="hide category_corner_report_paginator">
-                <%= paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_category_corner_report_lines', :method => :get } %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= render :partial => "/shared/map"%>
     </div>
-    <div class="col-md-6">
-      <div class="block image-block">
-        <div class="block-title">
-          <h2>Images</h2>
-        </div>
-        <div class="gallery upload-image-block scroll-upload-images" data-toggle="lightbox-gallery">
-          <div class="row upload-content">
-            <% @uploads.each do |image| %>
-              <div class="col-sm-4 gallery-image">
-                <% if image.class.to_s == "Upload"%>
-                  <%= image_tag image.upload.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div>
-                  </div>
-                <% else %>
-                  <%= image_tag image.avatar.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-            <div class="hide upload_images_paginator">
-              <%= paginate @uploads, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<% else %>
-  <div class= "row">
-    <div class="col-md-6">
-      <div class="block image-block">
-        <div class="block-title">
-          <h2>Images</h2>
-        </div>
-        <div class="gallery upload-image-block scroll-upload-images" data-toggle="lightbox-gallery">
-          <div class="row upload-content">
-            <% @uploads.each do |image| %>
-              <div class="col-sm-4 gallery-image">
-                <% if image.class.to_s == "Upload"%>
-                  <%= image_tag image.upload.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.upload.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div>
-                  </div>
-                <% else %>
-                  <%= image_tag image.avatar.url(:small) %>
-                  <div class="gallery-image-options text-center">
-                    <div class="btn-group btn-group-sm">
-                      <a href="<%= image.avatar.url(:medium)%>" class="gallery-link btn btn-sm btn-alt btn-default" title="Image Info">View</a>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-            <div class="hide upload_images_paginator">
-              <%= paginate @uploads, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <% if can? :read, People %>
+    <% if can? :read, Shop%>
       <div class="col-md-6">
-        <div class="block dealers-image-block-height ">
-          <div class="block-title">
+        <div class="block shops-block">
+          <div class="block-title ">
+            <% if can? :create, Shop %>
+              <div class="new-button pull-right">
+                <%= link_to raw("<i class='gi gi-new_window_alt'></i> Add Shop"), new_dealer_shop_path(@parent),  :class => "btn btn-large btn-default" %>
+              </div>
+            <% end %>
             <h3>
-              <i class="icon-user">
-              People </i>
+              Shops
             </h3>
           </div>
-          <div class="block-content shop-peoples-content scroll-dealer-report" >
-            <div class="people">
-              <ul class="shop-peoples">
-                <% @peoples.each do |people| %>
-                  <li>
-                    <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
-                    <label class="people-name"><%= people.name %> </label>
-                     <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
-                  </li>
-                <% end%>
-                <div class="hide shop_people_paginator">
-                  <%= paginate @peoples, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_peoples', :id => @parent.id, :method => :get } %>
-                </div>
-              </ul>
+          <div class="block-content dealers-data-height dearlers-list scroll-dealers-data">
+            <%= form_for(:shop, :url => load_more_shops_dealers_path, :html => {:method => :get, :remote => true, :class => "custom-dealer-form"}) do  %>
+              <div class="col-md-3">
+                <label> Search  </label>
+              </div>
+              <div class="col-md-9">
+                <%= text_field_tag "dealer_name" %>
+                <%= hidden_field_tag "id", @parent.id %>
+              </div>
+            <% end %>
+            <table class="table table-hover table-nomargin dealer-table">
+              <thead>
+                <tr>
+                  <th> Dealer Name </th>
+                  <th> Orient Dealer </th>
+                  <th> City </th>
+                  <th> Actions</th>
+                </tr>
+              </thead>
+              <tbody class="dealer-table-body">
+                <% @shops.each do |shop| %>
+                  <% if can? :read, shop%>
+                    <tr>
+                    <td><%= shop_link_with_name(shop) %></td>
+                    <td><%= orient_dealer(shop) %> </td>
+                    <td><%= shop.city %> </td>
+                    <td><%= shop_edit_link(shop)  %> <%= shop_delete_link(shop) %> </td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+            <div class="dealer-pagination">
+              <%= paginate @shops, :remote => true, :window => 2, :left => 1, :right => 0, :params => { :host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_shops', :method => :get } %>
             </div>
           </div>
         </div>
       </div>
     <% end -%>
   </div>
-<% end %>
-<% if @posts.present? %>
-  <div class= "row">
-    <% if can? :read, People %>
-      <div class="col-md-6">
-        <div class="block dealers-image-block-height ">
-          <div class="block-title">
-            <h3>
-              <i class="icon-user">
-              People </i>
-            </h3>
-          </div>
-          <div class="block-content shop-peoples-content scroll-dealer-report" >
-            <div class="people">
-              <ul class="shop-peoples">
-                <% @peoples.each do |people| %>
-                  <li>
-                    <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
-                    <label class="people-name"><%= people.name %> </label>
-                     <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
-                  </li>
-                <% end%>
-                <div class="hide shop_people_paginator">
-                  <%= paginate @peoples, :params => { :host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_peoples', :id => @parent.id, :method => :get } %>
-                </div>
+  <div class="row">
+    <% if @posts.present? %>
+      <% if can? :read, Report %>
+        <div class="col-md-12">
+          <div class="block">
+            <div class="block-title">
+              <h3><strong> Sales &amp; Display  Report</strong></h3>
+              <ul class="nav nav-tabs" data-toggle="tabs">
+                <li class="active"><a class="brand-tab" href="#brand-display-data">Brands</a></li>
+                <li><a class="category-tab" href="#category-display-data">Categories</a></li>
               </ul>
+            </div>
+            <div class="block-content">
+              <div class="tab-content">
+               <div class="tab-pane active" id="brand-display-data">
+                  <%= form_for :search,:url => brand_search_svrs_path, :html => {:class => "report-search"}, :method => :post do |f| %>
+                    <select name="search[product][]" multiple = "true">
+                      <option value="">All</option>
+                      <% @categories.each do |pc| %>
+                        <% if pc.products.blank? %>
+                          <option value="<%= pc.name %>"><%= pc.name %></option>
+                        <% else %>
+                          <optgroup label="<%= pc.name %>">
+                            <% pc.products.each do |product| %>
+                              <option value="<%= product.name %>"><%= product.name %></option>
+                            <% end -%>
+                          </optgroup>
+                        <% end -%>
+                      <% end -%>
+                    </select>
+                   <%= f.select :year , options_for_select(present_year(@reports) , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                    <%= f.select :week , options_for_select(present_week (@reports)),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                  <% end -%>
+                  <div class="brand-chart-data">
+                    <%= render :partial => "/svrs/brand_bar", :locals => {:brands => @brands, :reports => @reports} %>
+                  </div>
+               </div>
+               <div class="tab-pane active" id="category-display-data">
+                  <%= form_for :search,:url => category_search_svrs_path, :html => {:class => "category-report-search"}, :method => :post do |f| %>
+                    <select name="search[brand][]" multiple = "true">
+                      <option value="">All</option>
+                      <% @brands.each do |pc| %>
+                        <option value="<%= pc.id %>"><%= pc.name %></option>
+                      <% end -%>
+                    </select>
+                    <%= f.select :year , options_for_select(present_year(@reports) , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
+                    <%= f.select :week , options_for_select(present_week (@reports)),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
+                  <% end -%>
+                  <div class="category-chart-data">
+                    <%= render :partial => "/svrs/category_bar", :locals => {:categories => @categories, :reports => @reports, :brand => nil} %>
+                  </div>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <% if @posts.present? %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="block corner-report">
+          <div class="block-title">
+            <h2><strong>Display Corner Reports</strong></h2>
+            <ul class="nav nav-tabs" data-toggle="tabs">
+              <li class="active"><a href="#corner_brand">Brands</a></li>
+              <li><a href="#corner_category">Categories</a></li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="corner_brand">
+              <div class="gallery brand-content scroll-brand-corner-report brand-result" data-toggle="lightbox-gallery">
+                <% @corner_brand_report_lines.each do |brand_id,brand_report| %>
+                  <% unless brand_report.collect(&:avatars).flatten.blank? %>
+                    <div class="row">
+                      <span class="col-md-12 brand-name"><%= get_brand_name(brand_id) %></span>
+                    </div>
+                  <% end -%>
+                  <div class="row ">
+                    <% brand_report.each do |line| %>
+                      <% line.avatars.each do |upload| %>
+                        <div class="col-sm-4 gallery-image">
+                          <% if upload.avatar %>
+                            <%= image_tag upload.avatar.url %>
+                          <% else %>
+                            <%= image_tag "/assets/default.png"%>
+                          <% end%>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+                <div class="hide brand_corner_report_paginator">
+                  <%= paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_brand_corner_report_lines', :method => :get } %>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="corner_category">
+              <div class="gallery categroy-content scroll-category-corner-report category-result" data-toggle="lightbox-gallery">
+                <% @corner_category_report_lines.each do |category,cat_report| %>
+                 <% unless cat_report.collect(&:avatars).flatten.blank? %>
+                    <div class="row">
+                      <span class="col-md-12 brand-name"><%= get_productcategory_name(category) %></span>
+                    </div>
+                  <% end %>
+                  <div class="row">
+                    <% cat_report.each do |line| %>
+                      <% line.avatars.each do |upload| %>
+                        <div class="col-sm-4 gallery-image">
+                          <% if upload.avatar %>
+                            <%= image_tag upload.avatar.url %>
+                            <%= link_to raw(image_tag upload.avatar.url(:small)), dealer_image_path(@parent,upload, :type => "avatar") %>
+                          <% else %>
+                            <%= image_tag "/assets/default.png"%>
+                          <% end%>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+                <div class="hide category_corner_report_paginator">
+                  <%= paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_category_corner_report_lines', :method => :get } %>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    <% end -%>
-  </div>
-<% end %>
+      <div class="col-md-6">
+        <div class="block image-block">
+          <div class="block-title">
+            <h2>Images</h2>
+          </div>
+          <div class="gallery upload-image-block scroll-upload-images" data-toggle="lightbox-gallery">
+            <div class="row upload-content">
+              <% @uploads.each do |image| %>
+                <div class="col-sm-4 gallery-image">
+                  <% if image.class.to_s == "upload"%>
+                      <%= link_to raw(image_tag image.upload.url(:small)), dealer_image_path(@parent,image, :type => "upload") %>
+                    <% else %>
+                      <a href="<%=shop_image_path(@dealer,image)%>">
+                        <%= link_to raw(image_tag image.avatar.url(:small)), dealer_image_path(@parent,image,:type => "avatar" )%>
+                      </a>
+                    <% end %>
+                </div>
+              <% end %>
+              <div class="hide upload_images_paginator">
+                <%= paginate @uploads, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class= "row">
+      <div class="col-md-6">
+        <div class="block image-block">
+          <div class="block-title">
+            <h2>Images</h2>
+          </div>
+          <div class="gallery upload-image-block scroll-upload-images" data-toggle="lightbox-gallery">
+            <div class="row upload-content">
+              <% @uploads.each do |image| %>
+                <div class="col-sm-4 gallery-image">
+                  <% if image.class.to_s == "Upload"%>
+                    <%= link_to raw(image_tag image.upload.url(:small)), dealer_image_path(@parent,image, :type => "upload") %>
+                  <% else %>
+                    <%= link_to raw(image_tag image.avatar.url(:small)), dealer_image_path(@parent,image,:type => "avatar" )%>
+                  <% end %>
+                </div>
+              <% end %>
+              <div class="hide upload_images_paginator">
+                <%= paginate @uploads, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_uploads', :method => :get } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if can? :read, People %>
+        <div class="col-md-6">
+          <div class="block dealers-image-block-height ">
+            <div class="block-title">
+              <h3>
+                <i class="icon-user">
+                People </i>
+              </h3>
+            </div>
+            <div class="block-content shop-peoples-content scroll-dealer-report" >
+              <div class="people">
+                <ul class="shop-peoples">
+                  <% @peoples.each do |people| %>
+                    <li>
+                      <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+                      <label class="people-name"><%= people.name %> </label>
+                       <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+                    </li>
+                  <% end%>
+                  <div class="hide shop_people_paginator">
+                    <%= paginate @peoples, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_peoples', :id => @parent.id, :method => :get } %>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+  <% end %>
+  <% if @posts.present? %>
+    <div class= "row">
+      <% if can? :read, People %>
+        <div class="col-md-6">
+          <div class="block dealers-image-block-height ">
+            <div class="block-title">
+              <h3>
+                <i class="icon-user">
+                People </i>
+              </h3>
+            </div>
+            <div class="block-content shop-peoples-content scroll-dealer-report" >
+              <div class="people">
+                <ul class="shop-peoples">
+                  <% @peoples.each do |people| %>
+                    <li>
+                      <span class="people-image"> <%= image_tag(people.avatar.avatar(:thumb)) %></span>
+                      <label class="people-name"><%= people.name %> </label>
+                       <span class='icon search_btn' data-id = "<%= people.id %>" ><a href="#" class='btn'><i class="fa fa-search"></i></a></span>
+                    </li>
+                  <% end%>
+                  <div class="hide shop_people_paginator">
+                    <%= paginate @peoples, :params => { :host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_peoples', :id => @parent.id, :method => :get } %>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+  <% end %>

@@ -15,6 +15,18 @@ $(document).ready(function() {
   $('.category-tab').click();
   $('.brand-tab').click();
 
+  $(".view_all_link").click(function(){
+    id = $(this).data("image");
+    type = $(this).data("type");
+    $.ajax ({
+      url:  '/images/'+ id + '/view_more_comments',
+      data: {type: type },
+      success: function(data)
+      {
+        $(".view_more").remove();
+      }
+    });
+  });
 
 
   $('.datepicker').datepicker();
