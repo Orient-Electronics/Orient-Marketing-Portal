@@ -3,6 +3,7 @@
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
         <%= link_to raw("<i class='fa fa-angle-left'></i> Go to Shop"), shop_path(@shop), :class => 'btn btn-sm  btn-primary' %>
+        <%= link_to "view comments", comments_shop_svr_path(@shop, @post), :class => 'btn btn-sm  btn-primary' %>
       </div>
       <% unless @post.submit? %>
         <% unless @post.published? %>

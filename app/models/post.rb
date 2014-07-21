@@ -13,7 +13,7 @@ class Post < ActiveRecord::Base
   belongs_to :task
   has_many :reports, :dependent => :destroy
   has_many :uploads, :as => :uploadable, :dependent => :destroy
-
+  has_many :comments, :as => :commentable, :dependent => :destroy
   accepts_nested_attributes_for :reports
   accepts_nested_attributes_for :uploads, :allow_destroy => true
 

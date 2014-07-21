@@ -214,6 +214,35 @@ class SvrsController < ApplicationController
     render(:partial => "/svrs/report_upload", :locals => {:temp => params[:length]})
   end
 
+  def comments
+    @shop = Shop.find(params[:shop_id])
+    @post = Post.find(params[:id])
+    comments = @post.comments
+    @length = comments.length
+    @comments = comments.last(10)
+  end
+
+  def create_comment
+    @post = Post.find(params[:id])
+    comment = @post.comments.build(params[:comment])
+    comment.user_id = current_user.id
+    if comment.save
+      flash[:notice] = "Successfully comment created"
+    else
+      flash[:warning] = "Failed comment creation"
+    end
+    redirect_to :back
+  end
+
+  def view_more_comments
+    @shop = Shop.find(params[:shop_id])
+    @post = Post.find(params[:id])
+    @comments = @post.comments
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   def get_sort_attribute_name(column_number)

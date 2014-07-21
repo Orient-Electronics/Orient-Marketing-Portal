@@ -106,6 +106,9 @@ Orient::Application.routes.draw do
     resources :svrs do
       member do
         get "delete"
+        get "comments"
+        get "view_more_comments"
+        post 'create_comment'
       end
     end
     member do
