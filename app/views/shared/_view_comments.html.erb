@@ -1,0 +1,17 @@
+<% unless @comments.blank? %>
+  <% @comments.each do |comment| %>
+    <li class="media">
+      <%= link_to raw(image_tag(comment.user.get_avatar.avatar(:thumb), :class => "img-circle comment-user-image")), activities_path(:user_id => comment.user.id),:class => "pull-left comment-user-image-link" %>
+      <div class="media-body">
+        <a href="page_ready_user_profile.html"><strong><%= comment.user.name %></strong></a>
+        <span class="text-muted"><small><em><%= comment.created_at_format %></em></small></span>
+        <p><%= comment.content %></p>
+      </div>
+      <div class="media-action">
+        <% if current_user.can_remove_comment?(comment) %>
+          <%= link_to raw("<span class='gi gi-circle_remove'></span>"), comment, :confirm => "Are you sure?", :method => :delete %>
+        <% end -%>
+      </div>
+    </li>
+  <% end %>
+<% end %>

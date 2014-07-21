@@ -19,6 +19,8 @@ Orient::Application.routes.draw do
 
   resources :roles
 
+  resources :comments
+
   resources :search
 
   resources :areas do
@@ -49,6 +51,7 @@ Orient::Application.routes.draw do
 
 
   resources :dealers do
+   resources :images
    resources :shops
     member do
       get 'gallery'
@@ -90,8 +93,16 @@ Orient::Application.routes.draw do
     resources :shops
   end
 
+  resources :images do
+    member do
+      post 'create_comment'
+      get 'view_more_comments'
+    end
+  end
+
   resources :shops do
     resources :uploads
+    resources :images
     resources :svrs do
       member do
         get "delete"

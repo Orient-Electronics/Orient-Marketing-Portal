@@ -12,6 +12,19 @@ $('document').ready(function(){
     }
   });
 
+  $(".view_all_link").click(function(){
+    id = $(this).data("image");
+    type = $(this).data("type");
+    $.ajax ({
+      url:  '/images/'+ id + '/view_more_comments',
+      data: {type: type },
+      success: function(data)
+      {
+        $(".view_more").remove();
+      }
+    });
+  });
+
   $("#svrs-table input[type=text]").each(function(){
     $(this).addClass("form-control");
   });

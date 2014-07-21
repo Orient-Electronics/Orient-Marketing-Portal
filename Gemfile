@@ -46,7 +46,7 @@ gem 'dynamic_form'
 
 gem 'public_activity'
 
-gem 'acts_as_commentable', '3.0.1'
+gem 'ancestry'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
