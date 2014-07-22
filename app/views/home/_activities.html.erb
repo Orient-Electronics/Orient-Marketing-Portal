@@ -1,7 +1,12 @@
 <% @activities.each do |activity| %>
   <div class="alert alert-info alert-alt my_activities">
     <small><%= activity.created_at.strftime("%B, %d")%></small><br>
-     <i class="fa fa-arrow-up fa-fw"></i> You <%= render_activity activity %>
+     <i class="fa fa-arrow-up fa-fw"></i>
+     <% if activity.message.blank? %>
+      You <%= render_activity activity %>
+    <% else %>
+      <%= render :partial => "/shared/post" , :locals => {:@activity => activity } %>
+    <% end %>
   </div>
 <% end %>
 

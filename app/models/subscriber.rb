@@ -7,7 +7,7 @@ class Subscriber < ActiveRecord::Base
   def activities
   	activities ||= []
 		self.activity_settings.each do |activity|
-			activities.concat(PublicActivity::Activity.where(owner_id: self.subscribe_id, key: activity.activity_name))
+			activities.concat(PublicActivity::Activity.where("owner_id=? OR trackable_id=? AND key=?", self.subscribe_id,self.subscribe_id,activity.activity_name))
 		end
 		activities
 	end

@@ -1,0 +1,6 @@
+<% if current_user == @activity.owner %>
+    <%= @activity.message %> on  <%=link_to @activity.recipient.name, activities_path(:user_id => @activity.recipient.id) if @activity.recipient %> wall
+<% else %>
+    <%= link_to @activity.owner.name, activities_path(:user_id => @activity.owner.id) if @activity.owner %>
+    <%= @activity.message %> on  <%=link_to @activity.recipient.name, activities_path(:user_id => @activity.recipient.id) if @activity.recipient %> wall
+<% end %>

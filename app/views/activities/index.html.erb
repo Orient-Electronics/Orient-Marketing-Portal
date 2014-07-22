@@ -1,17 +1,34 @@
-<%= render :partial => "/layouts/user_header", :locals => {:user => @user} %> 
+<%= render :partial => "/layouts/user_header", :locals => {:user => @user} %>
  <!-- User Profile Content -->
  	<div class="row">
  		<!-- First Column -->
     <div class="col-md-6 col-lg-7">
  			<% unless @user_activities.blank? %>
-	 			<!-- Newsfeed Block -->
+	 			<div class="block">
+          <!-- Updates Title -->
+          <div class="block-title">
+              <h2><strong>Share</strong> something..</h2>
+          </div>
+          <!-- END Updates Title -->
+          <!-- Update Status Form -->
+          <%= form_for :activity, :class => "block-content-full block-content-mini-padding"  do |f| %>
+            <%= f.text_area :message, :rows => 2, :class => "form-control push-bit", :placeholder => "What are you thinking? " %>
+            <%= f.hidden_field :recipient_id, :value => @user.id %>
+            <div class="clearfix">
+              <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-pencil"></i> Post</button>
+            </div>
+          <% end %>
+          <!-- END Update Status Form -->
+        </div>
+
+        <!-- Newsfeed Block -->
 	 			<div class="block">
 
 	 				<!-- Newsfeed Title -->
 	        <div class="block-title">
 	          <h2><strong>Newsfeed</strong></h2>
 	        </div>
-	        <!-- END Newsfeed Title -->	
+	        <!-- END Newsfeed Title -->
 
 	        <!-- Newsfeed Content -->
 	        <div class="block-content-full user-activities-height">
@@ -19,7 +36,7 @@
   	        	<ul class="media-list media-feed media-feed-hover user-activities-section scroll-dealer" data-domain = "<%= APP_CONFIG["domain"] %>">
   	        		<% @user_activities.each do |activity| %>
   	        			<li class="media user-activity">
-                    <% user = User.find(activity.owner.id) %>    
+                    <% user = User.find(activity.owner.id) %>
                     <%=link_to raw(image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => user.id),:class => "pull-left user-link-small" %>
                     <div class="media-body">
                       <p class="push-bit">
@@ -27,27 +44,29 @@
                           <small><%= activity.created_at.strftime("%B, %d")%></small>
                           <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
                         </span>
-                        <strong><%=link_to activity.owner.name, activities_path(:user_id => user.id) if activity.owner %> <%= render_activity activity %> </strong>
+                        <strong><%=link_to activity.owner.name, activities_path(:user_id => user.id) if activity.owner %>
+                          <%= render_activity activity %>
+                        </strong>
                       </p>
-                    </div>    
-                  </li> 
+                    </div>
+                  </li>
   	        		<% end %>
                 <div class="user-activities hide">
                   <%= paginate @user_activities, :params => { :controller => 'home', :action => 'user_activities', :method => :get, :user_id => @user_activities.first.owner.id } %>
                 </div>
-  	        	</ul>	
-            <% end -%>  
-	        </div>	
+  	        	</ul>
+            <% end -%>
+	        </div>
 	        <!-- END Newsfeed Content -->
 	 			</div>
 	 			<!-- END feed Block -->
-	 		<% end %>	
- 		</div>	
+	 		<% end %>
+ 		</div>
  		<!-- END First Column -->
 
  		<!-- Second Column -->
  		<div class="col-md-6 col-lg-5">
-      
+
       <!-- Info Block -->
       <div class="block">
       	<!-- Info Title -->
@@ -57,12 +76,12 @@
             	<% unless current_user == @user %>
             		<% unless current_user.already_subscribe?(@user) %>
               		<a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="modal" data-target = "#subscriber_modal" title="Subscribe"><i class="fa fa-plus"></i></a>
-              	<% else %>	
+              	<% else %>
               		<a href="<%= destroy_subscriber_activity_path(:id => @user.id) %>" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="Un-Subscribe"><i class="fa fa-minus"></i></a>
               	<% end %>
-              <% end %>	
+              <% end %>
             </div>
-          <% end %>  
+          <% end %>
           <h2>About <strong><%= @user.name %></strong></h2>
         </div>
         <!-- END Info Title -->
@@ -90,7 +109,7 @@
       	</table>
       	<!-- END Info Content -->
       </div>
-      <!-- END Info Block -->	
+      <!-- END Info Block -->
       <% unless @subscribers.blank? %>
 	      <!-- Friends Block -->
 	      <div class="block">
@@ -108,21 +127,21 @@
 		              <a href="<%= activities_path(:user_id => user.id) %>">
 		              	<% unless user.avatar.blank? %>
 		                	<%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle" , "data-toggle" => "tooltip", :title => user.name, :size => "65x70" )%>
-		                <% end %>	
+		                <% end %>
 		              </a>
 		            </div>
-		          <% end %>  
+		          <% end %>
 	          </div>
 	          <!-- END Friends Content -->
 	      </div>
 	      <!-- END Friends Block -->
-	    <% end %>  
-    </div>  
+	    <% end %>
+    </div>
  		<!-- END Second Column -->
- 	</div>	
+ 	</div>
  <!-- END User Profile Content -->
 <% unless current_user == @user and current_user.user_employee? %>
 	<% unless current_user.already_subscribe?(@user) %>
 		<%= render :partial => 'subscriber', :locals => {user_id: current_user.id, subscribe_id: @user.id} %>
-	<% end %>	
+	<% end %>
 <% end -%>
