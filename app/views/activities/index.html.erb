@@ -88,6 +88,10 @@
           <tbody>
             <tr>
               <td><strong>Designation</strong></td>
+              <td><%= @user.designation.capitalize %></td>
+            </tr>
+            <tr>
+              <td><strong>Role</strong></td>
               <td><%= @user.user_type.try(:name).capitalize %></td>
             </tr>
             <tr>

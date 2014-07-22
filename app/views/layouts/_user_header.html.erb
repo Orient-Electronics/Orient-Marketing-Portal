@@ -4,8 +4,8 @@
 		<% user =  user.present? ? user : current_user %>
 		<% unless user.avatar.blank? %>
 			<%= image_tag(user.avatar.avatar(:thumb), :class =>"pull-right img-circle user-cover-image") %>
-		<% end %>	
-    <h1><%= user.name %>  <br><small><%= user.user_type.try(:name) %> </small></h1>
+		<% end %>
+    <h1><%= user.name %>  <br><small><%= user.designation %> </small></h1>
 	</div>
-</div>	
+</div>
  <!-- END User Profile Header -->

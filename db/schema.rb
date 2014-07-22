@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140722073341) do
+ActiveRecord::Schema.define(:version => 20140722100353) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -324,6 +324,7 @@ ActiveRecord::Schema.define(:version => 20140722073341) do
     t.integer  "phone_number"
     t.integer  "user_type_id"
     t.boolean  "view_announcement",      :default => true
+    t.string   "designation",            :default => ""
   end
 
   add_index "users", ["email"], :name => "index_representatives_on_email", :unique => true
