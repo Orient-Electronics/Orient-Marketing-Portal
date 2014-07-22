@@ -11,7 +11,7 @@
           </div>
           <!-- END Updates Title -->
           <!-- Update Status Form -->
-          <%= form_for :activity, :class => "block-content-full block-content-mini-padding"  do |f| %>
+          <%= form_for :activity, :class => "block-content-full block-content-mini-padding", :remote => true  do |f| %>
             <%= f.text_area :message, :rows => 2, :class => "form-control push-bit", :placeholder => "What are you thinking? " %>
             <%= f.hidden_field :recipient_id, :value => @user.id %>
             <div class="clearfix">

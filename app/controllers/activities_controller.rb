@@ -18,7 +18,9 @@ class ActivitiesController < ApplicationController
     else
       flash[:warning] = "Some thing wrong while created your activity"
     end
-    redirect_to :back
+    respond_to do |format|
+      format.js
+    end
   end
 
   def create_subscriber
