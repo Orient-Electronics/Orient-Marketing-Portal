@@ -193,7 +193,7 @@
             <div class="row upload-content">
               <% @uploads.each do |image| %>
                 <div class="col-sm-4 gallery-image">
-                  <% if image.class.to_s == "upload"%>
+                  <% if image.class.to_s == "Upload"%>
                       <%= link_to raw(image_tag image.upload.url(:small)), dealer_image_path(@parent,image, :type => "upload") %>
                     <% else %>
                       <a href="<%=shop_image_path(@dealer,image)%>">

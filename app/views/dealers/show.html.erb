@@ -167,7 +167,7 @@
                       <% @brands.each do |pc| %>
                         <option value="<%= pc.id %>"><%= pc.name %></option>
                       <% end -%>
-                    </select>
+                      </select>
                     <%= f.select :year , options_for_select(present_year(@reports) , Date.today.strftime('%Y') ),{} ,{:class => "col-md-3", :multiple => true, "data-selected-text-format"=>"count>5"} %>
                     <%= f.select :week , options_for_select(present_week (@reports)),{},{:class => "col-md-6" , :multiple => :true, "data-selected-text-format"=>"count>5"} %>
                   <% end -%>
@@ -261,7 +261,7 @@
             <div class="row upload-content">
               <% @uploads.each do |image| %>
                 <div class="col-sm-4 gallery-image">
-                  <% if image.class.to_s == "upload"%>
+                  <% if image.class.to_s == "Upload"%>
                       <%= link_to raw(image_tag image.upload.url(:small)), dealer_image_path(@parent,image, :type => "upload") %>
                     <% else %>
                       <a href="<%=shop_image_path(@dealer,image)%>">
