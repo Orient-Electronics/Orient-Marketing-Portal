@@ -3,6 +3,8 @@
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
         <%= link_to raw("<i class='fa fa-angle-left'></i> Go to Shop"), shop_path(@shop), :class => 'btn btn-sm  btn-primary' %>
+      </div>
+      <div class="btn-group">
         <%= link_to "view comments", comments_shop_svr_path(@shop, @post), :class => 'btn btn-sm  btn-primary' %>
       </div>
       <% unless @post.submit? %>
@@ -173,7 +175,7 @@
                     <% line.avatars.each do |upload| %>
                       <div class="col-sm-4 gallery-image">
                         <% if upload.avatar %>
-                          <%= link_to raw(image_tag upload.avatar.url(:small)), shop_image_path(@shop,upload, :type => "avatar") %>
+                          <%= link_to raw(image_tag upload.avatar.url(:small)), shop_image_path(@shop,upload, :type => "avatar"), :target=> "_blank" %>
                         <% else %>
                           <%= image_tag "/assets/default.png"%>
                         <% end%>
@@ -198,7 +200,7 @@
                     <% line.avatars.each do |upload| %>
                       <div class="col-sm-4 gallery-image">
                         <% if upload.avatar %>
-                          <%= link_to raw(image_tag upload.avatar.url(:small)), shop_image_path(@shop,upload, :type => "avatar") %>
+                          <%= link_to raw(image_tag upload.avatar.url(:small)), shop_image_path(@shop,upload, :type => "avatar"), :target=> "_blank" %>
                         <% else %>
                           <%= image_tag "/assets/default.png"%>
                         <% end%>
@@ -228,10 +230,10 @@
             <% @post_uploads.each do |image| %>
               <div class="col-sm-4 gallery-image">
                 <% if image.class.to_s == "upload"%>
-                  <%= link_to raw(image_tag image.upload.url(:small)), shop_image_path(@shop,image, :type => "upload") %>
+                  <%= link_to raw(image_tag image.upload.url(:small)), shop_image_path(@shop,image, :type => "upload") , :target=> "_blank"%>
                 <% else %>
                   <a href="<%=shop_image_path(@shop,image)%>">
-                    <%= link_to raw(image_tag image.avatar.url(:small)), shop_image_path(@shop,image,:type => "avatar" )%>
+                    <%= link_to raw(image_tag image.avatar.url(:small)), shop_image_path(@shop,image,:type => "avatar" ), :target=> "_blank"%>
                   </a>
                 <% end %>
               </div>
