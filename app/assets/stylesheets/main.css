@@ -4258,3 +4258,8 @@ a:hover, a:focus
 .comments-content .media:hover .media-action{
   display: block;
 }
+
+#comment_content
+{
+  margin-bottom: 10px;
+}
