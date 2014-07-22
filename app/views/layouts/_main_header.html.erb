@@ -31,7 +31,7 @@
           <li class="notification-content notification-scroll">
             <% @notifications.each do |notification|%>
               <div class="alert  alert-info alert-alt my-notification notification" data-notification="<%= notification.id %>">
-                <small><%= notification.created_at.strftime("%B, %d")%></small><br>
+                <small><%= notification.created_at.strftime("%B %d, %Y - %I:%M %p")%></small><br>
                 <i class="fa fa-arrow-up fa-fw"></i><%= notification.owner.name %>  <%= render_activity notification %>
               </div>
             <% end %>

@@ -7,7 +7,7 @@
     <div class="media-body">
       <p class="push-bit">
         <span class="text-muted pull-right">
-          <small><%= activity.created_at.strftime("%B, %d")%></small>
+          <small><%= activity.created_at.strftime("%B %d, %Y - %I:%M %p")%></small>
           <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
         </span>
         <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %> <%= render_activity activity %> </strong>

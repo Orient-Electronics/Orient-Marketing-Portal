@@ -1,6 +1,6 @@
 <% @activities.each do |activity| %>
   <div class="alert alert-info alert-alt my_activities">
-    <small><%= activity.created_at.strftime("%B, %d")%></small><br>
+    <small><%= activity.created_at.strftime("%B %d, %Y - %I:%M %p")%></small><br>
      <i class="fa fa-arrow-up fa-fw"></i>
      <% if activity.message.blank? %>
       You <%= render_activity activity %>
