@@ -3,18 +3,18 @@
   	<div class="modal-content">
   		<div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title text-center" id="myModalLabel">Select Activities </h4>
+        <h4 class="modal-title text-center" id="myModalLabel">Select Activities of Subscription </h4>
       </div>
       <div class="model-body">
 				<%= form_for("subscriber", :url => create_subscriber_activities_path, :html => { :class => 'form-horizontal subscriber-form' }) do |f| %>
 			  	<%= f.hidden_field :subscribe_id, :value => subscribe_id %>
 			  	<%= f.hidden_field :user_id, :value => user_id%>
 			  	<div class="check-all-option  pull-right col-md-3"><label class="select-all-label"><%= check_box_tag "check_all", nil %> select all</label></div>
-					
+
 					<div class="select-activity">
 						<div class= "activity-type ">
 							Shop Visit Reports
-						</div>		
+						</div>
 						<div class="activity-name">
 							<label><%= check_box_tag "subscriber[activity_settings_attributes][0][activity_name]" , "post.create" %> New </label>
 							<label><%= check_box_tag "subscriber[activity_settings_attributes][1][activity_name]" , "post.update" %> Edit </label>
@@ -26,7 +26,7 @@
 					<div class="select-activity">
 						<div class= "activity-type ">
 							Task
-						</div>		
+						</div>
 						<div class="activity-name">
 							<label><%= check_box_tag "subscriber[activity_settings_attributes][5][activity_name]" , "task.create" %> New </label>
 							<label><%= check_box_tag "subscriber[activity_settings_attributes][6][activity_name]" , "task.update" %> Edit </label>
@@ -36,7 +36,7 @@
 					<div class="select-activity">
 						<div class= "activity-type ">
 							User
-						</div>		
+						</div>
 						<div class="activity-name">
 							<label><%= check_box_tag "subscriber[activity_settings_attributes][8][activity_name]" , "user.create" %> New </label>
 							<label><%= check_box_tag "subscriber[activity_settings_attributes][9][activity_name]" , "user.update" %> Edit </label>
@@ -46,7 +46,7 @@
 				  <div class="select-activity">
 							<div class= "activity-type ">
 								Shop
-							</div>		
+							</div>
 							<div class="activity-name">
 								<label><%= check_box_tag "subscriber[activity_settings_attributes][11][activity_name]" , "shop.create" %> New </label>
 								<label><%= check_box_tag "subscriber[activity_settings_attributes][12][activity_name]" , "shop.update" %> Edit </label>
@@ -60,7 +60,7 @@
             </div>
           </div>
 				<% end %>
-			</div>	
+			</div>
 		</div>
-	</div>		
+	</div>
 </div>
