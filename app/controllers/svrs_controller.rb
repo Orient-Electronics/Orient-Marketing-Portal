@@ -34,6 +34,9 @@ class SvrsController < ApplicationController
     authorize! :read, Post
     @shop = Shop.find(params[:shop_id])
     @post = Post.find(params[:id])
+    comments = @post.comments
+    @length = comments.length
+    @comments = comments.last(10)
     @report = @post.reports.first
     @reports = @post.reports
     @display_report  = @reports.where(:report_type => "display").collect(&:report_lines).flatten
