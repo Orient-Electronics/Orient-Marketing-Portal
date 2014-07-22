@@ -1,6 +1,6 @@
-updated <%= link_to 'shop visit report', shop_svr_path(activity.trackable.shop_id, activity.trackable.id) %> of 
 <% if activity.trackable %>
+  updated <%= link_to 'shop visit report', shop_svr_path(activity.trackable.shop_id, activity.trackable.id) %> of
   <%= link_to activity.trackable.shop.dealer_name, shop_path(activity.trackable.shop_id) %>
 <% else %>
-  which has since been removed 
+  which has since been removed
 <% end %>
