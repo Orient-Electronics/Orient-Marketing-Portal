@@ -2,7 +2,7 @@ class Post < ActiveRecord::Base
 
   include PublicActivity::Common
 
-  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id, :approved_id, :uploads_attributes, :status
+  attr_accessible :dealer_id, :shop_id, :user_id, :product_category_id, :reports_attributes, :year, :week, :published, :task_id, :approved_id, :uploads_attributes, :status, :comments_attributes
 
   attr_accessor :week, :year
 
@@ -16,6 +16,7 @@ class Post < ActiveRecord::Base
   has_many :comments, :as => :commentable, :dependent => :destroy
   accepts_nested_attributes_for :reports
   accepts_nested_attributes_for :uploads, :allow_destroy => true
+  accepts_nested_attributes_for :comments, :allow_destroy => true
 
   scope :published_reports, where(:published => true)
 
