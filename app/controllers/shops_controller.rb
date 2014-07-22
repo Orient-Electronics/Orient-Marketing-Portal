@@ -172,7 +172,9 @@ class ShopsController < ApplicationController
     end
     @product_categories = ProductCategory.all
     @shop = Shop.where(id: params[:id]).first
-
+    comments = @shop.comments
+    @length = comments.length
+    @comments = comments.last(10)
     if params[:filter].present?
       from = params[:filter][:from].present? ? ((params[:filter][:from]).to_date).to_time : Post.first.created_at.to_date.to_time
       to  = params[:filter][:to].present? ? ((params[:filter][:to]).to_date).to_time : Date.today.to_date.to_time
@@ -189,6 +191,7 @@ class ShopsController < ApplicationController
     @report_lines_avatars = shop_report_lines.collect(&:avatars).flatten
     shop_upload = (Shop.find(params[:id]).uploads)
     @shop_uploads = (shop_upload + @report_lines_avatars).flatten.sort {|a,b| b[:created_at] <=> a[:created_at]}
+
     if current_user.user_type.name == "employee"
       reports = Post.published_reports.where(:shop_id => params[:id].to_i, :user_id => current_user.id).collect(&:reports).flatten
       @display_report = reports.select{|a| a.report_type == "display"}.collect(&:report_lines).flatten
@@ -318,6 +321,26 @@ class ShopsController < ApplicationController
 
   def people_field
     render(:partial => "shops/get_people_field", :locals => {:index => params[:index]})
+  end
+
+  def create_comment
+    @shop = Shop.find(params[:id])
+    comment = @shop.comments.build(params[:comment])
+    comment.user_id = current_user.id
+    if comment.save
+      flash[:notice] = "Successfully comment created"
+    else
+      flash[:warning] = "Failed comment creation"
+    end
+    redirect_to :back
+  end
+
+  def view_more_comments
+    @shop = Shop.find(params[:id])
+    @comments = @shop.comments
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

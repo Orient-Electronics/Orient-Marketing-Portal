@@ -57,6 +57,8 @@ Orient::Application.routes.draw do
       get 'gallery'
       get 'showmodal'
       get 'get_info'
+      get 'view_more_comments'
+      post 'create_comment'
     end
     collection do
       get 'showgallery'
@@ -111,8 +113,11 @@ Orient::Application.routes.draw do
         post 'create_comment'
       end
     end
+
     member do
       get 'delete'
+      get 'view_more_comments'
+      post 'create_comment'
     end
     collection do
       get 'area_field'

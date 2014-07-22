@@ -38,7 +38,9 @@ class DealersController < ApplicationController
     page = params[:page].nil? ? 1: params[:page]
     authorize! :read, Dealer
     @parent = Dealer.where(id: params[:id]).first
-
+    comments = @parent.comments
+    @length = comments.length
+    @comments = comments.last(10)
     if params[:filter].present?
       search = Sunspot.search (Shop) do
         with(:dealer_id, params[:id])
@@ -315,6 +317,26 @@ class DealersController < ApplicationController
     @shop =  Shop.find(params[:id])
 
     render :partial =>"/dealers/get_info" , :locals => {:@shop => @shop}
+  end
+
+  def create_comment
+    @dealer = Dealer.find(params[:id])
+    comment = @dealer.comments.build(params[:comment])
+    comment.user_id = current_user.id
+    if comment.save
+      flash[:notice] = "Successfully comment created"
+    else
+      flash[:warning] = "Failed comment creation"
+    end
+    redirect_to :back
+  end
+
+  def view_more_comments
+    @dealer = Dealer.find(params[:id])
+    @comments = @dealer.comments
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

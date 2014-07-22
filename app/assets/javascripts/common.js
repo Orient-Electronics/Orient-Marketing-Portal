@@ -26,12 +26,34 @@ $('document').ready(function(){
   });
 
 
-$(".view_all_comment").click(function(){
+  $(".view_all_comment").click(function(){
     id = $(this).data("post");
     shop_id =$(this).data("shop");
-    type = $(this).data("type");
     $.ajax ({
       url:  '/shops/' + shop_id + '/svrs/'+ id + '/view_more_comments',
+      success: function(data)
+      {
+        $(".view_more").remove();
+      }
+    });
+  });
+
+
+  $(".view_all_shop_comment").click(function(){
+    id =$(this).data("shop");
+    $.ajax ({
+      url:  '/shops/'+id +'/view_more_comments',
+      success: function(data)
+      {
+        $(".view_more").remove();
+      }
+    });
+  });
+
+  $(".view_all_dealer_comment").click(function(){
+    id =$(this).data("dealer");
+    $.ajax ({
+      url:  '/dealers/'+id +'/view_more_comments',
       success: function(data)
       {
         $(".view_more").remove();

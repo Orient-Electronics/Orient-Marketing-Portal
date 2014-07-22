@@ -366,7 +366,42 @@
     </div>
   <% end %>
 </div>
+<div class="row" id="comments">
+  <div class="col-md-12">
+      <div class="block block-color block-bordered">
+        <div class="block-title">
+          <h3>
+            <i class="icon-report"></i>
+            Comments
+          </h3>
+        </div>
+        <div class="block-content">
+          <div class="media">
+              <div class="comment-length pull-right"> Total comments :  <span class="length"><%= @length  %></span></div>
+              <% if @length > 10 %>
+                <div class="view_more pull-right"><%= link_to 'View all', 'javascript:;', :data => {:dealer => @parent.id}, :class => " btn btn-xs btn-default push view_all_dealer_comment"  %>
+                </div>
+              <% end %>
+            </div>
+          <ul class="media-list push">
 
+            <div class="comments-content">
+              <%= render :partial => "/shared/view_comments"%>
+            </div>
+            <li class="media">
+               <%= link_to raw(image_tag(current_user.get_avatar.avatar(:thumb), :class => "img-circle comment-user-image")), activities_path(:user_id => current_user.id),:class => "pull-left comment-user-image-link" %>
+                <div class="media-body">
+                  <%= form_for :comment, :url => create_comment_dealer_path(@parent) do |f| %>
+                    <%= f.text_area :content , :class => "form-control", :rows => 2, :placeholder => "Your comment .." %>
+                    <button type="submit" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i> Post Comment</button>
+                  <% end %>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+</div>
 <%= content_for :footer_js do %>
   <script type="text/javascript" charset="utf-8">
     var asInitVals = new Array();

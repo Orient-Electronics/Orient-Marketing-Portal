@@ -15,13 +15,15 @@ class Shop < ActiveRecord::Base
   has_many :posts, :dependent => :destroy
   has_many :peoples, through: :people_shops
   has_many :people_shops, :dependent => :destroy
+  has_many :comments, :as => :commentable, :dependent => :destroy
 
-  attr_accessible :address, :orient_dealer, :dealer_name, :email, :location_id, :phone, :shop_category_id, :website, :location_attributes, :owner_attributes, :manager_attributes, :dealer_id, :branch_of, :category, :avatar_attributes, :peoples_attributes
+  attr_accessible :address, :orient_dealer, :dealer_name, :email, :location_id, :phone, :shop_category_id, :website, :location_attributes, :owner_attributes, :manager_attributes, :dealer_id, :branch_of, :category, :avatar_attributes, :peoples_attributes, :comments_attributes
 
   accepts_nested_attributes_for :owner
   accepts_nested_attributes_for :manager
   accepts_nested_attributes_for :location
   accepts_nested_attributes_for :avatar
+  accepts_nested_attributes_for :comments, :allow_destroy => true
   accepts_nested_attributes_for :peoples, :allow_destroy => true
 
 
