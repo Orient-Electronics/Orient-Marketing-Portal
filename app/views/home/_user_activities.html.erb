@@ -17,6 +17,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.user_activities nav.pagination').replaceWith("<%= j paginate @user_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'notifications', :method => :get, :user_id => @user_activities.first.owner.id } %>");
+    $('.user_activities .pagination').replaceWith("<%= j paginate @user_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'notifications', :method => :get, :user_id => @user_activities.first.owner.id } %>");
   });
 </script>

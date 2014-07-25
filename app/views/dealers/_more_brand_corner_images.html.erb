@@ -23,6 +23,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.brand_corner_report_paginator nav.pagination').html("<%= j paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_brand_corner_report_lines', :method => :get } %>");
+    $('.brand_corner_report_paginator .pagination').html("<%= j paginate @corner_reports, :params => {:host => request.host, :port => request.port, :controller => 'dealers', :action => 'load_more_brand_corner_report_lines', :method => :get } %>");
   });
 </script>

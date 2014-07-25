@@ -4152,19 +4152,19 @@ only screen and (min-device-pixel-ratio: 1.5) {
 
 .corner-reports .slimScrollDiv
 {
-  max-height: 450px !important;
+  max-height: 350px !important;
   height: auto !important;
 }
 
 .scroll-brand-corner-report
 {
-  max-height: 450px !important;
+  max-height: 350px !important;
   height: auto !important;
 }
 
 .scroll-category-corner-report
 {
-  max-height: 450px !important;
+  max-height: 350px !important;
   height: auto !important;
 }
 

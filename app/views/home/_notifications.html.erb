@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		$('.pager_notification nav.pagination').replaceWith("<%= j paginate @notifications, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'notifications', :method => :get} %>");
+		$('.pager_notification .pagination').replaceWith("<%= j paginate @notifications, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'notifications', :method => :get} %>");
 
 		$(".notification").click(function(){
 	    id = $(this).data("notification");

@@ -11,7 +11,7 @@
 <script type="text/javascript">
 
   $(document).ready(function(){
-    $('.shop_people_paginator nav.pagination').html("<%= j paginate @peoples, :params => { :host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_peoples', :method => :get } %>");
+    $('.shop_people_paginator .pagination').html("<%= j paginate @peoples, :params => { :host => request.host, :port => request.port, :controller => 'shops', :action => 'load_more_peoples', :method => :get } %>");
   });
 
 </script>

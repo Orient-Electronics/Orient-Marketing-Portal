@@ -18,6 +18,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.subscribe nav.pagination').replaceWith("<%= j paginate @subscriber_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'subscriber_activities', :method => :get } %>");
+    $('.subscribe .pagination').replaceWith("<%= j paginate @subscriber_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'subscriber_activities', :method => :get } %>");
   });
 </script>
