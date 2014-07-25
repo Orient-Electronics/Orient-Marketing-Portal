@@ -14,9 +14,9 @@
   	        <!-- END Newsfeed Title -->
 
   	        <!-- Newsfeed Content -->
-  	        <div class="block-content-full subscriber-block-height">
+  	        <div class="block-content-full">
               <% unless @subscriber_activities.blank? %>
-    	        	<ul class="media-list media-feed media-feed-hover subscribe-activities scroll-subscribe" data-domain = "<%= APP_CONFIG["domain"] %>">
+    	        	<ul class="media-list media-feed media-feed-hover subscribe-activities" data-domain = "<%= APP_CONFIG["domain"] %>">
     	        		<% @subscriber_activities .each do |activity| %>
     	        			<li class="media user-activity subscribe-activity">
                       <% user = User.find(activity.owner.id) %>
@@ -36,9 +36,9 @@
                       </div>
     	        			</li>
     	        		<% end %>
-                   <div class="subscribe hide">
-                    <%= paginate @subscriber_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'subscriber_activities', :method => :get } %>
-                  </div>
+                   <!-- <div class="subscribe hide">
+                    <%#= paginate @subscriber_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'subscriber_activities', :method => :get } %>
+                  </div> -->
     	        	</ul>
               <% end %>
   	        </div>
