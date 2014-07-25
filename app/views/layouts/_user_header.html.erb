@@ -1,9 +1,9 @@
 <!-- User Profile Header -->
-<div class="content-header content-header-media">
+<div class="content-header">
 	<div class="header-section">
 		<% user =  user.present? ? user : current_user %>
 		<% unless user.avatar.blank? %>
-			<%= image_tag(user.avatar.avatar(:thumb), :class =>"pull-right img-circle user-cover-image") %>
+			<%= image_tag(user.avatar.avatar(:thumb), :class =>"pull-right img-circle") %>
 		<% end %>
     <h1><%= user.name %>  <br><small><%= user.designation %> </small></h1>
 	</div>
