@@ -8,12 +8,9 @@ module PublicActivity
 
         def send_email_to_subscriber
           subscribers = Subscriber.where(subscribe_id: self.owner.id)
-          #unless subscribers.blank?
-          p subscribers
-            subscribers.each do |subscriber|
-              UserMailer.subscriber_activity(self, subscriber.user, self.owner).deliver if subscriber.user.send_notification?
-            end
-          #end
+          subscribers.each do |subscriber|
+            UserMailer.subscriber_activity(self, subscriber.user, self.owner).deliver if subscriber.user.send_notification?
+          end
         end
       end
     end
