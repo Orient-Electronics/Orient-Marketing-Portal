@@ -55,7 +55,15 @@
    			<div class="block">
           <!-- Friends Title -->
           <div class="block-title">
+            <div class="block-options pull-right">
+              <% if current_user.send_notification? %>
+                <%= link_to raw('<i class="fa fa-power-off"></i>'), toggle_email_notifications_home_index_path, :class => "btn btn-sm btn-danger" , "data-toggle" => "tooltip", :title => "", "data-original-title" => "Turn off email subscriptions" %>
+              <% else %>
+                <%= link_to raw('<i class="fa fa fa-power-off"></i>'), toggle_email_notifications_home_index_path, :class => "btn btn-sm btn-success" , "data-toggle" => "tooltip", :title => "", "data-original-title" => "Turn on email subscriptions" %>
+              <% end %>
+          </div>
             <h2><strong>Subscribers </strong> <small> <a href="javascript:void(0)">(<%= current_user.subscribers.count %>)</a></small></h2>
+
           </div>
           <!-- END Friends Title -->
 

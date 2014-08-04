@@ -8,7 +8,11 @@ Orient::Application.routes.draw do
 
   resources :user_types
 
-  resources :home
+  resources :home do
+    collection do
+      get 'toggle_email_notifications'
+    end
+  end
 
   match '/home_activities' => "home#activities", :method => :get
   match '/subscriber_activities' => "home#subscriber_activities", :method => :get

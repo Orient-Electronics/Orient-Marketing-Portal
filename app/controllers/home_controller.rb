@@ -32,4 +32,12 @@ class HomeController < ApplicationController
     render :partial => '/home/user_activities', :layout => false
   end
 
+  def toggle_email_notifications
+    user = current_user
+    user.send_notification  =  user.send_notification? ? false : true
+    user.save
+    flash[:notice] = "Email subscription updated"
+    redirect_to :back
+  end
+
 end
