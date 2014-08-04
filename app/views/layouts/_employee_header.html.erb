@@ -28,15 +28,15 @@
       <!-- Sidebar Navigation -->
       <ul class="sidebar-nav">
         <li>
-          <a href="/" class="active"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
+          <a href="/" class="<%= 'active' if params[:controller]=='home' %>"><i class="gi gi-stopwatch sidebar-nav-icon"></i>Dashboard</a>
         </li>
-        <li>
+        <li class="<%= 'active' if params[:controller]=='shops' %>">
           <%= link_to raw('<i class="gi gi-building sidebar-nav-icon"></i> Shops'),shops_path %>
         </li>
-        <li>
+        <li class="<%= 'active' if params[:controller]=='tasks' %>">
           <%= link_to raw('<i class="gi gi-calendar sidebar-nav-icon"></i> Tasks'),tasks_path %>
         </li>
-        <li>
+        <li class="<%= 'active' if params[:controller]=='svrs' %>">
           <%= link_to raw('<i class="gi gi-charts sidebar-nav-icon"></i> SVRs'),svrs_path %>
         </li>
       </ul>
