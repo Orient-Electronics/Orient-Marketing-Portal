@@ -16,7 +16,7 @@
   	        <!-- Newsfeed Content -->
   	        <div class="block-content-full">
               <% unless @subscriber_activities.blank? %>
-    	        	<ul class="media-list media-feed media-feed-hover subscribe-activities" data-domain = "<%= APP_CONFIG["domain"] %>">
+    	        	<ul class="media-list media-feed media-feed-hover" data-domain = "<%= APP_CONFIG["domain"] %>">
     	        		<% @subscriber_activities .each do |activity| %>
     	        			<li class="media user-activity subscribe-activity">
                       <% user = User.find(activity.owner.id) %>
@@ -101,9 +101,9 @@
           <!-- END Newsfeed Title -->
 
           <!-- Newsfeed Content -->
-          <div class="block-content-full user-activities-height">
-            <ul class="media-list media-feed media-feed-hover user-activities-section user-activity-scroll" data-domain = "<%= APP_CONFIG["domain"] %>">
-              <% @activities.each do |activity| %>
+          <div class="block-content-full">
+            <ul class="media-list media-feed media-feed-hover">
+              <% @user_activities.each do |activity| %>
                 <li class="media user-activity">
                   <%=link_to raw(image_tag(current_user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => current_user.id),:class => "pull-left user-link-small" %>
                   <div class="media-body">
@@ -119,9 +119,6 @@
                   </div>
                 </li>
               <% end %>
-              <div class="user-activities hide">
-                <%= paginate @activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'user_activities', :method => :get, :user_id => current_user.id } %>
-              </div>
             </ul>
           </div>
           <!-- END Newsfeed Content -->

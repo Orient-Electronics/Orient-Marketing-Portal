@@ -29,6 +29,6 @@ class UserMailer < ActionMailer::Base
     @owner = owner
     @reciever = reciever
     @activity = activity
-    mail(to: @reciever.email, from: "noreply@orient.pk",  subject: "Subscriber's Activity")
+    mail(to: @reciever.email, subject: "Subscriber's Activity")
   end
 end
