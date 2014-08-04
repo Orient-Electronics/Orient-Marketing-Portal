@@ -59,3 +59,5 @@ module Orient
     config.assets.version = '1.0'
   end
 end
+
+require 'public_activity/orm/active_record/activity'
