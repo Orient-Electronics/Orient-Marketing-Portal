@@ -40,7 +40,7 @@
           </div>
       </div>
       <div class="col-md-1 apply-btn">
-        <%= link_to "Apply", '#', :class=>"btn btn-primary ajax-submit-btn" %>
+        <%= f.submit "Apply", :class => "btn btn-primary ajax-submit-btn"%>
       </div>
     <% end %>
     <div id="ajax-loading" class="display-none"><%= image_tag '/assets/ajax_loader_google.gif' %></div>
@@ -337,10 +337,24 @@
         });
       });
 
-      $(".ajax-submit-btn").click(function(){
+      $(".dealers-filter-form").submit(function(e){
         $('#ajax-loading').removeClass("display-none");
-        $(".dealers-filter-form").submit();
+        window.location.hash = "?"+ $(".dealers-filter-form").serialize();
+        e.preventDefault();
       });
+
+      if(window.location.hash)
+      {
+        url = window.location.href;
+        url = url.replace('#','');
+        $.ajax( {
+          type: "GET",
+          url: url,
+          dataType: "script",
+          success: function( response ) {
+          }
+        });
+      }
 
       $(".search_btn").click( function ()
       {

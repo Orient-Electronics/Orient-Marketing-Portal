@@ -12,6 +12,18 @@ $('document').ready(function(){
     }
   });
 
+  window.onhashchange = function(){
+    url = window.location.href;
+    url = url.replace('#','');
+    $.ajax( {
+      type: "GET",
+      url: url,
+      dataType: "script",
+      success: function( response ) {
+      }
+    });
+  }
+
   $(".view_all_link").click(function(){
     id = $(this).data("image");
     type = $(this).data("type");

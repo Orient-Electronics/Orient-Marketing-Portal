@@ -56,7 +56,7 @@
         </div>
       </div>
      <div class="col-md-1 apply-btn">
-        <%= link_to "Apply", '#', :class=>"btn btn-primary ajax-submit-btn" %>
+        <%= f.submit "Apply", :class => "btn btn-primary ajax-submit-btn"%>
       </div>
     <% end %>
     <div id="ajax-loading" class="display-none"><%= image_tag '/assets/ajax_loader_google.gif' %>
@@ -343,16 +343,28 @@
         url: $(".custom-shop-form").attr( 'action'),
         data: $(".custom-shop-form").serialize(),
         success: function( response ) {
-          console.log('');
         }
       });
-
     });
 
-    $(".ajax-submit-btn").click(function(){
+    $(".shops-filter-form").submit(function(e){
       $('#ajax-loading').removeClass("display-none");
-      $(".shops-filter-form").submit();
+      window.location.hash = "?"+ $(".shops-filter-form").serialize();
+      e.preventDefault();
     });
+
+    if(window.location.hash)
+    {
+      url = window.location.href;
+      url = url.replace('#','');
+      $.ajax( {
+        type: "GET",
+        url: url,
+        dataType: "script",
+        success: function( response ) {
+        }
+      });
+    }
 
     $(".search_btn").click( function ()
       {
