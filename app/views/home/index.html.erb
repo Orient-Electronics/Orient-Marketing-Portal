@@ -18,23 +18,7 @@
               <% unless @subscriber_activities.blank? %>
     	        	<ul class="media-list media-feed media-feed-hover" data-domain = "<%= APP_CONFIG["domain"] %>">
     	        		<% @subscriber_activities .each do |activity| %>
-    	        			<li class="media user-activity subscribe-activity">
-                      <% user = User.find(activity.owner.id) %>
-    	        				<a href="<%= activities_path(:user_id => user.id) %>" class="pull-left user-link-small">
-                          <%= image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small") %>
-                      </a>
-                      <div class="media-body">
-                        <p class="push-bit">
-                          <span class="text-muted pull-right">
-                            <small><%= activity.created_at.strftime("%B %d, %Y - %I:%M %p")%></small>
-                            <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
-                          </span>
-                          <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %>
-                              <%= render_activity activity %>
-                          </strong>
-                        </p>
-                      </div>
-    	        			</li>
+                    <%= render :partial=> "/shared/activity_with_comments", :locals => {:activity => activity, :user => activity.owner } %>
     	        		<% end %>
                    <!-- <div class="subscribe hide">
                     <%#= paginate @subscriber_activities, :params => {:host => request.host, :port => request.port, :controller => 'home', :action => 'subscriber_activities', :method => :get } %>
@@ -104,21 +88,9 @@
           <div class="block-content-full">
             <ul class="media-list media-feed media-feed-hover">
               <% @user_activities.each do |activity| %>
-                <li class="media user-activity">
-                  <%=link_to raw(image_tag(current_user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => current_user.id),:class => "pull-left user-link-small" %>
-                  <div class="media-body">
-                    <p class="push-bit">
-                      <span class="text-muted pull-right">
-                        <small><%= activity.created_at.strftime("%B %d, %Y - %I:%M %p")%></small>
-                        <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
-                      </span>
-                      <strong><%=link_to activity.owner.name, activities_path(:user_id => activity.owner.id) if activity.owner %>
-                          <%= render_activity activity %>
-                      </strong>
-                    </p>
-                  </div>
-                </li>
+                <%= render :partial=> "/shared/activity_with_comments", :locals => {:activity => activity, :user => activity.owner } %>
               <% end %>
+
             </ul>
           </div>
           <!-- END Newsfeed Content -->
