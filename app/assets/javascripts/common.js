@@ -50,6 +50,18 @@ $('document').ready(function(){
     });
   });
 
+  $(".load-more-comment").click(function(){
+    id = $(this).data("activity");
+    $.ajax ({
+      url: '/comments/'+id+'/load_more_comments',
+      success: function(data)
+      {
+        $(".view-more").remove();
+      }
+    });
+  });
+
+
 
   $(".view_all_shop_comment").click(function(){
     id =$(this).data("shop");

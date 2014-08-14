@@ -4259,6 +4259,20 @@ a:hover, a:focus
   display: block;
 }
 
+.activity-comment-media .media-action
+{
+ display: none;
+}
+
+.activity-comment-media:hover .media-action
+{
+ display: block;
+}
+.activity-comment-media .media-body
+{
+  width: 74%;
+}
+
 #comment_content
 {
   margin-bottom: 10px;

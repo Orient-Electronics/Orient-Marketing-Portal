@@ -23,7 +23,11 @@ Orient::Application.routes.draw do
 
   resources :roles
 
-  resources :comments
+  resources :comments do
+    member do
+      get 'load_more_comments'
+    end
+  end
 
   resources :search
 

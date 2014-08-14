@@ -35,21 +35,7 @@
             <% unless @user_activities.blank? %>
   	        	<ul class="media-list media-feed media-feed-hover user-activities-section" data-domain = "<%= APP_CONFIG["domain"] %>">
   	        		<% @user_activities.each do |activity| %>
-  	        			<li class="media user-activity">
-                    <% user = User.find(activity.owner.id) %>
-                    <%=link_to raw(image_tag(user.avatar.avatar(:thumb), :class => "img-circle user-image-small")), activities_path(:user_id => user.id),:class => "pull-left user-link-small" %>
-                    <div class="media-body">
-                      <p class="push-bit">
-                        <span class="text-muted pull-right">
-                          <small><%= activity.created_at.strftime("%B %d, %Y - %I:%M %p")%></small>
-                          <span class="text-danger" data-toggle="tooltip" title="From Web"><i class="fa fa-globe"></i></span>
-                        </span>
-                        <strong><%=link_to activity.owner.name, activities_path(:user_id => user.id) if activity.owner %>
-                          <%= render_activity activity %>
-                        </strong>
-                      </p>
-                    </div>
-                  </li>
+  	        			<%= render :partial=> "/shared/activity_with_comments", :locals => {:activity => activity, :user => activity.owner } %>
   	        		<% end %>
   	        	</ul>
             <% end -%>

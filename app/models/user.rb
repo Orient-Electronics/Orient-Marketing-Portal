@@ -77,8 +77,7 @@ class User < ActiveRecord::Base
   end
 
   def can_remove_comment?(comment)
-    return true if comment.user == self
-    return false
+    self.id == comment.user.id
   end
 
   def post_owner?(post)

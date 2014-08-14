@@ -1,0 +1,44 @@
+<li class="media">
+  <%=link_to raw(image_tag(user.avatar.avatar(:thumb), :class => "img-circle", :alt => "Avatar")), activities_path(:user_id => user.id),:class => "pull-left" %>
+
+  <div class="media-body">
+    <p class="push-bit">
+      <span class="text-muted pull-right">
+          <small><%= activity.created_at.strftime("%B %d, %Y - %I:%M %p")%></small>
+          <span class="text-danger" data-toggle="tooltip" title="" data-original-title="From Web"><i class="fa fa-globe"></i></span>
+      </span>
+      <strong>
+        <%= link_to user.name, activities_path(:user_id => user.id) %>
+      </strong>
+    </p>
+    <p><%= render_activity activity %></p>
+    <% comments = activity.comments.order("created_at desc") %>
+    <p class="options">
+      <span><%= comments.length %> comments</span>
+      <% if comments.length > 5 %>
+        <span class="view-more"><%= link_to 'View all comments', 'javascript:;', :data => {:activity => activity.id}, :class => " btn btn-xs btn-default load-more-comment"  %></span>
+      <% end -%>
+    </p>
+    <!-- Comments -->
+    <ul class="media-list push">
+        <div class="activity-comment-content-<%=activity.id%>">
+          <%= render :partial => "/shared/activity_comments", :locals => {:comments => comments.first(5) }%>
+        </div>
+        <li class="media">
+          <%= link_to raw(image_tag(current_user.get_avatar.avatar(:thumb), :class => "img-circle")), activities_path(:user_id => current_user.id),:class => "pull-left" %>
+          <div class="media-body">
+            <%= form_for :comment, :url => comments_path do |f| %>
+              <%= f.text_area :content , :class => "form-control", :rows => 2, :placeholder => "Your comment .." %>
+              <%= f.hidden_field :user_id, :value => current_user.id %>
+              <%= f.hidden_field :commentable_id, :value => activity.id %>
+              <%= f.hidden_field :commentable_type, :value => "PublicActivity::ORM::ActiveRecord::Activity" %>
+              <div class="clearfix">
+                <button type="submit" class="btn btn-xs btn-primary"><i class="fa fa-pencil"></i> Post Comment</button>
+              </div>
+            <% end %>
+          </div>
+        </li>
+    </ul>
+    <!-- END Comments -->
+  </div>
+</li>

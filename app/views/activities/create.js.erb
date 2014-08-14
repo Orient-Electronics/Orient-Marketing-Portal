@@ -1,2 +1,2 @@
 $("#activity_message").val("");
-$(".user-activities-section").prepend("<%= j render :partial => 'activity', :locals => {:activity => @activity}%>")
+$(".user-activities-section").prepend("<%= j render :partial => '/shared/activity_with_comments', :locals => {:activity => @activity, :user => @activity.owner}%>")
