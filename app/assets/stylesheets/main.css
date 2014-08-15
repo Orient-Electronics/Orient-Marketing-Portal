@@ -4277,3 +4277,8 @@ a:hover, a:focus
 {
   margin-bottom: 10px;
 }
+
+.image-height
+{
+  height: 40px !important;
+}

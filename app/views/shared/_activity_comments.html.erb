@@ -1,7 +1,7 @@
 <% unless comments.blank? %>
   <% comments.each do |comment| %>
     <li class="media activity-comment-media">
-      <%= link_to raw(image_tag(comment.user.get_avatar.avatar(:thumb), :class => "img-circle")), activities_path(:user_id => comment.user.id),:class => "pull-left" %>
+      <%= link_to raw(image_tag(comment.user.get_avatar.avatar(:thumb), :class => "img-circle image-height")), activities_path(:user_id => comment.user.id),:class => "pull-left" %>
       <div class="media-body pull-left">
         <a href="<%= activities_path(:user_id => comment.user.id) %>"><strong><%= comment.user.name %></strong></a>
         <span class="text-muted"><small><em><%= comment.created_at_format %></em></small></span>

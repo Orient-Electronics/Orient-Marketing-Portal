@@ -1,5 +1,5 @@
 <li class="media">
-  <%=link_to raw(image_tag(user.avatar.avatar(:thumb), :class => "img-circle", :alt => "Avatar")), activities_path(:user_id => user.id),:class => "pull-left" %>
+  <%=link_to raw(image_tag(user.avatar.avatar(:thumb), :class => "img-circle image-height", :alt => "Avatar")), activities_path(:user_id => user.id),:class => "pull-left" %>
 
   <div class="media-body">
     <p class="push-bit">
@@ -25,7 +25,7 @@
           <%= render :partial => "/shared/activity_comments", :locals => {:comments => comments.first(5) }%>
         </div>
         <li class="media">
-          <%= link_to raw(image_tag(current_user.get_avatar.avatar(:thumb), :class => "img-circle")), activities_path(:user_id => current_user.id),:class => "pull-left" %>
+          <%= link_to raw(image_tag(current_user.get_avatar.avatar(:thumb), :class => "img-circle image-height")), activities_path(:user_id => current_user.id),:class => "pull-left" %>
           <div class="media-body">
             <%= form_for :comment, :url => comments_path do |f| %>
               <%= f.text_area :content , :class => "form-control", :rows => 2, :placeholder => "Your comment .." %>

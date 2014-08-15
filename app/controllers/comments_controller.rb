@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
     if comment.save
       flash[:notice] = "Successfully comment created"
     else
-      flash[:warning] = "Access denied to add this comment"
+      flash[:warning] = "Empty content not allowed in comment"
     end
       redirect_to :back
   end
